@@ -5,47 +5,53 @@ bot.PAUSE = 0.25
 
 bot.click(1802, 14)
 
-projectHeight = 250
+projectHeight = 267
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
 second_sequence = [(150, 13), (183, 79), (404, 276), (698, 271)]
 
-def open_project():
-    bot.click(25, 146, duration=0.2)
-    bot.moveTo(1231, 267, duration=0.2)
-    bot.click()
-    bot.sleep(0.75)
-    bot.click()
+# abre a LP
+def open_project(projectHeight):
+    bot.click(25, 146)
+    bot.click(1231, projectHeight)
+    bot.sleep(0.3)
+    bot.click(1231, projectHeight)
     bot.hotkey('ctrl', 'c')
-    bot.moveTo(462, 337, duration=0.2)
-    bot.click()
+    bot.click(462, 337)
     bot.hotkey('ctrl', 'v')
-    bot.moveTo(538, 479, duration=0.2)
-    bot.click()
-    bot.sleep(1.5)
+    bot.click(538, 479)
+    projectHeight += 17
+    return projectHeight
 
+# abre a arvore do projeto
 def open_tree():
-    bot.moveTo(45, 231, duration=0.2)
+    bot.moveTo(45, 231, duration=0.15)
     bot.click()
-    bot.sleep(0.75)
-    bot.moveTo(186, 250, duration=0.2)
+    bot.sleep(0.5)
+    bot.moveTo(186, 250, duration=0.15)
     bot.click()
-    bot.sleep(2)
+    bot.sleep(1)
 
 # encerra tecnicamente
 def tec_finish_sequence(coords):
     for x, y in coords:
-        bot.moveTo(x, y, duration=0.1)
-        bot.click()
+        bot.click(x, y)
 
 # encerra a atividade
 def finish_sequence(coords):
     for x, y in coords:
-        bot.moveTo(x, y, duration=0.1)
-        bot.click()
+        bot.click(x, y)
+
+# ajusta a altura e entra na árvore
+def adjust_tree_height(height):
+    height -= 20
+    bot.moveTo(186, height, duration=0.15)
+    bot.click()
+    bot.sleep(1)
+    return height
 
 # confere se está LIB e encerra
-def main_function(projectHeight):
+def main_function(treeHeight):
     try:
         lib_location = bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8)
         if lib_location:
@@ -53,23 +59,25 @@ def main_function(projectHeight):
             bot.sleep(1.5)
             finish_sequence(second_sequence)
             bot.sleep(1.5)
+            treeHeight = adjust_tree_height(treeHeight)
     except Exception:
-        projectHeight -= 20
-        bot.moveTo(186, projectHeight, duration=0.1)
-        bot.click()
-        bot.sleep(1.5)
+        treeHeight = adjust_tree_height(treeHeight)
+    return treeHeight
 
 # salvar
 def finish_process():
-    bot.moveTo(237, 103, duration=0.1)
-    bot.click()
-    bot.sleep(1.5)
+    bot.click(237, 103)
+    bot.sleep(4)
 
-for i in range(5):
-    open_project()
+# programa
+for _ in range(3):
+    treeHeight = 250
+
+    projectHeight = open_project(projectHeight)
+    bot.sleep(2)
     open_tree()
 
-    for j in range(3):
-        main_function(projectHeight)
+    for __ in range(3):
+        treeHeight = main_function(treeHeight)
 
     finish_process()
