@@ -3,32 +3,29 @@ import pyautogui as bot
 bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
-bot.click(1802, 14)
-
 projectHeight = 267
+arrowCoords = (50, 244, 16, 262)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
 second_sequence = [(150, 13), (183, 79), (404, 276), (698, 271)]
-
-# abre a LP
-def open_project(projectHeight):
-    bot.click(25, 146)
-    bot.click(1231, projectHeight)
-    bot.sleep(0.3)
-    bot.click(1231, projectHeight)
-    bot.hotkey('ctrl', 'c')
-    bot.click(462, 337)
-    bot.hotkey('ctrl', 'v')
-    bot.click(538, 479)
-    projectHeight += 17
-    return projectHeight
 
 # abre a arvore do projeto
 def open_tree():
     bot.moveTo(45, 231, duration=0.15)
     bot.click()
-    bot.sleep(0.5)
-    bot.moveTo(186, 250, duration=0.15)
+    bot.sleep(1)
+
+    # try:
+    #     have_purchase = list(bot.locate('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+    #     if have_purchase:
+    #         print('Possui linha de compra!')
+    #         bot.moveTo(60, 252, duration=0.15)
+    #         bot.click()
+    #         bot.sleep(0.5)
+    # except Exception:
+    #     print('Não possui linha de compra!')
+
+    bot.moveTo(186, 252, duration=0.15)
     bot.click()
     bot.sleep(1)
 
@@ -55,12 +52,12 @@ def adjust_tree_height(height):
 # confere se está LIB e encerra
 def main_function(treeHeight):
     try:
-        lib_location = bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8)
+        lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
         if lib_location:
             tec_finish_sequence(first_sequence)
-            bot.sleep(1.5)
+            bot.sleep(1.25)
             finish_sequence(second_sequence)
-            bot.sleep(1.5)
+            bot.sleep(1.25)
 
             try:
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
@@ -77,19 +74,15 @@ def main_function(treeHeight):
 
 # salvar
 def finish_process():
-    bot.click(236, 102)
-    bot.sleep(4)
+    bot.click(237, 103)
 
 # programa principal
-for _ in range(3):
-    treeHeight = 250
-    height_adjust_count = 0
+treeHeight = 250
+height_adjust_count = 0
 
-    projectHeight = open_project(projectHeight)
-    bot.sleep(2)
-    open_tree()
+open_tree()
 
-    for __ in range(3):
-        treeHeight = main_function(treeHeight)
+for __ in range(3):
+    treeHeight = main_function(treeHeight)
 
-    finish_process()
+finish_process()
