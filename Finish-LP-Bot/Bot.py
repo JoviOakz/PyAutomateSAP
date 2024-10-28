@@ -5,7 +5,8 @@ bot.PAUSE = 0.25
 
 bot.click(1802, 14)
 
-projectHeight = 267
+projectHeight = 467
+arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
 second_sequence = [(150, 13), (183, 79), (404, 276), (698, 271)]
@@ -23,11 +24,58 @@ def open_project(projectHeight):
     projectHeight += 17
     return projectHeight
 
+# muda o status das linhas de compra
+def step1_change_status():
+    bot.click(186, 252)
+    bot.sleep(1.25)
+    bot.click(580, 236)
+    bot.sleep(1.25)
+    bot.click(486, 884)
+    bot.sleep(1.25)
+    bot.click(600, 884)
+    bot.sleep(1.25)
+
+# muda o status das linhas de compra
+def step2_change_status():
+    bot.click(290, 332)
+    bot.sleep(1.25)
+    bot.typewrite('92903610')
+    bot.click(488, 440)
+    bot.click(488, 470)
+    bot.click(622, 470)
+    bot.sleep(1.25)
+    bot.click(646, 988)
+    bot.sleep(1.25)
+    bot.click(468, 732)
+    bot.sleep(1.25)
+
 # abre a arvore do projeto
 def open_tree():
-    bot.moveTo(45, 231, duration=0.15)
+    bot.moveTo(45, 232, duration=0.15)
     bot.click()
-    bot.sleep(0.5)
+    bot.sleep(1)
+
+    try:
+        have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.1, region=arrowCoords)
+        if have_purchase:
+            step1_change_status()
+            warning_exist = None
+            while not warning_exist:
+                try:
+                    step2_change_status()
+                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                except Exception as e:
+                    print(f'Erro: {e}')
+
+            bot.click(492, 308)
+            bot.sleep(0.75)
+            bot.click(566, 702)
+            bot.sleep(0.75)
+            bot.click(582, 208)
+            bot.sleep(0.75)
+    except Exception:
+        print('Não possui linha de compra!')
+
     bot.moveTo(186, 250, duration=0.15)
     bot.click()
     bot.sleep(1)
@@ -50,7 +98,7 @@ def adjust_tree_height(height):
         bot.click(186, height)
         bot.sleep(1)
         height_adjust_count += 1
-        return height
+    return height
 
 # confere se está LIB e encerra
 def main_function(treeHeight):
