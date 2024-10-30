@@ -5,11 +5,17 @@ bot.PAUSE = 0.25
 
 bot.click(1802, 14)
 
-projectHeight = 467
+projectHeight = 641
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
 second_sequence = [(150, 13), (183, 79), (404, 276), (698, 271)]
+
+coordinates = [
+    ((474, 430, 33, 26), (488, 440)),
+    ((470, 455, 33, 26), (488, 470)),
+    ((605, 455, 33, 26), (622, 470))
+]
 
 # abre a LP
 def open_project(projectHeight):
@@ -20,6 +26,9 @@ def open_project(projectHeight):
     bot.hotkey('ctrl', 'c')
     bot.click(462, 337)
     bot.hotkey('ctrl', 'v')
+    bot.click(1136, 126)
+    bot.sleep(0.3)
+    bot.click(1136, 126)
     bot.click(538, 479)
     projectHeight += 17
     return projectHeight
@@ -38,12 +47,18 @@ def step1_change_status():
 # muda o status das linhas de compra
 def step2_change_status():
     bot.click(290, 332)
-    bot.sleep(1.25)
     bot.typewrite('92903610')
-    bot.click(488, 440)
-    bot.click(488, 470)
-    bot.click(622, 470)
-    bot.sleep(1.25)
+    
+    for region, click_position in coordinates:
+        try:
+            if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
+                print('encontrado')
+            else:
+                raise Exception
+        except Exception:
+            bot.click(click_position)
+
+    bot.sleep(0.5)
     bot.click(646, 988)
     bot.sleep(1.25)
     bot.click(468, 732)
@@ -56,7 +71,7 @@ def open_tree():
     bot.sleep(1)
 
     try:
-        have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.1, region=arrowCoords)
+        have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords)
         if have_purchase:
             step1_change_status()
             warning_exist = None
@@ -68,11 +83,11 @@ def open_tree():
                     print(f'Erro: {e}')
 
             bot.click(492, 308)
-            bot.sleep(0.75)
+            bot.sleep(1)
             bot.click(566, 702)
-            bot.sleep(0.75)
+            bot.sleep(1)
             bot.click(582, 208)
-            bot.sleep(0.75)
+            bot.sleep(1)
     except Exception:
         print('Não possui linha de compra!')
 

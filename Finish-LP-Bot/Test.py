@@ -3,122 +3,25 @@ import pyautogui as bot
 bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
-projectHeight = 267
-arrowCoords = (15, 166, 400, 200)
+# Define coordenadas para regiões e cliques
+coordinates = [
+    ((474, 430, 33, 26), (488, 440)),
+    ((470, 455, 33, 26), (488, 470)),
+    ((605, 455, 33, 26), (622, 470))
+]
 
-first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
-second_sequence = [(150, 13), (183, 79), (404, 276), (698, 271)]
-
-# muda o status das linhas de compra
-def step1_change_status():
-    bot.click(186, 252)
-    bot.sleep(1.25)
-    bot.click(580, 236)
-    bot.sleep(1.25)
-    bot.click(486, 884)
-    bot.sleep(1.25)
-    bot.click(600, 884)
-    bot.sleep(1.25)
-
-# muda o status das linhas de compra
+# Muda o status das linhas de compra
 def step2_change_status():
-    bot.click(290, 332)
-    bot.sleep(1.25)
-    bot.typewrite('92903610')
-    bot.click(488, 440)
-    bot.click(488, 470)
-    bot.click(622, 470)
-    bot.sleep(1.25)
-    bot.click(646, 988)
-    bot.sleep(1.25)
-    bot.click(468, 732)
-    bot.sleep(1.25)
-    
-# abre a arvore do projeto
-def open_tree():
-    bot.moveTo(45, 231, duration=0.15)
-    bot.click()
-    bot.sleep(1)
+    for region, click_position in coordinates:
+        try:
+            if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
+                print('encontrado')
+            else:
+                raise Exception
+        except Exception:
+            bot.click(click_position)
 
-    try:
-        have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.1, region=arrowCoords)
-        if have_purchase:
-            step1_change_status()
-            warning_exist = None
-            while not warning_exist:
-                try:
-                    step2_change_status()
-                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
-                except Exception as e:
-                    print(f'Erro: {e}')
-
-            bot.click(492, 308)
-            bot.sleep(0.75)
-            bot.click(566, 702)
-            bot.sleep(0.75)
-            bot.click(582, 208)
-            bot.sleep(0.75)
-    except Exception:
-        print('Não possui linha de compra!')
-
-    bot.moveTo(186, 252, duration=0.15)
-    bot.click()
-    bot.sleep(1)
-
-# encerra tecnicamente
-def tec_finish_sequence(coords):
-    for x, y in coords:
-        bot.click(x, y)
-
-# encerra a atividade
-def finish_sequence(coords):
-    for x, y in coords:
-        bot.click(x, y)
-
-# ajusta a altura e entra na árvore
-def adjust_tree_height(height):
-    global height_adjust_count
-    if height_adjust_count < 2:
-        height -= 20
-        bot.click(186, height)
-        bot.sleep(1)
-        height_adjust_count += 1
-    return height
-
-# confere se está LIB e encerra
-def main_function(treeHeight):
-    try:
-        lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
-        if lib_location:
-            tec_finish_sequence(first_sequence)
-            bot.sleep(1.25)
-            finish_sequence(second_sequence)
-            bot.sleep(1.25)
-
-            try:
-                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
-                if warning_exist:
-                    print('Warning encontrado!')
-                    bot.click(496, 362)
-                    bot.sleep(1)
-            except Exception:
-                print('WARNING não encontrado!')
-            treeHeight = adjust_tree_height(treeHeight)
-    except Exception:
-        treeHeight = adjust_tree_height(treeHeight)
-    return treeHeight
-
-# salvar
-def finish_process():
-    bot.click(237, 103)
-
-# programa principal
-treeHeight = 250
-height_adjust_count = 0
-
-open_tree()
-
-for __ in range(3):
-    treeHeight = main_function(treeHeight)
-
-finish_process()
+try:
+    step2_change_status()
+except Exception as e:
+    print(f'Erro: {e}')
