@@ -5,7 +5,8 @@ bot.PAUSE = 0.25
 
 bot.click(1802, 14)
 
-projectHeight = 641
+# +17
+projectHeight = 250
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -144,7 +145,7 @@ def finish_process():
     bot.sleep(4)
 
 # programa principal
-for _ in range(3):
+for _ in range(20):
     treeHeight = 250
     height_adjust_count = 0
 
