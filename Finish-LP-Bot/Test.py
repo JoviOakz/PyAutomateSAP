@@ -3,25 +3,35 @@ import pyautogui as bot
 bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
-# Define coordenadas para regiões e cliques
-coordinates = [
-    ((474, 430, 33, 26), (488, 440)),
-    ((470, 455, 33, 26), (488, 470)),
-    ((605, 455, 33, 26), (622, 470))
-]
+projectHeight = 267
 
-# Muda o status das linhas de compra
-def step2_change_status():
-    for region, click_position in coordinates:
-        try:
-            if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
-                print('encontrado')
-            else:
-                raise Exception
-        except Exception:
-            bot.click(click_position)
+def step1_change_status():
+    bot.click(600, 884)
+    bot.sleep(1.25)
 
-try:
-    step2_change_status()
-except Exception as e:
-    print(f'Erro: {e}')
+    try:
+        error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+        if error_exist:
+            print('Existe')
+            bot.click(456, 390)
+            bot.sleep(1)
+            bot.click(566, 700)
+            bot.sleep(1)
+            bot.click(30, 54)
+            bot.sleep(1.5)
+            bot.click(1231, projectHeight)
+            bot.sleep(0.3)
+            bot.click(1231, projectHeight)
+            bot.click(1156, 130)
+            bot.sleep(0.3)
+            bot.click(1154, 314)
+            bot.sleep(0.3)
+            bot.click(1231, projectHeight + 17)
+            bot.click(1156, 130)
+            bot.sleep(0.3)
+            bot.click(1222, 316)
+    except Exception as e:
+        print(f'Error: {e}')
+
+bot.click(1804, 15)
+step1_change_status()

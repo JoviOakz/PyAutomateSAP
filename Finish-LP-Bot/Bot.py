@@ -6,7 +6,7 @@ bot.PAUSE = 0.25
 bot.click(1802, 14)
 
 # +17
-projectHeight = 250
+projectHeight = 267
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -31,8 +31,7 @@ def open_project(projectHeight):
     bot.sleep(0.3)
     bot.click(1136, 126)
     bot.click(538, 479)
-    projectHeight += 17
-    return projectHeight
+    return projectHeight + 17
 
 # muda o status das linhas de compra
 def step1_change_status():
@@ -43,7 +42,31 @@ def step1_change_status():
     bot.click(486, 884)
     bot.sleep(1.25)
     bot.click(600, 884)
-    bot.sleep(1.25)
+    bot.sleep(1.5)
+
+    try:
+        error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+        if error_exist:
+            bot.click(456, 390)
+            bot.sleep(1)
+            bot.click(566, 700)
+            bot.sleep(1)
+            bot.click(30, 54)
+            bot.sleep(1.5)
+            bot.click(1231, projectHeight - 17)
+            bot.sleep(0.3)
+            bot.click(1231, projectHeight - 17)
+            bot.click(1156, 130)
+            bot.sleep(0.3)
+            bot.click(1154, 314)
+            bot.sleep(0.3)
+            bot.click(1231, projectHeight)
+            bot.click(1156, 130)
+            bot.sleep(0.3)
+            bot.click(1222, 316)
+            return False
+    except Exception as e:
+        return True
 
 # muda o status das linhas de compra
 def step2_change_status():
@@ -74,21 +97,24 @@ def open_tree():
     try:
         have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords)
         if have_purchase:
-            step1_change_status()
-            warning_exist = None
-            while not warning_exist:
-                try:
-                    step2_change_status()
-                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
-                except Exception as e:
-                    print(f'Erro: {e}')
+            error = step1_change_status()
+            if error:
+                warning_exist = None
+                while not warning_exist:
+                    try:
+                        step2_change_status()
+                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                    except Exception as e:
+                        print(f'Erro: {e}')
 
-            bot.click(492, 308)
-            bot.sleep(1)
-            bot.click(566, 702)
-            bot.sleep(1)
-            bot.click(582, 208)
-            bot.sleep(1)
+                bot.click(492, 308)
+                bot.sleep(1)
+                bot.click(566, 702)
+                bot.sleep(1)
+                bot.click(582, 208)
+                bot.sleep(1)
+            else:
+                return False
     except Exception:
         print('Não possui linha de compra!')
 
@@ -148,12 +174,14 @@ def finish_process():
 for _ in range(20):
     treeHeight = 250
     height_adjust_count = 0
+    jump = True
 
     projectHeight = open_project(projectHeight)
     bot.sleep(2)
-    open_tree()
+    jump = open_tree()
 
-    for __ in range(3):
-        treeHeight = main_function(treeHeight)
+    if jump:
+        for __ in range(3):
+            treeHeight = main_function(treeHeight)
 
     finish_process()
