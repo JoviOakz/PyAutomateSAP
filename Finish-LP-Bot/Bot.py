@@ -38,8 +38,6 @@ def open_project(projectHeight):
 
 # muda o status das linhas de compra
 def step1_change_status():
-    bot.click(186, 252)
-    bot.sleep(1.25)
     bot.click(580, 236)
     bot.sleep(1.25)
     bot.click(486, 884)
@@ -96,6 +94,13 @@ def open_tree():
     bot.moveTo(45, 232, duration=0.15)
     bot.click()
     bot.sleep(1)
+    bot.click(186, 252)
+    bot.sleep(1.5)
+
+    # try:
+    #     print('a')
+    # except Exception:
+    #     print('a')
 
     try:
         have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords)
