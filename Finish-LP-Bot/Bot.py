@@ -1,7 +1,7 @@
 import pyautogui as bot
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.25
+bot.PAUSE = 0.35
 
 bot.click(1802, 14)
 
@@ -64,9 +64,9 @@ def step1_change_status():
             bot.click(1156, 130)
             bot.sleep(0.3)
             bot.click(1222, 316)
-            return False
-    except Exception as e:
-        return True
+            return True
+    except Exception:
+        return False
 
 # muda o status das linhas de compra
 def step2_change_status():
@@ -98,7 +98,7 @@ def open_tree():
         have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords)
         if have_purchase:
             error = step1_change_status()
-            if error:
+            if not error:
                 warning_exist = None
                 while not warning_exist:
                     try:
@@ -114,7 +114,7 @@ def open_tree():
                 bot.click(582, 208)
                 bot.sleep(1)
             else:
-                return False
+                return True
     except Exception:
         print('Não possui linha de compra!')
 
@@ -142,7 +142,7 @@ def adjust_tree_height(height):
         height_adjust_count += 1
     return height
 
-# confere se está LIB e encerra
+# confere se está LIB ou ABER e encerra
 def main_function(treeHeight):
     try:
         lib_location = bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8)
@@ -174,14 +174,14 @@ def finish_process():
 for _ in range(20):
     treeHeight = 250
     height_adjust_count = 0
-    jump = True
+    jump = False
 
     projectHeight = open_project(projectHeight)
     bot.sleep(2)
     jump = open_tree()
 
-    if jump:
+    if not jump:
         for __ in range(3):
             treeHeight = main_function(treeHeight)
 
-    finish_process()
+        finish_process()
