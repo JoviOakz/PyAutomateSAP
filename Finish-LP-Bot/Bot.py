@@ -6,7 +6,10 @@ bot.PAUSE = 0.35
 bot.click(1802, 14)
 
 # +17
-projectHeight = 267
+# 1º linha - 250
+# 2º linha - 267
+# 3º linha - 284
+projectHeight = 284
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -148,9 +151,9 @@ def main_function(treeHeight):
         lib_location = bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8)
         if lib_location:
             tec_finish_sequence(first_sequence)
-            bot.sleep(1.5)
+            bot.sleep(1)
             finish_sequence(second_sequence)
-            bot.sleep(1.5)
+            bot.sleep(1)
 
             try:
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
