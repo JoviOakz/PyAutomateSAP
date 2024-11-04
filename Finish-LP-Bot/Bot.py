@@ -6,10 +6,11 @@ bot.PAUSE = 0.35
 bot.click(1802, 14)
 
 # +17
-# 1º linha - 250
-# 2º linha - 267
-# 3º linha - 284
-projectHeight = 284
+# 1º linha - 233
+# 2º linha - 250
+# 3º linha - 267
+# 4º linha - 284
+projectHeight = 250
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -34,7 +35,23 @@ def open_project(projectHeight):
     bot.sleep(0.3)
     bot.click(1136, 126)
     bot.click(538, 479)
-    return projectHeight + 17
+    bot.sleep(1)
+
+    try:
+        lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
+        if lp_error_exist:
+            bot.click(566, 702)
+            bot.sleep(0.5)
+            bot.click(678, 478)
+            bot.click(1231, projectHeight)
+            bot.sleep(0.3)
+            bot.hotkey('ctrl', 'l')
+            bot.sleep(1)
+            return projectHeight + 17, True
+    except Exception:
+        print('LP existe')
+
+    return projectHeight + 17, False
 
 # muda o status das linhas de compra
 def step1_change_status():
@@ -163,7 +180,6 @@ def main_function(treeHeight):
             try:
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                 if warning_exist:
-                    print('Warning encontrado!')
                     bot.click(496, 362)
                     bot.sleep(1)
             except Exception:
@@ -182,14 +198,17 @@ def finish_process():
 for _ in range(20):
     treeHeight = 250
     height_adjust_count = 0
-    jump = False
+    jump_all = False
+    jump_main_function = False
 
-    projectHeight = open_project(projectHeight)
+    projectHeight, jump_all = open_project(projectHeight)
     bot.sleep(2)
-    jump = open_tree()
 
-    if not jump:
-        for __ in range(3):
-            treeHeight = main_function(treeHeight)
+    if not jump_all:
+        jump_main_function = open_tree()
 
-        finish_process()
+        if not jump_main_function:
+            for __ in range(3):
+                treeHeight = main_function(treeHeight)
+
+            finish_process()

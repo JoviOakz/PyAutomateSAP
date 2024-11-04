@@ -6,10 +6,11 @@ bot.PAUSE = 0.35
 bot.click(1802, 14)
 
 # +17
-# 1º linha - 250
-# 2º linha - 267
-# 3º linha - 284
-projectHeight = 284
+# 1º linha - 233
+# 2º linha - 250
+# 3º linha - 267
+# 4º linha - 284
+projectHeight = 267
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -20,6 +21,37 @@ coordinates = [
     ((470, 455, 33, 26), (488, 470)),
     ((605, 455, 33, 26), (622, 470))
 ]
+
+# abre a LP
+def open_project(projectHeight):
+    bot.click(25, 146)
+    bot.click(1231, projectHeight)
+    bot.sleep(0.3)
+    bot.click(1231, projectHeight)
+    bot.hotkey('ctrl', 'c')
+    bot.click(462, 337)
+    bot.hotkey('ctrl', 'v')
+    bot.click(1136, 126)
+    bot.sleep(0.3)
+    bot.click(1136, 126)
+    bot.click(538, 479)
+    bot.sleep(1)
+
+    try:
+        lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
+        if lp_error_exist:
+            bot.click(566, 702)
+            bot.sleep(0.5)
+            bot.click(678, 478)
+            bot.click(1231, projectHeight)
+            bot.sleep(0.3)
+            bot.hotkey('ctrl', 'l')
+            bot.sleep(1)
+            return projectHeight + 17, True
+    except Exception:
+        print('LP existe')
+
+    return projectHeight + 17, False
 
 # muda o status das linhas de compra
 def step1_change_status():
@@ -148,25 +180,51 @@ def main_function(treeHeight):
             try:
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                 if warning_exist:
-                    print('Warning encontrado!')
                     bot.click(496, 362)
                     bot.sleep(1)
             except Exception:
                 print('WARNING não encontrado!')
             treeHeight = adjust_tree_height(treeHeight)
     except Exception:
-        treeHeight = adjust_tree_height(treeHeight)
+        try:
+            aber_location = bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8)
+            if aber_location:
+                tec_finish_sequence(first_sequence)
+                bot.sleep(1)
+                finish_sequence(second_sequence)
+                bot.sleep(1)
+
+                try:
+                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                    if warning_exist:
+                        bot.click(496, 362)
+                        bot.sleep(1)
+                except Exception:
+                    print('WARNING não encontrado!')
+        except Exception:
+            treeHeight = adjust_tree_height(treeHeight)
     return treeHeight
 
+# salvar
+def finish_process():
+    bot.click(236, 102)
+    bot.sleep(4)
+
 # programa principal
-treeHeight = 250
-height_adjust_count = 0
-jump = False
+for _ in range(20):
+    treeHeight = 250
+    height_adjust_count = 0
+    jump_all = False
+    jump_main_function = False
 
-jump = open_tree()
+    projectHeight, jump_all = open_project(projectHeight)
+    bot.sleep(2)
 
-if not jump:
-    for __ in range(3):
-        treeHeight = main_function(treeHeight)
+    if not jump_all:
+        jump_main_function = open_tree()
 
-# ADCIDIONAR OS MACROS DO EXCEL TAMBÉM
+        if not jump_main_function:
+            for __ in range(3):
+                treeHeight = main_function(treeHeight)
+
+            finish_process()
