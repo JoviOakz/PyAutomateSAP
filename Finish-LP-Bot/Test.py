@@ -10,7 +10,7 @@ bot.click(1802, 14)
 # 2º linha - 250
 # 3º linha - 267
 # 4º linha - 284
-projectHeight = 267
+projectHeight = 250
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -29,13 +29,10 @@ def open_project(projectHeight):
     bot.sleep(0.3)
     bot.click(1231, projectHeight)
     bot.hotkey('ctrl', 'c')
+    bot.hotkey('ctrl', 'k')
     bot.click(462, 337)
     bot.hotkey('ctrl', 'v')
-    bot.click(1136, 126)
-    bot.sleep(0.3)
-    bot.click(1136, 126)
     bot.click(538, 479)
-    bot.sleep(1)
 
     try:
         lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
@@ -74,14 +71,7 @@ def step1_change_status():
             bot.click(1231, projectHeight - 17)
             bot.sleep(0.3)
             bot.click(1231, projectHeight - 17)
-            bot.click(1156, 130)
-            bot.sleep(0.3)
-            bot.click(1154, 314)
-            bot.sleep(0.3)
-            bot.click(1231, projectHeight)
-            bot.click(1156, 130)
-            bot.sleep(0.3)
-            bot.click(1222, 316)
+            bot.hotkey('ctrl', 'l')
             return True
     except Exception:
         return False
@@ -201,8 +191,26 @@ def main_function(treeHeight):
                         bot.sleep(1)
                 except Exception:
                     print('WARNING não encontrado!')
+                treeHeight = adjust_tree_height(treeHeight)
         except Exception:
-            treeHeight = adjust_tree_height(treeHeight)
+            try:
+                ente_location = bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.8)
+                if ente_location:
+                    tec_finish_sequence(first_sequence)
+                    bot.sleep(1)
+                    finish_sequence(second_sequence)
+                    bot.sleep(1)
+
+                    try:
+                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                        if warning_exist:
+                            bot.click(496, 362)
+                            bot.sleep(1)
+                    except Exception:
+                        print('WARNING não encontrado!')
+                    treeHeight = adjust_tree_height(treeHeight)
+            except Exception:
+                treeHeight = adjust_tree_height(treeHeight)
     return treeHeight
 
 # salvar
