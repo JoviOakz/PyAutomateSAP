@@ -104,11 +104,6 @@ def open_tree():
     bot.click(186, 252)
     bot.sleep(1.5)
 
-    # try:
-    #     print('a')
-    # except Exception:
-    #     print('a')
-
     try:
         have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords)
         if have_purchase:
@@ -160,7 +155,7 @@ def adjust_tree_height(height):
 # confere se está LIB ou ABER e encerra
 def main_function(treeHeight):
     try:
-        lib_location = bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8)
+        lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
         if lib_location:
             tec_finish_sequence(first_sequence)
             bot.sleep(1)
@@ -177,7 +172,7 @@ def main_function(treeHeight):
             treeHeight = adjust_tree_height(treeHeight)
     except Exception:
         try:
-            aber_location = bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8)
+            aber_location = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
             if aber_location:
                 tec_finish_sequence(first_sequence)
                 bot.sleep(1)
@@ -194,7 +189,7 @@ def main_function(treeHeight):
                 treeHeight = adjust_tree_height(treeHeight)
         except Exception:
             try:
-                ente_location = bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.8)
+                ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.8))
                 if ente_location:
                     tec_finish_sequence(first_sequence)
                     bot.sleep(1)
