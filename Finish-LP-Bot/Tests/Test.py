@@ -62,7 +62,7 @@ def open_project(projectHeight):
             bot.click(1404, projectHeight - 17)
             bot.sleep(0.3)
             bot.click(1404, projectHeight - 17)
-            bot.typewrite('Projeto já encerrado')
+            bot.typewrite('Projeto ja encerrado')
             bot.sleep(1)
         #ARRUMAR AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     except Exception:
