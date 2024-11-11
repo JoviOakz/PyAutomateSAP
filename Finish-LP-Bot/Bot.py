@@ -97,7 +97,7 @@ def step2_change_status():
     bot.sleep(1)
 
     try:
-        have_info = bot.locateOnScreen('../images/INFO.png', grayscale=True, confidence=0.8)
+        have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
         if have_info:
             bot.click(566, 732)
             bot.sleep(0.5)
