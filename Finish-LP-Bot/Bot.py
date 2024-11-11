@@ -10,7 +10,7 @@ bot.click(1802, 14)
 # 2º linha - 250
 # 3º linha - 267
 # 4º linha - 284
-projectHeight = 250
+projectHeight = 267
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -98,39 +98,56 @@ def step2_change_status():
 
 # abre a arvore do projeto
 def open_tree():
-    bot.moveTo(45, 232, duration=0.15)
-    bot.click()
-    bot.sleep(1)
-    bot.click(186, 252)
-    bot.sleep(1.5)
-
     try:
-        have_purchase = bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords)
-        if have_purchase:
-            error = step1_change_status()
-            if not error:
-                warning_exist = None
-                while not warning_exist:
-                    try:
-                        step2_change_status()
-                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
-                    except Exception as e:
-                        print(f'Erro: {e}')
+        have_diagram = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+        if have_diagram:
+            bot.click(45, 232)
+            bot.sleep(1)
+            bot.click(186, 252)
+            bot.sleep(1.5)
 
-                bot.click(492, 308)
-                bot.sleep(1)
-                bot.click(566, 702)
-                bot.sleep(1)
-                bot.click(582, 208)
-                bot.sleep(1)
-            else:
-                return True
+            try:
+                have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
+                if have_ence:
+                    bot.click(30, 54)
+                    bot.sleep(1.5)
+                    bot.click(1231, projectHeight - 17)
+                    bot.sleep(0.3)
+                    bot.click(1231, projectHeight - 17)
+                    bot.hotkey('ctrl', 'l')
+                    bot.click(1404, projectHeight - 17)
+                    bot.typewrite('Diagrama com status ENCE nao pode ser encerrado corretamente')
+                    bot.sleep(1)
+                    return True
+            except Exception:
+                try:
+                    have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+                    if have_purchase:
+                        error = step1_change_status()
+                        if not error:
+                            warning_exist = None
+                            while not warning_exist:
+                                try:
+                                    step2_change_status()
+                                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                                except Exception as e:
+                                    print(f'Erro: {e}')
+
+                            bot.click(492, 308)
+                            bot.sleep(1)
+                            bot.click(566, 702)
+                            bot.sleep(1)
+                            bot.click(582, 208)
+                            bot.sleep(1)
+                            bot.click(186, 250)
+                            bot.sleep(1)
+                        else:
+                            return True
+                except Exception:
+                    print('Não possui linha de compra!')
     except Exception:
-        print('Não possui linha de compra!')
-
-    bot.moveTo(186, 250, duration=0.15)
-    bot.click()
-    bot.sleep(1)
+        bot.click(186, 230)
+        bot.sleep(1)
 
 # encerra tecnicamente
 def tec_finish_sequence(coords):
@@ -189,10 +206,8 @@ def main_function(treeHeight):
                 treeHeight = adjust_tree_height(treeHeight)
         except Exception:
             try:
-                ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.8))
+                ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
                 if ente_location:
-                    tec_finish_sequence(first_sequence)
-                    bot.sleep(1)
                     finish_sequence(second_sequence)
                     bot.sleep(1)
 
@@ -208,10 +223,18 @@ def main_function(treeHeight):
                 treeHeight = adjust_tree_height(treeHeight)
     return treeHeight
 
+# conclui o encerramento
+def conclusion():
+    bot.click(1404, projectHeight - 17)
+    bot.sleep(0.3)
+    bot.click(1404, projectHeight - 17)
+    bot.typewrite('CONCLUIDO')
+    bot.sleep(3.25)
+
 # salvar
 def finish_process():
     bot.click(236, 102)
-    bot.sleep(4)
+    bot.sleep(0.75)
 
 # programa principal
 for _ in range(20):
@@ -231,3 +254,4 @@ for _ in range(20):
                 treeHeight = main_function(treeHeight)
 
             finish_process()
+            conclusion()
