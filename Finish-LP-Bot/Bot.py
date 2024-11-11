@@ -94,7 +94,17 @@ def step2_change_status():
     bot.click(646, 988)
     bot.sleep(1.25)
     bot.click(468, 732)
-    bot.sleep(1.25)
+    bot.sleep(1)
+
+    try:
+        have_info = bot.locateOnScreen('../images/INFO.png', grayscale=True, confidence=0.8)
+        if have_info:
+            bot.click(566, 732)
+            bot.sleep(0.5)
+            bot.click(566, 732)
+            bot.sleep(1.25)
+    except Exception:
+        print('Não houve informação adicional')
 
 # abre a arvore do projeto
 def open_tree():
@@ -229,7 +239,7 @@ def conclusion():
     bot.sleep(0.3)
     bot.click(1404, projectHeight - 17)
     bot.typewrite('CONCLUIDO')
-    bot.sleep(3.25)
+    bot.sleep(2.75)
 
 # salvar
 def finish_process():
