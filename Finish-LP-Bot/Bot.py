@@ -10,7 +10,7 @@ bot.click(1802, 14)
 # 2º linha - 250
 # 3º linha - 267
 # 4º linha - 284
-projectHeight = 267
+projectHeight = 250
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -33,20 +33,40 @@ def open_project(projectHeight):
     bot.click(462, 337)
     bot.hotkey('ctrl', 'v')
     bot.click(538, 479)
+    bot.sleep(1)
 
     try:
-        lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
+        lp_error_exist = list(bot.locateAllOnScreen('../images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
         if lp_error_exist:
             bot.click(566, 702)
             bot.sleep(0.5)
             bot.click(678, 478)
             bot.click(1231, projectHeight)
             bot.sleep(0.3)
+            bot.click(1231, projectHeight)
             bot.hotkey('ctrl', 'l')
+            bot.click(1404, projectHeight)
+            bot.typewrite('LP nao existe')
             bot.sleep(1)
             return projectHeight + 17, True
     except Exception:
         print('LP existe')
+
+    bot.sleep(1)
+
+    try:
+        have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
+        if have_ence:
+            bot.click(30, 54)
+            bot.sleep(1.5)
+            bot.click(1404, projectHeight)
+            bot.sleep(0.3)
+            bot.click(1404, projectHeight)
+            bot.typewrite('PROJETO JA ENCERRADO')
+            bot.sleep(1)
+            return projectHeight + 17, True
+    except Exception:
+        print('Projeto não encerrado ainda')
 
     return projectHeight + 17, False
 
