@@ -276,7 +276,7 @@ for _ in range(20):
     jump_main_function = False
 
     projectHeight, jump_all = open_project(projectHeight)
-    bot.sleep(2)
+    bot.sleep(1)
 
     if not jump_all:
         jump_main_function = open_tree()
