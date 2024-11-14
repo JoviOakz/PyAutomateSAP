@@ -36,7 +36,7 @@ def open_project(projectHeight):
     bot.sleep(1)
 
     try:
-        lp_error_exist = list(bot.locateAllOnScreen('../images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
+        lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
         if lp_error_exist:
             bot.click(566, 702)
             bot.sleep(0.5)
@@ -55,7 +55,7 @@ def open_project(projectHeight):
     bot.sleep(1)
 
     try:
-        have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
+        have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
         if have_ence:
             bot.click(30, 54)
             bot.sleep(1.5)
@@ -274,7 +274,7 @@ for _ in range(20):
     jump_main_function = False
 
     projectHeight, jump_all = open_project(projectHeight)
-    bot.sleep(2)
+    bot.sleep(1)
 
     if not jump_all:
         jump_main_function = open_tree()
