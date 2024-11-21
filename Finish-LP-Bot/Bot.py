@@ -5,12 +5,7 @@ bot.PAUSE = 0.35
 
 bot.click(1802, 14)
 
-# +17
-# 1º linha - 233
-# 2º linha - 250
-# 3º linha - 267
-# 4º linha - 284
-projectHeight = 250
+projectHeight = 240
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -139,16 +134,84 @@ def open_tree():
             try:
                 have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
                 if have_ence:
-                    bot.click(30, 54)
-                    bot.sleep(1.5)
-                    bot.click(1231, projectHeight - 17)
+                    bot.click(150, 15)
                     bot.sleep(0.3)
-                    bot.click(1231, projectHeight - 17)
-                    bot.hotkey('ctrl', 'l')
-                    bot.click(1404, projectHeight - 17)
-                    bot.typewrite('Diagrama com status ENCE nao pode ser encerrado corretamente')
+                    bot.click(240, 75)
+                    bot.sleep(0.3)
+                    bot.click(520, 270)
+                    bot.sleep(0.3)
+                    bot.click(680, 300)
+                    bot.sleep(0.75)
+
+                    try:
+                        ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
+                        if ente_location:
+                            bot.click(150, 15)
+                            bot.sleep(0.3)
+                            bot.click(240, 75)
+                            bot.sleep(0.3)
+                            bot.click(520, 200)
+                            bot.sleep(0.3)
+                            bot.click(680, 240)
+                            bot.sleep(0.75)
+                    except Exception:
+                        print('Não foi encontrado satus ENTE')
+
+                    bot.click(580, 240)
+                    bot.sleep(1.25)
+                    bot.click(484, 884)
+                    bot.sleep(1.25)
+
+                    bot.moveTo(606, 848)
+                    bot.mouseDown()
+                    bot.moveTo(846, 848, duration=0.5)
+                    bot.mouseUp()
+                    bot.sleep(0.3)
+
+                    try:
+                        check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+                        if check_box:
+                            try:
+                                have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+                                if have_baixa:
+                                    if len(check_box) != len(have_baixa):
+                                        bot.click(150, 15)
+                                        bot.sleep(0.3)
+                                        bot.click(240, 75)
+                                        bot.sleep(0.3)
+                                        bot.click(520, 270)
+                                        bot.sleep(0.3)
+                                        bot.click(680, 300)
+                                        bot.sleep(0.95)
+                                        bot.click(484, 884)
+                                        bot.sleep(1.25)
+                                        bot.click(600, 884)
+                                        bot.sleep(1.25)
+                                        bot.click(492, 360)
+                                        bot.sleep(1.25)
+                                        bot.click(492, 360)
+                                        bot.sleep(1.25)
+                                        warning_exist = None
+                                        while not warning_exist:
+                                            try:
+                                                step2_change_status()
+                                                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                                            except Exception as e:
+                                                print(f'Erro: {e}')
+
+                                        bot.click(492, 308)
+                                        bot.sleep(1)
+                                        bot.click(566, 702)
+                                        bot.sleep(1)
+                            except Exception as e:
+                                print(f'Erro: {e}')
+                    except Exception as e:
+                        print(f'Erro: {e}')
+
+                    bot.click(582, 208)
                     bot.sleep(1)
-                    return True
+                    bot.click(186, 250)
+                    bot.sleep(1)
             except Exception:
                 try:
                     have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
@@ -274,6 +337,7 @@ for _ in range(20):
     jump_main_function = False
 
     projectHeight, jump_all = open_project(projectHeight)
+    bot.sleep(1)
 
     if not jump_all:
         jump_main_function = open_tree()
