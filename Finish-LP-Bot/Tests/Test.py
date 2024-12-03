@@ -12,7 +12,7 @@ bot.click(1802, 14)
 # 2º linha - 250
 # 3º linha - 267
 # 4º linha - 284
-projectHeight = 240
+projectHeight = 233
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
