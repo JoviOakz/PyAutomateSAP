@@ -3,7 +3,7 @@ import pyautogui as bot
 # TESTS NEED '../' BEFORE THE PATH OF IMAGES
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.35
+bot.PAUSE = 0.45
 
 bot.click(1802, 14)
 
