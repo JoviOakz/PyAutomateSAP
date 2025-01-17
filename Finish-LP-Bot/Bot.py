@@ -1,7 +1,7 @@
 import pyautogui as bot
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.35
+bot.PAUSE = 0.45
 
 bot.click(1802, 14)
 
@@ -71,6 +71,29 @@ def step1_change_status():
     bot.sleep(1.25)
     bot.click(486, 884)
     bot.sleep(1.25)
+
+    bot.moveTo(606, 848)
+    bot.mouseDown()
+    bot.moveTo(846, 848, duration=0.5)
+    bot.mouseUp()
+    bot.sleep(0.3)
+
+    try:
+        have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+        if have_baixa:
+            bot.click(150, 15)
+            bot.sleep(0.3)
+            bot.click(240, 75)
+            bot.sleep(0.3)
+            bot.click(500, 270)
+            bot.sleep(0.3)
+            bot.click(690, 300)
+            bot.sleep(0.3)
+    except Exception as e:
+        print(f'Erro: {e}')
+
+    bot.click(486, 884)
+    bot.sleep(1.25)
     bot.click(600, 884)
     bot.sleep(1.5)
 
@@ -134,84 +157,89 @@ def open_tree():
             try:
                 have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
                 if have_ence:
-                    bot.click(150, 15)
-                    bot.sleep(0.3)
-                    bot.click(240, 75)
-                    bot.sleep(0.3)
-                    bot.click(520, 270)
-                    bot.sleep(0.3)
-                    bot.click(680, 300)
-                    bot.sleep(0.75)
-
                     try:
-                        ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
-                        if ente_location:
+                        have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+                        if have_purchase:
                             bot.click(150, 15)
                             bot.sleep(0.3)
                             bot.click(240, 75)
                             bot.sleep(0.3)
-                            bot.click(520, 200)
+                            bot.click(520, 270)
                             bot.sleep(0.3)
-                            bot.click(680, 240)
+                            bot.click(680, 300)
                             bot.sleep(0.75)
-                    except Exception:
-                        print('Não foi encontrado satus ENTE')
 
-                    bot.click(580, 240)
-                    bot.sleep(1.25)
-                    bot.click(484, 884)
-                    bot.sleep(1.25)
-
-                    bot.moveTo(606, 848)
-                    bot.mouseDown()
-                    bot.moveTo(846, 848, duration=0.5)
-                    bot.mouseUp()
-                    bot.sleep(0.3)
-
-                    try:
-                        check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
-                        if check_box:
                             try:
-                                have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
-                                if have_baixa:
-                                    if len(check_box) != len(have_baixa):
-                                        bot.click(150, 15)
-                                        bot.sleep(0.3)
-                                        bot.click(240, 75)
-                                        bot.sleep(0.3)
-                                        bot.click(520, 270)
-                                        bot.sleep(0.3)
-                                        bot.click(680, 300)
-                                        bot.sleep(0.95)
-                                        bot.click(484, 884)
-                                        bot.sleep(1.25)
-                                        bot.click(600, 884)
-                                        bot.sleep(1.25)
-                                        bot.click(492, 360)
-                                        bot.sleep(1.25)
-                                        bot.click(492, 360)
-                                        bot.sleep(1.25)
-                                        warning_exist = None
-                                        while not warning_exist:
-                                            try:
-                                                step2_change_status()
-                                                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
-                                            except Exception as e:
-                                                print(f'Erro: {e}')
+                                ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
+                                if ente_location:
+                                    bot.click(150, 15)
+                                    bot.sleep(0.3)
+                                    bot.click(240, 75)
+                                    bot.sleep(0.3)
+                                    bot.click(520, 200)
+                                    bot.sleep(0.3)
+                                    bot.click(680, 240)
+                                    bot.sleep(0.75)
+                            except Exception:
+                                print('Não foi encontrado satus ENTE')
 
-                                        bot.click(492, 308)
-                                        bot.sleep(1)
-                                        bot.click(566, 702)
-                                        bot.sleep(1)
+                            bot.click(580, 240)
+                            bot.sleep(1.25)
+                            bot.click(484, 884)
+                            bot.sleep(1.25)
+
+                            bot.moveTo(606, 848)
+                            bot.mouseDown()
+                            bot.moveTo(846, 848, duration=0.5)
+                            bot.mouseUp()
+                            bot.sleep(0.3)
+
+                            try:
+                                check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+                                if check_box:
+                                    try:
+                                        have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+                                        if have_baixa:
+                                            if len(check_box) != len(have_baixa):
+                                                bot.click(150, 15)
+                                                bot.sleep(0.3)
+                                                bot.click(240, 75)
+                                                bot.sleep(0.3)
+                                                bot.click(520, 270)
+                                                bot.sleep(0.3)
+                                                bot.click(680, 300)
+                                                bot.sleep(0.95)
+                                                bot.click(484, 884)
+                                                bot.sleep(1.25)
+                                                bot.click(600, 884)
+                                                bot.sleep(1.25)
+                                                bot.click(492, 360)
+                                                bot.sleep(1.25)
+                                                bot.click(492, 360)
+                                                bot.sleep(1.25)
+                                                warning_exist = None
+                                                while not warning_exist:
+                                                    try:
+                                                        step2_change_status()
+                                                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                                                    except Exception as e:
+                                                        print(f'Erro: {e}')
+
+                                                bot.click(492, 308)
+                                                bot.sleep(1)
+                                                bot.click(566, 702)
+                                                bot.sleep(1)
+                                    except Exception as e:
+                                        print(f'Erro: {e}')
                             except Exception as e:
                                 print(f'Erro: {e}')
-                    except Exception as e:
-                        print(f'Erro: {e}')
 
-                    bot.click(582, 208)
-                    bot.sleep(1)
-                    bot.click(186, 250)
-                    bot.sleep(1)
+                            bot.click(582, 208)
+                            bot.sleep(1)
+                            bot.click(186, 250)
+                            bot.sleep(1)
+                    except Exception:
+                        print('Não possui linhas de compra')
             except Exception:
                 try:
                     have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
