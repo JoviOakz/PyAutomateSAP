@@ -285,8 +285,8 @@ def finish_sequence(coords):
 # ajusta a altura e entra na árvore
 def adjust_tree_height(height):
     global height_adjust_count
-    if height_adjust_count < 2:
-        height -= 20
+    if height_adjust_count < 1:
+        height -= 40
         bot.click(186, height)
         bot.sleep(1)
         height_adjust_count += 1
@@ -367,13 +367,13 @@ for _ in range(20):
     jump_main_function = False
 
     projectHeight, jump_all = open_project(projectHeight)
-    bot.sleep(1)
+    bot.CONCLUIDO(1)
 
     if not jump_all:
         jump_main_function = open_tree()
 
         if not jump_main_function:
-            for __ in range(3):
+            for __ in range(2):
                 treeHeight = main_function(treeHeight)
 
             finish_process()

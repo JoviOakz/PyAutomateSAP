@@ -1,7 +1,5 @@
 import pyautogui as bot
 
-# TESTS NEED '../' BEFORE THE PATH OF IMAGES
-
 bot.FAILSAFE = True
 bot.PAUSE = 0.45
 
@@ -33,7 +31,7 @@ def open_project(projectHeight):
     bot.sleep(1)
 
     try:
-        lp_error_exist = list(bot.locateAllOnScreen('../images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
+        lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
         if lp_error_exist:
             bot.click(566, 702)
             bot.sleep(0.5)
@@ -52,7 +50,7 @@ def open_project(projectHeight):
     bot.sleep(1)
 
     try:
-        have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
+        have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
         if have_ence:
             bot.click(30, 54)
             bot.sleep(1.5)
@@ -81,7 +79,7 @@ def step1_change_status():
     bot.sleep(0.3)
 
     try:
-        have_baixa = list(bot.locateAllOnScreen('../images/BAIXACONF.png', grayscale=True, confidence=0.8))
+        have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
         if have_baixa:
             bot.click(150, 15)
             bot.sleep(0.3)
@@ -100,7 +98,7 @@ def step1_change_status():
     bot.sleep(1.5)
 
     try:
-        error_exist = list(bot.locateAllOnScreen('../images/ERROR.png', grayscale=True, confidence=0.7))
+        error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
         if error_exist:
             bot.click(456, 390)
             bot.sleep(1)
@@ -123,7 +121,7 @@ def step2_change_status():
     
     for region, click_position in coordinates:
         try:
-            if bot.locateOnScreen('../images/CHECK.png', grayscale=True, confidence=0.7, region=region):
+            if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
                 print('encontrado')
             else:
                 raise Exception
@@ -137,7 +135,7 @@ def step2_change_status():
     bot.sleep(1)
 
     try:
-        have_info = bot.locateOnScreen('../images/INFO.png', grayscale=True, confidence=0.8)
+        have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
         if have_info:
             bot.click(566, 732)
             bot.sleep(0.5)
@@ -149,7 +147,7 @@ def step2_change_status():
 # abre a arvore do projeto
 def open_tree():
     try:
-        have_diagram = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+        have_diagram = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
         if have_diagram:
             bot.click(45, 232)
             bot.sleep(1)
@@ -157,10 +155,10 @@ def open_tree():
             bot.sleep(1.5)
 
             try:
-                have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
+                have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
                 if have_ence:
                     try:
-                        have_purchase = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+                        have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
                         if have_purchase:
                             bot.click(150, 15)
                             bot.sleep(0.3)
@@ -172,7 +170,7 @@ def open_tree():
                             bot.sleep(0.75)
 
                             try:
-                                ente_location = list(bot.locateOnScreen('../images/ENTE.png', grayscale=True, confidence=0.9))
+                                ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
                                 if ente_location:
                                     bot.click(150, 15)
                                     bot.sleep(0.3)
@@ -197,10 +195,10 @@ def open_tree():
                             bot.sleep(0.3)
 
                             try:
-                                check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
+                                check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
                                 if check_box:
                                     try:
-                                        have_baixa = list(bot.locateAllOnScreen('../images/BAIXACONF.png', grayscale=True, confidence=0.8))
+                                        have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
                                         if have_baixa:
                                             if len(check_box) != len(have_baixa):
                                                 bot.click(150, 15)
@@ -223,7 +221,7 @@ def open_tree():
                                                 while not warning_exist:
                                                     try:
                                                         step2_change_status()
-                                                        warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                                                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                                                     except Exception as e:
                                                         print(f'Erro: {e}')
 
@@ -244,7 +242,7 @@ def open_tree():
                         print('Não possui linhas de compra')
             except Exception:
                 try:
-                    have_purchase = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+                    have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
                     if have_purchase:
                         error = step1_change_status()
                         if not error:
@@ -252,7 +250,7 @@ def open_tree():
                             while not warning_exist:
                                 try:
                                     step2_change_status()
-                                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                                 except Exception as e:
                                     print(f'Erro: {e}')
 
@@ -285,8 +283,8 @@ def finish_sequence(coords):
 # ajusta a altura e entra na árvore
 def adjust_tree_height(height):
     global height_adjust_count
-    if height_adjust_count < 2:
-        height -= 20
+    if height_adjust_count < 1:
+        height -= 40
         bot.click(186, height)
         bot.sleep(1)
         height_adjust_count += 1
@@ -295,7 +293,7 @@ def adjust_tree_height(height):
 # confere se está LIB ou ABER e encerra
 def main_function(treeHeight):
     try:
-        lib_location = list(bot.locateOnScreen('../images/LIB.png', grayscale=True, confidence=0.8))
+        lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
         if lib_location:
             tec_finish_sequence(first_sequence)
             bot.sleep(1)
@@ -303,7 +301,7 @@ def main_function(treeHeight):
             bot.sleep(1)
 
             try:
-                warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                 if warning_exist:
                     bot.click(496, 362)
                     bot.sleep(1)
@@ -312,7 +310,7 @@ def main_function(treeHeight):
             treeHeight = adjust_tree_height(treeHeight)
     except Exception:
         try:
-            aber_location = list(bot.locateOnScreen('../images/ABER.png', grayscale=True, confidence=0.8))
+            aber_location = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
             if aber_location:
                 tec_finish_sequence(first_sequence)
                 bot.sleep(1)
@@ -320,7 +318,7 @@ def main_function(treeHeight):
                 bot.sleep(1)
 
                 try:
-                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                     if warning_exist:
                         bot.click(496, 362)
                         bot.sleep(1)
@@ -329,13 +327,13 @@ def main_function(treeHeight):
                 treeHeight = adjust_tree_height(treeHeight)
         except Exception:
             try:
-                ente_location = list(bot.locateOnScreen('../images/ENTE.png', grayscale=True, confidence=0.9))
+                ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
                 if ente_location:
                     finish_sequence(second_sequence)
                     bot.sleep(1)
 
                     try:
-                        warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                         if warning_exist:
                             bot.click(496, 362)
                             bot.sleep(1)
@@ -367,13 +365,13 @@ for _ in range(20):
     jump_main_function = False
 
     projectHeight, jump_all = open_project(projectHeight)
-    bot.sleep(1)
+    bot.CONCLUIDO(1)
 
     if not jump_all:
         jump_main_function = open_tree()
 
         if not jump_main_function:
-            for __ in range(3):
+            for __ in range(2):
                 treeHeight = main_function(treeHeight)
 
             finish_process()
