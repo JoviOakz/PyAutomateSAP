@@ -358,7 +358,7 @@ def finish_process():
     bot.sleep(0.75)
 
 # programa principal
-for _ in range(20):
+for _ in range(40):
     treeHeight = 250
     height_adjust_count = 0
     jump_all = False
