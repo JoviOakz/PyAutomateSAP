@@ -1,10 +1,11 @@
+import pandas as pd
 from pdf2image import convert_from_path
 import pytesseract
 
 def extract_text_from_pdf(pdf_path):
     images = convert_from_path(pdf_path)
  
-    extracted_text = ""
+    extracted_text = []
     for i, image in enumerate(images):
         rotated_image = image.rotate(-90, expand=True)
  
@@ -14,10 +15,13 @@ def extract_text_from_pdf(pdf_path):
         index1 = text.index("\n", index0+1)
  
         lp = text[index0:index1]
- 
-        extracted_text += f"\n--- Page {i+1} ---\n{lp}"
+        extracted_text.append(lp.strip())
     return extracted_text
  
 pdf_path = "PDF-Reader/test.pdf"
 text = extract_text_from_pdf(pdf_path)
 print(text)
+
+df = pd.DataFrame({"LP": text, "Status": ""})
+
+df.to_excel("Open LPs.xlsx")
