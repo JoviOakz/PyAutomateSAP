@@ -7,7 +7,9 @@ import pyperclip
 bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
-pdf_path = "../Open-LPs.xlsx"
+# TESTS NEED '../../' BEFORE THE PATH OF PDF
+
+pdf_path = "../../Open-LPs.xlsx"
 df = pd.read_excel(pdf_path, engine='openpyxl')
 
 lp_value = df.at[0, 'LP']
