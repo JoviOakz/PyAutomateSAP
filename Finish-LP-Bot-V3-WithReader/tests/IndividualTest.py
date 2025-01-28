@@ -1,7 +1,7 @@
 import pyautogui as bot
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.35
+bot.PAUSE = 0.25
 
 bot.moveTo(606, 848)
 bot.mouseDown()
