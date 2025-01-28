@@ -29,4 +29,4 @@ print(text)
 
 df = pd.DataFrame({"LP": text, "Status": ""})
 
-df.to_excel("Open LPs.xlsx")
+df.to_excel("Open-LPs.xlsx")
