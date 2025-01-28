@@ -1,7 +1,10 @@
-
 import pandas as pd
 from pdf2image import convert_from_path
 import pytesseract
+import re
+
+def limpar_string(s):     
+      return re.sub(r'[^LP0-9-]', '', s)
 
 def extract_text_from_pdf(pdf_path):
     images = convert_from_path(pdf_path)
@@ -25,6 +28,7 @@ def extract_text_from_pdf(pdf_path):
  
 pdf_path = "PDF-Reader/LPs.pdf"
 text = extract_text_from_pdf(pdf_path)
+text = [limpar_string(s) for s in text]
 print(text)
 
 df = pd.DataFrame({"LP": text, "Status": ""})
