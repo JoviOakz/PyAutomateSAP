@@ -68,6 +68,90 @@ def open_project():
 
     return False
 
+# CHANGE THE PURCHASE LINE STATUS
+def change_status_step_one():
+    bot.click(580, 236)
+    bot.sleep(2)
+    bot.click(486, 884)
+    bot.sleep(2)
+
+    bot.moveTo(606, 848)
+    bot.mouseDown()
+    bot.moveTo(846, 848, duration=0.25)
+    bot.mouseUp()
+    bot.sleep(2)
+
+    try:
+        have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+        
+        if have_baixa:
+            bot.click(150, 15)
+            bot.sleep(2)
+            bot.click(240, 75)
+            bot.sleep(2)
+            bot.click(500, 270)
+            bot.sleep(2)
+            bot.click(690, 300)
+            bot.sleep(2)
+
+    except Exception as e:
+        print(f'Erro: {e}')
+
+    bot.click(486, 884)
+    bot.sleep(2)
+    bot.click(600, 884)
+    bot.sleep(2)
+
+    try:
+        error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+        
+        if error_exist:
+            print('')
+
+            return True
+        
+    except Exception:
+        return False
+    
+# FUNCTION TO PRESS TAB X TIMES
+def press_tab(x):
+    for _ in range(x):
+        bot.press('tab')
+    
+# CHANGE THE PURCHASE LINE STATUS
+def change_status_step_two():
+    press_tab(2)
+    bot.typewrite('92903610')
+    
+    for region, click_position in coordinates:
+        try:
+            if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
+                print('encontrado')
+
+            else:
+                raise Exception
+            
+        except Exception:
+            bot.click(click_position)
+
+    bot.sleep(2)
+    bot.click(646, 988)
+    bot.sleep(2)
+    bot.click(468, 732)
+    bot.sleep(2)
+
+    try:
+        have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
+        
+        if have_info:
+            bot.click(566, 732)
+            bot.sleep(0.5)
+            bot.click(566, 732)
+            bot.sleep(1.25)
+
+    except Exception:
+        print('Não houve informação adicional')
+
 # OPEN TREE AND ALSO CHANGE THE PURCHASE STATUS IF EXISTS
 def open_tree():
     try:
@@ -181,7 +265,7 @@ def open_tree():
                     have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
                     
                     if have_purchase:
-                        error = change_status_step_1()
+                        error = change_status_step_one()
                         
                         if not error:
                             warning_exist = None
@@ -206,13 +290,30 @@ def open_tree():
                 except Exception:
                     print('Doesn\'t have any purchase!')
 
-                bot.click(582, 208)
-                bot.sleep(2)
-                bot.click(186, 252)
-                bot.sleep(2)
+            bot.click(582, 208)
+            bot.sleep(2)
+            bot.click(186, 252)
+            bot.sleep(2)
 
     except Exception:
         print('Don\'t have diagram!')
+
+# FINISH WITH ENTE AND ENCE STATUS
+def ence_sequence(coords):
+    for x, y in coords:
+        bot.click(x, y)
+
+# ADJUSTS THE TREE HEIGHT
+def adjust_tree_height(height):
+    global height_adjust_count
+    
+    if height_adjust_count < 1:
+        height -= 40
+        bot.click(186, height)
+        bot.sleep(1)
+        height_adjust_count += 1
+
+    return height
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # 
@@ -220,53 +321,68 @@ def main_function(treeHeight):
     try:
         lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
         if lib_location:
-            tec_finish_sequence(first_sequence)
-            bot.sleep(1)
-            finish_sequence(second_sequence)
-            bot.sleep(1)
+            ence_sequence(first_sequence)
+            bot.sleep(2)
+            ence_sequence(second_sequence)
+            bot.sleep(2)
 
             try:
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                
                 if warning_exist:
                     bot.click(496, 362)
-                    bot.sleep(1)
+                    bot.sleep(2)
+
             except Exception:
-                print('WARNING não encontrado!')
+                print('WARNING don\' exists!')
+
             treeHeight = adjust_tree_height(treeHeight)
+
     except Exception:
         try:
             aber_location = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
+            
             if aber_location:
-                tec_finish_sequence(first_sequence)
-                bot.sleep(1)
-                finish_sequence(second_sequence)
-                bot.sleep(1)
+                ence_sequence(first_sequence)
+                bot.sleep(2)
+                ence_sequence(second_sequence)
+                bot.sleep(2)
 
                 try:
                     warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                    
                     if warning_exist:
                         bot.click(496, 362)
-                        bot.sleep(1)
+                        bot.sleep(2)
+
                 except Exception:
-                    print('WARNING não encontrado!')
+                    print('WARNING don\' exists!')
+
                 treeHeight = adjust_tree_height(treeHeight)
+
         except Exception:
             try:
                 ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
+                
                 if ente_location:
-                    finish_sequence(second_sequence)
-                    bot.sleep(1)
+                    ence_sequence(second_sequence)
+                    bot.sleep(2)
 
                     try:
                         warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                        
                         if warning_exist:
                             bot.click(496, 362)
-                            bot.sleep(1)
+                            bot.sleep(2)
+
                     except Exception:
-                        print('WARNING não encontrado!')
+                        print('WARNING don\' exists!')
+
                     treeHeight = adjust_tree_height(treeHeight)
+
             except Exception:
                 treeHeight = adjust_tree_height(treeHeight)
+
     return treeHeight
 
 # SAVE ALL THE CHANGES
