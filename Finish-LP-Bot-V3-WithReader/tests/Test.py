@@ -51,7 +51,7 @@ def open_project():
             return True
         
     except Exception:
-        print('LP exists')
+        print('LP exists!')
 
     bot.sleep(2)
 
@@ -71,14 +71,18 @@ def open_project():
 # CHANGE THE PURCHASE LINE STATUS
 def change_status_step_one():
     bot.click(580, 236)
+
     bot.sleep(2)
+
     bot.click(486, 884)
+
     bot.sleep(2)
 
     bot.moveTo(606, 848)
     bot.mouseDown()
     bot.moveTo(846, 848, duration=0.25)
     bot.mouseUp()
+
     bot.sleep(2)
 
     try:
@@ -86,27 +90,37 @@ def change_status_step_one():
         
         if have_baixa:
             bot.click(150, 15)
+
             bot.sleep(2)
+
             bot.click(240, 75)
+
             bot.sleep(2)
+
             bot.click(500, 270)
+
             bot.sleep(2)
+
             bot.click(690, 300)
+
             bot.sleep(2)
 
     except Exception as e:
         print(f'Erro: {e}')
 
     bot.click(486, 884)
+
     bot.sleep(2)
+
     bot.click(600, 884)
+
     bot.sleep(2)
 
     try:
         error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
         
         if error_exist:
-            print('')
+            print('!')
 
             return True
         
@@ -121,12 +135,13 @@ def press_tab(x):
 # CHANGE THE PURCHASE LINE STATUS
 def change_status_step_two():
     press_tab(2)
+
     bot.typewrite('92903610')
     
     for region, click_position in coordinates:
         try:
             if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
-                print('encontrado')
+                print('Found!')
 
             else:
                 raise Exception
@@ -135,9 +150,13 @@ def change_status_step_two():
             bot.click(click_position)
 
     bot.sleep(2)
+
     bot.click(646, 988)
+
     bot.sleep(2)
+
     bot.click(468, 732)
+
     bot.sleep(2)
 
     try:
@@ -145,12 +164,15 @@ def change_status_step_two():
         
         if have_info:
             bot.click(566, 732)
-            bot.sleep(0.5)
+
+            bot.sleep(2)
+
             bot.click(566, 732)
-            bot.sleep(1.25)
+
+            bot.sleep(2)
 
     except Exception:
-        print('Não houve informação adicional')
+        print('Don\'t have any additional information!')
 
 # OPEN TREE AND ALSO CHANGE THE PURCHASE STATUS IF EXISTS
 def open_tree():
@@ -159,8 +181,11 @@ def open_tree():
         
         if have_diagram:
             bot.click(46, 232)
+
             bot.sleep(2)
+
             bot.click(186, 252)
+
             bot.sleep(2)
 
             try:
@@ -172,12 +197,19 @@ def open_tree():
                         
                         if have_purchase:
                             bot.click(150, 15)
+
                             bot.sleep(2)
+
                             bot.click(240, 75)
+
                             bot.sleep(2)
+
                             bot.click(520, 270)
+
                             bot.sleep(2)
+
                             bot.click(680, 300)
+
                             bot.sleep(2)
 
                             try:
@@ -185,26 +217,38 @@ def open_tree():
                                 
                                 if ente_location:
                                     bot.click(150, 15)
+
                                     bot.sleep(2)
+
                                     bot.click(240, 75)
+
                                     bot.sleep(2)
+
                                     bot.click(520, 200)
+
                                     bot.sleep(2)
+
                                     bot.click(680, 240)
+
                                     bot.sleep(2)
 
                             except Exception:
-                                print('Don\'t have ENTE status')
+                                print('Don\'t have ENTE status!')
 
                             bot.click(580, 240)
+
                             bot.sleep(2)
+
                             bot.click(484, 884)
+
                             bot.sleep(2)
+
 
                             bot.moveTo(606, 848)
                             bot.mouseDown()
                             bot.moveTo(846, 848, duration=0.25)
                             bot.mouseUp()
+
                             bot.sleep(2)
 
                             try:
@@ -217,39 +261,55 @@ def open_tree():
                                         if have_baixa:
                                             if len(check_box) != len(have_baixa):
                                                 bot.click(150, 15)
+
                                                 bot.sleep(2)
+
                                                 bot.click(240, 75)
+
                                                 bot.sleep(2)
+
                                                 bot.click(520, 270)
+
                                                 bot.sleep(2)
+
                                                 bot.click(680, 300)
+
                                                 bot.sleep(2)
+
                                                 bot.click(484, 884)
+
                                                 bot.sleep(2)
+
                                                 bot.click(600, 884)
+
                                                 bot.sleep(2)
+
                                                 bot.click(492, 360)
+
                                                 bot.sleep(2)
+
                                                 bot.click(492, 360)
+
                                                 bot.sleep(2)
 
                                                 warning_exist = None
                                                 
                                                 while not warning_exist:
                                                     try:
-                                                        change_status_step_2()
+                                                        change_status_step_two()
 
                                                         warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                                                     
                                                     except Exception as e:
                                                         print(f'Error: {e}')
 
-                                                # REVER O QUE É ESSA BOMBA AQUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                                 bot.click(492, 308)
+
                                                 bot.sleep(2)
+
                                                 bot.click(566, 702)
+
                                                 bot.sleep(2)
-                                                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                                     except Exception as e:
                                         print(f'Erro: {e}')
@@ -272,7 +332,7 @@ def open_tree():
                             
                             while not warning_exist:
                                 try:
-                                    change_status_step_2()
+                                    change_status_step_two()
 
                                     warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                                 
@@ -280,8 +340,11 @@ def open_tree():
                                     print(f'Error: {e}')
 
                             bot.click(492, 308)
+
                             bot.sleep(2)
+
                             bot.click(566, 702)
+
                             bot.sleep(2)
                             
                         else:
@@ -291,8 +354,11 @@ def open_tree():
                     print('Doesn\'t have any purchase!')
 
             bot.click(582, 208)
+
             bot.sleep(2)
+
             bot.click(186, 252)
+
             bot.sleep(2)
 
     except Exception:
@@ -310,7 +376,9 @@ def adjust_tree_height(height):
     if height_adjust_count < 1:
         height -= 40
         bot.click(186, height)
-        bot.sleep(1)
+
+        bot.sleep(2)
+
         height_adjust_count += 1
 
     return height
@@ -322,8 +390,11 @@ def main_function(treeHeight):
         lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
         if lib_location:
             ence_sequence(first_sequence)
+
             bot.sleep(2)
+
             ence_sequence(second_sequence)
+
             bot.sleep(2)
 
             try:
@@ -331,6 +402,7 @@ def main_function(treeHeight):
                 
                 if warning_exist:
                     bot.click(496, 362)
+
                     bot.sleep(2)
 
             except Exception:
@@ -344,8 +416,11 @@ def main_function(treeHeight):
             
             if aber_location:
                 ence_sequence(first_sequence)
+
                 bot.sleep(2)
+
                 ence_sequence(second_sequence)
+
                 bot.sleep(2)
 
                 try:
@@ -353,6 +428,7 @@ def main_function(treeHeight):
                     
                     if warning_exist:
                         bot.click(496, 362)
+
                         bot.sleep(2)
 
                 except Exception:
@@ -366,6 +442,7 @@ def main_function(treeHeight):
                 
                 if ente_location:
                     ence_sequence(second_sequence)
+
                     bot.sleep(2)
 
                     try:
@@ -373,6 +450,7 @@ def main_function(treeHeight):
                         
                         if warning_exist:
                             bot.click(496, 362)
+
                             bot.sleep(2)
 
                     except Exception:
@@ -388,11 +466,12 @@ def main_function(treeHeight):
 # SAVE ALL THE CHANGES
 def finish_process():
     bot.click(236, 102)
+
     bot.sleep(2)
 
 # CONCLUDES THE STATUS OFF LP
 def conclusion():
-    print('')
+    print('!')
 
 # MAIN PROGRAM
 for _ in range(10):
@@ -401,6 +480,7 @@ for _ in range(10):
     jump_all = False
 
     jump_all = open_project()
+
     bot.sleep(2)
 
     if not jump_all:
