@@ -59,7 +59,7 @@ def open_project():
         have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
         
         if have_ence:
-            bot.typewrite('Project already finished!')
+            df.at[0, 'Status'] = 'Encerrado'
 
             return True
         
@@ -155,7 +155,8 @@ def change_status_step_two():
 
     bot.sleep(2)
 
-    bot.click(468, 732)
+    bot.press('tab')
+    bot.press('enter')
 
     bot.sleep(2)
 
@@ -243,7 +244,6 @@ def open_tree():
 
                             bot.sleep(2)
 
-
                             bot.moveTo(606, 848)
                             bot.mouseDown()
                             bot.moveTo(846, 848, duration=0.25)
@@ -284,11 +284,11 @@ def open_tree():
 
                                                 bot.sleep(2)
 
-                                                bot.click(492, 360)
+                                                bot.press('enter')
 
                                                 bot.sleep(2)
 
-                                                bot.click(492, 360)
+                                                bot.press('enter')
 
                                                 bot.sleep(2)
 
@@ -303,11 +303,14 @@ def open_tree():
                                                     except Exception as e:
                                                         print(f'Error: {e}')
 
-                                                bot.click(492, 308)
+                                                bot.press('tab')
+                                                bot.press('tab')
+                                                bot.press('enter')
 
                                                 bot.sleep(2)
 
-                                                bot.click(566, 702)
+                                                bot.press('tab')
+                                                bot.press('enter')
 
                                                 bot.sleep(2)
 
@@ -383,8 +386,6 @@ def adjust_tree_height(height):
 
     return height
 
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# 
 def main_function(treeHeight):
     try:
         lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
@@ -471,7 +472,7 @@ def finish_process():
 
 # CONCLUDES THE STATUS OFF LP
 def conclusion():
-    print('!')
+    df.at[0, 'Status'] = 'Encerrado'
 
 # MAIN PROGRAM
 for _ in range(10):
