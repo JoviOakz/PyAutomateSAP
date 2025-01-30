@@ -12,14 +12,22 @@ def extract_text_from_pdf(pdf_path):
     extracted_text = []
     for i, image in enumerate(images):
         try:
-            rotated_image = image.rotate(90, expand=True)
+            rotated_image = image.rotate(180, expand=True)
  
             text = pytesseract.image_to_string(rotated_image)
-    
-            index0 = text.index("ORDEM DE MANUTENÇÃO - ")
-            index1 = text.index("\n", index0+1)
-    
-            om = text[index0:index1]
+
+            index0 = text.index("-")
+            index1 = text.index(" ", index0+1)
+            index2 = text.index(" ", index1+1)
+
+            print(text)
+
+            om = text[index1:index2]
+
+            print('')
+            print(om)
+            print('')
+
             extracted_text.append(om.strip())
         except:
             print("Error on page ", i+1)
