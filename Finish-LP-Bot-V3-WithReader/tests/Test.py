@@ -22,7 +22,7 @@ coordinates = [
     ((605, 455, 33, 26), (622, 470))
 ]
 
-# LOWER DE CODE SCREEN
+# PUT DOWN THE CODE SCREEN
 bot.click(1802, 14)
 
 # PDF CONFIGURATION
