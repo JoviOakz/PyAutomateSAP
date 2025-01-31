@@ -12,7 +12,7 @@ def extract_text_from_pdf(pdf_path):
     extracted_text = []
     for i, image in enumerate(images):
         try:
-            rotated_image = image.rotate(180, expand=True)
+            rotated_image = image.rotate(0, expand=True)
  
             text = pytesseract.image_to_string(rotated_image)
 
@@ -20,13 +20,7 @@ def extract_text_from_pdf(pdf_path):
             index1 = text.index(" ", index0+1)
             index2 = text.index(" ", index1+1)
 
-            print(text)
-
             om = text[index1:index2]
-
-            print('')
-            print(om)
-            print('')
 
             extracted_text.append(om.strip())
         except:
@@ -34,7 +28,7 @@ def extract_text_from_pdf(pdf_path):
 
     return extracted_text
  
-pdf_path = "PDF-Reader/OMs.pdf"
+pdf_path = "PDF-Reader/OMs - KW52.pdf"
 text = extract_text_from_pdf(pdf_path)
 text = [limpar_string(s) for s in text]
 print(text)
