@@ -429,9 +429,7 @@ def main_function(treeHeight, pending):
 
     except Exception:
         try:
-            # ================================================================================================================================
             aber_location = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
-            # ================================================================================================================================
             
             if aber_location:
                 ence_sequence(first_sequence)
