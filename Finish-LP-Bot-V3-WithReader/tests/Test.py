@@ -46,7 +46,7 @@ def open_project():
         lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
         
         if lp_error_exist:
-            bot.typewrite('LP don\'t exists')
+            df.at[0, 'Status'] = 'LP não existe!'
 
             return True
         
@@ -120,7 +120,9 @@ def change_status_step_one():
         error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
         
         if error_exist:
+            # ================================================================================================================================
             print('!')
+            # ================================================================================================================================
 
             return True
         
@@ -151,11 +153,11 @@ def change_status_step_two():
 
     bot.sleep(2)
 
-    bot.click(646, 988)
+    bot.click(1128, 988)
 
     bot.sleep(2)
 
-    bot.press('tab')
+    press_tab(1)
     bot.press('enter')
 
     bot.sleep(2)
@@ -164,6 +166,7 @@ def change_status_step_two():
         have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
         
         if have_info:
+            # ================================================================================================================================
             bot.click(566, 732)
 
             bot.sleep(2)
@@ -171,6 +174,7 @@ def change_status_step_two():
             bot.click(566, 732)
 
             bot.sleep(2)
+            # ================================================================================================================================
 
     except Exception:
         print('Don\'t have any additional information!')
@@ -303,13 +307,12 @@ def open_tree():
                                                     except Exception as e:
                                                         print(f'Error: {e}')
 
-                                                bot.press('tab')
-                                                bot.press('tab')
+                                                press_tab(2)
                                                 bot.press('enter')
 
                                                 bot.sleep(2)
 
-                                                bot.press('tab')
+                                                press_tab(1)
                                                 bot.press('enter')
 
                                                 bot.sleep(2)
@@ -342,11 +345,13 @@ def open_tree():
                                 except Exception as e:
                                     print(f'Error: {e}')
 
-                            bot.click(492, 308)
+                            press_tab(2)
+                            bot.press('enter')
 
                             bot.sleep(2)
 
-                            bot.click(566, 702)
+                            press_tab(1)
+                            bot.press('enter')
 
                             bot.sleep(2)
                             
@@ -357,10 +362,6 @@ def open_tree():
                     print('Doesn\'t have any purchase!')
 
             bot.click(582, 208)
-
-            bot.sleep(2)
-
-            bot.click(186, 252)
 
             bot.sleep(2)
 
@@ -389,6 +390,7 @@ def adjust_tree_height(height):
 def main_function(treeHeight):
     try:
         lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
+        
         if lib_location:
             ence_sequence(first_sequence)
 
@@ -401,19 +403,31 @@ def main_function(treeHeight):
             try:
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                 
+            # ================================================================================================================================
                 if warning_exist:
                     bot.click(496, 362)
 
                     bot.sleep(2)
+            # ================================================================================================================================
 
             except Exception:
                 print('WARNING don\' exists!')
+
+            # ================================================================================================================================
+            # LP-046599
+            try:
+                print('ERRO COMPROMISSO PENDENTE')
+            except Exception:
+                print('ERRO COMPROMISSO PENDENTE')
+            # ================================================================================================================================
 
             treeHeight = adjust_tree_height(treeHeight)
 
     except Exception:
         try:
+            # ================================================================================================================================
             aber_location = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
+            # ================================================================================================================================
             
             if aber_location:
                 ence_sequence(first_sequence)
