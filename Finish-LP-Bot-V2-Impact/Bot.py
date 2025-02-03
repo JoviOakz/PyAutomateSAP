@@ -40,8 +40,6 @@ def open_project(projectHeight):
             bot.sleep(0.3)
             bot.click(1231, projectHeight)
             bot.hotkey('ctrl', 'l')
-            bot.click(1404, projectHeight)
-            bot.typewrite('LP nao existe')
             bot.sleep(1)
             return projectHeight + 17, True
     except Exception:
@@ -54,10 +52,10 @@ def open_project(projectHeight):
         if have_ence:
             bot.click(30, 54)
             bot.sleep(1.5)
-            bot.click(1404, projectHeight)
+            bot.click(1231, projectHeight)
             bot.sleep(0.3)
-            bot.click(1404, projectHeight)
-            bot.typewrite('PROJETO JA ENCERRADO')
+            bot.click(1231, projectHeight)
+            bot.hotkey('ctrl', 'l')
             bot.sleep(1)
             return projectHeight + 17, True
     except Exception:
@@ -346,16 +344,8 @@ def main_function(treeHeight):
 
 # conclui o encerramento
 def conclusion():
-    bot.click(1404, projectHeight - 17)
-    bot.sleep(0.3)
-    bot.click(1404, projectHeight - 17)
-    bot.typewrite('CONCLUIDO')
-    bot.sleep(2.75)
-
-# salvar
-def finish_process():
     bot.click(236, 102)
-    bot.sleep(0.75)
+    bot.sleep(3.5)
 
 # programa principal
 for _ in range(40):
@@ -374,5 +364,4 @@ for _ in range(40):
             for __ in range(2):
                 treeHeight = main_function(treeHeight)
 
-            finish_process()
             conclusion()
