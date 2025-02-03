@@ -345,7 +345,7 @@ def main_function(treeHeight):
 # conclui o encerramento
 def conclusion():
     bot.click(236, 102)
-    bot.sleep(3.5)
+    bot.sleep(4.25)
 
 # programa principal
 for _ in range(40):
