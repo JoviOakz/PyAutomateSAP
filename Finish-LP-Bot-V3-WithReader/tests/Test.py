@@ -166,15 +166,15 @@ def change_status_step_two():
         have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
         
         if have_info:
-            # ================================================================================================================================
-            bot.click(566, 732)
+            press_tab(1)
+            bot.press('enter')
 
             bot.sleep(2)
 
-            bot.click(566, 732)
+            press_tab(1)
+            bot.press('enter')
 
             bot.sleep(2)
-            # ================================================================================================================================
 
     except Exception:
         print('Don\'t have any additional information!')
@@ -387,7 +387,7 @@ def adjust_tree_height(height):
 
     return height
 
-def main_function(treeHeight):
+def main_function(treeHeight, pending):
     try:
         lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
         
@@ -403,23 +403,27 @@ def main_function(treeHeight):
             try:
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                 
-            # ================================================================================================================================
                 if warning_exist:
-                    bot.click(496, 362)
+                    bot.press('enter')
 
                     bot.sleep(2)
-            # ================================================================================================================================
 
             except Exception:
-                print('WARNING don\' exists!')
+                print('WARNING don\'t exists!')
 
-            # ================================================================================================================================
-            # LP-046599
             try:
-                print('ERRO COMPROMISSO PENDENTE')
+                error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+
+                if error_exist:
+                    press_tab(1)
+                    bot.press('enter')
+
+                    df.at[0, 'Status'] = 'Compromisso pendente!'
+
+                    pending += 1
+            
             except Exception:
-                print('ERRO COMPROMISSO PENDENTE')
-            # ================================================================================================================================
+                print('Doesn\'t have pending commitment!')
 
             treeHeight = adjust_tree_height(treeHeight)
 
@@ -442,7 +446,7 @@ def main_function(treeHeight):
                     warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                     
                     if warning_exist:
-                        bot.click(496, 362)
+                        bot.press('enter')
 
                         bot.sleep(2)
 
@@ -464,7 +468,7 @@ def main_function(treeHeight):
                         warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                         
                         if warning_exist:
-                            bot.click(496, 362)
+                            bot.press('enter')
 
                             bot.sleep(2)
 
@@ -476,23 +480,31 @@ def main_function(treeHeight):
             except Exception:
                 treeHeight = adjust_tree_height(treeHeight)
 
-    return treeHeight
+    return treeHeight, pending
 
-# SAVE ALL THE CHANGES
-def finish_process():
-    bot.click(236, 102)
+# SAVE ALL CHANGES AND CONCLUDES THE STATUS OF LP
+def conclusion():
+    bot.hotkey('ctrl', 's')
 
     bot.sleep(2)
 
-# CONCLUDES THE STATUS OFF LP
-def conclusion():
     df.at[0, 'Status'] = 'Encerrado'
+
+# CONCLUDES THE ERROR STATUS OFF LP
+def error_conclusion():
+    bot.press('f3')
+
+    bot.sleep(2)
+
+    press_tab(1)
+    bot.press('enter')
 
 # MAIN PROGRAM
 for _ in range(10):
     treeHeight = 250
     jump_main_function = False
     jump_all = False
+    pending = 0
 
     jump_all = open_project()
 
@@ -503,7 +515,11 @@ for _ in range(10):
 
         if not jump_main_function:
             for __ in range(2):
-                treeHeight = main_function(treeHeight)
+                treeHeight, pending = main_function(treeHeight, pending)
 
-            finish_process()
-            conclusion()
+                bot.sleep(2)
+
+            if pending == 0:
+                conclusion()
+            else:
+                error_conclusion()
