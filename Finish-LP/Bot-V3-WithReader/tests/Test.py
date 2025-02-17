@@ -25,9 +25,9 @@ coordinates = [
 # PUT DOWN THE CODE SCREEN
 bot.click(1802, 14)
 
-# PDF CONFIGURATION
-pdf_path = "../../Open-LPs.xlsx"
-df = pd.read_excel(pdf_path, engine='openpyxl')
+# EXCEL CONFIGURATION
+excel_path = "../../../Open-LPs.xlsx"
+df = pd.read_excel(excel_path, engine='openpyxl')
 
 # OPEN THE PROJECT AND IDENTIFIES IF EXISTS OR IS ALREADY FINISHED
 def open_project():
