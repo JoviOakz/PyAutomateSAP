@@ -69,7 +69,7 @@ def main_function(serie):
     
     bot.hotkey('ctrl', 's')
 
-for _ in range(20):
+for _ in range(16):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 
