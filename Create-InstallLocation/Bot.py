@@ -3,70 +3,86 @@ import pandas as pd
 import pyperclip
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.05
+bot.PAUSE = 0.125
 
 bot.click(1802, 14)
+
+line = 0
 
 excel_path = "LocInst.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
-def press_tab(x):
-    for _ in range(x):
-        bot.press('tab')
+def press_key(key, times):
+    for _ in range(times):
+        if key == 'shtab':
+            bot.hotkey('shift', 'tab')
+        else:
+            bot.press(key)
 
-def press_shtab(x):
-    for _ in range(x):
-        bot.hotkey('shift', 'tab')  
+def main_function(serie):
+    bot.hotkey('ctrl', 'a')
 
-def press_backspace(x):
-    for _ in range(x):
-        bot.press('backspace')  
+    if serie < 10:
+        bot.typewrite(str(norm) + '-00' + serie)
+    else:
+        bot.typewrite(str(norm) + '-0' + serie)
+    
+    bot.sleep(0.3)
+    press_key('enter', 1)
+    bot.sleep(0.3)
+    press_key('enter', 1)
+    bot.sleep(0.5)
 
-def press_right(x):
-    for _ in range(x):
-        bot.press('right')  
+    bot.press('right')
+    press_key('backspace', 3)
 
-value = df.at[0, 'Norma']
-pyperclip.copy(value)
+    if serie < 10:
+        bot.typewrite('0' + serie)
+    else:
+        bot.typewrite(serie)
 
-bot.hotkey('ctrl', 'a')
-bot.sleep(1)
-bot.hotkey('ctrl', 'v')
-bot.sleep(1)
-bot.typewrite('-032')
-bot.sleep(1)
-bot.press('enter')
-bot.sleep(1)
-bot.press('enter')
-bot.sleep(1)
-bot.press('right')
-bot.sleep(1)
-press_backspace(3)
-bot.sleep(1)
-bot.typewrite('32')
-bot.sleep(1)
-press_tab(10)
-bot.sleep(1)
-bot.typewrite('17.02.2025')
-bot.sleep(1)
-press_shtab(7)
-bot.sleep(1)
-press_right(3)
-bot.sleep(1)
-bot.press('enter')
-bot.sleep(1)
-bot.press('tab')
-bot.sleep(1)
-bot.press('enter')
-bot.sleep(1)
-bot.typewrite('6854D110-412')
-bot.sleep(1)
-bot.press('enter')
-bot.sleep(1)
-bot.press('tab')
-bot.sleep(1)
-bot.press('enter')
-bot.sleep(1.5)
-bot.press('enter')
-bot.sleep(1.5)
-bot.hotkey('ctrl', 's')
+    press_key('tab', 10)
+    bot.sleep(0.3)
+    bot.typewrite('17.02.2025')
+    bot.sleep(0.3)
+    press_key('shtab', 7)
+    bot.sleep(0.3)
+    press_key('right', 3)
+    bot.sleep(0.3)
+    bot.press('enter')
+    bot.sleep(0.5)
+    
+    bot.press('tab')
+    bot.sleep(0.3)
+    bot.press('enter')
+    bot.sleep(0.5)
+    bot.typewrite('6854D110-412')
+    bot.sleep(0.3)
+    bot.press('enter')
+    bot.sleep(0.5)
+    bot.press('tab')
+    bot.sleep(0.3)
+    bot.press('enter')
+    bot.sleep(0.5)
+    bot.press('enter')
+    bot.sleep(1.25)
+    bot.hotkey('ctrl', 's')
+
+for _ in range(20):
+    norm = df.at[line, 'Norma']
+    qty = df.at[line, 'Quantidade']
+
+    press_key('tab', 3)
+
+    bot.typewrite(str(norm) + '001')
+
+    press_key('shtab', 3)
+
+    if norm == 4718301303:
+        serie = 34
+    else:
+        serie = 2
+
+    for __ in range(qty):
+        main_function(serie)
+        serie += 1
