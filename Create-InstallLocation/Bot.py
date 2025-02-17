@@ -6,7 +6,7 @@ bot.PAUSE = 0.125
 
 bot.click(1802, 14)
 
-line = 0
+line = 1
 
 excel_path = "LocInst.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
@@ -87,3 +87,5 @@ for _ in range(16):
         main_function(serie)
         serie += 1
         bot.sleep(2.5)
+
+    line += 1
