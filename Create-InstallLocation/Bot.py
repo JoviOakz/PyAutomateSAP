@@ -6,7 +6,7 @@ bot.PAUSE = 0.125
 
 bot.click(1802, 14)
 
-line = 1
+line = 0
 
 excel_path = "LocInst.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
@@ -68,7 +68,7 @@ def main_function(serie):
     
     bot.hotkey('ctrl', 's')
 
-for _ in range(16):
+for _ in range(12):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 
@@ -79,7 +79,7 @@ for _ in range(16):
     press_key('shtab', 3)
 
     if norm == 4718301303:
-        serie = 36
+        serie = 69
     else:
         serie = 2
 
