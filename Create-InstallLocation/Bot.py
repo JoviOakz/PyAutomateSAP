@@ -22,9 +22,9 @@ def main_function(serie):
     bot.hotkey('ctrl', 'a')
 
     if serie < 10:
-        bot.typewrite(str(norm) + '-00' + serie)
+        bot.typewrite(str(norm) + '-00' + str(serie))
     else:
-        bot.typewrite(str(norm) + '-0' + serie)
+        bot.typewrite(str(norm) + '-0' + str(serie))
     
     bot.sleep(0.3)
     press_key('enter', 1)
@@ -74,7 +74,7 @@ for _ in range(16):
 
     press_key('tab', 3)
 
-    bot.typewrite(str(norm) + '001')
+    bot.typewrite(str(norm) + '-001')
 
     press_key('shtab', 3)
 
