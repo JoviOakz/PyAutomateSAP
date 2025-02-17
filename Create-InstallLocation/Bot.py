@@ -51,7 +51,7 @@ def main_function(serie):
     bot.sleep(0.3)
     bot.press('enter')
     bot.sleep(0.5)
-    
+
     bot.press('tab')
     bot.sleep(0.3)
     bot.press('enter')
@@ -66,6 +66,7 @@ def main_function(serie):
     bot.sleep(0.5)
     bot.press('enter')
     bot.sleep(1.25)
+    
     bot.hotkey('ctrl', 's')
 
 for _ in range(20):
