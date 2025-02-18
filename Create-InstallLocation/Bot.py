@@ -2,7 +2,7 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.125
+bot.PAUSE = 0.25
 
 bot.click(1802, 14)
 
@@ -42,7 +42,7 @@ def main_function(serie):
 
     press_key('tab', 10)
     bot.sleep(0.5)
-    bot.typewrite('17.02.2025')
+    bot.typewrite('18.02.2025')
     bot.sleep(0.5)
     press_key('shtab', 7)
     bot.sleep(0.5)
@@ -78,8 +78,8 @@ for _ in range(12):
 
     press_key('shtab', 3)
 
-    if norm == 4718301303:
-        serie = 69
+    if norm == 4718301815:
+        serie = 3
     else:
         serie = 2
 
