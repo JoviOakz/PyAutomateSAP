@@ -2,11 +2,11 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.35
+bot.PAUSE = 0.4175
 
 bot.click(1802, 14)
 
-line = 20
+line = 65
 
 excel_path = "ApontamentoYesica.xlsm"
 df = pd.read_excel(excel_path, engine='openpyxl')
@@ -18,7 +18,7 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-for _ in range(80):
+for _ in range(35):
     lp = df.at[line, 'Elemento PEP']
 
     bot.typewrite(str(lp))
@@ -44,7 +44,7 @@ for _ in range(80):
     press_key('tab', 1)
     press_key('enter', 1)
 
-    bot.sleep(0.75)
+    bot.sleep(1)
     
     bot.typewrite('92886895')
     press_key('enter', 1)
