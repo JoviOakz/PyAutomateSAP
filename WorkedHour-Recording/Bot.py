@@ -6,7 +6,7 @@ bot.PAUSE = 0.35
 
 bot.click(1802, 14)
 
-line = 18
+line = 19
 
 excel_path = "ApontamentoYesica.xlsm"
 df = pd.read_excel(excel_path, engine='openpyxl')
@@ -18,7 +18,7 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-for _ in range(82):
+for _ in range(81):
     lp = df.at[line, 'Elemento PEP']
 
     bot.typewrite(str(lp))
@@ -39,17 +39,17 @@ for _ in range(82):
     bot.typewrite('025PROJ')
     press_key('ctrls', 1)
 
-    bot.sleep(2.5)
+    bot.sleep(2)
 
     press_key('tab', 1)
     press_key('enter', 1)
 
-    bot.sleep(1)
+    bot.sleep(0.75)
     
     bot.typewrite('92886895')
     press_key('enter', 1)
 
-    bot.sleep(1)
+    bot.sleep(1.25)
     
     press_key('tab', 1)
 
