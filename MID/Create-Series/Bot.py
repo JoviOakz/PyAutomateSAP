@@ -4,7 +4,7 @@ import pandas as pd
 bot.FAILSAFE = True
 bot.PAUSE = 0.4175
 
-bot.click(1802, 14)
+bot.click(1780, 14)
 
 excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
@@ -66,6 +66,7 @@ for _ in range(20):
 
     for __ in range(qty):
         main_function(serie)
+        serie += 1
 
     line += 1
     save()
