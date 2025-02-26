@@ -2,14 +2,14 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.4175
+bot.PAUSE = 0.3
 
 bot.click(1780, 14)
 
 excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
-line = 0
+line = 5
 
 def enter_material(norm):
     bot.click(200, 488)
@@ -19,7 +19,7 @@ def enter_material(norm):
     bot.click(1780, 480)
     bot.sleep(0.3)
     bot.click(1650, 656)
-    bot.sleep(0.3)
+    bot.sleep(1)
     bot.click(340, 696)
     bot.sleep(0.3)
 
@@ -40,6 +40,8 @@ def main_function(serie):
 def save():
     bot.click(1832, 896)
     bot.sleep(1.5)
+    press_key('enter', 1)
+    bot.sleep(0.5)
 
 def press_key(key, times):
     for _ in range(times):
