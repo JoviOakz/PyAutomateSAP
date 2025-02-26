@@ -9,7 +9,7 @@ bot.click(1780, 14)
 excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
-line = 13
+line = 20
 
 def enter_material(norm):
     bot.click(200, 488)
@@ -50,7 +50,7 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-for _ in range(7):
+for _ in range(1):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 
