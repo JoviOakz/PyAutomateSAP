@@ -11,7 +11,7 @@ df = pd.read_excel(excel_path, engine='openpyxl')
 
 line = 0
 
-def main_function(norm, serie):
+def enter_material(norm):
     bot.click(200, 488)
     bot.sleep(0.3)
     bot.typewrite(str(norm))
@@ -23,22 +23,24 @@ def main_function(norm, serie):
     bot.click(340, 696)
     bot.sleep(0.3)
 
+def main_function(serie):
     if serie < 10:
         bot.typewrite('00' + str(serie))
     else:
         bot.typewrite('0' + str(serie))
     
-    bot.sleep(0.3)
+    bot.sleep(0.15)
     press_key('tab', 2)
-    bot.sleep(0.3)
+    bot.sleep(0.15)
     bot.typewrite('60')
-    bot.sleep(0.3)
+    bot.sleep(0.15)
     press_key('tab', 1)
-    bot.sleep(0.3)
+    bot.sleep(0.15)
     bot.typewrite('2.52')
-    bot.sleep(0.3)
+    bot.sleep(0.15)
     press_key('enter', 1)
-    bot.sleep(0.3)
+    bot.sleep(0.15)
+    bot.click(340, 696)
 
 def save():
     bot.click(1832, 896)
@@ -60,8 +62,10 @@ for _ in range(20):
     else:
         serie = 2
 
+    enter_material(norm)
+
     for __ in range(qty):
-        main_function(norm, serie)
+        main_function(serie)
 
     line += 1
     save()
