@@ -29,15 +29,10 @@ def main_function(serie):
     else:
         bot.typewrite('0' + str(serie))
     
-    bot.sleep(0.15)
     press_key('tab', 2)
-    bot.sleep(0.15)
     bot.typewrite('60')
-    bot.sleep(0.15)
     press_key('tab', 1)
-    bot.sleep(0.15)
     bot.typewrite('2.52')
-    bot.sleep(0.15)
     press_key('enter', 1)
     bot.sleep(0.15)
     bot.click(340, 696)
