@@ -10,7 +10,7 @@ bot.click(1802, 14)
 excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
-line = 0
+line = 1
 
 def press_key(key, times):
     for _ in range(times):
@@ -24,7 +24,7 @@ def save():
     bot.sleep(6)
     bot.click(1136, 664)
 
-for _ in range(23):
+for _ in range(22):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
     name = df.at[line, 'Nome']
@@ -130,3 +130,4 @@ for _ in range(23):
 
         save()
         serie += 1
+    line += 1
