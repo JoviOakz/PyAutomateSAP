@@ -1,8 +1,9 @@
 import pyautogui as bot
 import pandas as pd
+import pyperclip
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.3
+bot.PAUSE = 0.4175
 
 bot.click(1802, 14)
 
@@ -13,14 +14,14 @@ line = 0
 
 def press_key(key, times):
     for _ in range(times):
-        if key == 'ctrls':
-            bot.hotkey('ctrl', 's')
+        if key == 'ctrlv':
+            bot.hotkey('ctrl', 'v')
         else:
             bot.press(key)
 
 def save():
     bot.click(1850, 946)
-    bot.sleep(3)
+    bot.sleep(6)
     bot.click(1136, 664)
 
 for _ in range(23):
@@ -29,7 +30,7 @@ for _ in range(23):
     name = df.at[line, 'Nome']
 
     if norm == 4718301460:
-        serie = 2
+        serie = 6
     elif norm == 4718301303:
         serie = 3
     else:
@@ -42,10 +43,16 @@ for _ in range(23):
 
         bot.click(500, 390)
 
+        pyperclip.copy(name)
+
         if serie < 10:
-            bot.typewrite(str(name) + '0' + str(serie))
+            press_key('ctrlv', 1)
+            bot.sleep(0.1)
+            bot.typewrite('0' + str(serie))
         else:
-            bot.typewrite(str(name) + str(serie))
+            press_key('ctrlv', 1)
+            bot.sleep(0.1)
+            bot.typewrite(str(serie))
 
         press_key('tab', 2)
         bot.typewrite(str(norm))
@@ -62,7 +69,7 @@ for _ in range(23):
         press_key('tab', 1)
         bot.typewrite('15')
         press_key('tab', 1)
-        bot.moveTo(500, 580, 0.5)
+        bot.moveTo(500, 580, 0.15)
 
         bot.sleep(0.3)
         bot.scroll(-1000)
@@ -71,7 +78,7 @@ for _ in range(23):
         bot.click()
         
         press_key('tab', 1)
-        bot.moveTo(920, 580, 0.5)
+        bot.moveTo(920, 580, 0.15)
 
         bot.sleep(0.3)
         bot.scroll(-6000)
