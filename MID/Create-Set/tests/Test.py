@@ -20,51 +20,106 @@ def press_key(key, times):
 
 def save():
     bot.click(1850, 946)
-    bot.sleep(2)
-
-    TELA DE SUCCESS
-
-
+    bot.sleep(3)
+    bot.click(1136, 664)
 
 for _ in range(23):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
     name = df.at[line, 'Nome']
 
-    bot.click(1850, 946)
+    if norm == 4718301460:
+        serie = 2
+    elif norm == 4718301303:
+        serie = 3
+    else:
+        serie = 1
 
-    bot.sleep(1.5)
+    for __ in range(qty):
+        bot.click(1850, 946)
 
-    bot.click(500, 390)
-    bot.typewrite(str(name))
-    press_key('tab', 2)
-    bot.typewrite(str(norm))
-    bot.click(500, 520)
-    press_key('tab', 1)
+        bot.sleep(1.5)
 
-    bot.typewrite('SERIE')
-    
-    press_key('tab', 1)
-    bot.typewrite('100000')
-    press_key('tab', 1)
-    bot.typewrite('15')
-    press_key('tab', 1)
-    bot.moveTo(500, 580, 0.5)
-    bot.scroll(-1000)
-    bot.click()
-    press_key('tab', 1)
-    bot.moveTo(920, 580, 0.5)
-    bot.scroll(-6000)
-    bot.click()
-    press_key('tab', 1)
-    bot.typewrite('12')
-    bot.click(1272, 724)
-    press_key('tab', 2)
+        bot.click(500, 390)
 
-    bot.typewrite('SERIE')
-    
-    bot.click(1436, 1006)
-    bot.click(1436, 1006)
-    bot.scroll(-6000)
-    bot.click(1400, 766)
-    
+        if serie < 10:
+            bot.typewrite(str(name) + '0' + str(serie))
+        else:
+            bot.typewrite(str(name) + str(serie))
+
+        press_key('tab', 2)
+        bot.typewrite(str(norm))
+        bot.click(500, 520)
+        press_key('tab', 1)
+
+        if serie < 10:
+            bot.typewrite('00' + str(serie))
+        else:
+            bot.typewrite('0' + str(serie))
+        
+        press_key('tab', 1)
+        bot.typewrite('100000')
+        press_key('tab', 1)
+        bot.typewrite('15')
+        press_key('tab', 1)
+        bot.moveTo(500, 580, 0.5)
+
+        bot.sleep(0.3)
+        bot.scroll(-1000)
+        bot.sleep(0.3)
+
+        bot.click()
+        
+        press_key('tab', 1)
+        bot.moveTo(920, 580, 0.5)
+
+        bot.sleep(0.3)
+        bot.scroll(-6000)
+        bot.sleep(0.3)
+
+        bot.click()
+        
+        press_key('tab', 1)
+        bot.typewrite('12')
+
+        bot.sleep(0.3)
+        
+        bot.click(1272, 724)
+        press_key('tab', 2)
+
+        if serie < 10:
+            bot.typewrite('00' + str(serie))
+        else:
+            bot.typewrite('0' + str(serie))
+        
+        bot.click(510, 950)
+        bot.sleep(0.3)
+        bot.click(1436, 1006)
+        bot.sleep(0.3)
+        bot.scroll(-6000)
+        bot.sleep(0.3)
+
+        bot.click(500, 520)
+        bot.moveTo(582, 462, 0.15)
+        bot.scroll(-9735)
+        bot.click()
+        bot.sleep(0.3)
+        bot.click(1436, 510)
+        bot.sleep(0.3)
+
+        for ___ in range(15):
+            bot.click(500, 520)
+            bot.moveTo(582, 462, 0.15)
+            bot.scroll(-58)
+            bot.click()
+            bot.sleep(0.3)
+            bot.click(1436, 510)
+            bot.sleep(0.3)
+
+        bot.scroll(-6000)
+        bot.sleep(0.3)
+        bot.click(1400, 766)
+        bot.sleep(2)
+
+        save()
+        serie += 1
