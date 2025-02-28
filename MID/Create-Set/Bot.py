@@ -32,7 +32,7 @@ for _ in range(20):
     if norm == 4718301460:
         serie = 6
     elif norm == 4718301303:
-        serie = 3
+        serie = 6
     else:
         serie = 1
 
