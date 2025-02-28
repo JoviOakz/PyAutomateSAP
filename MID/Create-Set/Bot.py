@@ -3,7 +3,7 @@ import pandas as pd
 import pyperclip
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.4175
+bot.PAUSE = 0.5
 
 bot.click(1802, 14)
 
@@ -32,7 +32,7 @@ for _ in range(20):
     if norm == 4718301460:
         serie = 6
     elif norm == 4718301303:
-        serie = 6
+        serie = 13
     else:
         serie = 1
 
@@ -107,8 +107,11 @@ for _ in range(20):
         bot.sleep(0.3)
 
         bot.click(500, 520)
+        bot.sleep(0.3)
         bot.moveTo(582, 462, 0.15)
+        bot.sleep(0.3)
         bot.scroll(-9735)
+        bot.sleep(0.3)
         bot.click()
         bot.sleep(0.3)
         bot.click(1436, 510)
@@ -116,8 +119,11 @@ for _ in range(20):
 
         for ___ in range(15):
             bot.click(500, 520)
+            bot.sleep(0.3)
             bot.moveTo(582, 462, 0.15)
+            bot.sleep(0.3)
             bot.scroll(-58)
+            bot.sleep(0.3)
             bot.click()
             bot.sleep(0.3)
             bot.click(1436, 510)
