@@ -30,7 +30,7 @@ for _ in range(14):
     name = df.at[line, 'Nome']
 
     if norm == 4718301772:
-        serie = 14
+        serie = 20
     else:
         serie = 1
 
