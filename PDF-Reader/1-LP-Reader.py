@@ -16,15 +16,29 @@ def extract_text_from_pdf(pdf_path):
             rotated_image = image.rotate(0, expand=True)
  
             text = pytesseract.image_to_string(rotated_image)
-            text = text.replace("—", "-").replace("~", "-")
+
+            dictionary = {
+                "—":"-",
+                "~":"-",
+                ",":"",
+                "FL":"P-",
+                "F’":"P",
+                "_":"-",
+                "o":"0",
+                "O":"0",
+                "LP0":"LP-0",
+            }
             
-            index0 = text.index("LP-")
+            for key, value in dictionary.items():
+                text = text.replace(key, value)
+            
+            index0 = text.index("LP")
             index1 = text.index(" ", index0+1)
     
             lp = text[index0:index1]
             extracted_text.append(lp.strip())
         except Exception as e:
-            print("Error on page ", i+1, e)
+            print("Error on page", i+1, e)
 
     return extracted_text
 
@@ -32,6 +46,12 @@ def extract_text_from_pdf(pdf_path):
 pdf_path = "PDF-Reader/LPs - KW05-2.pdf"
 text = extract_text_from_pdf(pdf_path)
 text = [limpar_string(s) for s in text]
+
+text = [
+    t[:9] if len(t) > 9 else t[:3] + "0" + t[3:] if len(t) == 8 else t
+    for t in text
+]
+
 print(text)
 
 df = pd.DataFrame({"LP": text, "Status": ""})
