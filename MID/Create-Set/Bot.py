@@ -3,14 +3,14 @@ import pandas as pd
 import pyperclip
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.5
+bot.PAUSE = 0.55
 
 bot.click(1802, 14)
 
 excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
-line = 4
+line = 9
 
 def press_key(key, times):
     for _ in range(times):
@@ -24,15 +24,13 @@ def save():
     bot.sleep(6)
     bot.click(1136, 664)
 
-for _ in range(19):
+for _ in range(14):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
     name = df.at[line, 'Nome']
 
-    if norm == 4718301460:
-        serie = 6
-    elif norm == 4718301303:
-        serie = 17
+    if norm == 4718301772:
+        serie = 14
     else:
         serie = 1
 
@@ -127,7 +125,7 @@ for _ in range(19):
             bot.click()
             bot.sleep(0.5)
             bot.click(1436, 510)
-            bot.sleep(1)
+            bot.sleep(1.1)
 
         bot.scroll(-6000)
         bot.sleep(0.3)
