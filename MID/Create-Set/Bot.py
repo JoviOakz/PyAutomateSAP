@@ -115,7 +115,7 @@ for _ in range(19):
         bot.click()
         bot.sleep(0.3)
         bot.click(1436, 510)
-        bot.sleep(0.3)
+        bot.sleep(1)
 
         for ___ in range(15):
             bot.click(500, 520)
