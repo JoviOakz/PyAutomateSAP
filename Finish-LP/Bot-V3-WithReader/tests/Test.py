@@ -9,7 +9,7 @@ import pyperclip
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.25
+bot.PAUSE = 0.35
 
 arrowCoords = (15, 166, 400, 200)
 
@@ -120,9 +120,32 @@ def change_status_step_one():
         error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
         
         if error_exist:
-            # ================================================================================================================================
-            print('!')
-            # ================================================================================================================================
+            press_key('tab', 2)
+
+            bot.sleep(1)
+
+            bot.click(566, 700)
+
+            bot.sleep(1)
+
+            press_key('f3', 1)
+
+            bot.sleep(1.5)
+
+            try:
+                save_exist = list(bot.locateAllOnScreen('images/GRAVAR.png', grayscale=True, confidence=0.7))
+
+                if save_exist:
+                    press_key('tab', 1)
+
+                    press_key('enter', 1)
+                    
+                    bot.sleep(2)
+
+            except Exception:
+                print('Doesn\'t have any changes!')
+
+            df.at[0, 'Status'] = 'LP não existe!'
 
             return True
         
