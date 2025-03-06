@@ -35,7 +35,7 @@ def open_project():
 
     bot.sleep(2)
 
-    lp_value = df.at[0, 'LP']
+    lp_value = df.at[line, 'LP']
     pyperclip.copy(lp_value)
     bot.hotkey('ctrl', 'v')
     press_key('enter', 1)
@@ -46,7 +46,7 @@ def open_project():
         lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
         
         if lp_error_exist:
-            df.at[0, 'Status'] = 'LP não existe!'
+            df.at[line, 'Status'] = 'LP não existe!'
 
             return True
         
@@ -59,7 +59,7 @@ def open_project():
         have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
         
         if have_ence:
-            df.at[0, 'Status'] = 'Encerrado'
+            df.at[line, 'Status'] = 'Encerrado'
 
             return True
         
@@ -121,6 +121,7 @@ def change_status_step_one():
         
         if error_exist:
             press_key('tab', 2)
+            press_key('enter', 1)
 
             bot.sleep(1)
 
@@ -145,7 +146,7 @@ def change_status_step_one():
             except Exception:
                 print('Doesn\'t have any changes!')
 
-            df.at[0, 'Status'] = 'LP não existe!'
+            df.at[line, 'Status'] = 'Problema na linha de compra!'
 
             return True
         
@@ -444,7 +445,7 @@ def main_function(treeHeight, pending):
                     press_key('tab', 1)
                     press_key('enter', 1)
 
-                    df.at[0, 'Status'] = 'Compromisso pendente!'
+                    df.at[line, 'Status'] = 'Compromisso pendente!'
 
                     pending += 1
             
@@ -512,7 +513,7 @@ def conclusion():
 
     bot.sleep(2)
 
-    df.at[0, 'Status'] = 'Encerrado'
+    df.at[line, 'Status'] = 'Encerrado'
 
 # CONCLUDES THE ERROR STATUS OF LP
 def error_conclusion():
@@ -529,6 +530,7 @@ for _ in range(10):
     jump_main_function = False
     jump_all = False
     pending = 0
+    line = 0
 
     jump_all = open_project()
 
@@ -547,3 +549,5 @@ for _ in range(10):
                 conclusion()
             else:
                 error_conclusion()
+            
+    line += 1
