@@ -9,7 +9,7 @@ import pyperclip
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.25
+bot.PAUSE = 0.2
 
 arrowCoords = (15, 166, 400, 200)
 
@@ -47,6 +47,7 @@ def open_project():
         
         if lp_error_exist:
             df.at[line, 'Status'] = 'LP não existe!'
+            df.to_excel(excel_path, index=False, engine='openpyxl')
 
             return True
         
@@ -59,7 +60,8 @@ def open_project():
         have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
         
         if have_ence:
-            df.at[line, 'Status'] = 'Encerrado'
+            df.at[line, 'Status'] = 'Encerrado!'
+            df.to_excel(excel_path, index=False, engine='openpyxl')
 
             return True
         
@@ -147,6 +149,7 @@ def change_status_step_one():
                 print('Doesn\'t have any changes!')
 
             df.at[line, 'Status'] = 'Problema na linha de compra!'
+            df.to_excel(excel_path, index=False, engine='openpyxl')
 
             return True
         
@@ -446,6 +449,7 @@ def main_function(treeHeight, pending):
                     press_key('enter', 1)
 
                     df.at[line, 'Status'] = 'Compromisso pendente!'
+                    df.to_excel(excel_path, index=False, engine='openpyxl')
 
                     pending += 1
             
@@ -511,9 +515,10 @@ def main_function(treeHeight, pending):
 def conclusion():
     bot.hotkey('ctrl', 's')
 
-    bot.sleep(2)
+    bot.sleep(4.5)
 
-    df.at[line, 'Status'] = 'Encerrado'
+    df.at[line, 'Status'] = 'Encerrado!'
+    df.to_excel(excel_path, index=False, engine='openpyxl')
 
 # CONCLUDES THE ERROR STATUS OF LP
 def error_conclusion():
@@ -524,14 +529,17 @@ def error_conclusion():
     press_key('tab', 1)
     press_key('enter', 1)
 
+# EXCEL CONFIG
+qty = 34
+line = 3
+
 # MAIN PROGRAM
-for _ in range(10):
+for _ in range(qty):
     treeHeight = 250
     height_adjust_count = 0
     jump_main_function = False
     jump_all = False
     pending = 0
-    line = 0
 
     jump_all = open_project()
 
