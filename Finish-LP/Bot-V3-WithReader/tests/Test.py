@@ -38,7 +38,7 @@ def open_project():
     lp_value = df.at[0, 'LP']
     pyperclip.copy(lp_value)
     bot.hotkey('ctrl', 'v')
-    bot.press('enter')
+    press_key('enter', 1)
 
     bot.sleep(2)
 
@@ -129,14 +129,17 @@ def change_status_step_one():
     except Exception:
         return False
     
-# FUNCTION TO PRESS TAB X TIMES
-def press_tab(x):
-    for _ in range(x):
-        bot.press('tab')
+# FUNCTION TO PRESS COMMAND X TIMES
+def press_key(key, times):
+    for _ in range(times):
+        if key == 'ctrlv':
+            bot.hotkey('ctrl', 'v')
+        else:
+            bot.press(key)
     
 # CHANGE THE PURCHASE LINE STATUS
 def change_status_step_two():
-    press_tab(2)
+    press_key('tab', 2)
 
     bot.typewrite('92903610')
     
@@ -157,8 +160,8 @@ def change_status_step_two():
 
     bot.sleep(2)
 
-    press_tab(1)
-    bot.press('enter')
+    press_key('tab', 1)
+    press_key('enter', 1)
 
     bot.sleep(2)
 
@@ -166,13 +169,13 @@ def change_status_step_two():
         have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
         
         if have_info:
-            press_tab(1)
-            bot.press('enter')
+            press_key('tab', 1)
+            press_key('enter', 1)
 
             bot.sleep(2)
 
-            press_tab(1)
-            bot.press('enter')
+            press_key('tab', 1)
+            press_key('enter', 1)
 
             bot.sleep(2)
 
@@ -288,11 +291,11 @@ def open_tree():
 
                                                 bot.sleep(2)
 
-                                                bot.press('enter')
+                                                press_key('enter', 1)
 
                                                 bot.sleep(2)
 
-                                                bot.press('enter')
+                                                press_key('enter', 1)
 
                                                 bot.sleep(2)
 
@@ -307,13 +310,13 @@ def open_tree():
                                                     except Exception as e:
                                                         print(f'Error: {e}')
 
-                                                press_tab(2)
-                                                bot.press('enter')
+                                                press_key('tab', 2)
+                                                press_key('enter', 1)
 
                                                 bot.sleep(2)
 
-                                                press_tab(1)
-                                                bot.press('enter')
+                                                press_key('tab', 1)
+                                                press_key('enter', 1)
 
                                                 bot.sleep(2)
 
@@ -345,13 +348,13 @@ def open_tree():
                                 except Exception as e:
                                     print(f'Error: {e}')
 
-                            press_tab(2)
-                            bot.press('enter')
+                            press_key('tab', 2)
+                            press_key('enter', 1)
 
                             bot.sleep(2)
 
-                            press_tab(1)
-                            bot.press('enter')
+                            press_key('tab', 1)
+                            press_key('enter', 1)
 
                             bot.sleep(2)
                             
@@ -404,7 +407,7 @@ def main_function(treeHeight, pending):
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                 
                 if warning_exist:
-                    bot.press('enter')
+                    press_key('enter', 1)
 
                     bot.sleep(2)
 
@@ -415,8 +418,8 @@ def main_function(treeHeight, pending):
                 error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
 
                 if error_exist:
-                    press_tab(1)
-                    bot.press('enter')
+                    press_key('tab', 1)
+                    press_key('enter', 1)
 
                     df.at[0, 'Status'] = 'Compromisso pendente!'
 
@@ -444,7 +447,7 @@ def main_function(treeHeight, pending):
                     warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                     
                     if warning_exist:
-                        bot.press('enter')
+                        press_key('enter', 1)
 
                         bot.sleep(2)
 
@@ -466,7 +469,7 @@ def main_function(treeHeight, pending):
                         warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                         
                         if warning_exist:
-                            bot.press('enter')
+                            press_key('enter', 1)
 
                             bot.sleep(2)
 
@@ -488,14 +491,14 @@ def conclusion():
 
     df.at[0, 'Status'] = 'Encerrado'
 
-# CONCLUDES THE ERROR STATUS OFF LP
+# CONCLUDES THE ERROR STATUS OF LP
 def error_conclusion():
-    bot.press('f3')
+    press_key('f3', 1)
 
     bot.sleep(2)
 
-    press_tab(1)
-    bot.press('enter')
+    press_key('tab', 1)
+    press_key('enter', 1)
 
 # MAIN PROGRAM
 for _ in range(10):
