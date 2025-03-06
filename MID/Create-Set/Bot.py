@@ -10,7 +10,7 @@ bot.click(1802, 14)
 excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
-line = 9
+line = 21
 
 def press_key(key, times):
     for _ in range(times):
@@ -24,13 +24,13 @@ def save():
     bot.sleep(6)
     bot.click(1136, 664)
 
-for _ in range(14):
+for _ in range(2):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
     name = df.at[line, 'Nome']
 
-    if norm == 4718301772:
-        serie = 20
+    if norm == 4718301758:
+        serie = 3
     else:
         serie = 1
 
