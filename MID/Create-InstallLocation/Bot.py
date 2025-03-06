@@ -15,11 +15,13 @@ def press_key(key, times):
     for _ in range(times):
         if key == 'shtab':
             bot.hotkey('shift', 'tab')
+        elif key == 'ctrla':
+            bot.hotkey('ctrl', 'a')
         else:
             bot.press(key)
 
 def main_function(serie):
-    bot.hotkey('ctrl', 'a')
+    press_key('ctrla', 1)
 
     if serie < 10:
         bot.typewrite(str(norm) + '-00' + str(serie))
@@ -32,7 +34,7 @@ def main_function(serie):
     press_key('enter', 1)
     bot.sleep(2)
 
-    bot.press('right')
+    press_key('right', 1)
     press_key('backspace', 3)
 
     if serie < 10:
@@ -42,33 +44,33 @@ def main_function(serie):
 
     press_key('tab', 10)
     bot.sleep(0.5)
-    bot.typewrite('18.02.2025')
+    bot.typewrite('07.03.2025')
     bot.sleep(0.5)
     press_key('shtab', 7)
     bot.sleep(0.5)
     press_key('right', 3)
     bot.sleep(0.5)
-    bot.press('enter')
+    press_key('enter', 1)
     bot.sleep(2)
 
-    bot.press('tab')
+    press_key('tab', 1)
     bot.sleep(0.5)
-    bot.press('enter')
+    press_key('enter', 1)
     bot.sleep(1.5)
-    bot.typewrite('6854D110-412')
+    bot.typewrite('6854D120-438')
     bot.sleep(0.5)
-    bot.press('enter')
+    press_key('enter', 1)
     bot.sleep(1.5)
-    bot.press('tab')
+    press_key('tab', 1)
     bot.sleep(0.5)
-    bot.press('enter')
+    press_key('enter', 1)
     bot.sleep(1.25)
-    bot.press('enter')
+    press_key('enter', 1)
     bot.sleep(1.25)
     
     bot.hotkey('ctrl', 's')
 
-for _ in range(12):
+for _ in range(2):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 
@@ -78,10 +80,12 @@ for _ in range(12):
 
     press_key('shtab', 3)
 
-    if norm == 4718301815:
-        serie = 3
-    else:
-        serie = 2
+    # if norm == 4718301815:
+    #     serie = 3
+    # else:
+    #     serie = 2
+
+    serie = 2
 
     for __ in range(qty):
         main_function(serie)
