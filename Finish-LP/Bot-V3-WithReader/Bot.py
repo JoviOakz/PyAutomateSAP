@@ -9,7 +9,7 @@ import pyperclip
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.35
+bot.PAUSE = 0.25
 
 arrowCoords = (15, 166, 400, 200)
 
@@ -527,6 +527,7 @@ def error_conclusion():
 # MAIN PROGRAM
 for _ in range(10):
     treeHeight = 250
+    height_adjust_count = 0
     jump_main_function = False
     jump_all = False
     pending = 0
