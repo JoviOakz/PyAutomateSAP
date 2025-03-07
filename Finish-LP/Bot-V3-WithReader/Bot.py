@@ -500,6 +500,8 @@ def main_function(treeHeight, pending):
                     df.at[line, 'Status'] = 'Compromisso pendente!'
                     df.to_excel(excel_path, index=False, engine='openpyxl')
 
+                    bot.sleep(5)
+
                     pending += 1
             
             except Exception:
@@ -564,10 +566,10 @@ def main_function(treeHeight, pending):
 def conclusion():
     bot.hotkey('ctrl', 's')
 
-    bot.sleep(5)
-
     df.at[line, 'Status'] = 'Encerrado!'
     df.to_excel(excel_path, index=False, engine='openpyxl')
+    
+    bot.sleep(5)
 
 # CONCLUDES THE ERROR STATUS OF LP
 def error_conclusion():
@@ -578,9 +580,11 @@ def error_conclusion():
     press_key('tab', 1)
     press_key('enter', 1)
 
+    bot.sleep(5)
+
 # EXCEL CONFIG
-qty = 8
-line = 30
+qty = 93
+line = 0
 
 # MAIN PROGRAM
 for _ in range(qty):
