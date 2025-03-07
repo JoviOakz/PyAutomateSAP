@@ -17,9 +17,9 @@ first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
 second_sequence = [(150, 13), (183, 79), (404, 276), (698, 271)]
 
 coordinates = [
-    ((474, 430, 33, 26), (488, 440)),
-    ((470, 455, 33, 26), (488, 470)),
-    ((605, 455, 33, 26), (622, 470))
+    ((952, 430, 33, 26), (966, 440)),
+    ((948, 455, 33, 26), (966, 470)),
+    ((605, 455, 33, 26), (1102, 470))
 ]
 
 # PUT DOWN THE CODE SCREEN
@@ -33,14 +33,14 @@ df = pd.read_excel(excel_path, engine='openpyxl')
 def open_project():
     bot.click(26, 146)
 
-    bot.sleep(1)
+    bot.sleep(1.75)
 
     lp_value = df.at[line, 'LP']
     pyperclip.copy(lp_value)
     bot.hotkey('ctrl', 'v')
     press_key('enter', 1)
 
-    bot.sleep(2)
+    bot.sleep(1.75)
 
     try:
         lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
@@ -54,7 +54,25 @@ def open_project():
     except Exception:
         print('LP exists!')
 
-    bot.sleep(1)
+    bot.sleep(1.75)
+
+    try:
+        lbpa_status = bot.locateOnScreen('images/LBPA.png', grayscale=True, confidence=0.9)
+        
+        if lbpa_status:
+            bot.click(150, 15)
+            bot.click(210, 75)
+            bot.click(470, 75)
+
+            bot.sleep(1.5)
+
+            bot.click(42, 230)
+            bot.moveTo(120, 150, 0.3)
+            
+            bot.sleep(0.5)
+
+    except Exception:
+        print('LBPA status not found!')
 
     try:
         have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
@@ -62,6 +80,10 @@ def open_project():
         if have_ence:
             df.at[line, 'Status'] = 'Encerrado!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
+
+            press_key('f3', 1)
+
+            bot.sleep(2.5)
 
             return True
         
@@ -74,18 +96,18 @@ def open_project():
 def change_status_step_one():
     bot.click(580, 236)
 
-    bot.sleep(1)
+    bot.sleep(2)
 
     bot.click(486, 884)
 
-    bot.sleep(1)
+    bot.sleep(2)
 
     bot.moveTo(606, 848)
     bot.mouseDown()
     bot.moveTo(846, 848, duration=0.25)
     bot.mouseUp()
 
-    bot.sleep(1)
+    bot.sleep(2)
 
     try:
         have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
@@ -93,30 +115,45 @@ def change_status_step_one():
         if have_baixa:
             bot.click(150, 15)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
             bot.click(240, 75)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
             bot.click(500, 270)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
             bot.click(690, 300)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
     except Exception as e:
         print(f'Erro: {e}')
 
     bot.click(486, 884)
 
-    bot.sleep(1)
+    bot.sleep(2)
 
     bot.click(600, 884)
 
-    bot.sleep(1)
+    bot.sleep(2)
+
+    try:
+        conf_exist = list(bot.locateAllOnScreen('images/CONFORDEM.png', grayscale=True, confidence=0.7))
+        
+        if conf_exist:
+            press_key('enter', 1)
+
+            bot.sleep(1.5)
+
+            press_key('enter', 1)
+
+            bot.sleep(1.5)
+
+    except Exception:
+        print('Line is liberate for change!')
 
     try:
         error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
@@ -168,6 +205,8 @@ def press_key(key, times):
 def change_status_step_two():
     press_key('tab', 2)
 
+    bot.sleep(0.3)
+
     bot.typewrite('92903610')
     
     for region, click_position in coordinates:
@@ -181,16 +220,26 @@ def change_status_step_two():
         except Exception:
             bot.click(click_position)
 
-    bot.sleep(1)
+    bot.sleep(2)
 
     bot.click(1128, 988)
 
-    bot.sleep(1)
+    bot.sleep(2)
 
-    press_key('tab', 1)
-    press_key('enter', 1)
+    try:
+        conf_exist = list(bot.locateAllOnScreen('images/CONFORDEM.png', grayscale=True, confidence=0.7))
+        
+        if conf_exist:
+            press_key('tab', 2)
+            press_key('enter', 1)
 
-    bot.sleep(1)
+            bot.sleep(1.5)
+
+    except Exception:
+        press_key('tab', 1)
+        press_key('enter', 1)
+
+    bot.sleep(2)
 
     try:
         have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
@@ -199,12 +248,12 @@ def change_status_step_two():
             press_key('tab', 1)
             press_key('enter', 1)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
             press_key('tab', 1)
             press_key('enter', 1)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
     except Exception:
         print('Don\'t have any additional information!')
@@ -217,11 +266,11 @@ def open_tree():
         if have_diagram:
             bot.click(46, 232)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
             bot.click(186, 252)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
             try:
                 have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
@@ -233,19 +282,19 @@ def open_tree():
                         if have_purchase:
                             bot.click(150, 15)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                             bot.click(240, 75)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                             bot.click(520, 270)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                             bot.click(680, 300)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                             try:
                                 ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
@@ -253,37 +302,37 @@ def open_tree():
                                 if ente_location:
                                     bot.click(150, 15)
 
-                                    bot.sleep(1)
+                                    bot.sleep(2)
 
                                     bot.click(240, 75)
 
-                                    bot.sleep(1)
+                                    bot.sleep(2)
 
                                     bot.click(520, 200)
 
-                                    bot.sleep(1)
+                                    bot.sleep(2)
 
                                     bot.click(680, 240)
 
-                                    bot.sleep(1)
+                                    bot.sleep(2)
 
                             except Exception:
                                 print('Don\'t have ENTE status!')
 
                             bot.click(580, 240)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                             bot.click(484, 884)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                             bot.moveTo(606, 848)
                             bot.mouseDown()
                             bot.moveTo(846, 848, duration=0.25)
                             bot.mouseUp()
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                             try:
                                 check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
@@ -296,35 +345,35 @@ def open_tree():
                                             if len(check_box) != len(have_baixa):
                                                 bot.click(150, 15)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 bot.click(240, 75)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 bot.click(520, 270)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 bot.click(680, 300)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 bot.click(484, 884)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 bot.click(600, 884)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 press_key('enter', 1)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 press_key('enter', 1)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 warning_exist = None
                                                 
@@ -340,12 +389,12 @@ def open_tree():
                                                 press_key('tab', 2)
                                                 press_key('enter', 1)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                                 press_key('tab', 1)
                                                 press_key('enter', 1)
 
-                                                bot.sleep(1)
+                                                bot.sleep(2)
 
                                     except Exception as e:
                                         print(f'Erro: {e}')
@@ -378,12 +427,12 @@ def open_tree():
                             press_key('tab', 2)
                             press_key('enter', 1)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                             press_key('tab', 1)
                             press_key('enter', 1)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
                             
                         else:
                             return True
@@ -393,7 +442,7 @@ def open_tree():
 
             bot.click(582, 208)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
     except Exception:
         print('Don\'t have diagram!')
@@ -411,7 +460,7 @@ def adjust_tree_height(height):
         height -= 40
         bot.click(186, height)
 
-        bot.sleep(1)
+        bot.sleep(2)
 
         height_adjust_count += 1
 
@@ -424,11 +473,11 @@ def main_function(treeHeight, pending):
         if lib_location:
             ence_sequence(first_sequence)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
             ence_sequence(second_sequence)
 
-            bot.sleep(1)
+            bot.sleep(2)
 
             try:
                 warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
@@ -436,7 +485,7 @@ def main_function(treeHeight, pending):
                 if warning_exist:
                     press_key('enter', 1)
 
-                    bot.sleep(1)
+                    bot.sleep(2)
 
             except Exception:
                 print('WARNING don\'t exists!')
@@ -465,11 +514,11 @@ def main_function(treeHeight, pending):
             if aber_location:
                 ence_sequence(first_sequence)
 
-                bot.sleep(1)
+                bot.sleep(2)
 
                 ence_sequence(second_sequence)
 
-                bot.sleep(1)
+                bot.sleep(2)
 
                 try:
                     warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
@@ -477,7 +526,7 @@ def main_function(treeHeight, pending):
                     if warning_exist:
                         press_key('enter', 1)
 
-                        bot.sleep(1)
+                        bot.sleep(2)
 
                 except Exception:
                     print('WARNING don\' exists!')
@@ -491,7 +540,7 @@ def main_function(treeHeight, pending):
                 if ente_location:
                     ence_sequence(second_sequence)
 
-                    bot.sleep(1)
+                    bot.sleep(2)
 
                     try:
                         warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
@@ -499,7 +548,7 @@ def main_function(treeHeight, pending):
                         if warning_exist:
                             press_key('enter', 1)
 
-                            bot.sleep(1)
+                            bot.sleep(2)
 
                     except Exception:
                         print('WARNING don\' exists!')
@@ -515,7 +564,7 @@ def main_function(treeHeight, pending):
 def conclusion():
     bot.hotkey('ctrl', 's')
 
-    bot.sleep(4.5)
+    bot.sleep(5)
 
     df.at[line, 'Status'] = 'Encerrado!'
     df.to_excel(excel_path, index=False, engine='openpyxl')
@@ -530,8 +579,8 @@ def error_conclusion():
     press_key('enter', 1)
 
 # EXCEL CONFIG
-qty = 33
-line = 4
+qty = 8
+line = 30
 
 # MAIN PROGRAM
 for _ in range(qty):
@@ -542,8 +591,6 @@ for _ in range(qty):
     pending = 0
 
     jump_all = open_project()
-
-    bot.sleep(2)
 
     if not jump_all:
         jump_main_function = open_tree()
