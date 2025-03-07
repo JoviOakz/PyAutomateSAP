@@ -9,7 +9,7 @@ import pyperclip
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.2
+bot.PAUSE = 0.25
 
 arrowCoords = (15, 166, 400, 200)
 
@@ -568,7 +568,7 @@ def conclusion():
 
     df.at[line, 'Status'] = 'Encerrado!'
     df.to_excel(excel_path, index=False, engine='openpyxl')
-    
+
     bot.sleep(5)
 
 # CONCLUDES THE ERROR STATUS OF LP
@@ -583,8 +583,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-qty = 93
-line = 0
+qty = 11
+line = 83
 
 # MAIN PROGRAM
 for _ in range(qty):
