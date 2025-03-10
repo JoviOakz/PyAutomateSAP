@@ -57,7 +57,12 @@ def main_function(serie):
     bot.sleep(0.5)
     press_key('enter', 1)
     bot.sleep(1.5)
-    bot.typewrite('6854D120-438')
+
+    if norm == 4729108508 or 4328700313:
+        bot.typewrite('6854D120-438')
+    else:
+        bot.typewrite('6854D120-434')
+
     bot.sleep(0.5)
     press_key('enter', 1)
     bot.sleep(1.5)
