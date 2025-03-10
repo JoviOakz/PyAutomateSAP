@@ -58,10 +58,7 @@ def main_function(serie):
     press_key('enter', 1)
     bot.sleep(1.5)
 
-    if norm == 4729108508 or 4328700313:
-        bot.typewrite('6854D120-438')
-    else:
-        bot.typewrite('6854D120-434')
+    bot.typewrite('6854D110-434')
 
     bot.sleep(0.5)
     press_key('enter', 1)
@@ -75,7 +72,7 @@ def main_function(serie):
     
     bot.hotkey('ctrl', 's')
 
-line = 1
+line = 2
 
 for _ in range(3):
     norm = df.at[line, 'Norma']
@@ -87,8 +84,8 @@ for _ in range(3):
 
     press_key('shtab', 3)
 
-    if norm == 4328700313:
-        serie = 4
+    if norm == 4729106784:
+        serie = 33
     else:
         serie = 2
 
