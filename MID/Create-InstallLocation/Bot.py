@@ -44,7 +44,9 @@ def main_function(serie):
 
     press_key('tab', 10)
     bot.sleep(0.5)
-    bot.typewrite('07.03.2025')
+
+    bot.typewrite('10.03.2025')
+    
     bot.sleep(0.5)
     press_key('shtab', 7)
     bot.sleep(0.5)
