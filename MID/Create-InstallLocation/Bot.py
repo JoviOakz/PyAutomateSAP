@@ -72,7 +72,7 @@ def main_function(serie):
     
     bot.hotkey('ctrl', 's')
 
-line = 2
+line = 3
 
 for _ in range(3):
     norm = df.at[line, 'Norma']
@@ -85,7 +85,7 @@ for _ in range(3):
     press_key('shtab', 3)
 
     if norm == 4729106784:
-        serie = 33
+        serie = 42
     else:
         serie = 2
 
