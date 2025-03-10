@@ -6,8 +6,6 @@ bot.PAUSE = 0.25
 
 bot.click(1802, 14)
 
-line = 0
-
 excel_path = "LocInst.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
@@ -46,7 +44,7 @@ def main_function(serie):
     bot.sleep(0.5)
 
     bot.typewrite('10.03.2025')
-    
+
     bot.sleep(0.5)
     press_key('shtab', 7)
     bot.sleep(0.5)
@@ -77,7 +75,9 @@ def main_function(serie):
     
     bot.hotkey('ctrl', 's')
 
-for _ in range(2):
+line = 1
+
+for _ in range(3):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 
