@@ -87,12 +87,10 @@ for _ in range(3):
 
     press_key('shtab', 3)
 
-    # if norm == 4718301815:
-    #     serie = 3
-    # else:
-    #     serie = 2
-
-    serie = 2
+    if norm == 4328700313:
+        serie = 4
+    else:
+        serie = 2
 
     for __ in range(qty):
         main_function(serie)
