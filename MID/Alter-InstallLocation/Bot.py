@@ -1,46 +1,77 @@
 import pyautogui as bot
+import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.25
+bot.PAUSE = 0.35
 
 bot.click(1802, 14)
 
+excel_path = "LocInst.xlsx"
+df = pd.read_excel(excel_path, engine='openpyxl')
+
 def press_key(key, times):
     for _ in range(times):
-        if key == 'ctrla':
+        if key == 'shtab':
+            bot.hotkey('shift', 'tab')
+        elif key == 'ctrla':
             bot.hotkey('ctrl', 'a')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
         else:
             bot.press(key)
 
-serie = 6
+line = 0
 
-for _ in range(64):
-    press_key('ctrla', 1)
-    press_key('right', 1)
-    
-    if serie < 10:
-        press_key('backspace', 2)
+for _ in range(24):
+    norm = df.at[line, 'Norma']
+    qty = df.at[line, 'Quantidade']
+
+    if norm == 4718301460:
+        serie = 2
     else:
-        press_key('backspace', 3)
-        
-    bot.typewrite(str(serie))
-    press_key('enter', 1)
+        serie = 1
 
-    bot.sleep(1.5)
+    for __ in range(qty):
+        if serie < 10:
+            bot.typewrite(str(norm) + '-00' + str(serie))
+        else:
+            bot.typewrite(str(norm) + '-0' + str(serie))
 
-    if serie < 10:
-        var = '0' + str(serie)
-    else:
-        var = str(serie)
+        press_key('enter', 1)
 
-    bot.typewrite('Encosto Agulha CRI, P e Zexel - 0' + var)
+        bot.sleep(2)
 
-    bot.sleep(0.3)
+        press_key('tab', 3)
+        press_key('right', 1)
+        press_key('enter', 1)
 
-    press_key('ctrls', 1)
+        bot.sleep(2)
 
-    serie += 1
+        press_key('tab', 1)
+        bot.typewrite('6854')
+        press_key('tab', 1)
+        bot.typewrite('CT/303')
+        press_key('tab', 2)
+        bot.typewrite('ZBP')
 
-    bot.sleep(3)
+        press_key('shtab', 4)
+        press_key('right', 1)
+        press_key('enter', 1)
+
+        bot.sleep(2)
+
+        press_key('tab', 4)
+        bot.typewrite('685412')
+        press_key('tab', 6)
+        bot.typewrite('FF0600')
+        press_key('tab', 1)
+        bot.typewrite('6854')
+        press_key('tab', 1)
+        bot.typewrite('ZBR000008')
+
+        press_key('ctrls', 1)
+
+        bot.sleep(2)
+
+        serie += 1
+    line += 1
