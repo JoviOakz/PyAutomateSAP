@@ -583,8 +583,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-qty = 11
-line = 83
+qty = 13
+line = 0
 
 # MAIN PROGRAM
 for _ in range(qty):

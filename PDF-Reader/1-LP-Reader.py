@@ -43,7 +43,7 @@ def extract_text_from_pdf(pdf_path):
     return extracted_text
 
 # CHANGE PDF PATH
-pdf_path = "PDF-Reader/LPs - KW05.pdf"
+pdf_path = "PDF-Reader/LPs - Pendente.pdf"
 text = extract_text_from_pdf(pdf_path)
 text = [limpar_string(s) for s in text]
 
