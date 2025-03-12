@@ -2,7 +2,7 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 1
+bot.PAUSE = 0.35
 
 bot.click(1802, 14)
 
@@ -20,14 +20,14 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-line = 1
+line = 2
 
 for _ in range(4):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 
-    if norm == 4328700313:
-        serie = 18
+    if norm == 4729106784:
+        serie = 53
     else:
         serie = 1
 
@@ -39,16 +39,17 @@ for _ in range(4):
 
         press_key('enter', 1)
 
-        bot.sleep(1.5)
+        bot.sleep(2.25)
 
         press_key('tab', 3)
         press_key('right', 1)
         press_key('enter', 1)
 
-        bot.sleep(1.25)
+        bot.sleep(2)
 
         press_key('tab', 1)
         bot.typewrite('6854')
+        bot.sleep(0.75)
         press_key('tab', 1)
         bot.typewrite('CT/303')
         press_key('tab', 2)
@@ -58,7 +59,7 @@ for _ in range(4):
         press_key('right', 1)
         press_key('enter', 1)
 
-        bot.sleep(1.25)
+        bot.sleep(2)
 
         press_key('tab', 4)
 
@@ -67,20 +68,23 @@ for _ in range(4):
         else:
             bot.typewrite('685434')
         
+        bot.sleep(0.75)
         press_key('tab', 6)
         bot.typewrite('FF0600')
+        bot.sleep(0.75)
         press_key('tab', 1)
         bot.typewrite('6854')
+        bot.sleep(0.75)
         press_key('tab', 1)
         bot.typewrite('ZBR000008')
 
-        bot.sleep(0.5)
+        bot.sleep(1.25)
 
         press_key('enter', 1)
-        bot.sleep(1.5)
+        bot.sleep(2.25)
         press_key('ctrls', 1)
 
-        bot.sleep(2.25)
+        bot.sleep(3)
 
         serie += 1
     line += 1
