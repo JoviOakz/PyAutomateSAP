@@ -2,7 +2,7 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 1
 
 bot.click(1802, 14)
 
@@ -20,14 +20,14 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-line = 3
+line = 17
 
-for _ in range(24):
+for _ in range(7):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 
-    if norm == 4718301303:
-        serie = 32
+    if norm == 4718301814:
+        serie = 2
     else:
         serie = 1
 
