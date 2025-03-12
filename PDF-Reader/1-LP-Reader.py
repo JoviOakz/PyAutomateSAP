@@ -13,7 +13,7 @@ def extract_text_from_pdf(pdf_path):
     for i, image in enumerate(images):
         try:
             # CHANGE ROTATION
-            rotated_image = image.rotate(90, expand=True)
+            rotated_image = image.rotate(180, expand=True)
  
             text = pytesseract.image_to_string(rotated_image)
 
@@ -27,6 +27,7 @@ def extract_text_from_pdf(pdf_path):
                 "o":"0",
                 "O":"0",
                 "LP0":"LP-0",
+                "LPO":"LP-0",
             }
             
             for key, value in dictionary.items():
@@ -43,7 +44,7 @@ def extract_text_from_pdf(pdf_path):
     return extracted_text
 
 # CHANGE PDF PATH
-pdf_path = "PDF-Reader/LPs - Pendente.pdf"
+pdf_path = "PDF-Reader/LPs - KW06 - pé.pdf"
 text = extract_text_from_pdf(pdf_path)
 text = [limpar_string(s) for s in text]
 
