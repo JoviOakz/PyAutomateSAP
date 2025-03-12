@@ -20,14 +20,14 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-line = 17
+line = 1
 
-for _ in range(7):
+for _ in range(4):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 
-    if norm == 4718301814:
-        serie = 2
+    if norm == 4328700313:
+        serie = 18
     else:
         serie = 1
 
@@ -61,7 +61,12 @@ for _ in range(7):
         bot.sleep(1.25)
 
         press_key('tab', 4)
-        bot.typewrite('685412')
+
+        if norm == 4729108508 or norm == 4328700313:
+            bot.typewrite('685438')
+        else:
+            bot.typewrite('685434')
+        
         press_key('tab', 6)
         bot.typewrite('FF0600')
         press_key('tab', 1)
