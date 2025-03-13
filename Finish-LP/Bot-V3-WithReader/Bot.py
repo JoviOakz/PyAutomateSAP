@@ -235,9 +235,11 @@ def change_status_step_two():
 
             bot.sleep(1.5)
 
+            press_key('tab', 1)
+            press_key('enter', 1)
+
     except Exception:
-        press_key('tab', 1)
-        press_key('enter', 1)
+        print('Don\'t have any additional information!')
 
     bot.sleep(2)
 
@@ -257,7 +259,7 @@ def change_status_step_two():
 
     except Exception:
         print('Don\'t have any additional information!')
-
+    
 # OPEN TREE AND ALSO CHANGE THE PURCHASE STATUS IF EXISTS
 def open_tree():
     try:
@@ -376,7 +378,7 @@ def open_tree():
                                                 bot.sleep(2)
 
                                                 warning_exist = None
-                                                
+
                                                 while not warning_exist:
                                                     try:
                                                         change_status_step_two()
