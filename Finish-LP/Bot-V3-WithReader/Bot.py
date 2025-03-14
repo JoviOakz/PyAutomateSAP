@@ -66,6 +66,8 @@ def open_project():
 
             bot.sleep(1.5)
 
+            bot.click(60, 254)
+            bot.sleep(0.5)
             bot.click(42, 230)
             bot.moveTo(120, 150, 0.3)
             
@@ -585,8 +587,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-qty = 13
-line = 0
+qty = 25
+line = 2
 
 # MAIN PROGRAM
 for _ in range(qty):
