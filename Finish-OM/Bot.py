@@ -89,8 +89,8 @@ def com_complete():
     bot.sleep(1.5)
 
 # EXCEL CONFIG
-qty = 34
-line = 24
+qty = 31
+line = 0
 
 # MAIN PROGRAM
 for _ in range(qty):
