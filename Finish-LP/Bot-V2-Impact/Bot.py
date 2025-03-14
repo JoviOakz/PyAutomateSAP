@@ -61,6 +61,20 @@ def open_project(projectHeight):
     except Exception:
         print('Projeto não encerrado ainda')
 
+    try:
+        have_lbpa = bot.locateOnScreen('images/LBPA.png', grayscale=True, confidence=0.9)
+        if have_lbpa:
+            bot.click(150, 15)
+            bot.click(210, 75)
+            bot.click(470, 75)
+            bot.sleep(1.5)
+            bot.click(60, 254)
+            bot.sleep(0.5)
+            bot.click(42, 230)
+            bot.moveTo(120, 150, 0.3)
+    except Exception:
+        print('Está liberado')
+
     return projectHeight + 17, False
 
 # muda o status das linhas de compra
