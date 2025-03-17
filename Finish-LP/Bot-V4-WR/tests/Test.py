@@ -42,20 +42,6 @@ def ence_sequence(coords):
     for x, y in coords:
         bot.click(x, y)
 
-# ADJUSTS THE TREE HEIGHT VARIABLE
-def adjust_tree_height(height):
-    global height_adjust_count
-    
-    if height_adjust_count < 1:
-        height -= 40
-        bot.click(186, height)
-
-        bot.sleep(2)
-
-        height_adjust_count += 1
-
-    return height
-
 # OPEN THE PROJECT
 def open_project():
     bot.click(26, 146)
@@ -102,9 +88,9 @@ def project_status():
         print('Project don\'t finished yet!')
 
     try:
-        lbpa_status = bot.locateOnScreen('../images/LBPA.png', grayscale=True, confidence=0.9)
+        have_lbpa = bot.locateOnScreen('../images/LBPA.png', grayscale=True, confidence=0.9)
         
-        if lbpa_status:
+        if have_lbpa:
             bot.click(150, 15)
             bot.click(210, 75)
             bot.click(470, 75)
@@ -163,13 +149,11 @@ def diagram_have_ence():
 # FINISH THE TREE LINE STATUS
 def finish_tree_line():
     try:
-        aber_location = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
+        have_aber = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
         
-        if aber_location:
+        if have_aber:
             ence_sequence(first_sequence)
-
             bot.sleep(2)
-
             ence_sequence(second_sequence)
 
             bot.sleep(2)
@@ -183,9 +167,73 @@ def finish_tree_line():
                     bot.sleep(2)
 
             except Exception:
-                print('WARNING don\' exists!')
+                print('WARNING don\'t exist!')
+
     except Exception:
-        print('x')
+        try:
+            have_lib = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
+            
+            if have_lib:
+                ence_sequence(first_sequence)
+                bot.sleep(2)
+                ence_sequence(second_sequence)
+
+                bot.sleep(2)
+
+                try:
+                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                    
+                    if warning_exist:
+                        press_key('enter', 1)
+
+                        bot.sleep(2)
+
+                except Exception:
+                    print('WARNING don\'t exists!')
+
+                try:
+                    error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+
+                    if error_exist:
+                        press_key('tab', 1)
+                        press_key('enter', 1)
+
+                        df.at[line, 'Status'] = 'Compromisso pendente!'
+                        df.to_excel(excel_path, index=False, engine='openpyxl')
+
+                        bot.sleep(5)
+
+                        pending += 1
+                
+                except Exception:
+                    print('Doesn\'t have pending commitment!')
+
+        except Exception:
+            try:
+                have_ente = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
+                
+                if have_ente:
+                    ence_sequence(second_sequence)
+
+                    bot.sleep(2)
+
+                    try:
+                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                        
+                        if warning_exist:
+                            press_key('enter', 1)
+
+                            bot.sleep(2)
+
+                    except Exception:
+                        print('WARNING don\'t exists!')
+
+            except Exception as e:
+                print(f'Error: {e}')
+
+# =======================================================================
+# ADICIONAR NO FINISH_TREE_LINE UM VERIFICADOR DE ERRO NO ENCERRAMENTO
+# =======================================================================
 
 
 
@@ -198,29 +246,10 @@ def finish_tree_line():
 
 
 
-
-
-
-
-
-
-
-
-
-
-# ========================================================================
-def main_function():
-    print('function')
-# ========================================================================
-
-
-
-
-
-
-
-
-
+# =======================================================================
+def ence_purchase_line():
+    print('x')
+# =======================================================================
 
 
 
@@ -272,8 +301,6 @@ for _ in range(qty):
     jump_main_function = False
     diagram = True
 
-    treeHeight = 250
-    height_adjust_count = 0
     pending = 0
 
     open_project()
@@ -285,14 +312,20 @@ for _ in range(qty):
 
         if not diagram:
             finish_tree_line()
-
-        jump_main_function = 
+            jump_main_function = True
 
         if not jump_main_function:
-            for __ in range(2):
-                treeHeight, pending = main_function(treeHeight, pending)
+            diagram_have_ence()
+            
+            # if ALGUMA COISA: 
+                # ence_purchase_line()
 
-                bot.sleep(2)
+            finish_tree_line()
+
+            bot.click(186, 212)
+            bot.sleep(2)
+            
+            finish_tree_line()
 
             if pending == 0:
                 conclusion()
