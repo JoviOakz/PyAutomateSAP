@@ -1,6 +1,7 @@
 # --- README ---
 # TESTS NEED '../' BEFORE THE PATH OF IMAGES
-# TESTS NEED '../../../' BEFORE THE PATH OF PDF
+# TESTS NEED '../../../' BEFORE THE EXCEL PATH
+# TESTS NEED '../../../' BEFORE THE PDF PATH
 
 # LIBRARIES
 import pyautogui as bot
@@ -26,7 +27,7 @@ coordinates = [
 bot.click(1802, 14)
 
 # EXCEL CONFIGURATION
-excel_path = "../../Open-LPs.xlsx"
+excel_path = "../../../Open-LPs.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
 # OPEN THE PROJECT AND IDENTIFIES IF EXISTS OR IS ALREADY FINISHED
@@ -43,7 +44,7 @@ def open_project():
     bot.sleep(1.75)
 
     try:
-        lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
+        lp_error_exist = list(bot.locateAllOnScreen('../images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
         
         if lp_error_exist:
             df.at[line, 'Status'] = 'LP não existe!'
@@ -57,7 +58,7 @@ def open_project():
     bot.sleep(1.75)
 
     try:
-        lbpa_status = bot.locateOnScreen('images/LBPA.png', grayscale=True, confidence=0.9)
+        lbpa_status = bot.locateOnScreen('../images/LBPA.png', grayscale=True, confidence=0.9)
         
         if lbpa_status:
             bot.click(150, 15)
@@ -77,7 +78,7 @@ def open_project():
         print('LBPA status not found!')
 
     try:
-        have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
+        have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
         
         if have_ence:
             df.at[line, 'Status'] = 'Encerrado!'
@@ -112,7 +113,7 @@ def change_status_step_one():
     bot.sleep(2)
 
     try:
-        have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+        have_baixa = list(bot.locateAllOnScreen('../images/BAIXACONF.png', grayscale=True, confidence=0.8))
         
         if have_baixa:
             bot.click(150, 15)
@@ -143,7 +144,7 @@ def change_status_step_one():
     bot.sleep(2)
 
     try:
-        conf_exist = list(bot.locateAllOnScreen('images/CONFORDEM.png', grayscale=True, confidence=0.7))
+        conf_exist = list(bot.locateAllOnScreen('../images/CONFORDEM.png', grayscale=True, confidence=0.7))
         
         if conf_exist:
             press_key('enter', 1)
@@ -158,7 +159,7 @@ def change_status_step_one():
         print('Line is liberate for change!')
 
     try:
-        error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+        error_exist = list(bot.locateAllOnScreen('../images/ERROR.png', grayscale=True, confidence=0.7))
         
         if error_exist:
             press_key('tab', 2)
@@ -175,7 +176,7 @@ def change_status_step_one():
             bot.sleep(1.5)
 
             try:
-                save_exist = list(bot.locateAllOnScreen('images/GRAVAR.png', grayscale=True, confidence=0.7))
+                save_exist = list(bot.locateAllOnScreen('../images/GRAVAR.png', grayscale=True, confidence=0.7))
 
                 if save_exist:
                     press_key('tab', 1)
@@ -213,7 +214,7 @@ def change_status_step_two():
     
     for region, click_position in coordinates:
         try:
-            if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
+            if bot.locateOnScreen('../images/CHECK.png', grayscale=True, confidence=0.7, region=region):
                 print('Found!')
 
             else:
@@ -229,7 +230,7 @@ def change_status_step_two():
     bot.sleep(2)
 
     try:
-        conf_exist = list(bot.locateAllOnScreen('images/CONFORDEM.png', grayscale=True, confidence=0.7))
+        conf_exist = list(bot.locateAllOnScreen('../images/CONFORDEM.png', grayscale=True, confidence=0.7))
         
         if conf_exist:
             press_key('tab', 2)
@@ -246,7 +247,7 @@ def change_status_step_two():
     bot.sleep(2)
 
     try:
-        have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
+        have_info = bot.locateOnScreen('../images/INFO.png', grayscale=True, confidence=0.8)
         
         if have_info:
             press_key('tab', 1)
@@ -265,7 +266,7 @@ def change_status_step_two():
 # OPEN TREE AND ALSO CHANGE THE PURCHASE STATUS IF EXISTS
 def open_tree():
     try:
-        have_diagram = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+        have_diagram = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
         
         if have_diagram:
             bot.click(46, 232)
@@ -277,11 +278,11 @@ def open_tree():
             bot.sleep(2)
 
             try:
-                have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
+                have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
                 
                 if have_ence:
                     try:
-                        have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+                        have_purchase = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
                         
                         if have_purchase:
                             bot.click(150, 15)
@@ -301,7 +302,7 @@ def open_tree():
                             bot.sleep(2)
 
                             try:
-                                ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
+                                ente_location = list(bot.locateOnScreen('../images/ENTE.png', grayscale=True, confidence=0.9))
                                 
                                 if ente_location:
                                     bot.click(150, 15)
@@ -339,11 +340,11 @@ def open_tree():
                             bot.sleep(2)
 
                             try:
-                                check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+                                check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
                                 
                                 if check_box:
                                     try:
-                                        have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+                                        have_baixa = list(bot.locateAllOnScreen('../images/BAIXACONF.png', grayscale=True, confidence=0.8))
                                         
                                         if have_baixa:
                                             if len(check_box) != len(have_baixa):
@@ -385,7 +386,7 @@ def open_tree():
                                                     try:
                                                         change_status_step_two()
 
-                                                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                                                        warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                                                     
                                                     except Exception as e:
                                                         print(f'Error: {e}')
@@ -411,7 +412,7 @@ def open_tree():
 
             except Exception:
                 try:
-                    have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+                    have_purchase = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
                     
                     if have_purchase:
                         error = change_status_step_one()
@@ -423,7 +424,7 @@ def open_tree():
                                 try:
                                     change_status_step_two()
 
-                                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                                 
                                 except Exception as e:
                                     print(f'Error: {e}')
@@ -472,7 +473,7 @@ def adjust_tree_height(height):
 
 def main_function(treeHeight, pending):
     try:
-        lib_location = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
+        lib_location = list(bot.locateOnScreen('../images/LIB.png', grayscale=True, confidence=0.8))
         
         if lib_location:
             ence_sequence(first_sequence)
@@ -484,7 +485,7 @@ def main_function(treeHeight, pending):
             bot.sleep(2)
 
             try:
-                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                 
                 if warning_exist:
                     press_key('enter', 1)
@@ -495,7 +496,7 @@ def main_function(treeHeight, pending):
                 print('WARNING don\'t exists!')
 
             try:
-                error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+                error_exist = list(bot.locateAllOnScreen('../images/ERROR.png', grayscale=True, confidence=0.7))
 
                 if error_exist:
                     press_key('tab', 1)
@@ -515,7 +516,7 @@ def main_function(treeHeight, pending):
 
     except Exception:
         try:
-            aber_location = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
+            aber_location = list(bot.locateOnScreen('../images/ABER.png', grayscale=True, confidence=0.8))
             
             if aber_location:
                 ence_sequence(first_sequence)
@@ -527,7 +528,7 @@ def main_function(treeHeight, pending):
                 bot.sleep(2)
 
                 try:
-                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                     
                     if warning_exist:
                         press_key('enter', 1)
@@ -541,7 +542,7 @@ def main_function(treeHeight, pending):
 
         except Exception:
             try:
-                ente_location = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
+                ente_location = list(bot.locateOnScreen('../images/ENTE.png', grayscale=True, confidence=0.9))
                 
                 if ente_location:
                     ence_sequence(second_sequence)
@@ -549,7 +550,7 @@ def main_function(treeHeight, pending):
                     bot.sleep(2)
 
                     try:
-                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                        warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                         
                         if warning_exist:
                             press_key('enter', 1)
