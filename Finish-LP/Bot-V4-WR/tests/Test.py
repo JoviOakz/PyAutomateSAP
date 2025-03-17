@@ -1,7 +1,6 @@
 # --- README ---
 # TESTS NEED '../' BEFORE THE PATH OF IMAGES
 # TESTS NEED '../../../' BEFORE THE EXCEL PATH
-# TESTS NEED '../../../' BEFORE THE PDF PATH
 
 # LIBRARIES
 import pyautogui as bot
@@ -14,8 +13,8 @@ bot.PAUSE = 0.25
 
 arrowCoords = (15, 166, 400, 200)
 
-first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
-second_sequence = [(150, 13), (183, 79), (404, 276), (698, 271)]
+first_sequence = [(150, 12), (182, 80), (516, 206), (682, 206)]
+second_sequence = [(150, 12), (182, 80), (404, 276), (698, 272)]
 
 coordinates = [
     ((952, 430, 33, 26), (966, 440)),
@@ -30,7 +29,15 @@ bot.click(1802, 14)
 excel_path = "../../../Open-LPs.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
-# OPEN THE PROJECT AND IDENTIFIES IF EXISTS OR IS ALREADY FINISHED
+# FUNCTION TO PRESS COMMAND X TIMES
+def press_key(key, times):
+    for _ in range(times):
+        if key == 'ctrlv':
+            bot.hotkey('ctrl', 'v')
+        else:
+            bot.press(key)
+
+# OPEN THE PROJECT
 def open_project():
     bot.click(26, 146)
 
@@ -43,6 +50,8 @@ def open_project():
 
     bot.sleep(1.75)
 
+# IDENTIFIES THE PROJECT STATUS (IF DON'T EXIST, HAVE LBPA OR ALREADY FINISHED) 
+def project_status():
     try:
         lp_error_exist = list(bot.locateAllOnScreen('../images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
         
@@ -50,12 +59,28 @@ def open_project():
             df.at[line, 'Status'] = 'LP não existe!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
+            bot.sleep(2)
+
             return True
         
     except Exception:
         print('LP exists!')
 
-    bot.sleep(1.75)
+    try:
+        have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
+        
+        if have_ence:
+            df.at[line, 'Status'] = 'Encerrado!'
+            df.to_excel(excel_path, index=False, engine='openpyxl')
+
+            press_key('f3', 1)
+
+            bot.sleep(2.5)
+
+            return True
+        
+    except Exception:
+        print('Project don\'t finished yet!')
 
     try:
         lbpa_status = bot.locateOnScreen('../images/LBPA.png', grayscale=True, confidence=0.9)
@@ -77,387 +102,55 @@ def open_project():
     except Exception:
         print('LBPA status not found!')
 
-    try:
-        have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
-        
-        if have_ence:
-            df.at[line, 'Status'] = 'Encerrado!'
-            df.to_excel(excel_path, index=False, engine='openpyxl')
-
-            press_key('f3', 1)
-
-            bot.sleep(2.5)
-
-            return True
-        
-    except Exception:
-        print('Project don\'t finished yet!')
-
     return False
 
-# CHANGE THE PURCHASE LINE STATUS
-def change_status_step_one():
-    bot.click(580, 236)
-
-    bot.sleep(2)
-
-    bot.click(486, 884)
-
-    bot.sleep(2)
-
-    bot.moveTo(606, 848)
-    bot.mouseDown()
-    bot.moveTo(846, 848, duration=0.25)
-    bot.mouseUp()
-
-    bot.sleep(2)
-
-    try:
-        have_baixa = list(bot.locateAllOnScreen('../images/BAIXACONF.png', grayscale=True, confidence=0.8))
-        
-        if have_baixa:
-            bot.click(150, 15)
-
-            bot.sleep(2)
-
-            bot.click(240, 75)
-
-            bot.sleep(2)
-
-            bot.click(500, 270)
-
-            bot.sleep(2)
-
-            bot.click(690, 300)
-
-            bot.sleep(2)
-
-    except Exception as e:
-        print(f'Erro: {e}')
-
-    bot.click(486, 884)
-
-    bot.sleep(2)
-
-    bot.click(600, 884)
-
-    bot.sleep(2)
-
-    try:
-        conf_exist = list(bot.locateAllOnScreen('../images/CONFORDEM.png', grayscale=True, confidence=0.7))
-        
-        if conf_exist:
-            press_key('enter', 1)
-
-            bot.sleep(1.5)
-
-            press_key('enter', 1)
-
-            bot.sleep(1.5)
-
-    except Exception:
-        print('Line is liberate for change!')
-
-    try:
-        error_exist = list(bot.locateAllOnScreen('../images/ERROR.png', grayscale=True, confidence=0.7))
-        
-        if error_exist:
-            press_key('tab', 2)
-            press_key('enter', 1)
-
-            bot.sleep(1)
-
-            bot.click(566, 700)
-
-            bot.sleep(1)
-
-            press_key('f3', 1)
-
-            bot.sleep(1.5)
-
-            try:
-                save_exist = list(bot.locateAllOnScreen('../images/GRAVAR.png', grayscale=True, confidence=0.7))
-
-                if save_exist:
-                    press_key('tab', 1)
-
-                    press_key('enter', 1)
-                    
-                    bot.sleep(2)
-
-            except Exception:
-                print('Doesn\'t have any changes!')
-
-            df.at[line, 'Status'] = 'Problema na linha de compra!'
-            df.to_excel(excel_path, index=False, engine='openpyxl')
-
-            return True
-        
-    except Exception:
-        return False
-    
-# FUNCTION TO PRESS COMMAND X TIMES
-def press_key(key, times):
-    for _ in range(times):
-        if key == 'ctrlv':
-            bot.hotkey('ctrl', 'v')
-        else:
-            bot.press(key)
-    
-# CHANGE THE PURCHASE LINE STATUS
-def change_status_step_two():
-    press_key('tab', 2)
-
-    bot.sleep(0.3)
-
-    bot.typewrite('92903610')
-    
-    for region, click_position in coordinates:
-        try:
-            if bot.locateOnScreen('../images/CHECK.png', grayscale=True, confidence=0.7, region=region):
-                print('Found!')
-
-            else:
-                raise Exception
-            
-        except Exception:
-            bot.click(click_position)
-
-    bot.sleep(2)
-
-    bot.click(1128, 988)
-
-    bot.sleep(2)
-
-    try:
-        conf_exist = list(bot.locateAllOnScreen('../images/CONFORDEM.png', grayscale=True, confidence=0.7))
-        
-        if conf_exist:
-            press_key('tab', 2)
-            press_key('enter', 1)
-
-            bot.sleep(1.5)
-
-            press_key('tab', 1)
-            press_key('enter', 1)
-
-    except Exception:
-        print('Don\'t have any additional information!')
-
-    bot.sleep(2)
-
-    try:
-        have_info = bot.locateOnScreen('../images/INFO.png', grayscale=True, confidence=0.8)
-        
-        if have_info:
-            press_key('tab', 1)
-            press_key('enter', 1)
-
-            bot.sleep(2)
-
-            press_key('tab', 1)
-            press_key('enter', 1)
-
-            bot.sleep(2)
-
-    except Exception:
-        print('Don\'t have any additional information!')
-    
-# OPEN TREE AND ALSO CHANGE THE PURCHASE STATUS IF EXISTS
+# OPEN PROJECT TREE
 def open_tree():
     try:
-        have_diagram = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+        have_diagram = list(bot.locateOnScreen('../images/SETA.png', grayscale=True, confidence=0.8, region=arrowCoords))
         
         if have_diagram:
             bot.click(46, 232)
-
             bot.sleep(2)
-
             bot.click(186, 252)
-
-            bot.sleep(2)
-
-            try:
-                have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
-                
-                if have_ence:
-                    try:
-                        have_purchase = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
-                        
-                        if have_purchase:
-                            bot.click(150, 15)
-
-                            bot.sleep(2)
-
-                            bot.click(240, 75)
-
-                            bot.sleep(2)
-
-                            bot.click(520, 270)
-
-                            bot.sleep(2)
-
-                            bot.click(680, 300)
-
-                            bot.sleep(2)
-
-                            try:
-                                ente_location = list(bot.locateOnScreen('../images/ENTE.png', grayscale=True, confidence=0.9))
-                                
-                                if ente_location:
-                                    bot.click(150, 15)
-
-                                    bot.sleep(2)
-
-                                    bot.click(240, 75)
-
-                                    bot.sleep(2)
-
-                                    bot.click(520, 200)
-
-                                    bot.sleep(2)
-
-                                    bot.click(680, 240)
-
-                                    bot.sleep(2)
-
-                            except Exception:
-                                print('Don\'t have ENTE status!')
-
-                            bot.click(580, 240)
-
-                            bot.sleep(2)
-
-                            bot.click(484, 884)
-
-                            bot.sleep(2)
-
-                            bot.moveTo(606, 848)
-                            bot.mouseDown()
-                            bot.moveTo(846, 848, duration=0.25)
-                            bot.mouseUp()
-
-                            bot.sleep(2)
-
-                            try:
-                                check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
-                                
-                                if check_box:
-                                    try:
-                                        have_baixa = list(bot.locateAllOnScreen('../images/BAIXACONF.png', grayscale=True, confidence=0.8))
-                                        
-                                        if have_baixa:
-                                            if len(check_box) != len(have_baixa):
-                                                bot.click(150, 15)
-
-                                                bot.sleep(2)
-
-                                                bot.click(240, 75)
-
-                                                bot.sleep(2)
-
-                                                bot.click(520, 270)
-
-                                                bot.sleep(2)
-
-                                                bot.click(680, 300)
-
-                                                bot.sleep(2)
-
-                                                bot.click(484, 884)
-
-                                                bot.sleep(2)
-
-                                                bot.click(600, 884)
-
-                                                bot.sleep(2)
-
-                                                press_key('enter', 1)
-
-                                                bot.sleep(2)
-
-                                                press_key('enter', 1)
-
-                                                bot.sleep(2)
-
-                                                warning_exist = None
-
-                                                while not warning_exist:
-                                                    try:
-                                                        change_status_step_two()
-
-                                                        warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                                                    
-                                                    except Exception as e:
-                                                        print(f'Error: {e}')
-
-                                                press_key('tab', 2)
-                                                press_key('enter', 1)
-
-                                                bot.sleep(2)
-
-                                                press_key('tab', 1)
-                                                press_key('enter', 1)
-
-                                                bot.sleep(2)
-
-                                    except Exception as e:
-                                        print(f'Erro: {e}')
-
-                            except Exception as e:
-                                print(f'Error: {e}')
-
-                    except Exception:
-                        print('Doesn\'t have any purchase!')
-
-            except Exception:
-                try:
-                    have_purchase = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
-                    
-                    if have_purchase:
-                        error = change_status_step_one()
-                        
-                        if not error:
-                            warning_exist = None
-                            
-                            while not warning_exist:
-                                try:
-                                    change_status_step_two()
-
-                                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                                
-                                except Exception as e:
-                                    print(f'Error: {e}')
-
-                            press_key('tab', 2)
-                            press_key('enter', 1)
-
-                            bot.sleep(2)
-
-                            press_key('tab', 1)
-                            press_key('enter', 1)
-
-                            bot.sleep(2)
-                            
-                        else:
-                            return True
-                        
-                except Exception:
-                    print('Doesn\'t have any purchase!')
-
-            bot.click(582, 208)
 
             bot.sleep(2)
 
     except Exception:
         print('Don\'t have diagram!')
 
-# FINISH WITH ENTE AND ENCE STATUS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# SEQUENCE TO FINISH WITH ENTE AND ENCE STATUS
 def ence_sequence(coords):
     for x, y in coords:
         bot.click(x, y)
 
-# ADJUSTS THE TREE HEIGHT
+# ADJUSTS THE TREE HEIGHT VARIABLE
 def adjust_tree_height(height):
     global height_adjust_count
     
@@ -471,103 +164,40 @@ def adjust_tree_height(height):
 
     return height
 
-def main_function(treeHeight, pending):
-    try:
-        lib_location = list(bot.locateOnScreen('../images/LIB.png', grayscale=True, confidence=0.8))
-        
-        if lib_location:
-            ence_sequence(first_sequence)
+# ========================================================================
+def main_function():
+    print('function')
 
-            bot.sleep(2)
 
-            ence_sequence(second_sequence)
 
-            bot.sleep(2)
 
-            try:
-                warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                
-                if warning_exist:
-                    press_key('enter', 1)
 
-                    bot.sleep(2)
 
-            except Exception:
-                print('WARNING don\'t exists!')
 
-            try:
-                error_exist = list(bot.locateAllOnScreen('../images/ERROR.png', grayscale=True, confidence=0.7))
 
-                if error_exist:
-                    press_key('tab', 1)
-                    press_key('enter', 1)
 
-                    df.at[line, 'Status'] = 'Compromisso pendente!'
-                    df.to_excel(excel_path, index=False, engine='openpyxl')
 
-                    bot.sleep(5)
 
-                    pending += 1
-            
-            except Exception:
-                print('Doesn\'t have pending commitment!')
 
-            treeHeight = adjust_tree_height(treeHeight)
 
-    except Exception:
-        try:
-            aber_location = list(bot.locateOnScreen('../images/ABER.png', grayscale=True, confidence=0.8))
-            
-            if aber_location:
-                ence_sequence(first_sequence)
 
-                bot.sleep(2)
 
-                ence_sequence(second_sequence)
 
-                bot.sleep(2)
 
-                try:
-                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                    
-                    if warning_exist:
-                        press_key('enter', 1)
 
-                        bot.sleep(2)
 
-                except Exception:
-                    print('WARNING don\' exists!')
 
-                treeHeight = adjust_tree_height(treeHeight)
 
-        except Exception:
-            try:
-                ente_location = list(bot.locateOnScreen('../images/ENTE.png', grayscale=True, confidence=0.9))
-                
-                if ente_location:
-                    ence_sequence(second_sequence)
 
-                    bot.sleep(2)
 
-                    try:
-                        warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                        
-                        if warning_exist:
-                            press_key('enter', 1)
 
-                            bot.sleep(2)
 
-                    except Exception:
-                        print('WARNING don\' exists!')
 
-                    treeHeight = adjust_tree_height(treeHeight)
 
-            except Exception:
-                treeHeight = adjust_tree_height(treeHeight)
 
-    return treeHeight, pending
 
-# SAVE ALL CHANGES AND CONCLUDES THE STATUS OF LP
+
+# CHANGE THE LP STATUS TO ENCE AND SAVE EVERYTHING
 def conclusion():
     bot.hotkey('ctrl', 's')
 
@@ -576,7 +206,7 @@ def conclusion():
 
     bot.sleep(5)
 
-# CONCLUDES THE ERROR STATUS OF LP
+# PUT THE ERROR STATUS OF LP AND DON'T SAVE THE CHANGES
 def error_conclusion():
     press_key('f3', 1)
 
@@ -589,7 +219,7 @@ def error_conclusion():
 
 # EXCEL CONFIG
 qty = 25
-line = 2
+line = 0
 
 # MAIN PROGRAM
 for _ in range(qty):
@@ -599,10 +229,14 @@ for _ in range(qty):
     jump_all = False
     pending = 0
 
-    jump_all = open_project()
+    open_project()
 
-    if not jump_all:
-        jump_main_function = open_tree()
+    jump_all_process = project_status()
+
+    if not jump_all_process:
+        open_tree()
+
+        jump_main_function = 
 
         if not jump_main_function:
             for __ in range(2):
