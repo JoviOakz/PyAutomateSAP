@@ -37,6 +37,25 @@ def press_key(key, times):
         else:
             bot.press(key)
 
+# SEQUENCE TO FINISH WITH ENTE AND ENCE STATUS
+def ence_sequence(coords):
+    for x, y in coords:
+        bot.click(x, y)
+
+# ADJUSTS THE TREE HEIGHT VARIABLE
+def adjust_tree_height(height):
+    global height_adjust_count
+    
+    if height_adjust_count < 1:
+        height -= 40
+        bot.click(186, height)
+
+        bot.sleep(2)
+
+        height_adjust_count += 1
+
+    return height
+
 # OPEN THE PROJECT
 def open_project():
     bot.click(26, 146)
@@ -59,7 +78,7 @@ def project_status():
             df.at[line, 'Status'] = 'LP não existe!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(2)
+            bot.sleep(2.5)
 
             return True
         
@@ -107,7 +126,7 @@ def project_status():
 # OPEN PROJECT TREE
 def open_tree():
     try:
-        have_diagram = list(bot.locateOnScreen('../images/SETA.png', grayscale=True, confidence=0.8, region=arrowCoords))
+        have_diagram = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
         
         if have_diagram:
             bot.click(46, 232)
@@ -117,7 +136,56 @@ def open_tree():
             bot.sleep(2)
 
     except Exception:
-        print('Don\'t have diagram!')
+        return False
+
+# CHECK IF THE DIAGRAM IS ALREADY ENCE
+def diagram_have_ence():
+    try:
+        have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
+        
+        if have_ence:
+            try:
+                have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+                
+                if have_purchase:
+                    bot.click(150, 15)
+                    bot.click(240, 75)
+                    bot.click(520, 270)
+                    bot.click(680, 300)
+                    bot.sleep(2)
+
+            except Exception:
+                print('Doesn\'t have any purchase line!')
+
+    except Exception:
+        print('Diagram is not ENCE!')
+
+# FINISH THE TREE LINE STATUS
+def finish_tree_line():
+    try:
+        aber_location = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
+        
+        if aber_location:
+            ence_sequence(first_sequence)
+
+            bot.sleep(2)
+
+            ence_sequence(second_sequence)
+
+            bot.sleep(2)
+
+            try:
+                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                
+                if warning_exist:
+                    press_key('enter', 1)
+
+                    bot.sleep(2)
+
+            except Exception:
+                print('WARNING don\' exists!')
+    except Exception:
+        print('x')
 
 
 
@@ -139,34 +207,11 @@ def open_tree():
 
 
 
-
-
-
-
-
-
-# SEQUENCE TO FINISH WITH ENTE AND ENCE STATUS
-def ence_sequence(coords):
-    for x, y in coords:
-        bot.click(x, y)
-
-# ADJUSTS THE TREE HEIGHT VARIABLE
-def adjust_tree_height(height):
-    global height_adjust_count
-    
-    if height_adjust_count < 1:
-        height -= 40
-        bot.click(186, height)
-
-        bot.sleep(2)
-
-        height_adjust_count += 1
-
-    return height
 
 # ========================================================================
 def main_function():
     print('function')
+# ========================================================================
 
 
 
@@ -223,10 +268,12 @@ line = 0
 
 # MAIN PROGRAM
 for _ in range(qty):
+    jump_all_process = False
+    jump_main_function = False
+    diagram = True
+
     treeHeight = 250
     height_adjust_count = 0
-    jump_main_function = False
-    jump_all = False
     pending = 0
 
     open_project()
@@ -234,7 +281,10 @@ for _ in range(qty):
     jump_all_process = project_status()
 
     if not jump_all_process:
-        open_tree()
+        diagram = open_tree()
+
+        if not diagram:
+            finish_tree_line()
 
         jump_main_function = 
 
