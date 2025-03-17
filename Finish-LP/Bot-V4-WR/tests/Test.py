@@ -7,7 +7,7 @@ import pyautogui as bot
 import pandas as pd
 import pyperclip
 
-# SOFTWARE GLOBAL SETTINGS
+# GLOBAL SOFTWARE SETTINGS
 bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
