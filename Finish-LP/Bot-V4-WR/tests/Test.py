@@ -125,15 +125,15 @@ def open_tree():
         return False
 
 # CHECK IF THE DIAGRAM IS ALREADY ENCE
-def diagram_have_ence():
+def diagram_not_lib():
     try:
-        have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
+        have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
         
-        if have_ence:
+        if have_purchase:
             try:
-                have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+                have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
                 
-                if have_purchase:
+                if have_ence:
                     bot.click(150, 15)
                     bot.click(240, 75)
                     bot.click(520, 270)
@@ -141,10 +141,25 @@ def diagram_have_ence():
                     bot.sleep(2)
 
             except Exception:
-                print('Doesn\'t have any purchase line!')
+                print('Diagram is not ENCE!')
+
+            try:
+                have_ente = bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9)
+                
+                if have_ente:
+                    bot.click(150, 15)
+                    bot.click(240, 75)
+                    bot.click(520, 200)
+                    bot.click(680, 240)
+                    bot.sleep(2)
+
+            except Exception:
+                print('Diagram is not ENTE!')
+
+            return True
 
     except Exception:
-        print('Diagram is not ENCE!')
+        print('Doesn\'t have any purchase line!')
 
 # FINISH THE TREE LINE STATUS
 def finish_tree_line():
@@ -228,38 +243,42 @@ def finish_tree_line():
                     except Exception:
                         print('WARNING don\'t exists!')
 
+                    try:
+                        error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+
+                        if error_exist:
+                            press_key('tab', 1)
+                            press_key('enter', 1)
+
+                            df.at[line, 'Status'] = 'Compromisso pendente!'
+                            df.to_excel(excel_path, index=False, engine='openpyxl')
+
+                            bot.sleep(5)
+
+                            pending += 1
+                    
+                    except Exception:
+                        print('Doesn\'t have pending commitment!')
+
             except Exception as e:
                 print(f'Error: {e}')
 
-# =======================================================================
-# ADICIONAR NO FINISH_TREE_LINE UM VERIFICADOR DE ERRO NO ENCERRAMENTO
-# =======================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-# =======================================================================
 def ence_purchase_line():
-    print('x')
-# =======================================================================
 
-
-
-
-
-
-
-
-
-
+    # CLICA NA SINTESE DE TAREFA
+    bot.click(580, 240)
+    bot.sleep(2)
+    
+    # MARCA TODAS AS LINHAS DE COMPRA
+    bot.click(484, 884)
+    bot.sleep(2)
+    
+    # MOUSE VAI PARA BARRA E ARRASTA PARA O LADO
+    bot.moveTo(606, 848)
+    bot.mouseDown()
+    bot.moveTo(846, 848, duration=0.25)
+    bot.mouseUp()
+    bot.sleep(2)
 
 
 
@@ -292,13 +311,17 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-qty = 25
+lp_qty = 25
 line = 0
 
+# REPEAT QUANTITY TO PROGRAM RUN
+repeat_qty = lp_qty - line
+
 # MAIN PROGRAM
-for _ in range(qty):
+for _ in range(repeat_qty):
     jump_all_process = False
     jump_main_function = False
+    purchase_line = False
     diagram = True
 
     pending = 0
@@ -315,10 +338,10 @@ for _ in range(qty):
             jump_main_function = True
 
         if not jump_main_function:
-            diagram_have_ence()
+            purchase_line = diagram_not_lib()
             
-            # if ALGUMA COISA: 
-                # ence_purchase_line()
+            if not purchase_line:
+                ence_purchase_line()
 
             finish_tree_line()
 
