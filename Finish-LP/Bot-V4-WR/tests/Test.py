@@ -12,6 +12,8 @@ bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
 arrowCoords = (15, 166, 400, 200)
+hourCoords = (15, 166, 400, 200)
+workCenterCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 12), (182, 80), (516, 206), (682, 206)]
 second_sequence = [(150, 12), (182, 80), (404, 276), (698, 272)]
@@ -269,6 +271,27 @@ def ence_purchase_line():
     bot.click(580, 240)
     bot.sleep(2)
     
+
+
+    # try:
+    #     # REVISAR AS COORDENADAS PARA O 'H' E PARA O 'FF78012'
+    #     have_h = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
+    #     have_workCenter = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=workCenterCoords))
+
+    #     # REVISAR QUAL É O VALOR RETORNADO QUANDO NÃO SE ENCONTRA A IMAGEM NA TELA
+    #     if not have_workCenter:
+    #         try:
+    #             if not have_h:
+    #                 # erro
+
+    #     if have_h:
+    #         workedHours = 1
+    
+    # except Exception:
+    #     print('Doesn\'t have worked hours apointment line!')
+
+
+
     # MARCA TODAS AS LINHAS DE COMPRA
     bot.click(484, 884)
     bot.sleep(2)
@@ -325,6 +348,7 @@ for _ in range(repeat_qty):
     diagram = True
 
     pending = 0
+    workedHours = 0
 
     open_project()
 
