@@ -127,7 +127,7 @@ def open_tree():
         return False
 
 # CHECK IF THE DIAGRAM IS ALREADY ENCE
-def diagram_not_lib():
+def diagram_notLib():
     try:
         have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
         
@@ -163,8 +163,8 @@ def diagram_not_lib():
     except Exception:
         print('Doesn\'t have any purchase line!')
 
-# FINISH THE TREE LINE STATUS
-def finish_tree_line():
+# FINISH THE TREE LINE STATUS WITH (ENCE)
+def finish_treeLine():
     try:
         have_aber = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
         
@@ -265,13 +265,24 @@ def finish_tree_line():
             except Exception as e:
                 print(f'Error: {e}')
 
-def ence_purchase_line():
+# ========================================================================================
+# REVER ESSA PARTE AINDA
+
+# CHANGE THE PURCHASE LINE STATUS TO (BAIX CFMN CONF)
+def change_purchaseLine_status():
+    print('x')
+# ========================================================================================
+    
+# FINISH THE PURCHASE LINE STATUS
+def ence_purchaseLine():
 
     # CLICA NA SINTESE DE TAREFA
     bot.click(580, 240)
     bot.sleep(2)
     
 
+    # ========================================================================================
+    # REVER ESSA PARTE AINDA
 
     # try:
     #     # REVISAR AS COORDENADAS PARA O 'H' E PARA O 'FF78012'
@@ -289,6 +300,7 @@ def ence_purchase_line():
     
     # except Exception:
     #     print('Doesn\'t have worked hours apointment line!')
+    # ========================================================================================
 
 
 
@@ -301,17 +313,67 @@ def ence_purchase_line():
     bot.mouseDown()
     bot.moveTo(846, 848, duration=0.25)
     bot.mouseUp()
+
     bot.sleep(2)
 
+    try:
+        check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+                                
+        if check_box:
+            try:
+                have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+                                        
+                if have_baixa:
+                    if len(check_box) != len(have_baixa):
+                        bot.click(150, 15)
+                        bot.sleep(2)
+                        bot.click(240, 75)
+                        bot.sleep(2)
+                        bot.click(520, 270)
+                        bot.sleep(2)
+                        bot.click(680, 300)
+                        bot.sleep(2)
+                        bot.click(484, 884)
+                        bot.sleep(2)
+                        bot.click(600, 884)
+                        bot.sleep(2)
+                        press_key('enter', 1)
+                        bot.sleep(2)
+                        press_key('enter', 1)
 
+                        bot.sleep(2)
 
+                        warning_exist = None
 
+                        while not warning_exist:
+                            try:
+                                change_purchaseLine_status()
 
+                                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                            
+                            except Exception as e:
+                                print(f'Error: {e}')
 
+    # ========================================================================================
+    # REVER ESSA PARTE AINDA
 
+    #                     press_key('tab', 2)
+    #                     press_key('enter', 1)
 
+    #                     bot.sleep(2)
 
+    #                     press_key('tab', 1)
+    #                     press_key('enter', 1)
 
+    #                     bot.sleep(2)
+
+            except Exception as e:
+                print(f'Erro: {e}')
+
+    except Exception as e:
+        print(f'Error: {e}')
+    
+    # ========================================================================================
 
 # CHANGE THE LP STATUS TO ENCE AND SAVE EVERYTHING
 def conclusion():
@@ -358,21 +420,21 @@ for _ in range(repeat_qty):
         diagram = open_tree()
 
         if not diagram:
-            finish_tree_line()
+            finish_treeLine()
             jump_main_function = True
 
         if not jump_main_function:
-            purchase_line = diagram_not_lib()
+            purchase_line = diagram_notLib()
             
             if not purchase_line:
-                ence_purchase_line()
+                ence_purchaseLine()
 
-            finish_tree_line()
+            finish_treeLine()
 
             bot.click(186, 212)
             bot.sleep(2)
             
-            finish_tree_line()
+            finish_treeLine()
 
             if pending == 0:
                 conclusion()
