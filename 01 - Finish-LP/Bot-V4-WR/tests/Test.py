@@ -12,8 +12,8 @@ bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
 arrowCoords = (15, 166, 400, 200)
-hourCoords = (15, 166, 400, 200)
-workCenterCoords = (15, 166, 400, 200)
+hourCoords = (880, 332, 50, 188)
+workCenterCoords = (986, 332, 108, 188)
 
 first_sequence = [(150, 12), (182, 80), (516, 206), (682, 206)]
 second_sequence = [(150, 12), (182, 80), (404, 276), (698, 272)]
@@ -212,11 +212,11 @@ def finish_treeLine():
                     error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
 
                     if error_exist:
-                        press_key('tab', 1)
-                        press_key('enter', 1)
-
                         df.at[line, 'Status'] = 'Compromisso pendente!'
                         df.to_excel(excel_path, index=False, engine='openpyxl')
+
+                        press_key('tab', 1)
+                        press_key('enter', 1)
 
                         bot.sleep(5)
 
@@ -249,11 +249,11 @@ def finish_treeLine():
                         error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
 
                         if error_exist:
-                            press_key('tab', 1)
-                            press_key('enter', 1)
-
                             df.at[line, 'Status'] = 'Compromisso pendente!'
                             df.to_excel(excel_path, index=False, engine='openpyxl')
+
+                            press_key('tab', 1)
+                            press_key('enter', 1)
 
                             bot.sleep(5)
 
@@ -275,6 +275,7 @@ def change_purchaseLine_status():
     
 # FINISH THE PURCHASE LINE STATUS
 def ence_purchaseLine():
+    workedHours = 0
 
     # CLICA NA SINTESE DE TAREFA
     bot.click(580, 240)
@@ -285,18 +286,33 @@ def ence_purchaseLine():
     # REVER ESSA PARTE AINDA
 
     # try:
-    #     # REVISAR AS COORDENADAS PARA O 'H' E PARA O 'FF78012'
-    #     have_h = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
-    #     have_workCenter = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=workCenterCoords))
+    #     have_workCenter = list(bot.locateOnScreen('images/FF78012.png', grayscale=True, confidence=0.8, region=workCenterCoords))
 
-    #     # REVISAR QUAL É O VALOR RETORNADO QUANDO NÃO SE ENCONTRA A IMAGEM NA TELA
     #     if not have_workCenter:
     #         try:
+    #             have_h = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
+                
     #             if not have_h:
-    #                 # erro
+    #                 df.at[line, 'Status'] = 'Linha de apontamento com erro!'
+    #                 df.to_excel(excel_path, index=False, engine='openpyxl')
 
-    #     if have_h:
-    #         workedHours = 1
+    #                 press_key('f3', 1)
+    #                 bot.sleep(2)
+
+    #                 try:
+    #                     have_saveWarning = list(bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.8))
+                        
+    #                     if have_saveWarning:
+    #                         press_key('tab', 1)
+    #                         press_key('enter', 1)
+
+    #                 except Exception as e:
+    #                     print('Doesn\'t have save warning!')
+                            
+    #                 bot.sleep(5)
+
+    #         except Exception:
+    #             workedHours = 1
     
     # except Exception:
     #     print('Doesn\'t have worked hours apointment line!')
@@ -322,7 +338,7 @@ def ence_purchaseLine():
         if check_box:
             try:
                 have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
-                                        
+                
                 if have_baixa:
                     if len(check_box) != len(have_baixa):
                         bot.click(150, 15)
@@ -357,18 +373,33 @@ def ence_purchaseLine():
     # ========================================================================================
     # REVER ESSA PARTE AINDA
 
-    #                     press_key('tab', 2)
-    #                     press_key('enter', 1)
+                        press_key('tab', 2)
+                        press_key('enter', 1)
 
-    #                     bot.sleep(2)
+                        bot.sleep(2)
 
-    #                     press_key('tab', 1)
-    #                     press_key('enter', 1)
+                        press_key('tab', 1)
+                        press_key('enter', 1)
 
-    #                     bot.sleep(2)
+                        bot.sleep(2)
 
-            except Exception as e:
-                print(f'Erro: {e}')
+            except Exception:
+                if len(check_box) != len(have_baixa):
+                    bot.click(150, 15)
+                    bot.sleep(2)
+                    bot.click(240, 75)
+                    bot.sleep(2)
+                    bot.click(520, 270)
+                    bot.sleep(2)
+                    bot.click(680, 300)
+                    bot.sleep(2)
+                    bot.click(484, 884)
+                    bot.sleep(2)
+                    bot.click(600, 884)
+                    bot.sleep(2)
+                    press_key('enter', 1)
+                    bot.sleep(2)
+                    press_key('enter', 1)
 
     except Exception as e:
         print(f'Error: {e}')
@@ -377,19 +408,17 @@ def ence_purchaseLine():
 
 # CHANGE THE LP STATUS TO ENCE AND SAVE EVERYTHING
 def conclusion():
-    bot.hotkey('ctrl', 's')
-
     df.at[line, 'Status'] = 'Encerrado!'
     df.to_excel(excel_path, index=False, engine='openpyxl')
+
+    bot.hotkey('ctrl', 's')
 
     bot.sleep(5)
 
 # PUT THE ERROR STATUS OF LP AND DON'T SAVE THE CHANGES
 def error_conclusion():
     press_key('f3', 1)
-
     bot.sleep(2)
-
     press_key('tab', 1)
     press_key('enter', 1)
 
@@ -410,7 +439,6 @@ for _ in range(repeat_qty):
     diagram = True
 
     pending = 0
-    workedHours = 0
 
     open_project()
 
@@ -429,6 +457,8 @@ for _ in range(repeat_qty):
             if not purchase_line:
                 ence_purchaseLine()
 
+            # ========================================================================================
+            # REVER A FUNCIONALIDADE DO PENDING PARA FECHAR O PROGRAMA COM ERROS
             finish_treeLine()
 
             bot.click(186, 212)
@@ -440,5 +470,6 @@ for _ in range(repeat_qty):
                 conclusion()
             else:
                 error_conclusion()
+            # ========================================================================================
             
     line += 1
