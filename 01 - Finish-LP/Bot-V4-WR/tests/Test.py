@@ -300,26 +300,6 @@ def change_purchaseLine_status():
 
     except Exception:
         print('Don\'t have any additional information!')
-
-# QUIT THE LP IF DON'T HAVE WORKED HOUR APOINTMENT
-def havn_workedHour():
-    df.at[line, 'Status'] = 'Linha de apontamento com erro!'
-    df.to_excel(excel_path, index=False, engine='openpyxl')
-
-    press_key('f3', 1)
-    bot.sleep(2)
-
-    try:
-        have_saveWarning = list(bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.8))
-        
-        if have_saveWarning:
-            press_key('tab', 1)
-            press_key('enter', 1)
-
-    except Exception as e:
-        print('Doesn\'t have save warning!')
-            
-    bot.sleep(5)
     
 # FINISH THE PURCHASE LINE STATUS
 def ence_purchaseLine():
@@ -331,17 +311,18 @@ def ence_purchaseLine():
 
     # VERIFICA SE POSSUI LINHA DE APONTAMENTO DE HORAS
     try:
-        have_h = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
-        have_workCenter = list(bot.locateOnScreen('images/FF78012.png', grayscale=True, confidence=0.8, region=workCenterCoords))
+        have_h = list(bot.locateOnScreen('../images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
 
         if have_h:
-            if have_workCenter:
+            try:
+                have_workCenter = list(bot.locateOnScreen('../images/FF78012.png', grayscale=True, confidence=0.9, region=workCenterCoords))
+
+                if have_workCenter:
+                    print('Doesn\'t have worked hours apointment line!')
+
+            except Exception:
                 workedHours = 1
-            else:
-                havn_workedHour()
-        else:
-            havn_workedHour()
-    
+
     except Exception:
         print('Doesn\'t have worked hours apointment line!')
 
@@ -357,75 +338,115 @@ def ence_purchaseLine():
 
     bot.sleep(2)
 
-    try:
-        check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+    if workedHours != 1:
+        try:
+            check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+                                    
+            if check_box:
+                try:
+                    have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+                    
+                    if have_baixa:
+                        if len(check_box) != len(have_baixa):
+                            bot.click(150, 15)
+                            bot.sleep(2)
+                            bot.click(240, 75)
+                            bot.sleep(2)
+                            bot.click(520, 270)
+                            bot.sleep(2)
+                            bot.click(680, 300)
+                            bot.sleep(2)
+                            bot.click(484, 884)
+                            bot.sleep(2)
+                            bot.click(600, 884)
+                            bot.sleep(2)
+                            press_key('enter', 1)
+                            bot.sleep(2)
+                            press_key('enter', 1)
+
+                            bot.sleep(2)
+
+                            warning_exist = None
+
+                            while not warning_exist:
+                                try:
+                                    change_purchaseLine_status()
+
+                                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                                 
-        if check_box:
-            try:
-                have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
-                
-                if have_baixa:
-                    if len(check_box) != len(have_baixa):
-                        bot.click(150, 15)
-                        bot.sleep(2)
-                        bot.click(240, 75)
-                        bot.sleep(2)
-                        bot.click(520, 270)
-                        bot.sleep(2)
-                        bot.click(680, 300)
-                        bot.sleep(2)
-                        bot.click(484, 884)
-                        bot.sleep(2)
-                        bot.click(600, 884)
-                        bot.sleep(2)
-                        press_key('enter', 1)
-                        bot.sleep(2)
-                        press_key('enter', 1)
+                                except Exception as e:
+                                    print(f'Error: {e}')
 
-                        bot.sleep(2)
+                            press_key('tab', 2)
+                            press_key('enter', 1)
+                            bot.sleep(2)
+                            press_key('tab', 1)
+                            press_key('enter', 1)
 
-                        warning_exist = None
+                            bot.sleep(2)
 
-                        while not warning_exist:
-                            try:
-                                change_purchaseLine_status()
+                except Exception as e:
+                    print(f'Error: {e}')
 
-                                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
-                            
-                            except Exception as e:
-                                print(f'Error: {e}')
+        except Exception as e:
+            print(f'Error: {e}')
+    
+    else:
+        try:
+            check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+                                    
+            if check_box:
+                try:
+                    have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+                    
+                    if have_baixa:
+                        if len(check_box) != len(have_baixa)+1:
+                            bot.click(150, 15)
+                            bot.sleep(2)
+                            bot.click(240, 75)
+                            bot.sleep(2)
+                            bot.click(520, 270)
+                            bot.sleep(2)
+                            bot.click(680, 300)
+                            bot.sleep(2)
+                            bot.click(484, 884)
+                            bot.sleep(2)
+                            bot.click(600, 884)
+                            bot.sleep(2)
+                            press_key('enter', 1)
+                            bot.sleep(2)
+                            press_key('enter', 1)
 
-                        press_key('tab', 2)
-                        press_key('enter', 1)
-                        bot.sleep(2)
-                        press_key('tab', 1)
-                        press_key('enter', 1)
+                            bot.sleep(2)
 
-                        bot.sleep(2)
+                            #===============================================================
+                            #CODIGO PARA REALIZAR CHANGE PURCHASELINE STATUS NO APONTAMENTO E CONTINUAR NORMALMENTE DEPOIS
+                            #===============================================================
 
-    # ========================================================================================
-    # REVER ESSA PARTE AINDA
-            except Exception:
-                if len(check_box) != len(have_baixa):
-                    bot.click(150, 15)
-                    bot.sleep(2)
-                    bot.click(240, 75)
-                    bot.sleep(2)
-                    bot.click(520, 270)
-                    bot.sleep(2)
-                    bot.click(680, 300)
-                    bot.sleep(2)
-                    bot.click(484, 884)
-                    bot.sleep(2)
-                    bot.click(600, 884)
-                    bot.sleep(2)
-                    press_key('enter', 1)
-                    bot.sleep(2)
-                    press_key('enter', 1)
+                            warning_exist = None
 
-    except Exception as e:
-        print(f'Error: {e}')
-    # ========================================================================================
+                            while not warning_exist:
+                                try:
+                                    change_purchaseLine_status()
+
+                                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                                
+                                except Exception as e:
+                                    print(f'Error: {e}')
+
+                            press_key('tab', 2)
+                            press_key('enter', 1)
+                            bot.sleep(2)
+                            press_key('tab', 1)
+                            press_key('enter', 1)
+
+                            bot.sleep(2)
+
+                except Exception as e:
+                    print(f'Error: {e}')
+
+        except Exception as e:
+            print(f'Error: {e}')
 
 # CHANGE THE LP STATUS TO ENCE AND SAVE EVERYTHING
 def conclusion():
