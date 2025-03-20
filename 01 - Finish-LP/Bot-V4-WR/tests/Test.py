@@ -300,6 +300,26 @@ def change_purchaseLine_status():
 
     except Exception:
         print('Don\'t have any additional information!')
+
+# QUIT THE LP IF DON'T HAVE WORKED HOUR APOINTMENT
+def havn_workedHour():
+    df.at[line, 'Status'] = 'Linha de apontamento com erro!'
+    df.to_excel(excel_path, index=False, engine='openpyxl')
+
+    press_key('f3', 1)
+    bot.sleep(2)
+
+    try:
+        have_saveWarning = list(bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.8))
+        
+        if have_saveWarning:
+            press_key('tab', 1)
+            press_key('enter', 1)
+
+    except Exception as e:
+        print('Doesn\'t have save warning!')
+            
+    bot.sleep(5)
     
 # FINISH THE PURCHASE LINE STATUS
 def ence_purchaseLine():
@@ -311,33 +331,16 @@ def ence_purchaseLine():
 
     # VERIFICA SE POSSUI LINHA DE APONTAMENTO DE HORAS
     try:
+        have_h = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
         have_workCenter = list(bot.locateOnScreen('images/FF78012.png', grayscale=True, confidence=0.8, region=workCenterCoords))
 
-        if not have_workCenter:
-            try:
-                have_h = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
-                
-                if not have_h:
-                    df.at[line, 'Status'] = 'Linha de apontamento com erro!'
-                    df.to_excel(excel_path, index=False, engine='openpyxl')
-
-                    press_key('f3', 1)
-                    bot.sleep(2)
-
-                    try:
-                        have_saveWarning = list(bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.8))
-                        
-                        if have_saveWarning:
-                            press_key('tab', 1)
-                            press_key('enter', 1)
-
-                    except Exception as e:
-                        print('Doesn\'t have save warning!')
-                            
-                    bot.sleep(5)
-
-            except Exception:
+        if have_h:
+            if have_workCenter:
                 workedHours = 1
+            else:
+                havn_workedHour()
+        else:
+            havn_workedHour()
     
     except Exception:
         print('Doesn\'t have worked hours apointment line!')
