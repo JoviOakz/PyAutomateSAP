@@ -265,13 +265,41 @@ def finish_treeLine():
             except Exception as e:
                 print(f'Error: {e}')
 
-# ========================================================================================
-# REVER ESSA PARTE AINDA
-
 # CHANGE THE PURCHASE LINE STATUS TO (BAIX CFMN CONF)
 def change_purchaseLine_status():
-    print('x')
-# ========================================================================================
+    press_key('tab', 2)
+    bot.sleep(0.3)
+    bot.typewrite('92903610')
+
+    for region, click_position in coordinates:
+        try:
+            if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
+                print('Found!')
+
+            else:
+                raise Exception
+            
+        except Exception:
+            bot.click(click_position)
+
+    bot.sleep(2)
+    bot.click(1128, 988)
+    bot.sleep(2)
+
+    try:
+        have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
+        
+        if have_info:
+            press_key('tab', 1)
+            press_key('enter', 1)
+            bot.sleep(2)
+            press_key('tab', 1)
+            press_key('enter', 1)
+
+            bot.sleep(2)
+
+    except Exception:
+        print('Don\'t have any additional information!')
     
 # FINISH THE PURCHASE LINE STATUS
 def ence_purchaseLine():
@@ -280,45 +308,39 @@ def ence_purchaseLine():
     # CLICA NA SINTESE DE TAREFA
     bot.click(580, 240)
     bot.sleep(2)
-    
 
-    # ========================================================================================
-    # REVER ESSA PARTE AINDA
+    # VERIFICA SE POSSUI LINHA DE APONTAMENTO DE HORAS
+    try:
+        have_workCenter = list(bot.locateOnScreen('images/FF78012.png', grayscale=True, confidence=0.8, region=workCenterCoords))
 
-    # try:
-    #     have_workCenter = list(bot.locateOnScreen('images/FF78012.png', grayscale=True, confidence=0.8, region=workCenterCoords))
-
-    #     if not have_workCenter:
-    #         try:
-    #             have_h = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
+        if not have_workCenter:
+            try:
+                have_h = list(bot.locateOnScreen('images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
                 
-    #             if not have_h:
-    #                 df.at[line, 'Status'] = 'Linha de apontamento com erro!'
-    #                 df.to_excel(excel_path, index=False, engine='openpyxl')
+                if not have_h:
+                    df.at[line, 'Status'] = 'Linha de apontamento com erro!'
+                    df.to_excel(excel_path, index=False, engine='openpyxl')
 
-    #                 press_key('f3', 1)
-    #                 bot.sleep(2)
+                    press_key('f3', 1)
+                    bot.sleep(2)
 
-    #                 try:
-    #                     have_saveWarning = list(bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.8))
+                    try:
+                        have_saveWarning = list(bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.8))
                         
-    #                     if have_saveWarning:
-    #                         press_key('tab', 1)
-    #                         press_key('enter', 1)
+                        if have_saveWarning:
+                            press_key('tab', 1)
+                            press_key('enter', 1)
 
-    #                 except Exception as e:
-    #                     print('Doesn\'t have save warning!')
+                    except Exception as e:
+                        print('Doesn\'t have save warning!')
                             
-    #                 bot.sleep(5)
+                    bot.sleep(5)
 
-    #         except Exception:
-    #             workedHours = 1
+            except Exception:
+                workedHours = 1
     
-    # except Exception:
-    #     print('Doesn\'t have worked hours apointment line!')
-    # ========================================================================================
-
-
+    except Exception:
+        print('Doesn\'t have worked hours apointment line!')
 
     # MARCA TODAS AS LINHAS DE COMPRA
     bot.click(484, 884)
@@ -370,19 +392,16 @@ def ence_purchaseLine():
                             except Exception as e:
                                 print(f'Error: {e}')
 
-    # ========================================================================================
-    # REVER ESSA PARTE AINDA
-
                         press_key('tab', 2)
                         press_key('enter', 1)
-
                         bot.sleep(2)
-
                         press_key('tab', 1)
                         press_key('enter', 1)
 
                         bot.sleep(2)
 
+    # ========================================================================================
+    # REVER ESSA PARTE AINDA
             except Exception:
                 if len(check_box) != len(have_baixa):
                     bot.click(150, 15)
@@ -403,7 +422,6 @@ def ence_purchaseLine():
 
     except Exception as e:
         print(f'Error: {e}')
-    
     # ========================================================================================
 
 # CHANGE THE LP STATUS TO ENCE AND SAVE EVERYTHING
