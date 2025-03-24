@@ -66,7 +66,7 @@ def project_status():
             df.at[line, 'Status'] = 'LP não existe!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(2.5)
+            bot.sleep(4.5)
 
             return True
         
@@ -82,7 +82,7 @@ def project_status():
 
             press_key('f3', 1)
 
-            bot.sleep(2.5)
+            bot.sleep(4.5)
 
             return True
         
@@ -392,61 +392,81 @@ def ence_purchaseLine():
             print(f'Error: {e}')
     
     else:
-        try:
-            check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+
+
+
+        # ================================================================================================
+        # TEMPORARIO
+        df.at[line, 'Status'] = 'Corrigir código para quando possuir linha de apontamento!'
+        df.to_excel(excel_path, index=False, engine='openpyxl')
+
+        press_key('tab', 1)
+        press_key('enter', 1)
+
+        bot.sleep(5)
+
+        pending += 1
+        # ================================================================================================
+
+
+
+
+
+        # try:
+        #     check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
                                     
-            if check_box:
-                try:
-                    have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+        #     if check_box:
+        #         try:
+        #             have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
                     
-                    if have_baixa:
-                        if len(check_box) != len(have_baixa)+1:
-                            bot.click(150, 15)
-                            bot.sleep(2)
-                            bot.click(240, 75)
-                            bot.sleep(2)
-                            bot.click(520, 270)
-                            bot.sleep(2)
-                            bot.click(680, 300)
-                            bot.sleep(2)
-                            bot.click(484, 884)
-                            bot.sleep(2)
-                            bot.click(600, 884)
-                            bot.sleep(2)
-                            press_key('enter', 1)
-                            bot.sleep(2)
-                            press_key('enter', 1)
+        #             if have_baixa:
+        #                 if len(check_box) != len(have_baixa)+1:
+        #                     bot.click(150, 15)
+        #                     bot.sleep(2)
+        #                     bot.click(240, 75)
+        #                     bot.sleep(2)
+        #                     bot.click(520, 270)
+        #                     bot.sleep(2)
+        #                     bot.click(680, 300)
+        #                     bot.sleep(2)
+        #                     bot.click(484, 884)
+        #                     bot.sleep(2)
+        #                     bot.click(600, 884)
+        #                     bot.sleep(2)
+        #                     press_key('enter', 1)
+        #                     bot.sleep(2)
+        #                     press_key('enter', 1)
 
-                            bot.sleep(2)
+        #                     bot.sleep(2)
 
-                            #===============================================================
-                            #CODIGO PARA REALIZAR CHANGE PURCHASELINE STATUS NO APONTAMENTO E CONTINUAR NORMALMENTE DEPOIS
-                            #===============================================================
+        #                     #===============================================================
+        #                     #CODIGO PARA REALIZAR CHANGE PURCHASELINE STATUS NO APONTAMENTO E CONTINUAR NORMALMENTE DEPOIS
+        #                     #===============================================================
 
-                            warning_exist = None
+        #                     warning_exist = None
 
-                            while not warning_exist:
-                                try:
-                                    change_purchaseLine_status()
+        #                     while not warning_exist:
+        #                         try:
+        #                             change_purchaseLine_status()
 
-                                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+        #                             warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
                                 
-                                except Exception as e:
-                                    print(f'Error: {e}')
+        #                         except Exception as e:
+        #                             print(f'Error: {e}')
 
-                            press_key('tab', 2)
-                            press_key('enter', 1)
-                            bot.sleep(2)
-                            press_key('tab', 1)
-                            press_key('enter', 1)
+        #                     press_key('tab', 2)
+        #                     press_key('enter', 1)
+        #                     bot.sleep(2)
+        #                     press_key('tab', 1)
+        #                     press_key('enter', 1)
 
-                            bot.sleep(2)
+        #                     bot.sleep(2)
 
-                except Exception as e:
-                    print(f'Error: {e}')
+        #         except Exception as e:
+        #             print(f'Error: {e}')
 
-        except Exception as e:
-            print(f'Error: {e}')
+        # except Exception as e:
+        #     print(f'Error: {e}')
 
 # CHANGE THE LP STATUS TO ENCE AND SAVE EVERYTHING
 def conclusion():
@@ -500,16 +520,21 @@ for _ in range(repeat_qty):
                 ence_purchaseLine()
 
             # ========================================================================================
-            # REVER A FUNCIONALIDADE DO PENDING PARA FECHAR O PROGRAMA COM ERROS
-            finish_treeLine()
+            # TEMPORARIO
+            if pending != 1:
+            # ========================================================================================
+                finish_treeLine()
 
-            bot.click(186, 212)
-            bot.sleep(2)
-            
-            finish_treeLine()
-
-            if pending == 0:
-                conclusion()
+                if pending != 1:
+                    bot.click(186, 212)
+                    bot.sleep(2)
+                    
+                    finish_treeLine()
+                    conclusion()
+                else:
+                    error_conclusion()
+            # ========================================================================================
+            # TEMPORARIO
             else:
                 error_conclusion()
             # ========================================================================================
