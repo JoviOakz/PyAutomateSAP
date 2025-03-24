@@ -129,11 +129,11 @@ def open_tree():
 # CHECK IF THE DIAGRAM IS ALREADY ENCE
 def diagram_notLib():
     try:
-        have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
+        have_purchase = list(bot.locateOnScreen('../images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
         
         if have_purchase:
             try:
-                have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
+                have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
                 
                 if have_ence:
                     bot.click(150, 15)
@@ -146,7 +146,7 @@ def diagram_notLib():
                 print('Diagram is not ENCE!')
 
             try:
-                have_ente = bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9)
+                have_ente = bot.locateOnScreen('../images/ENTE.png', grayscale=True, confidence=0.9)
                 
                 if have_ente:
                     bot.click(150, 15)
@@ -166,7 +166,7 @@ def diagram_notLib():
 # FINISH THE TREE LINE STATUS WITH (ENCE)
 def finish_treeLine():
     try:
-        have_aber = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
+        have_aber = list(bot.locateOnScreen('../images/ABER.png', grayscale=True, confidence=0.8))
         
         if have_aber:
             ence_sequence(first_sequence)
@@ -176,7 +176,7 @@ def finish_treeLine():
             bot.sleep(2)
 
             try:
-                warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                 
                 if warning_exist:
                     press_key('enter', 1)
@@ -188,7 +188,7 @@ def finish_treeLine():
 
     except Exception:
         try:
-            have_lib = list(bot.locateOnScreen('images/LIB.png', grayscale=True, confidence=0.8))
+            have_lib = list(bot.locateOnScreen('../images/LIB.png', grayscale=True, confidence=0.8))
             
             if have_lib:
                 ence_sequence(first_sequence)
@@ -198,7 +198,7 @@ def finish_treeLine():
                 bot.sleep(2)
 
                 try:
-                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                     
                     if warning_exist:
                         press_key('enter', 1)
@@ -209,7 +209,7 @@ def finish_treeLine():
                     print('WARNING don\'t exists!')
 
                 try:
-                    error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+                    error_exist = list(bot.locateAllOnScreen('../images/ERROR.png', grayscale=True, confidence=0.7))
 
                     if error_exist:
                         df.at[line, 'Status'] = 'Compromisso pendente!'
@@ -227,7 +227,7 @@ def finish_treeLine():
 
         except Exception:
             try:
-                have_ente = list(bot.locateOnScreen('images/ENTE.png', grayscale=True, confidence=0.9))
+                have_ente = list(bot.locateOnScreen('../images/ENTE.png', grayscale=True, confidence=0.9))
                 
                 if have_ente:
                     ence_sequence(second_sequence)
@@ -235,7 +235,7 @@ def finish_treeLine():
                     bot.sleep(2)
 
                     try:
-                        warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                        warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                         
                         if warning_exist:
                             press_key('enter', 1)
@@ -246,7 +246,7 @@ def finish_treeLine():
                         print('WARNING don\'t exists!')
 
                     try:
-                        error_exist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7))
+                        error_exist = list(bot.locateAllOnScreen('../images/ERROR.png', grayscale=True, confidence=0.7))
 
                         if error_exist:
                             df.at[line, 'Status'] = 'Compromisso pendente!'
@@ -273,7 +273,7 @@ def change_purchaseLine_status():
 
     for region, click_position in coordinates:
         try:
-            if bot.locateOnScreen('images/CHECK.png', grayscale=True, confidence=0.7, region=region):
+            if bot.locateOnScreen('../images/CHECK.png', grayscale=True, confidence=0.7, region=region):
                 print('Found!')
 
             else:
@@ -287,7 +287,7 @@ def change_purchaseLine_status():
     bot.sleep(2)
 
     try:
-        have_info = bot.locateOnScreen('images/INFO.png', grayscale=True, confidence=0.8)
+        have_info = bot.locateOnScreen('../images/INFO.png', grayscale=True, confidence=0.8)
         
         if have_info:
             press_key('tab', 1)
@@ -340,11 +340,11 @@ def ence_purchaseLine():
 
     if workedHours != 1:
         try:
-            check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+            check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
                                     
             if check_box:
                 try:
-                    have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+                    have_baixa = list(bot.locateAllOnScreen('../images/BAIXCFMN.png', grayscale=True, confidence=0.8))
                     
                     if have_baixa:
                         if len(check_box) != len(have_baixa):
@@ -372,7 +372,7 @@ def ence_purchaseLine():
                                 try:
                                     change_purchaseLine_status()
 
-                                    warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                                 
                                 except Exception as e:
                                     print(f'Error: {e}')
@@ -413,11 +413,11 @@ def ence_purchaseLine():
 
 
         # try:
-        #     check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
+        #     check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
                                     
         #     if check_box:
         #         try:
-        #             have_baixa = list(bot.locateAllOnScreen('images/BAIXACONF.png', grayscale=True, confidence=0.8))
+        #             have_baixa = list(bot.locateAllOnScreen('../images/BAIXCFMN.png', grayscale=True, confidence=0.8))
                     
         #             if have_baixa:
         #                 if len(check_box) != len(have_baixa)+1:
@@ -449,7 +449,7 @@ def ence_purchaseLine():
         #                         try:
         #                             change_purchaseLine_status()
 
-        #                             warning_exist = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+        #                             warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                                 
         #                         except Exception as e:
         #                             print(f'Error: {e}')
