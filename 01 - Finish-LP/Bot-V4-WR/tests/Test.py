@@ -9,7 +9,7 @@ import pyperclip
 
 # GLOBAL SOFTWARE SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.25
+bot.PAUSE = 0.35
 
 arrowCoords = (15, 166, 400, 200)
 hourCoords = (880, 332, 50, 188)
@@ -109,8 +109,6 @@ def project_status():
     except Exception:
         print('LBPA status not found!')
 
-    return False
-
 # OPEN PROJECT TREE
 def open_tree():
     try:
@@ -123,8 +121,10 @@ def open_tree():
 
             bot.sleep(2)
 
+            return False
+
     except Exception:
-        return False
+        print('Doesn\'t have diagram!')
 
 # CHECK IF THE DIAGRAM IS ALREADY ENCE
 def diagram_notLib():
@@ -318,7 +318,7 @@ def ence_purchaseLine():
                 have_workCenter = list(bot.locateOnScreen('../images/FF78012.png', grayscale=True, confidence=0.9, region=workCenterCoords))
 
                 if have_workCenter:
-                    print('Doesn\'t have worked hours apointment line!')
+                    print('Doesn\'t have FF78012!')
 
             except Exception:
                 workedHours = 1
@@ -333,7 +333,7 @@ def ence_purchaseLine():
     # MOUSE VAI PARA BARRA E ARRASTA PARA O LADO
     bot.moveTo(606, 848)
     bot.mouseDown()
-    bot.moveTo(846, 848, duration=0.25)
+    bot.moveTo(700, 848, duration=0.25)
     bot.mouseUp()
 
     bot.sleep(2)
@@ -509,14 +509,14 @@ for _ in range(repeat_qty):
     if not jump_all_process:
         diagram = open_tree()
 
-        if not diagram:
+        if diagram:
             finish_treeLine()
             jump_main_function = True
 
         if not jump_main_function:
             purchase_line = diagram_notLib()
             
-            if not purchase_line:
+            if purchase_line:
                 ence_purchaseLine()
 
             # ========================================================================================
