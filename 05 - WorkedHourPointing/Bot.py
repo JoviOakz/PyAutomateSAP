@@ -16,9 +16,12 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-line = 49
+qty = 37
+line = 0
 
-for _ in range(8):
+repeat_count = qty - line
+
+for _ in range(repeat_count):
     lp = df.at[line, 'LPs']
 
     bot.typewrite(str(lp))
@@ -28,7 +31,7 @@ for _ in range(8):
     bot.sleep(3)
 
     press_key('tab', 2)
-    bot.typewrite('Planejadora Yesica - 14.03.2025')
+    bot.typewrite('Planejadora Yesica - 25.03.2025')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
