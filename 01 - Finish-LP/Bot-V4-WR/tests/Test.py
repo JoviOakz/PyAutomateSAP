@@ -383,8 +383,9 @@ def ence_purchaseLine():
                             press_key('enter', 1)
 
                             bot.sleep(2)
+                            
                             # =========================================================================================================================
-                            # ATENÇÃO, POSSIVEL ERROS
+                            # ATENÇÃO, POSSÍVEIS ERROS
                             warning_exist = None
 
                             while not warning_exist:
@@ -410,7 +411,7 @@ def ence_purchaseLine():
                     bot.sleep(2)
 
                     # =========================================================================================================================
-                    # ATENÇÃO, POSSIVEL ERROS
+                    # ATENÇÃO, POSSÍVEIS ERROS
                     warning_exist = None
 
                     while not warning_exist:
@@ -429,81 +430,81 @@ def ence_purchaseLine():
             print(f'Error: {e}')
     
     else:
-
-
-
-        # ================================================================================================
-        # TEMPORARIO
-        df.at[line, 'Status'] = 'Corrigir código para quando possuir linha de apontamento!'
-        df.to_excel(excel_path, index=False, engine='openpyxl')
-
-        press_key('tab', 1)
-        press_key('enter', 1)
-
-        bot.sleep(5)
-
-        pending += 1
-        # ================================================================================================
-
-
-
-
-
-        # try:
-        #     check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
+        try:
+            check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
                                     
-        #     if check_box:
-        #         try:
-        #             have_baixa = list(bot.locateAllOnScreen('../images/BAIXCFMN.png', grayscale=True, confidence=0.8))
+            if check_box:
+                try:
+                    have_baixa = list(bot.locateAllOnScreen('../images/BAIXCFMN.png', grayscale=True, confidence=0.8))
                     
-        #             if have_baixa:
-        #                 if len(check_box) != len(have_baixa)+1:
-        #                     bot.click(150, 15)
-        #                     bot.sleep(2)
-        #                     bot.click(240, 75)
-        #                     bot.sleep(2)
-        #                     bot.click(520, 270)
-        #                     bot.sleep(2)
-        #                     bot.click(680, 300)
-        #                     bot.sleep(2)
-        #                     bot.click(484, 884)
-        #                     bot.sleep(2)
-        #                     bot.click(600, 884)
-        #                     bot.sleep(2)
-        #                     press_key('enter', 1)
-        #                     bot.sleep(2)
-        #                     press_key('enter', 1)
+                    if have_baixa:
+                        if len(check_box) != len(have_baixa)+1:
+                            bot.click(150, 15)
+                            bot.sleep(2)
+                            bot.click(240, 75)
+                            bot.sleep(2)
+                            bot.click(520, 270)
+                            bot.sleep(2)
+                            bot.click(680, 300)
+                            bot.sleep(2)
+                            bot.click(484, 884)
+                            bot.sleep(2)
+                            bot.click(600, 884)
+                            bot.sleep(2)
+                            press_key('enter', 1)
+                            bot.sleep(2)
+                            press_key('enter', 1)
 
-        #                     bot.sleep(2)
+                            bot.sleep(2)
 
-        #                     #===============================================================
-        #                     #CODIGO PARA REALIZAR CHANGE PURCHASELINE STATUS NO APONTAMENTO E CONTINUAR NORMALMENTE DEPOIS
-        #                     #===============================================================
+                            #===============================================================
+                            #CODIGO PARA REALIZAR CHANGE PURCHASELINE STATUS NO APONTAMENTO E CONTINUAR NORMALMENTE DEPOIS
+                            #===============================================================
 
-        #                     warning_exist = None
+                            # =========================================================================================================================
+                            # ATENÇÃO, POSSÍVEIS ERROS
+                            warning_exist = None
 
-        #                     while not warning_exist:
-        #                         try:
-        #                             change_purchaseLine_status()
+                            while not warning_exist:
+                                try:
+                                    change_purchaseLine_status()
 
-        #                             warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                                 
-        #                         except Exception as e:
-        #                             print(f'Error: {e}')
+                                except Exception as e:
+                                    warning_exist = True
 
-        #                     press_key('tab', 2)
-        #                     press_key('enter', 1)
-        #                     bot.sleep(2)
-        #                     press_key('tab', 1)
-        #                     press_key('enter', 1)
+                            press_key('tab', 2)
+                            press_key('enter', 1)
+                            bot.sleep(2)
+                            press_key('tab', 1)
+                            press_key('enter', 1)
 
-        #                     bot.sleep(2)
+                            bot.sleep(2)
+                            # =========================================================================================================================
 
-        #         except Exception as e:
-        #             print(f'Error: {e}')
+                except Exception as e:
+                    bot.click(600, 884)
+                    bot.sleep(2)
 
-        # except Exception as e:
-        #     print(f'Error: {e}')
+                    # =========================================================================================================================
+                    # ATENÇÃO, POSSÍVEIS ERROS
+                    warning_exist = None
+
+                    while not warning_exist:
+                        try:
+                            change_purchaseLine_status()
+
+                            warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                        
+                        except Exception as e:
+                            warning_exist = True
+                    # =========================================================================================================================
+
+                    bot.sleep(2)
+
+        except Exception as e:
+            print(f'Error: {e}')
     
     bot.click(580, 200)
     bot.sleep(2)
@@ -527,8 +528,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-lp_qty = 25
-line = 0
+lp_qty = 27
+line = 25
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
