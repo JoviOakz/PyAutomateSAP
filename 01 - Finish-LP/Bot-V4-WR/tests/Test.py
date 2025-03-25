@@ -9,7 +9,7 @@ import pyperclip
 
 # GLOBAL SOFTWARE SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 1
+bot.PAUSE = 0.35
 
 arrowCoords = (15, 166, 400, 200)
 hourCoords = (880, 332, 50, 188)
@@ -55,7 +55,7 @@ def open_project():
     bot.hotkey('ctrl', 'v')
     press_key('enter', 1)
 
-    bot.sleep(1.75)
+    bot.sleep(2)
 
 # IDENTIFIES THE PROJECT STATUS (IF DON'T EXIST, HAVE LBPA OR ALREADY FINISHED) 
 def project_status():
@@ -287,6 +287,24 @@ def change_purchaseLine_status():
     bot.sleep(2)
 
     try:
+        have_advertence = bot.locateOnScreen('../images/ADVERTENCE.png', grayscale=True, confidence=0.8)
+        
+        if have_advertence:
+            press_key('tab', 1)
+            press_key('enter', 1)
+            bot.sleep(2)
+            press_key('tab', 2)
+            press_key('enter', 1)
+            bot.sleep(2)
+            press_key('tab', 1)
+            press_key('enter', 1)
+
+            bot.sleep(2)
+
+    except Exception:
+        print('Don\'t have any additional information!')
+
+    try:
         have_info = bot.locateOnScreen('../images/INFO.png', grayscale=True, confidence=0.8)
         
         if have_info:
@@ -365,7 +383,8 @@ def ence_purchaseLine():
                             press_key('enter', 1)
 
                             bot.sleep(2)
-
+                            # =========================================================================================================================
+                            # ATENÇÃO, POSSIVEL ERROS
                             warning_exist = None
 
                             while not warning_exist:
@@ -375,7 +394,7 @@ def ence_purchaseLine():
                                     warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
                                 
                                 except Exception as e:
-                                    print(f'Error: {e}')
+                                    warning_exist = True
 
                             press_key('tab', 2)
                             press_key('enter', 1)
@@ -384,9 +403,27 @@ def ence_purchaseLine():
                             press_key('enter', 1)
 
                             bot.sleep(2)
+                            # =========================================================================================================================
 
                 except Exception as e:
-                    print(f'Error: {e}')
+                    bot.click(600, 884)
+                    bot.sleep(2)
+
+                    # =========================================================================================================================
+                    # ATENÇÃO, POSSIVEL ERROS
+                    warning_exist = None
+
+                    while not warning_exist:
+                        try:
+                            change_purchaseLine_status()
+
+                            warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                        
+                        except Exception as e:
+                            warning_exist = True
+                    # =========================================================================================================================
+
+                    bot.sleep(2)
 
         except Exception as e:
             print(f'Error: {e}')
@@ -467,6 +504,9 @@ def ence_purchaseLine():
 
         # except Exception as e:
         #     print(f'Error: {e}')
+    
+    bot.click(580, 200)
+    bot.sleep(2)
 
 # CHANGE THE LP STATUS TO ENCE AND SAVE EVERYTHING
 def conclusion():
