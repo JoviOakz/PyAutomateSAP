@@ -41,9 +41,9 @@ def open_om():
 # TECHNICALLY COMPLETE
 def tec_complete():
     press_key('ctrlf12', 1)
-    bot.sleep(1.5)
+    bot.sleep(2)
     press_key('enter', 1)
-    bot.sleep(2.75)
+    bot.sleep(3)
 
     press_key('enter', 1)
     bot.sleep(3)
@@ -86,7 +86,7 @@ def com_complete():
     except Exception:
         print('Warning not found!')
 
-    bot.sleep(1.5)
+    bot.sleep(2.5)
 
 # EXCEL CONFIG
 lp_qty = 20
