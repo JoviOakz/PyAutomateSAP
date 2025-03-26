@@ -5,7 +5,6 @@
 # LIBRARIES
 import pyautogui as bot
 import pandas as pd
-import pyperclip
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
