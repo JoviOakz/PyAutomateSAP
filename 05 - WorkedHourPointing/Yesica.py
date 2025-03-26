@@ -10,7 +10,7 @@ bot.PAUSE = 0.5
 bot.click(1802, 14)
 
 # EXCEL CONFIGURATION
-excel_path = "ApontamentoDiego.xlsx"
+excel_path = "ApontamentoYesica.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
 # FUNCTION TO PRESS COMMAND X TIMES
