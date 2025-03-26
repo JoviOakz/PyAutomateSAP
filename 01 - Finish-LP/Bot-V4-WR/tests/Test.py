@@ -9,7 +9,7 @@ import pyperclip
 
 # GLOBAL SOFTWARE SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.35
+bot.PAUSE = 0.4
 
 arrowCoords = (15, 166, 400, 200)
 hourCoords = (880, 332, 50, 188)
@@ -220,7 +220,7 @@ def finish_treeLine():
 
                         bot.sleep(5)
 
-                        pending += 1
+                        return 1
                 
                 except Exception:
                     print('Doesn\'t have pending commitment!')
@@ -257,7 +257,7 @@ def finish_treeLine():
 
                             bot.sleep(5)
 
-                            pending += 1
+                            return 1
                     
                     except Exception:
                         print('Doesn\'t have pending commitment!')
@@ -440,7 +440,7 @@ def ence_purchaseLine():
  
          bot.sleep(5)
  
-         pending += 1
+         return 1
          # ================================================================================================
 
         # try:
@@ -541,8 +541,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-lp_qty = 27
-line = 25
+lp_qty = 68
+line = 51
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
@@ -571,19 +571,19 @@ for _ in range(repeat_qty):
             purchase_line = diagram_notLib()
             
             if purchase_line:
-                ence_purchaseLine()
+                pending = ence_purchaseLine()
 
             # ========================================================================================
             # TEMPORARIO
             if pending != 1:
             # ========================================================================================
-                finish_treeLine()
+                pending = finish_treeLine()
 
                 if pending != 1:
                     bot.click(186, 212)
                     bot.sleep(2)
                     
-                    finish_treeLine()
+                    pending = finish_treeLine()
                     conclusion()
                 else:
                     error_conclusion()

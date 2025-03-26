@@ -89,11 +89,14 @@ def com_complete():
     bot.sleep(1.5)
 
 # EXCEL CONFIG
-qty = 31
+lp_qty = 20
 line = 0
 
+# REPEAT QUANTITY TO PROGRAM RUN
+repeat_qty = lp_qty - line
+
 # MAIN PROGRAM
-for _ in range(qty):
+for _ in range(repeat_qty):
     open_om()
 
     try:
