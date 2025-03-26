@@ -31,11 +31,11 @@ for _ in range(repeat_count):
     bot.sleep(3)
 
     press_key('tab', 2)
-    bot.typewrite('Planejadora Yesica - 25.03.2025')
+    bot.typewrite('Projetista Diego - 28.03.2025')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
-    bot.typewrite('FCTLIY')
+    bot.typewrite('FCTVID')
     press_key('tab', 2)
     bot.typewrite('100')
     press_key('tab', 1)
@@ -49,7 +49,7 @@ for _ in range(repeat_count):
 
     bot.sleep(1)
     
-    bot.typewrite('92886895')
+    bot.typewrite('92903130')
     press_key('enter', 1)
 
     bot.sleep(1.25)
