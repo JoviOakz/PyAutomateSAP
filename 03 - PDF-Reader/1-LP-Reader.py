@@ -1,3 +1,4 @@
+# LIBRARIES
 import pandas as pd
 from pdf2image import convert_from_path
 import pytesseract
