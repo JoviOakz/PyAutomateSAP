@@ -21,13 +21,13 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-#
+# OPEN DIAGRAM
 def open_diagram():
     lp = df.at[line, 'LPs']
     bot.typewrite(str(lp))
     press_key('f7', 1)
 
-#
+# INSERT USER INFORMATION
 def create_apointment():
     press_key('tab', 2)
     bot.typewrite('Projetista Diego - 28.03.2025')
@@ -42,7 +42,7 @@ def create_apointment():
 
     bot.sleep(0.3)
 
-#
+# SAVE THE APOINTMENT LINE
 def save_line():
     press_key('ctrls', 1)
     bot.sleep(2)
