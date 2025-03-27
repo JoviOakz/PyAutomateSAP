@@ -27,6 +27,8 @@ def open_diagram():
     bot.typewrite(str(lp))
     press_key('f7', 1)
 
+    bot.sleep(3)
+
 # INSERT USER INFORMATION
 def create_apointment():
     press_key('tab', 2)
@@ -56,11 +58,11 @@ def save_line():
     bot.sleep(0.3)
     press_key('enter', 1)
     
-    bot.sleep(2)
+    bot.sleep(3)
 
 # EXCEL CONFIG
 lp_qty = 20
-line = 0
+line = 5
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
