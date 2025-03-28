@@ -8,7 +8,7 @@ import pandas as pd
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.6
+bot.PAUSE = 0.75
 
 # PUT DOWN THE CODE SCREEN
 bot.click(1802, 14)
@@ -60,7 +60,7 @@ def com_complete():
             df.at[line, 'Status'] = 'Encerrado!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(5)
+            bot.sleep(7.5)
 
             press_key('enter', 1)
 
@@ -74,7 +74,7 @@ def com_complete():
             df.at[line, 'Status'] = 'Ordem pendente!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(5)
+            bot.sleep(7.5)
 
             press_key('f12', 1)
             bot.sleep(1)
@@ -88,7 +88,7 @@ def com_complete():
     bot.sleep(2.5)
 
 # EXCEL CONFIG
-lp_qty = 20
+lp_qty = 19
 line = 0
 
 # REPEAT QUANTITY TO PROGRAM RUN
