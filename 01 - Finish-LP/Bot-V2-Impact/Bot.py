@@ -1,7 +1,7 @@
 import pyautogui as bot
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.45
+bot.PAUSE = 0.75
 
 bot.click(1802, 14)
 
