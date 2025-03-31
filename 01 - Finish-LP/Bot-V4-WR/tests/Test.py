@@ -347,20 +347,13 @@ def ence_purchaseLine():
     # =========================================================================================================================
     # É PARA SER TEMPORÁRIO MAS PODE FICAR OFICIAL PARA CASO HAJA ERROS NA CRIAÇÃO DA LINHA MESMO, E RESULTANDO EM MOSTRAR O STATUS NA LINHA DO EXCEL COMO CRIAÇÃO ERRONEA
     try:
-        have_min = list(bot.locateOnScreen('../images/MIN.png', grayscale=True, confidence=0.8, region=hourCoords))
+        have_workCenter = list(bot.locateOnScreen('../images/FF78012.png', grayscale=True, confidence=0.9, region=workCenterCoords))
 
-        if have_min:
-            try:
-                have_workCenter = list(bot.locateOnScreen('../images/FF78012.png', grayscale=True, confidence=0.9, region=workCenterCoords))
-
-                if have_workCenter:
-                    print('Doesn\'t have FF78012!')
-
-            except Exception:
-                workedHours = 1
+        if have_workCenter:
+            print('Doesn\'t have FF78012!')
 
     except Exception:
-        print('Doesn\'t have worked hours apointment line!')
+        workedHours = 1
     # =========================================================================================================================
 
     # MARCA TODAS AS LINHAS DE COMPRA
@@ -374,6 +367,7 @@ def ence_purchaseLine():
     bot.mouseUp()
 
     bot.sleep(2)
+
 
     if workedHours != 1:
         try:
@@ -453,9 +447,6 @@ def ence_purchaseLine():
          # TEMPORARIO
          df.at[line, 'Status'] = 'Corrigir código para quando possuir linha de apontamento!'
          df.to_excel(excel_path, index=False, engine='openpyxl')
- 
-         press_key('tab', 1)
-         press_key('enter', 1)
  
          bot.sleep(5)
  
@@ -554,14 +545,22 @@ def conclusion():
 def error_conclusion():
     press_key('f3', 1)
     bot.sleep(2)
-    press_key('tab', 1)
-    press_key('enter', 1)
+
+    try:
+        have_changes = list(bot.locateAllOnScreen('../images/SAVE.png', grayscale=True, confidence=0.8))
+
+        if have_changes:
+            press_key('tab', 1)
+            press_key('enter', 1)
+
+    except Exception:
+        print('Doesn\'t have changes!')
 
     bot.sleep(5)
 
 # EXCEL CONFIG
-lp_qty = 61
-line = 0
+lp_qty = 27
+line = 17
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
