@@ -323,11 +323,9 @@ def change_purchaseLine_status():
 def ence_purchaseLine():
     workedHours = 0
 
-    # CLICA NA SINTESE DE TAREFA
     bot.click(580, 240)
     bot.sleep(2)
 
-    # VERIFICA SE POSSUI LINHA DE APONTAMENTO DE HORAS
     try:
         have_h = list(bot.locateOnScreen('../images/H.png', grayscale=True, confidence=0.8, region=hourCoords))
 
@@ -336,38 +334,30 @@ def ence_purchaseLine():
                 have_workCenter = list(bot.locateOnScreen('../images/FF78012.png', grayscale=True, confidence=0.9, region=workCenterCoords))
 
                 if have_workCenter:
-                    print('Doesn\'t have FF78012!')
+                    print('Doesn\'t have worked hours apointment line!')
 
             except Exception:
                 workedHours = 1
 
     except Exception:
-        print('Doesn\'t have worked hours apointment line!')
-    
-    # =========================================================================================================================
-    # É PARA SER TEMPORÁRIO MAS PODE FICAR OFICIAL PARA CASO HAJA ERROS NA CRIAÇÃO DA LINHA MESMO, E RESULTANDO EM MOSTRAR O STATUS NA LINHA DO EXCEL COMO CRIAÇÃO ERRONEA
-    try:
-        have_workCenter = list(bot.locateOnScreen('../images/FF78012.png', grayscale=True, confidence=0.9, region=workCenterCoords))
+        try:
+            have_workCenter = list(bot.locateOnScreen('../images/FF78012.png', grayscale=True, confidence=0.9, region=workCenterCoords))
 
-        if have_workCenter:
-            print('Doesn\'t have FF78012!')
+            if have_workCenter:
+                print('Doesn\'t have worked hours apointment line!')
 
-    except Exception:
-        workedHours = 1
-    # =========================================================================================================================
+        except Exception:
+            workedHours = 1
 
-    # MARCA TODAS AS LINHAS DE COMPRA
     bot.click(484, 884)
     bot.sleep(2)
     
-    # MOUSE VAI PARA BARRA E ARRASTA PARA O LADO
     bot.moveTo(606, 848)
     bot.mouseDown()
     bot.moveTo(700, 848, duration=0.25)
     bot.mouseUp()
 
     bot.sleep(2)
-
 
     if workedHours != 1:
         try:
@@ -443,92 +433,21 @@ def ence_purchaseLine():
             print(f'Error: {e}')
     
     else:
-        # ================================================================================================
-         # TEMPORARIO
-         df.at[line, 'Status'] = 'Corrigir código para quando possuir linha de apontamento!'
-         df.to_excel(excel_path, index=False, engine='openpyxl')
- 
-         bot.sleep(5)
- 
-         return 1
-         # ================================================================================================
-
-        # try:
-        #     check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
+        try:
+            check_box = list(bot.locateAllOnScreen('../images/CHECK.png', grayscale=True, confidence=0.8))
                                     
-        #     if check_box:
-        #         try:
-        #             have_baixa = list(bot.locateAllOnScreen('../images/BAIXCFMN.png', grayscale=True, confidence=0.8))
-                    
-        #             if have_baixa:
-        #                 if len(check_box) != len(have_baixa)+1:
-        #                     bot.click(150, 15)
-        #                     bot.sleep(2)
-        #                     bot.click(240, 75)
-        #                     bot.sleep(2)
-        #                     bot.click(520, 270)
-        #                     bot.sleep(2)
-        #                     bot.click(680, 300)
-        #                     bot.sleep(2)
-        #                     bot.click(484, 884)
-        #                     bot.sleep(2)
-        #                     bot.click(600, 884)
-        #                     bot.sleep(2)
-        #                     press_key('enter', 1)
-        #                     bot.sleep(2)
-        #                     press_key('enter', 1)
+            if check_box:
+                if len(check_box) != 1:
+                    df.at[line, 'Status'] = 'Possui linhas de compra e apontamento!'
+                    df.to_excel(excel_path, index=False, engine='openpyxl')
 
-        #                     bot.sleep(2)
-
-        #                     #===============================================================
-        #                     #CODIGO PARA REALIZAR CHANGE PURCHASELINE STATUS NO APONTAMENTO E CONTINUAR NORMALMENTE DEPOIS
-        #                     #===============================================================
-
-        #                     # =========================================================================================================================
-        #                     # ATENÇÃO, POSSÍVEIS ERROS
-        #                     warning_exist = None
-
-        #                     while not warning_exist:
-        #                         try:
-        #                             change_purchaseLine_status()
-
-        #                             warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                                
-        #                         except Exception as e:
-        #                             warning_exist = True
-
-        #                     press_key('tab', 2)
-        #                     press_key('enter', 1)
-        #                     bot.sleep(2)
-        #                     press_key('tab', 1)
-        #                     press_key('enter', 1)
-
-        #                     bot.sleep(2)
-        #                     # =========================================================================================================================
-
-        #         except Exception as e:
-        #             bot.click(600, 884)
-        #             bot.sleep(2)
-
-        #             # =========================================================================================================================
-        #             # ATENÇÃO, POSSÍVEIS ERROS
-        #             warning_exist = None
-
-        #             while not warning_exist:
-        #                 try:
-        #                     change_purchaseLine_status()
-
-        #                     warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                        
-        #                 except Exception as e:
-        #                     warning_exist = True
-        #             # =========================================================================================================================
-
-        #             bot.sleep(2)
-
-        # except Exception as e:
-        #     print(f'Error: {e}')
-    
+                    bot.sleep(5)
+        
+                    return 1
+                
+        except Exception:
+            print('Only the apointment line!')
+ 
     bot.click(580, 200)
     bot.sleep(2)
 
@@ -559,8 +478,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-lp_qty = 27
-line = 17
+lp_qty = 2
+line = 0
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
@@ -591,10 +510,7 @@ for _ in range(repeat_qty):
             if purchase_line:
                 pending = ence_purchaseLine()
 
-            # ========================================================================================
-            # TEMPORARIO
             if pending != 1:
-            # ========================================================================================
                 pending = finish_treeLine()
 
                 if pending != 1:
@@ -603,12 +519,11 @@ for _ in range(repeat_qty):
                     
                     pending = finish_treeLine()
                     conclusion()
+
                 else:
                     error_conclusion()
-            # ========================================================================================
-            # TEMPORARIO
+
             else:
                 error_conclusion()
-            # ========================================================================================
             
     line += 1
