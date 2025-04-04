@@ -40,7 +40,7 @@ def open_om():
 # VERIFY IF THE ENCE STATUS ALREADY EXISTS
 def ence_exist():
     try:
-        have_ence = bot.locateOnScreen('images/ERROR.png', grayscale=True, confidence=0.9)
+        have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
 
         if have_ence:
             df.at[line, 'Status'] = 'Encerrado!'
