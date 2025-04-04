@@ -37,6 +37,24 @@ def open_om():
 
     bot.sleep(3)
 
+# VERIFY IF THE ENCE STATUS ALREADY EXISTS
+def ence_exist():
+    try:
+        have_ence = bot.locateOnScreen('images/ERROR.png', grayscale=True, confidence=0.9)
+
+        if have_ence:
+            df.at[line, 'Status'] = 'Encerrado!'
+            df.to_excel(excel_path, index=False, engine='openpyxl')
+
+            bot.sleep(5)
+
+            press_key('f3', 1)
+
+            return 1
+    
+    except Exception:
+        print('Not finished yet!')
+
 # TECHNICALLY COMPLETE
 def tec_complete():
     press_key('ctrlf12', 1)
@@ -60,7 +78,7 @@ def com_complete():
             df.at[line, 'Status'] = 'Encerrado!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(7.5)
+            bot.sleep(5)
 
             press_key('enter', 1)
 
@@ -74,7 +92,7 @@ def com_complete():
             df.at[line, 'Status'] = 'Ordem pendente!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(7.5)
+            bot.sleep(5)
 
             press_key('f12', 1)
             bot.sleep(1)
@@ -85,28 +103,35 @@ def com_complete():
     except Exception:
         print('Warning not found!')
 
-    bot.sleep(2.5)
+    df.at[line, 'Status'] = 'Encerrado!'
+    df.to_excel(excel_path, index=False, engine='openpyxl')
+
+    bot.sleep(5)
 
 # EXCEL CONFIG
-lp_qty = 19
-line = 0
+lp_qty = 52
+line = 32
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
 
 # MAIN PROGRAM
 for _ in range(repeat_qty):
+    jump_process = 0
+
     open_om()
+    jump_process = ence_exist()
 
-    try:
-        tec_finished = bot.locateOnScreen('images/BANDEIRA.png', grayscale=True, confidence=0.9)
-        
-        if tec_finished:
-            tec_complete()
+    if jump_process != 1:
+        try:
+            tec_finished = bot.locateOnScreen('images/BANDEIRA.png', grayscale=True, confidence=0.9)
+            
+            if tec_finished:
+                tec_complete()
 
-    except Exception:
-        print('Already tecnically completed!')
+        except Exception:
+            print('Already tecnically completed!')
 
-    com_complete()
+        com_complete()
             
     line += 1
