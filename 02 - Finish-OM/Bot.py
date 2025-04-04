@@ -112,7 +112,7 @@ def com_complete():
 
 # EXCEL CONFIG
 lp_qty = 52
-line = 32
+line = 35
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
