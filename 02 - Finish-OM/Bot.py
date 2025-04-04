@@ -50,6 +50,8 @@ def ence_exist():
 
             press_key('f3', 1)
 
+            bot.sleep(1.5)
+
             return 1
     
     except Exception:
