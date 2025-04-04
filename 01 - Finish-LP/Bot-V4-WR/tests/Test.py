@@ -292,17 +292,11 @@ def change_purchaseLine_status():
         if have_advertence:
             press_key('tab', 1)
             press_key('enter', 1)
-            bot.sleep(2)
-            press_key('tab', 2)
-            press_key('enter', 1)
-            bot.sleep(2)
-            press_key('tab', 1)
-            press_key('enter', 1)
 
             bot.sleep(2)
 
     except Exception:
-        print('Don\'t have any additional information!')
+        print('Doesn\'t have advertence!')
 
     try:
         have_info = bot.locateOnScreen('../images/INFO.png', grayscale=True, confidence=0.8)
@@ -317,8 +311,8 @@ def change_purchaseLine_status():
             bot.sleep(2)
 
     except Exception:
-        print('Don\'t have any additional information!')
-    
+        print('Doesn\'t have any additional information!')
+
 # FINISH THE PURCHASE LINE STATUS
 def ence_purchaseLine():
     workedHours = 0
@@ -387,18 +381,20 @@ def ence_purchaseLine():
 
                             bot.sleep(2)
                             
-                            # =========================================================================================================================
-                            # ATENÇÃO, POSSÍVEIS ERROS
-                            warning_exist = None
+                            warning_exist = False
 
                             while not warning_exist:
-                                try:
-                                    change_purchaseLine_status()
+                                change_purchaseLine_status()
 
-                                    warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                                
+                                try:
+                                    warning = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                                    conforder = list(bot.locateAllOnScreen('../images/CONFORDER.png', grayscale=True, confidence=0.8))
+                            
+                                    if warning or conforder:
+                                        warning_exist = True
+
                                 except Exception as e:
-                                    warning_exist = True
+                                    print(f'Error: {e}')
 
                             press_key('tab', 2)
                             press_key('enter', 1)
@@ -407,25 +403,31 @@ def ence_purchaseLine():
                             press_key('enter', 1)
 
                             bot.sleep(2)
-                            # =========================================================================================================================
 
                 except Exception as e:
                     bot.click(600, 884)
                     bot.sleep(2)
 
-                    # =========================================================================================================================
-                    # ATENÇÃO, POSSÍVEIS ERROS
-                    warning_exist = None
+                    warning_exist = False
 
                     while not warning_exist:
+                        change_purchaseLine_status()
+                                
                         try:
-                            change_purchaseLine_status()
+                            warning = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
+                            conforder = list(bot.locateAllOnScreen('../images/CONFORDER.png', grayscale=True, confidence=0.8))
+                    
+                            if warning or conforder:
+                                warning_exist = True
 
-                            warning_exist = list(bot.locateAllOnScreen('../images/WARNING.png', grayscale=True, confidence=0.8))
-                        
                         except Exception as e:
-                            warning_exist = True
-                    # =========================================================================================================================
+                            print(f'Error: {e}')
+
+                    press_key('tab', 2)
+                    press_key('enter', 1)
+                    bot.sleep(2)
+                    press_key('tab', 1)
+                    press_key('enter', 1)
 
                     bot.sleep(2)
 
@@ -478,8 +480,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-lp_qty = 2
-line = 0
+lp_qty = 45
+line = 5
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
