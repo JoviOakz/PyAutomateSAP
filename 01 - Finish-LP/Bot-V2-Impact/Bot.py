@@ -5,7 +5,7 @@ bot.PAUSE = 0.75
 
 bot.click(1802, 14)
 
-projectHeight = 233
+projectHeight = 244
 arrowCoords = (15, 166, 400, 200)
 
 first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
@@ -20,9 +20,9 @@ coordinates = [
 # abre a LP
 def open_project(projectHeight):
     bot.click(25, 146)
-    bot.click(1231, projectHeight)
+    bot.click(1256, projectHeight)
     bot.sleep(0.3)
-    bot.click(1231, projectHeight)
+    bot.click(1256, projectHeight)
     bot.hotkey('ctrl', 'c')
     bot.hotkey('ctrl', 'k')
     bot.click(462, 337)
