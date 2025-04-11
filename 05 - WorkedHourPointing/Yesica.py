@@ -32,7 +32,7 @@ def open_diagram():
 # INSERT USER INFORMATION
 def create_apointment():
     press_key('tab', 2)
-    bot.typewrite('Planejadora Yesica - 25.03.2025')
+    bot.typewrite('Planejadora Yesica - 11.04.2025')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
@@ -61,8 +61,8 @@ def save_line():
     bot.sleep(3)
 
 # EXCEL CONFIG
-lp_qty = 20
-line = 0
+lp_qty = 95
+line = 86
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
