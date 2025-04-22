@@ -2,7 +2,7 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.5
+bot.PAUSE = 0.85
 
 bot.click(1802, 14)
 
@@ -22,7 +22,6 @@ def exists_verification():
     bot.click(540, 450)
     bot.sleep(0.3)
     press_key('ctrla', 1)
-    bot.sleep(0.3)
     bot.typewrite(str(part_number))
     bot.sleep(0.3)
     press_key('enter', 1)
@@ -38,7 +37,7 @@ def exists_verification():
     except Exception:
         print('Type number doesn\'t exist!')
 
-line = 106
+line = 157
 part_number_qty = 764
 
 repeat_count = part_number_qty - line
