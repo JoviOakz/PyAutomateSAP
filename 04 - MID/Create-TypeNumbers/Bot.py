@@ -37,7 +37,7 @@ def exists_verification():
     except Exception:
         print('Type number doesn\'t exist!')
 
-line = 157
+line = 219
 part_number_qty = 764
 
 repeat_count = part_number_qty - line
