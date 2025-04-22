@@ -19,9 +19,9 @@ first_sequence = [(150, 12), (182, 80), (516, 206), (682, 206)]
 second_sequence = [(150, 12), (182, 80), (404, 276), (698, 272)]
 
 coordinates = [
-    ((952, 430, 33, 26), (966, 440)),
-    ((948, 455, 33, 26), (966, 470)),
-    ((605, 455, 33, 26), (1102, 470))
+    ((952, 544, 33, 26), (966, 552)),
+    ((948, 570, 33, 26), (966, 582)),
+    ((605, 570, 33, 26), (1102, 582))
 ]
 
 # PUT DOWN THE CODE SCREEN
@@ -283,7 +283,7 @@ def change_purchaseLine_status():
             bot.click(click_position)
 
     bot.sleep(2)
-    bot.click(1128, 988)
+    bot.click(1128, 1100)
     bot.sleep(2)
 
     try:
@@ -343,12 +343,12 @@ def ence_purchaseLine():
         except Exception:
             workedHours = 1
 
-    bot.click(484, 884)
+    bot.click(484, 992)
     bot.sleep(2)
     
-    bot.moveTo(606, 848)
+    bot.moveTo(606, 956)
     bot.mouseDown()
-    bot.moveTo(700, 848, duration=0.25)
+    bot.moveTo(700, 956, duration=0.25)
     bot.mouseUp()
 
     bot.sleep(2)
@@ -371,9 +371,9 @@ def ence_purchaseLine():
                             bot.sleep(2)
                             bot.click(680, 300)
                             bot.sleep(2)
-                            bot.click(484, 884)
+                            bot.click(484, 992)
                             bot.sleep(2)
-                            bot.click(600, 884)
+                            bot.click(600, 992)
                             bot.sleep(2)
                             press_key('enter', 1)
                             bot.sleep(2)
@@ -405,7 +405,7 @@ def ence_purchaseLine():
                             bot.sleep(2)
 
                 except Exception as e:
-                    bot.click(600, 884)
+                    bot.click(600, 992)
                     bot.sleep(2)
 
                     warning_exist = False
@@ -480,8 +480,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-lp_qty = 39
-line = 12
+lp_qty = 60
+line = 0
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
