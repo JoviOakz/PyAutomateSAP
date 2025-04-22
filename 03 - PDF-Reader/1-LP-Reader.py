@@ -23,6 +23,9 @@ def extract_text_from_pdf(pdf_path):
             dictionary = {
                 "—":"-",
                 "~":"-",
+                "‘":"-",
+                "--":"-",
+                "\"":"-",
                 ",":"",
                 "FL":"P-",
                 "F’":"P",
@@ -47,7 +50,7 @@ def extract_text_from_pdf(pdf_path):
     return extracted_text
 
 # PDF PATH
-pdf_path = "03 - PDF-Reader/LPs - KW10 - deitado.pdf"
+pdf_path = "03 - PDF-Reader/LPs - KW11 - deitado.pdf"
 
 # FILTER LP's CORRECTLY
 text = extract_text_from_pdf(pdf_path)
