@@ -8,7 +8,7 @@ import pandas as pd
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 1
 
 # PUT DOWN THE CODE SCREEN
 bot.click(1802, 14)
@@ -74,7 +74,7 @@ def com_complete():
     bot.sleep(1.5)
 
     try:
-        conclude = bot.locateOnScreen('images/CONCLUIR.png', grayscale=True, confidence=0.9)
+        conclude = bot.locateAllOnScreen('images/CONCLUIR.png', grayscale=True, confidence=0.9)
         
         if conclude:
             df.at[line, 'Status'] = 'Encerrado!'
@@ -88,7 +88,7 @@ def com_complete():
         print('Warning not found!')
 
     try:
-        error = bot.locateOnScreen('images/ERROR.png', grayscale=True, confidence=0.9)
+        error = bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.9)
         
         if error:
             df.at[line, 'Status'] = 'Ordem pendente!'
@@ -111,8 +111,8 @@ def com_complete():
     bot.sleep(5)
 
 # EXCEL CONFIG
-om_qty = 25
-line = 0
+om_qty = 16
+line = 1
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = om_qty - line
@@ -126,7 +126,7 @@ for _ in range(repeat_qty):
 
     if jump_process != 1:
         try:
-            tec_finished = bot.locateOnScreen('images/BANDEIRA.png', grayscale=True, confidence=0.9)
+            tec_finished = bot.locateAllOnScreen('images/BANDEIRA.png', grayscale=True, confidence=0.9)
             
             if tec_finished:
                 tec_complete()
