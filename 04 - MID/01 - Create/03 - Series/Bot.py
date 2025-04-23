@@ -50,7 +50,12 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-for _ in range(1):
+line = 0
+serie_qty = 1
+
+repeat_count = serie_qty - line
+
+for _ in range(repeat_count):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 

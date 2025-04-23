@@ -6,7 +6,7 @@ bot.PAUSE = 0.25
 
 bot.click(1802, 14)
 
-excel_path = "LocInst.xlsx"
+excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
 def press_key(key, times):
@@ -44,8 +44,7 @@ def main_function(serie):
     bot.sleep(0.5)
 
     bot.typewrite('10.03.2025')
-
-    bot.sleep(0.5)
+    
     press_key('shtab', 7)
     bot.sleep(0.5)
     press_key('right', 3)
@@ -59,7 +58,7 @@ def main_function(serie):
     bot.sleep(1.5)
 
     bot.typewrite('6854D110-434')
-
+    
     bot.sleep(0.5)
     press_key('enter', 1)
     bot.sleep(1.5)
@@ -72,9 +71,12 @@ def main_function(serie):
     
     bot.hotkey('ctrl', 's')
 
-line = 3
+line = 0
+install_location_qty = 60
 
-for _ in range(3):
+repeat_count = install_location_qty - line
+
+for _ in range(repeat_count):
     norm = df.at[line, 'Norma']
     qty = df.at[line, 'Quantidade']
 

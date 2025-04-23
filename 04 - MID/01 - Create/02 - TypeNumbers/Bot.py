@@ -6,7 +6,7 @@ bot.PAUSE = 1.5
 
 bot.click(1802, 14)
 
-excel_path = "Corpos BICO.xlsx"
+excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
 def press_key(key, times):
