@@ -481,7 +481,7 @@ def error_conclusion():
 
 # EXCEL CONFIG
 lp_qty = 60
-line = 4
+line = 25
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
