@@ -9,7 +9,7 @@ import pyperclip
 
 # GLOBAL SOFTWARE SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.5
+bot.PAUSE = 0.75
 
 arrowCoords = (15, 166, 400, 200)
 hourCoords = (880, 332, 50, 188)
@@ -481,7 +481,7 @@ def error_conclusion():
 
 # EXCEL CONFIG
 lp_qty = 60
-line = 0
+line = 4
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
