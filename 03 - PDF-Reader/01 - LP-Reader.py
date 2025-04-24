@@ -45,6 +45,7 @@ def extract_text_from_pdf(pdf_path):
             lp = text[index0:index1]
             extracted_text.append(lp.strip())
         except Exception as e:
+            lp = '935'
             print("Error on page", i+1, e)
 
     return extracted_text
