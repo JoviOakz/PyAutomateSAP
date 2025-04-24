@@ -2,7 +2,7 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.5
+bot.PAUSE = 1.15
 
 bot.click(1802, 14)
 
@@ -37,20 +37,20 @@ def exists_verification():
     except Exception:
         print('Type number doesn\'t exist!')
 
-line = 554
-part_number_qty = 772
+line = 0
+part_number_qty = 29
 
 repeat_count = part_number_qty - line
 
 for _ in range(repeat_count):
     exist = False
 
-    part_number = df.at[line, 'X'] # W -> 764 | X -> 772 | S -> 775 | K -> 29
+    part_number = df.at[line, 'K'] # W -> 764 | X -> 772 | S -> 775 | K -> 29
 
     exist = exists_verification()
 
     if not exist:
-        bot.click(1870, 1060)
+        bot.click(1870, 1074)
         bot.sleep(0.3)
         bot.click(790, 450)
         bot.sleep(0.3)
