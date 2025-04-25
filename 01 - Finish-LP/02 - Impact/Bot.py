@@ -12,9 +12,9 @@ first_sequence = [(150, 13), (183, 79), (515, 207), (683, 207)]
 second_sequence = [(150, 13), (183, 79), (404, 276), (698, 271)]
 
 coordinates = [
-    ((474, 430, 33, 26), (488, 440)),
-    ((470, 455, 33, 26), (488, 470)),
-    ((605, 455, 33, 26), (622, 470))
+    ((474, 544, 33, 26), (488, 552)),
+    ((470, 570, 33, 26), (488, 582)),
+    ((605, 570, 33, 26), (622, 582))
 ]
 
 # abre a LP
@@ -128,7 +128,10 @@ def step1_change_status():
 
 # muda o status das linhas de compra
 def step2_change_status():
-    bot.click(290, 332)
+    bot.press('tab')
+    bot.sleep(0.3)
+    bot.press('tab')
+    bot.sleep(0.3)
     bot.typewrite('92903610')
     
     for region, click_position in coordinates:
