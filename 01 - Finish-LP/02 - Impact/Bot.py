@@ -1,7 +1,7 @@
 import pyautogui as bot
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 1
 
 bot.click(1802, 14)
 
@@ -144,7 +144,7 @@ def step2_change_status():
             bot.click(click_position)
 
     bot.sleep(0.5)
-    bot.click(646, 988)
+    bot.click(646, 1100)
     bot.sleep(1.25)
     bot.click(468, 732)
     bot.sleep(1)
