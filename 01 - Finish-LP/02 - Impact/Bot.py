@@ -81,12 +81,12 @@ def open_project(projectHeight):
 def step1_change_status():
     bot.click(580, 236)
     bot.sleep(1.25)
-    bot.click(486, 884)
+    bot.click(486, 992)
     bot.sleep(1.25)
 
-    bot.moveTo(606, 848)
+    bot.moveTo(606, 956)
     bot.mouseDown()
-    bot.moveTo(846, 848, duration=0.5)
+    bot.moveTo(846, 956, duration=0.5)
     bot.mouseUp()
     bot.sleep(0.3)
 
@@ -104,9 +104,9 @@ def step1_change_status():
     except Exception as e:
         print(f'Erro: {e}')
 
-    bot.click(486, 884)
+    bot.click(486, 992)
     bot.sleep(1.25)
-    bot.click(600, 884)
+    bot.click(600, 992)
     bot.sleep(1.5)
 
     try:
@@ -197,12 +197,12 @@ def open_tree():
 
                             bot.click(580, 240)
                             bot.sleep(1.25)
-                            bot.click(484, 884)
+                            bot.click(484, 992)
                             bot.sleep(1.25)
 
-                            bot.moveTo(606, 848)
+                            bot.moveTo(606, 956)
                             bot.mouseDown()
-                            bot.moveTo(846, 848, duration=0.5)
+                            bot.moveTo(846, 956, duration=0.5)
                             bot.mouseUp()
                             bot.sleep(0.3)
 
@@ -221,9 +221,9 @@ def open_tree():
                                                 bot.sleep(0.3)
                                                 bot.click(680, 300)
                                                 bot.sleep(0.95)
-                                                bot.click(484, 884)
+                                                bot.click(484, 992)
                                                 bot.sleep(1.25)
-                                                bot.click(600, 884)
+                                                bot.click(600, 992)
                                                 bot.sleep(1.25)
                                                 bot.click(492, 360)
                                                 bot.sleep(1.25)
