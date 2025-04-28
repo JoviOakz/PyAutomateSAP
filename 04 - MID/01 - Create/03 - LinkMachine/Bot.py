@@ -26,9 +26,10 @@ def register_verification():
             bot.click(1136, 1176)
             bot.sleep(0.3)
             bot.click(1136, 1084)
-            bot.typewrite(str(part_number))
             bot.sleep(0.3)
             press_key('enter', 1)
+            bot.sleep(0.3)
+            bot.typewrite(str(part_number))
             bot.sleep(0.3)
             bot.click(1804, 14)
             
