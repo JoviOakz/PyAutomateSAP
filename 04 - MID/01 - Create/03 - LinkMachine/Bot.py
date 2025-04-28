@@ -17,7 +17,7 @@ def press_key(key, times):
             bot.press(key)
 
 part_number_qty = 772
-line = 4
+line = 6
 
 repeat_count = part_number_qty - line
 
@@ -26,7 +26,7 @@ for _ in range(repeat_count):
 
     bot.click(812, 830)
     bot.sleep(0.3)
-    press_key('ctrlv', 1)
+    bot.typewrite(str(part_number))
     bot.sleep(1.5)
     bot.click(812, 870)
     bot.sleep(0.3)
