@@ -1,7 +1,12 @@
 import pyautogui as bot
 
-bot.FAILSAFE = True
-bot.PAUSE = 0.25
+bot.sleep(2)
 
-bot.sleep(1)
-bot.hotkey('ctrl', 's')
+try:
+    not_exist_lp = list(bot.locateAllOnScreen('../images/LPNOTEXIST.png', grayscale=True, confidence=0.9))
+
+    if not_exist_lp:
+        print('Achou!')
+
+except Exception as e:
+    print(f'Error: {e}')

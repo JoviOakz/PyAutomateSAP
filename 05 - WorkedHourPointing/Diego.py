@@ -4,7 +4,7 @@ import pandas as pd
 
 # GLOBAL SOFTWARE SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.5
+bot.PAUSE = 0.75
 
 # PUT DOWN THE CODE SCREEN
 bot.click(1802, 14)
@@ -29,10 +29,34 @@ def open_diagram():
 
     bot.sleep(3)
 
+# VERIFIES IF LP HAS ALREADY A FILLED LINE
+def verify_lp():
+    try:
+        not_exist_lp = list(bot.locateAllOnScreen('../images/LPNOTEXIST.png', grayscale=True, confidence=0.9))
+
+        if not_exist_lp:
+            df.at[line, 'Status'] = 'WARNING - LP don\'t exist!'
+            
+            return True
+
+    except Exception:
+        try:
+            exist_line = list(bot.locateAllOnScreen('../images/NFILLEDLINE.png', grayscale=True, confidence=0.9))
+
+            if not exist_line:
+                df.at[line, 'Status'] = 'Line already used!'
+
+                press_key('f3', 2)
+
+                return True
+            
+        except Exception:
+            df.at[line, 'Status'] = 'Line created!'
+
 # INSERT USER INFORMATION
 def create_apointment():
     press_key('tab', 2)
-    bot.typewrite('Projetista Diego - 28.03.2025')
+    bot.typewrite('Projetista Diego - 28.04.2025')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
@@ -61,16 +85,23 @@ def save_line():
     bot.sleep(3)
 
 # EXCEL CONFIG
-lp_qty = 20
-line = 5
+lp_qty = 35
+line = 0
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
 
 # MAIN PROGRAM
 for _ in range(repeat_qty):
+    filled_line = False
+
     open_diagram()
-    create_apointment()
-    save_line()
+    verify_lp()
+
+    if not filled_line:
+        create_apointment()
+        save_line()
 
     line += 1
+
+df.to_excel(excel_path, index=False, engine='openpyxl')
