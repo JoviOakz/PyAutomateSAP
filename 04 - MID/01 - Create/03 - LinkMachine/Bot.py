@@ -16,23 +16,50 @@ def press_key(key, times):
         else:
             bot.press(key)
 
+def register_verification():
+    try:
+        typeNumber_notExist = list(bot.locateAllOnScreen('images/NOTFIND.png', grayscale=True, confidence=0.9))
+        
+        if typeNumber_notExist:
+            bot.click(1118, 832)
+            bot.sleep(0.3)
+            bot.click(1136, 1176)
+            bot.sleep(0.3)
+            bot.click(1136, 1084)
+            bot.typewrite(str(part_number))
+            bot.sleep(0.3)
+            press_key('enter', 1)
+            bot.sleep(0.3)
+            bot.click(1804, 14)
+            
+            return True
+        
+    except Exception:
+        return False
+        
 part_number_qty = 772
-line = 6
+line = 32
 
 repeat_count = part_number_qty - line
 
 for _ in range(repeat_count):
+    need_register = False
+
     part_number = df.at[line, 'X'] # W -> 764 | X -> 772 | S -> 775 | K -> 29
 
     bot.click(812, 830)
     bot.sleep(0.3)
     bot.typewrite(str(part_number))
     bot.sleep(1.5)
-    bot.click(812, 870)
-    bot.sleep(0.3)
-    press_key('tab', 1)
-    bot.typewrite('01')
-    bot.click(1620, 824)
+
+    need_register = register_verification()
+
+    if not need_register:
+        bot.click(812, 870)
+        bot.sleep(0.3)
+        press_key('tab', 1)
+        bot.typewrite('01')
+        bot.click(1620, 824)
 
     line += 1
 
