@@ -32,7 +32,7 @@ def open_diagram():
 # VERIFIES IF LP HAS ALREADY A FILLED LINE
 def verify_lp():
     try:
-        not_exist_lp = list(bot.locateAllOnScreen('../images/LPNOTEXIST.png', grayscale=True, confidence=0.9))
+        not_exist_lp = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.9))
 
         if not_exist_lp:
             df.at[line, 'Status'] = 'WARNING - LP don\'t exist!'
@@ -41,7 +41,7 @@ def verify_lp():
 
     except Exception:
         try:
-            exist_line = list(bot.locateAllOnScreen('../images/NFILLEDLINE.png', grayscale=True, confidence=0.9))
+            exist_line = list(bot.locateAllOnScreen('images/NFILLEDLINE.png', grayscale=True, confidence=0.9))
 
             if not exist_line:
                 df.at[line, 'Status'] = 'Line already used!'
