@@ -56,7 +56,7 @@ def verify_lp():
 # INSERT USER INFORMATION
 def create_apointment():
     press_key('tab', 2)
-    bot.typewrite('Projetista Diego - 28.04.2025')
+    bot.typewrite('Projetista Diego - 30.04.2025')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
