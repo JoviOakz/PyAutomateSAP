@@ -86,7 +86,7 @@ def save_line():
 
 # EXCEL CONFIG
 lp_qty = 35
-line = 7
+line = 0
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
@@ -96,7 +96,7 @@ for _ in range(repeat_qty):
     filled_line = False
 
     open_diagram()
-    verify_lp()
+    filled_line = verify_lp()
 
     if not filled_line:
         create_apointment()

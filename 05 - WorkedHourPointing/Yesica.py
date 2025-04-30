@@ -43,15 +43,15 @@ def verify_lp():
         try:
             exist_line = list(bot.locateAllOnScreen('images/NFILLEDLINE.png', grayscale=True, confidence=0.9))
 
-            if not exist_line:
-                df.at[line, 'Status'] = 'Line already used!'
-
-                press_key('f3', 2)
-
-                return True
+            if exist_line:
+                df.at[line, 'Status'] = 'Line created!'
             
         except Exception:
-            df.at[line, 'Status'] = 'Line created!'
+            df.at[line, 'Status'] = 'Line already used!'
+
+            press_key('f3', 2)
+
+            return True
 
 # INSERT USER INFORMATION
 def create_apointment():
@@ -96,7 +96,7 @@ for _ in range(repeat_qty):
     filled_line = False
 
     open_diagram()
-    verify_lp()
+    filled_line = verify_lp()
 
     if not filled_line:
         create_apointment()
