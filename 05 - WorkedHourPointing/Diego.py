@@ -43,15 +43,15 @@ def verify_lp():
         try:
             exist_line = list(bot.locateAllOnScreen('images/NFILLEDLINE.png', grayscale=True, confidence=0.9))
 
-            if not exist_line:
-                df.at[line, 'Status'] = 'Line already used!'
-
-                press_key('f3', 2)
-
-                return True
+            if exist_line:
+                df.at[line, 'Status'] = 'Line created!'
             
         except Exception:
-            df.at[line, 'Status'] = 'Line created!'
+            df.at[line, 'Status'] = 'Line already used!'
+
+            press_key('f3', 2)
+
+            return True
 
 # INSERT USER INFORMATION
 def create_apointment():
@@ -86,7 +86,7 @@ def save_line():
 
 # EXCEL CONFIG
 lp_qty = 35
-line = 0
+line = 7
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
