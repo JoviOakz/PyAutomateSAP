@@ -46,7 +46,7 @@ def ence_exist():
             df.at[line, 'Status'] = 'Encerrado!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(5)
+            bot.sleep(2.25)
 
             press_key('f3', 1)
 
@@ -80,7 +80,7 @@ def com_complete():
             df.at[line, 'Status'] = 'Encerrado!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(5)
+            bot.sleep(2.25)
 
             press_key('enter', 1)
 
@@ -94,7 +94,7 @@ def com_complete():
             df.at[line, 'Status'] = 'Ordem pendente!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
 
-            bot.sleep(5)
+            bot.sleep(2.25)
 
             press_key('f12', 1)
             bot.sleep(1)
@@ -108,11 +108,11 @@ def com_complete():
     df.at[line, 'Status'] = 'Encerrado!'
     df.to_excel(excel_path, index=False, engine='openpyxl')
 
-    bot.sleep(5)
+    bot.sleep(2.25)
 
 # EXCEL CONFIG
-om_qty = 27
-line = 0
+om_qty = 53
+line = 8
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = om_qty - line
