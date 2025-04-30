@@ -51,7 +51,7 @@ def extract_text_from_pdf(pdf_path):
     return extracted_text
  
 # PDF PATH
-pdf_path = "03 - PDF-Reader/OMs - KW12.pdf"
+pdf_path = "03 - PDF-Reader/OMs - KW13.pdf"
 
 # FILTER OM's CORRECTLY
 text = extract_text_from_pdf(pdf_path)
