@@ -8,7 +8,7 @@ import pandas as pd
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 1.15
 
 # PUT DOWN THE CODE SCREEN
 bot.click(1802, 14)
@@ -112,7 +112,7 @@ def com_complete():
 
 # EXCEL CONFIG
 om_qty = 53
-line = 36
+line = 41
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = om_qty - line
