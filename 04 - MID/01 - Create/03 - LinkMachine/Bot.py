@@ -44,7 +44,7 @@ def register_verification():
         return False
 
 part_number_qty = 2061
-line = 990
+line = 1026
 
 repeat_count = part_number_qty - line
 
@@ -66,12 +66,6 @@ for _ in range(repeat_count):
     need_register = register_verification()
 
     if not need_register:
-        bot.moveTo(852, 872, 0.15)
-        bot.sleep(0.15)
-        bot.scroll(1000)
-        bot.sleep(0.15)
-        bot.moveTo(852, 700, 0.15)
-        
         part_number_image = bot.screenshot(region=(596, 822, 104, 24))
 
         try:
