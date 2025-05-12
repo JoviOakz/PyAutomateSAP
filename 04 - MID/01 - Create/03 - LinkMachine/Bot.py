@@ -38,15 +38,15 @@ def register_verification():
     except Exception:
         return False
         
-part_number_qty = 772
-line = 319
+part_number_qty = 2061
+line = 1
 
 repeat_count = part_number_qty - line
 
 for _ in range(repeat_count):
     need_register = False
 
-    part_number = df.at[line, 'X'] # W -> 764 | X -> 772 | S -> 775 | K -> 29
+    part_number = df.at[line, 'Bico (normal final)'] # W -> 764 | X -> 772 | S -> 775 | K -> 29 | Bico (normal final) -> 2061
 
     bot.click(812, 830)
     bot.sleep(0.3)
