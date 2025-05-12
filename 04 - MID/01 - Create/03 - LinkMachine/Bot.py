@@ -9,6 +9,8 @@ bot.click(1802, 14)
 excel_path = "Data.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
+part_number_coords = (596, 850, 454, 242)
+
 def press_key(key, times):
     for _ in range(times):
         if key == 'ctrlv':
@@ -25,19 +27,34 @@ def register_verification():
             bot.sleep(0.3)
             bot.click(1136, 1176)
             bot.sleep(0.3)
-            bot.click(1136, 1084)
-            bot.sleep(0.3)
             press_key('enter', 1)
             bot.sleep(0.3)
             bot.typewrite(str(part_number))
             bot.sleep(0.3)
-            bot.click(1804, 14)
+            bot.click(1136, 1176)
             
             return True
         
     except Exception:
         return False
+    
+def part_number_locate():
+    part_number_image = bot.screenshot(region=(596, 822, 104, 24))
+
+    try:
+        part_number_found = list(bot.locateOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords))
         
+        if part_number_found:
+            global x, y
+
+            x, y = bot.locateCenterOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords)
+
+            return True
+        
+    except Exception:
+        return False
+
+
 part_number_qty = 2061
 line = 1
 
@@ -56,11 +73,37 @@ for _ in range(repeat_count):
     need_register = register_verification()
 
     if not need_register:
-        bot.click(812, 870)
-        bot.sleep(0.3)
-        press_key('tab', 1)
-        bot.typewrite('01')
-        bot.click(1620, 824)
+        not_found = part_number_locate()
+
+        if not_found:
+            bot.moveTo(852, 872, 0.15)
+            bot.scroll(-300)
+            bot.moveTo(852, 700, 0.15)
+
+            not_found = part_number_locate()
+
+            if not_found:
+                bot.click(1118, 832)
+                bot.sleep(0.3)
+                bot.click(1136, 1176)
+                bot.sleep(0.3)
+                press_key('enter', 1)
+                bot.sleep(0.3)
+                bot.typewrite(str(part_number))
+                bot.sleep(0.3)
+                bot.click(1136, 1176)
+
+            else:
+                bot.click(x, y)
+                press_key('tab', 1)
+                bot.typewrite('01')
+                bot.click(1620, 824)
+
+        else:
+            bot.click(x, y)
+            press_key('tab', 1)
+            bot.typewrite('01')
+            bot.click(1620, 824)
 
     line += 1
 

@@ -1,10 +1,10 @@
 import pyautogui as bot
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.5
+bot.PAUSE = 1
 
-bot.click(1802, 14)
+image = bot.screenshot(region=(600, 700, 200, 200))
+x, y = bot.locateCenterOnScreen(image)
+print(x, y)
 
-bot.moveTo(500, 500)
-bot.click()
-bot.typewrite('Régua')
+bot.moveTo(x, y)
