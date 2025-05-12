@@ -29,7 +29,10 @@ def register_verification():
             bot.sleep(0.3)
             press_key('enter', 1)
             bot.sleep(0.3)
-            bot.typewrite(str(part_number))
+            
+            if str(part_number).startswith('43317'):
+                bot.typewrite('0' + str(part_number))
+
             bot.sleep(0.3)
             bot.click(1136, 1176)
             
@@ -37,23 +40,6 @@ def register_verification():
         
     except Exception:
         return False
-    
-def part_number_locate():
-    part_number_image = bot.screenshot(region=(596, 822, 104, 24))
-
-    try:
-        part_number_found = list(bot.locateOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords))
-        
-        if part_number_found:
-            global x, y
-
-            x, y = bot.locateCenterOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords)
-
-            return True
-        
-    except Exception:
-        return False
-
 
 part_number_qty = 2061
 line = 1
@@ -67,43 +53,57 @@ for _ in range(repeat_count):
 
     bot.click(812, 830)
     bot.sleep(0.3)
-    bot.typewrite(str(part_number))
+
+    if str(part_number).startswith('43317'):
+        bot.typewrite('0' + str(part_number))
+    
     bot.sleep(1.5)
 
     need_register = register_verification()
 
     if not need_register:
-        not_found = part_number_locate()
+        part_number_image = bot.screenshot(region=(596, 822, 104, 24))
 
-        if not_found:
+        try:
+            part_number_found = list(bot.locateOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords))
+            
+            if part_number_found:
+                x, y = bot.locateCenterOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords)
+
+                bot.click(x, y)
+                press_key('tab', 1)
+                bot.typewrite('01')
+                bot.click(1620, 824)
+
+        except Exception:
             bot.moveTo(852, 872, 0.15)
             bot.scroll(-300)
             bot.moveTo(852, 700, 0.15)
+            
+            try:
+                part_number_found = list(bot.locateOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords))
+                
+                if part_number_found:
+                    x, y = bot.locateCenterOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords)
 
-            not_found = part_number_locate()
+                    bot.click(x, y)
+                    press_key('tab', 1)
+                    bot.typewrite('01')
+                    bot.click(1620, 824)
 
-            if not_found:
+            except Exception:
                 bot.click(1118, 832)
                 bot.sleep(0.3)
                 bot.click(1136, 1176)
                 bot.sleep(0.3)
                 press_key('enter', 1)
                 bot.sleep(0.3)
-                bot.typewrite(str(part_number))
+
+                if str(part_number).startswith('43317'):
+                    bot.typewrite('0' + str(part_number))
+
                 bot.sleep(0.3)
                 bot.click(1136, 1176)
-
-            else:
-                bot.click(x, y)
-                press_key('tab', 1)
-                bot.typewrite('01')
-                bot.click(1620, 824)
-
-        else:
-            bot.click(x, y)
-            press_key('tab', 1)
-            bot.typewrite('01')
-            bot.click(1620, 824)
 
     line += 1
 
