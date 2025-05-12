@@ -2,7 +2,7 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.85
+bot.PAUSE = 1
 
 bot.click(1802, 14)
 
@@ -30,7 +30,7 @@ def register_verification():
             press_key('enter', 1)
             bot.sleep(0.3)
             
-            if str(part_number).startswith('43317'):
+            if str(part_number).startswith('433'):
                 bot.typewrite('0' + str(part_number))
             else:
                 bot.typewrite(str(part_number))
@@ -44,7 +44,7 @@ def register_verification():
         return False
 
 part_number_qty = 2061
-line = 1026
+line = 1128
 
 repeat_count = part_number_qty - line
 
@@ -56,7 +56,7 @@ for _ in range(repeat_count):
     bot.click(812, 830)
     bot.sleep(0.3)
 
-    if str(part_number).startswith('43317'):
+    if str(part_number).startswith('433'):
         bot.typewrite('0' + str(part_number))
     else:
         bot.typewrite(str(part_number))
@@ -67,6 +67,12 @@ for _ in range(repeat_count):
 
     if not need_register:
         part_number_image = bot.screenshot(region=(596, 822, 104, 24))
+
+        bot.moveTo(852, 872, 0.15)
+        bot.sleep(0.15)
+        bot.scroll(1000)
+        bot.sleep(0.15)
+        bot.moveTo(852, 700, 0.15)
 
         try:
             part_number_found = list(bot.locateOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords))
@@ -105,7 +111,7 @@ for _ in range(repeat_count):
                 press_key('enter', 1)
                 bot.sleep(0.3)
 
-                if str(part_number).startswith('43317'):
+                if str(part_number).startswith('433'):
                     bot.typewrite('0' + str(part_number))
                 else:
                     bot.typewrite(str(part_number))
