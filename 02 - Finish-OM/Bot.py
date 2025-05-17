@@ -111,8 +111,8 @@ def com_complete():
     bot.sleep(2.25)
 
 # EXCEL CONFIG
-om_qty = 53
-line = 41
+om_qty = 39
+line = 25
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = om_qty - line
