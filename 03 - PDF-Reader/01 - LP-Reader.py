@@ -52,7 +52,7 @@ def extract_text_from_pdf(pdf_path):
     return extracted_text
 
 # PDF PATH
-kw = 14
+kw = 15
 pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - deitado.pdf"
 # pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - pé.pdf"
 
