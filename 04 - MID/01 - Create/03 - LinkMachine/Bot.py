@@ -23,7 +23,7 @@ def register_verification():
         typeNumber_notExist = list(bot.locateAllOnScreen('images/NOTFIND.png', grayscale=True, confidence=0.9))
         
         if typeNumber_notExist:
-            bot.click(1118, 832)
+            bot.click(1126, 834)
             bot.sleep(0.3)
             bot.click(1136, 1176)
             bot.sleep(0.3)
@@ -58,11 +58,14 @@ for _ in range(repeat_count):
     need_register = register_verification()
 
     if not need_register:
-        bot.moveTo(852, 872, 0.15)
-        bot.sleep(0.15)
-        bot.scroll(1000)
-        bot.sleep(0.15)
-        bot.moveTo(852, 700, 0.15)
+        bot.click(844, 872)
+        bot.sleep(0.3)
+        press_key('tab', 1)
+        bot.sleep(0.3)
+        bot.typewrite('01')
+        bot.sleep(0.3)
+        bot.click(1614, 824)
+        bot.sleep(1)
 
     line += 1
 

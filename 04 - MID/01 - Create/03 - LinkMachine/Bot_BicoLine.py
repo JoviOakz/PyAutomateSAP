@@ -23,7 +23,7 @@ def register_verification():
         typeNumber_notExist = list(bot.locateAllOnScreen('images/NOTFIND.png', grayscale=True, confidence=0.9))
         
         if typeNumber_notExist:
-            bot.click(1118, 832)
+            bot.click(1126, 834)
             bot.sleep(0.3)
             bot.click(1136, 1176)
             bot.sleep(0.3)
