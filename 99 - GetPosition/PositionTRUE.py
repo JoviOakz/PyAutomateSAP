@@ -1,4 +1,8 @@
 import pyautogui as bot
 
-while True:
-    print(bot.position())
+try:
+    while True:
+        print(bot.position())
+
+except KeyboardInterrupt:
+    print('')
