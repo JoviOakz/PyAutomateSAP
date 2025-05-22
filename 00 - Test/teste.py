@@ -1,4 +1,4 @@
-import pyautogui
+# import pyautogui
 
 # pyautogui.alert(text='Fala gurias eu sou o Ribeiro!', title='Caixa de texto!', button='OK')
 # pyautogui.confirm(text='Fala gurias eu sou o Ribeiro!', title='Caixa de texto!', buttons=['SIM', 'OR NOT?!'])
