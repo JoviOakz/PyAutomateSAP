@@ -1,5 +1,5 @@
 # --- README ---
-# TESTS NEED '../' BEFORE THE PATH OF IMAGES
+# TESTS NEED '../' BEFORE THE PATH OF ../IMAGES
 # TESTS NEED '../../../' BEFORE THE PATH OF PDF
 
 # LIBRARIES
@@ -8,13 +8,13 @@ import pandas as pd
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 1.25
+bot.PAUSE = 1.15
 
 # PUT DOWN THE CODE SCREEN
 bot.click(1802, 14)
 
 # EXCEL CONFIGURATION
-excel_path = "../Open-OMs.xlsx"
+excel_path = "../../Open-OMs.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
     
 # FUNCTION TO PRESS COMMAND X TIMES
@@ -40,7 +40,7 @@ def open_om():
 # VERIFY IF THE ENCE STATUS ALREADY EXISTS
 def ence_exist():
     try:
-        have_ence = bot.locateOnScreen('images/ENCE.png', grayscale=True, confidence=0.9)
+        have_ence = bot.locateOnScreen('../images/ENCE.png', grayscale=True, confidence=0.9)
 
         if have_ence:
             df.at[line, 'Status'] = 'Encerrado!'
@@ -74,7 +74,7 @@ def com_complete():
     bot.sleep(1.5)
 
     try:
-        conclude = bot.locateOnScreen('images/CONCLUIR.png', grayscale=True, confidence=0.9)
+        conclude = bot.locateOnScreen('../images/CONCLUIR.png', grayscale=True, confidence=0.9)
         
         if conclude:
             df.at[line, 'Status'] = 'Encerrado!'
@@ -88,7 +88,7 @@ def com_complete():
         print('Warning not found!')
 
     try:
-        error = bot.locateOnScreen('images/ERROR.png', grayscale=True, confidence=0.9)
+        error = bot.locateOnScreen('../images/ERROR.png', grayscale=True, confidence=0.9)
         
         if error:
             df.at[line, 'Status'] = 'Ordem pendente!'
@@ -112,7 +112,7 @@ def com_complete():
 
 # EXCEL CONFIG
 om_qty = 36
-line = 8
+line = 5
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = om_qty - line
@@ -126,7 +126,7 @@ for _ in range(repeat_qty):
 
     if jump_process != 1:
         try:
-            tec_finished = bot.locateOnScreen('images/BANDEIRA.png', grayscale=True, confidence=0.9)
+            tec_finished = bot.locateOnScreen('../images/BANDEIRA.png', grayscale=True, confidence=0.9)
             
             if tec_finished:
                 tec_complete()
