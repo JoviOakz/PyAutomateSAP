@@ -17,7 +17,7 @@ def extract_text_from_pdf(pdf_path):
         try:
             # CHANGE THE PDF ROTATION
             # rotated_image = image.rotate(270, expand=True)
-            rotated_image = image.rotate(270, expand=True)
+            rotated_image = image.rotate(0, expand=True)
  
             text = pytesseract.image_to_string(rotated_image)
 
@@ -53,7 +53,7 @@ def extract_text_from_pdf(pdf_path):
 
 # PDF PATH
 kw = 15
-pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - deitado.pdf"
+pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - pé.pdf"
 # pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - pé.pdf"
 
 # FILTER LP's CORRECTLY
