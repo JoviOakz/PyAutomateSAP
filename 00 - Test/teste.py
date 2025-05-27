@@ -34,3 +34,29 @@
 # pyautogui.click(clicks=10000)
 
 # ==============================================================================================================
+
+import pyautogui as bot
+import pandas as pd
+import pyperclip
+
+bot.FAILSAFE = True
+bot.PAUSE = 1
+
+bot.click(1162, 1172)
+
+df = pd.read_excel("Pasta1.xlsx", engine='openpyxl')
+
+group = []
+line = 0
+
+for _ in range(15):
+    value = df.at[line, "Coluna"]
+    group.append(value)
+    line += 1
+
+all_values = '\n'.join(map(str, group))
+
+pyperclip.copy(all_values)
+bot.hotkey('ctrl', 'v')
+    
+# ==============================================================================================================
