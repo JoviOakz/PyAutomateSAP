@@ -8,7 +8,7 @@ import pandas as pd
 
 # SOFTWARE GLOBAL SETTINGS
 bot.FAILSAFE = True
-bot.PAUSE = 1.25
+bot.PAUSE = 1.75
 
 # PUT DOWN THE CODE SCREEN
 bot.click(1802, 14)
@@ -105,14 +105,11 @@ def com_complete():
     except Exception:
         print('Warning not found!')
 
-    df.at[line, 'Status'] = 'Encerrado!'
-    df.to_excel(excel_path, index=False, engine='openpyxl')
-
     bot.sleep(2.25)
 
 # EXCEL CONFIG
-om_qty = 36
-line = 8
+om_qty = 2
+line = 0
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = om_qty - line
