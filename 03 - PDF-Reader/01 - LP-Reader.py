@@ -1,71 +1,108 @@
-# LIBRARIES
+# ===== LIBRARIES =====
+
 import pandas as pd
 from pdf2image import convert_from_path
 import pytesseract
 import re
 
-# REMOVE ALL EXTRA CHARACTERS
-def limpar_string(s):     
-      return re.sub(r'[^LP0-9-]', '', s)
+# ===== CONSTANTS =====
 
-# CATCH ALL LP's IN PDF
-def extract_text_from_pdf(pdf_path):
+ROTATION_ANGLE = 270  # 0[deitado -> 270] | [pé -> 0]
+
+DICTIONARY = {
+    '—': '-',
+    '~': '-',
+    '‘': '-',
+    '--': '-',
+    '\'': '-',
+    ',': '',
+    'FL': 'P-',
+    'F’': 'P',
+    '_': '-',
+    'o': '0',
+    'O': '0',
+    'LP"': 'LP-',
+    'LP—': 'LP-',
+    'LP_': 'LP-',
+    'LP*': 'LP-',
+    'LP0': 'LP-0',
+    'LPO': 'LP-0',
+    'LP-O': 'LP-0',
+    'LP—O': 'LP-0',
+    'LP_O': 'LP-0',
+}
+
+# ===== FUNCTIONS =====
+
+# --- REMOVE ALL EXTRA CHARACTERS ---
+def clear_string(s):     
+    return re.sub(r'[^LP0-9-]', '', s)
+
+# --- ADJUST LP's LENGTH ---
+def normalize_lp(t):
+    if len(t) > 9:
+        return t[:9]
+    elif len(t) == 8:
+        return t[:3] + '0' + t[3:]
+    return t
+
+# --- FIX LP's PRE ISSUES ---
+def preprocess_text(text, dictionary):
+    for key, value in dictionary.items():
+        text = text.replace(key, value)
+    return text
+
+# --- EXTRACT ALL LP's FROM PDF ---
+def extract_lps_from_pdf(pdf_path, rotation_angle=0, dictionary=None):
     images = convert_from_path(pdf_path)
- 
-    extracted_text = []
-    for i, image in enumerate(images):
-        try:
-            # CHANGE THE PDF ROTATION
-            rotated_image = image.rotate(270, expand=True)
-            # rotated_image = image.rotate(0, expand=True)
- 
-            text = pytesseract.image_to_string(rotated_image)
+    extracted_lps = []
 
-            dictionary = {
-                "—":"-",
-                "~":"-",
-                "‘":"-",
-                "--":"-",
-                "\"":"-",
-                ",":"",
-                "FL":"P-",
-                "F’":"P",
-                "_":"-",
-                "o":"0",
-                "O":"0",
-                "LP0":"LP-0",
-                "LPO":"LP-0",
-            }
+    for i, image in enumerate(images, start=1):
+        try:
+            image = image.rotate(rotation_angle, expand=True)
             
-            for key, value in dictionary.items():
-                text = text.replace(key, value)
-            
-            index0 = text.index("LP")
-            index1 = text.index(" ", index0+1)
+            text = pytesseract.image_to_string(image)
+
+            preprocess_text(text, dictionary)
+
+            index0 = text.index('LP')
+            index1 = text.index(' ', index0+1)
     
             lp = text[index0:index1]
-            extracted_text.append(lp.strip())
-        except Exception as e:
-            lp = '935'
-            print("Error on page", i+1, e)
+            extracted_lps.append(lp.strip())
 
-    return extracted_text
+            print(f'[{i}/{len(images)}] LP encontrada: {lp[:9]}')
+            
+        except Exception:
+            print(f'[{i}/{len(images)}] LP não encontrada ❌')
 
-# PDF PATH
-kw = 16
-pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - deitado.pdf"
-# pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - pé.pdf"
+    return extracted_lps
 
-# FILTER LP's CORRECTLY
-text = extract_text_from_pdf(pdf_path)
-text = [limpar_string(s) for s in text]
-text = [
-    t[:9] if len(t) > 9 else t[:3] + "0" + t[3:] if len(t) == 8 else t
-    for t in text
-]
-print(text)
+# --- SAVE EXTRACTED LP's IN EXCEL ---
+def save_lps_to_excel(lps, output_file):
+    cleaned_lps = [normalize_lp(clear_string(lp)) for lp in lps]
+    df = pd.DataFrame({'LP': cleaned_lps, 'Status': ''})
+    df.to_excel(output_file, index=False)
+    print(f'\n✅ Arquivo salvo: {output_file}')
 
-# EXTRACT TO EXCEL
-df = pd.DataFrame({"LP": text, "Status": ""})
-# df.to_excel("Open-LPs - pé.xlsx")
-df.to_excel("Open-LPs - deitado.xlsx")
+# ===== MAIN =====
+
+def main():
+    kw = 16
+    orientation = 'deitado'  # [deitado] | [pé]
+
+    pdf_path = f'03 - PDF-Reader/LPs - KW{kw} - {orientation}.pdf'
+    output_file = f'Open-LPs - {orientation}.xlsx'
+
+    print(f'🔍 Extraindo LPs do arquivo: {pdf_path}')
+
+    lps = extract_lps_from_pdf(
+        pdf_path, 
+        rotation_angle=ROTATION_ANGLE, 
+        dictionary=DICTIONARY
+    )
+
+    save_lps_to_excel(lps, output_file)
+
+if __name__ == '__main__':
+    main()
