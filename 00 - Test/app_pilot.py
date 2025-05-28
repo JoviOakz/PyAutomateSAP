@@ -10,6 +10,9 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
+        # Mantém sempre no topo
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
+
         self.setWindowTitle("RS's Register")
         self.setFixedSize(400, 450)
 

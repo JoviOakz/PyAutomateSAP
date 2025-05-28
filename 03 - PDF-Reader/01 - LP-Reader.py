@@ -16,8 +16,8 @@ def extract_text_from_pdf(pdf_path):
     for i, image in enumerate(images):
         try:
             # CHANGE THE PDF ROTATION
-            # rotated_image = image.rotate(270, expand=True)
-            rotated_image = image.rotate(0, expand=True)
+            rotated_image = image.rotate(270, expand=True)
+            # rotated_image = image.rotate(0, expand=True)
  
             text = pytesseract.image_to_string(rotated_image)
 
@@ -52,9 +52,9 @@ def extract_text_from_pdf(pdf_path):
     return extracted_text
 
 # PDF PATH
-kw = 15
-# pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - deitado.pdf"
-pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - pé.pdf"
+kw = 16
+pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - deitado.pdf"
+# pdf_path = f"03 - PDF-Reader/LPs - KW{kw} - pé.pdf"
 
 # FILTER LP's CORRECTLY
 text = extract_text_from_pdf(pdf_path)
@@ -67,4 +67,5 @@ print(text)
 
 # EXTRACT TO EXCEL
 df = pd.DataFrame({"LP": text, "Status": ""})
-df.to_excel("Open-LPs.xlsx")
+# df.to_excel("Open-LPs - pé.xlsx")
+df.to_excel("Open-LPs - deitado.xlsx")
