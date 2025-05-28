@@ -11,46 +11,82 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle("RS's Register")
-        self.setFixedSize(400, 400)
+        self.setFixedSize(400, 450)
 
         # Definindo o ícone
         icon_path = os.path.join(os.path.dirname(__file__), "User_icon_2.ico")
         self.setWindowIcon(QIcon(icon_path))
 
+        # Fonte padrão
+        font_label = QFont("Arial", 12)
+        font_input = QFont("Arial", 11)
+
+        # Estilo para QLineEdit
+        line_edit_style = """
+            QLineEdit {
+                border: 2px solid #ccc;
+                border-radius: 8px;
+                padding: 8px;
+                background-color: #f9f9f9;
+                color: black;
+            }
+            QLineEdit:focus {
+                border: 2px solid #0078d7;
+                background-color: #ffffff;
+            }
+        """
+
+        # Estilo para botão
+        button_style = """
+            QPushButton {
+                background-color: #0078d7;
+                color: white;
+                border-radius: 8px;
+                padding: 10px;
+            }
+            QPushButton:hover {
+                background-color: #005a9e;
+            }
+        """
+
         # Label e campo para LP
         self.label_lp = QLabel("Insira a LP:")
-        self.label_lp.setFont(QFont("Arial", 12))
-        self.label_lp.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_lp.setFont(font_label)
+        self.label_lp.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.input_lp = QLineEdit()
-        self.input_lp.setFont(QFont("Arial", 11))
+        self.input_lp.setFont(font_input)
         self.input_lp.setPlaceholderText("Ex.: LP-XXXXXX")
-        self.input_lp.setFixedHeight(35)
+        self.input_lp.setFixedHeight(40)
+        self.input_lp.setStyleSheet(line_edit_style)
 
         # Label e campo para CCReq
-        self.label_ccreq = QLabel("CC do requerente:")
-        self.label_ccreq.setFont(QFont("Arial", 12))
-        self.label_ccreq.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_ccreq = QLabel("CC do Requerente:")
+        self.label_ccreq.setFont(font_label)
+        self.label_ccreq.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.input_ccreq = QLineEdit()
-        self.input_ccreq.setFont(QFont("Arial", 11))
+        self.input_ccreq.setFont(font_input)
         self.input_ccreq.setPlaceholderText("Ex.: 685864")
-        self.input_ccreq.setFixedHeight(35)
+        self.input_ccreq.setFixedHeight(40)
+        self.input_ccreq.setStyleSheet(line_edit_style)
 
         # Label e campo para Custo
-        self.label_cost = QLabel("Insira o custo:")
-        self.label_cost.setFont(QFont("Arial", 12))
-        self.label_cost.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_cost = QLabel("Insira o Custo:")
+        self.label_cost.setFont(font_label)
+        self.label_cost.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.input_cost = QLineEdit()
-        self.input_cost.setFont(QFont("Arial", 11))
+        self.input_cost.setFont(font_input)
         self.input_cost.setPlaceholderText("Ex.: 4000,00")
-        self.input_cost.setFixedHeight(35)
+        self.input_cost.setFixedHeight(40)
+        self.input_cost.setStyleSheet(line_edit_style)
 
         # Botão
         self.button = QPushButton("Enviar")
         self.button.setFont(QFont("Arial", 11, QFont.Weight.Bold))
-        self.button.setFixedHeight(40)
+        self.button.setFixedHeight(45)
+        self.button.setStyleSheet(button_style)
         self.button.clicked.connect(self.send_values)
         self.button.setDefault(True)
 
@@ -61,8 +97,8 @@ class MainWindow(QWidget):
 
         # Layout
         layout = QVBoxLayout()
-        layout.setSpacing(15)
-        layout.setContentsMargins(30, 30, 30, 30)
+        layout.setSpacing(20)
+        layout.setContentsMargins(40, 40, 40, 40)
 
         layout.addWidget(self.label_lp)
         layout.addWidget(self.input_lp)
@@ -70,6 +106,7 @@ class MainWindow(QWidget):
         layout.addWidget(self.input_ccreq)
         layout.addWidget(self.label_cost)
         layout.addWidget(self.input_cost)
+        layout.addStretch()  # Dá um espaçamento no final
         layout.addWidget(self.button)
 
         self.setLayout(layout)
