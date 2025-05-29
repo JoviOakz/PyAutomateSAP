@@ -61,4 +61,4 @@ print(text)
  
 # EXTRACT TO EXCEL
 df = pd.DataFrame({"OM": text, "Status": ""})
-df.to_excel("Open-OMs.xlsx")
+df.to_excel("Open-OMs.xlsx", index=False)
