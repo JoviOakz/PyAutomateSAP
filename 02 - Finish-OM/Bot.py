@@ -85,25 +85,25 @@ def com_complete():
             press_key('enter', 1)
 
     except Exception:
-        print('Warning not found!')
+        try:
+            error = bot.locateOnScreen('images/ERROR.png', grayscale=True, confidence=0.9)
+            
+            if error:
+                df.at[line, 'Status'] = 'Ordem pendente!'
+                df.to_excel(excel_path, index=False, engine='openpyxl')
 
-    try:
-        error = bot.locateOnScreen('images/ERROR.png', grayscale=True, confidence=0.9)
-        
-        if error:
-            df.at[line, 'Status'] = 'Ordem pendente!'
+                bot.sleep(2.25)
+
+                press_key('f12', 1)
+                bot.sleep(1)
+                press_key('f12', 1)
+                bot.sleep(1)
+                press_key('f12', 1)
+
+        except Exception:
+            df.at[line, 'Status'] = 'Encerrado!'
             df.to_excel(excel_path, index=False, engine='openpyxl')
-
-            bot.sleep(2.25)
-
-            press_key('f12', 1)
-            bot.sleep(1)
-            press_key('f12', 1)
-            bot.sleep(1)
-            press_key('f12', 1)
-
-    except Exception:
-        print('Warning not found!')
+            print('Warning not found!')
 
     bot.sleep(2.25)
 
