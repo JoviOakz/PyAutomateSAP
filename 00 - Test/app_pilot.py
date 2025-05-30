@@ -64,7 +64,7 @@ class MainWindow(QWidget):
         self.input_lp.setStyleSheet(line_edit_style)
 
         # Label e campo para CCReq
-        self.label_ccreq = QLabel("CC do Requerente:")
+        self.label_ccreq = QLabel("Objeto de liquidação:")
         self.label_ccreq.setFont(font_label)
         self.label_ccreq.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
@@ -120,7 +120,7 @@ class MainWindow(QWidget):
         cost = self.input_cost.text()
 
         print(f"LP enviado: {lp}")
-        print(f"CC do requerente enviado: {ccreq}")
+        print(f"Objeto de liquidação enviado: {ccreq}")
         print(f"Custo enviado: {cost}")
 
         # Limpar os campos
