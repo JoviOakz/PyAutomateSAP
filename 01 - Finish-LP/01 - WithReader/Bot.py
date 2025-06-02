@@ -480,8 +480,8 @@ def error_conclusion():
     bot.sleep(5)
 
 # EXCEL CONFIG
-lp_qty = 56
-line = 52
+lp_qty = 112
+line = 8
 
 # REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
