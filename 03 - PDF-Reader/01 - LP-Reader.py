@@ -7,7 +7,7 @@ import re
 
 # ===== CONSTANTS =====
 
-ROTATION_ANGLE = 0  # [deitado -> 270] | [pé -> 0]
+ROTATION_ANGLE = 270 # [deitado -> 270] | [pé -> 0]
 
 DICTIONARY = {
     '—': '-',
@@ -92,8 +92,8 @@ def save_lps_to_excel(lps, output_file):
 # ===== MAIN =====
 
 def main():
-    kw = 16
-    orientation = 'pé'  # [deitado] | [pé]
+    kw = 17
+    orientation = 'deitado' # [deitado] | [pé]
 
     pdf_path = f'03 - PDF-Reader/LPs - KW{kw} - {orientation}.pdf'
     output_file = f'Open-LPs - {orientation}.xlsx'
