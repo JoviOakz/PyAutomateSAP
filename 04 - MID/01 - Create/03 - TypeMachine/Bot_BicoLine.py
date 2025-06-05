@@ -44,7 +44,7 @@ def register_verification():
         return False
 
 part_number_qty = 2061
-line = 2019
+line = 0
 
 repeat_count = part_number_qty - line
 
