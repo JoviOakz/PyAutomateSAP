@@ -2,7 +2,7 @@ import pyautogui as bot
 import pandas as pd
 
 bot.FAILSAFE = True
-bot.PAUSE = 1
+bot.PAUSE = 0.35
 
 bot.click(1802, 14)
 
@@ -44,7 +44,7 @@ def register_verification():
         return False
 
 part_number_qty = 2061
-line = 0
+line = 770
 
 repeat_count = part_number_qty - line
 
@@ -68,12 +68,6 @@ for _ in range(repeat_count):
     if not need_register:
         part_number_image = bot.screenshot(region=(596, 822, 104, 24))
 
-        bot.moveTo(852, 872, 0.15)
-        bot.sleep(0.15)
-        bot.scroll(1000)
-        bot.sleep(0.15)
-        bot.moveTo(852, 700, 0.15)
-
         try:
             part_number_found = list(bot.locateOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords))
             
@@ -88,7 +82,7 @@ for _ in range(repeat_count):
         except Exception:
             bot.moveTo(852, 872, 0.15)
             bot.sleep(0.15)
-            bot.scroll(-400)
+            bot.scroll(1000)
             bot.sleep(0.15)
             bot.moveTo(852, 700, 0.15)
             
@@ -104,20 +98,39 @@ for _ in range(repeat_count):
                     bot.click(1620, 824)
 
             except Exception:
-                bot.click(1118, 832)
-                bot.sleep(0.3)
-                bot.click(1136, 1176)
-                bot.sleep(0.3)
-                press_key('enter', 1)
-                bot.sleep(0.3)
+                bot.moveTo(852, 872, 0.15)
+                bot.sleep(0.15)
+                bot.scroll(-400)
+                bot.sleep(0.15)
+                bot.moveTo(852, 700, 0.15)
 
-                if str(part_number).startswith('433'):
-                    bot.typewrite('0' + str(part_number))
-                else:
-                    bot.typewrite(str(part_number))
+                try:
+                    part_number_found = list(bot.locateOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords))
+                    
+                    if part_number_found:
+                        x, y = bot.locateCenterOnScreen(part_number_image, grayscale=True, confidence=0.9, region=part_number_coords)
 
-                bot.sleep(0.3)
-                bot.click(1136, 1176)
+                        bot.click(x, y)
+                        press_key('tab', 1)
+                        bot.typewrite('01')
+                        bot.click(1620, 824)
+
+                except Exception:
+                    bot.click(1118, 832)
+                    bot.sleep(0.3)
+                    bot.click(1136, 1176)
+                    bot.sleep(0.3)
+                    press_key('enter', 1)
+
+                    bot.sleep(0.3)
+
+                    if str(part_number).startswith('433'):
+                        bot.typewrite('0' + str(part_number))
+                    else:
+                        bot.typewrite(str(part_number))
+
+                    bot.sleep(0.3)
+                    bot.click(1136, 1176)
 
     line += 1
 
