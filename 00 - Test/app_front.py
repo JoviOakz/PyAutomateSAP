@@ -5,7 +5,6 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtCore import Qt
-from pyrfc import Connection
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -98,62 +97,9 @@ class MainWindow(QWidget):
         if not lp or not applicant or not receptor:
             QMessageBox.warning(self, "Erro", "Preencha todos os campos!")
             return
-
-        try:
-            sap_connection_params = {
-                'user': 'SEU_USUARIO',
-                'passwd': 'SUA_SENHA',
-                'ashost': 'rb3ps0a0.server.bosch.com',
-                'sysnr': '00',
-                'client': '011',
-                'lang': 'PT'
-            }
-            conn = Connection(**sap_connection_params)
-
-            conn.call('BAPI_PROJECT_MAINTAIN',
-                I_PROJECT_DEFINITION={
-                    'PROJECT_DEFINITION': lp,
-                    'DESCRIPTION': 'Alteracao via PyQt6'
-                },
-                I_PROJECT_DEFINITION_UPD={
-                    'PROJECT_DEFINITION': 'X',
-                    'DESCRIPTION': 'X'
-                },
-                I_METHOD_PROJECT={
-                    'METHOD': 'UPDATE'
-                },
-                I_WBS_ELEMENT_TABLE_UPDATE=[{
-                    'WBS_ELEMENT': lp,
-                    'APPLICANT_NO': applicant
-                }],
-                I_WBS_ELEMENT_TABLE_UPDATE_UPD=[{
-                    'WBS_ELEMENT': ' ',
-                    'APPLICANT_NO': 'X'
-                }]
-            )
-
-            objnr_result = conn.call('RFC_READ_TABLE',
-                                     QUERY_TABLE='PRPS',
-                                     DELIMITER='|',
-                                     FIELDS=[{'FIELDNAME': 'OBJNR'}],
-                                     OPTIONS=[f"PSPNR = '{lp}'"])
-
-            objnr = objnr_result['DATA'][0]['WA'].split('|')[0].strip()
-
-            regra_atual = conn.call('K_SETTLEMENT_RULE_READ', OBJNR=objnr, OBJART='PROJ')
-            settlement_rules = regra_atual.get('SETTL_RULE', [])
-
-            for regra in settlement_rules:
-                regra['EMPGE'] = receptor
-
-            conn.call('K_SETTLEMENT_RULE_CHECK', OBJNR=objnr, SETTL_RULE=settlement_rules)
-            conn.call('K_SETTLEMENT_RULE_SAVE', OBJNR=objnr, SETTL_RULE=settlement_rules)
-            conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
-
-            QMessageBox.information(self, "Sucesso", "Dados enviados com sucesso ao SAP!")
-
-        except Exception as e:
-            QMessageBox.critical(self, "Erro", f"Falha ao conectar ou enviar ao SAP:\n{str(e)}")
+        
+        # Apenas mensagem informativa - sem backend
+        QMessageBox.information(self, "Enviado", f"Valores enviados:\nLP: {lp}\nObjeto: {applicant}\nCusto: {receptor}")
 
         self.input_lp.clear()
         self.input_ccreq.clear()
