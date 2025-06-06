@@ -93,7 +93,7 @@ for _ in range(repeat_count):
             press_key('space', 1)
         else:
             bot.moveTo(964, 920)
-            bot.scroll(-500)
+            bot.scroll(-290)
             bot.moveTo(400, 720)
 
             posicao = find_position(part_number)
@@ -105,6 +105,31 @@ for _ in range(repeat_count):
                 bot.typewrite('01')
                 press_key('tab', 2)
                 press_key('space', 1)
+            else:
+                bot.moveTo(964, 920)
+                bot.scroll(-290)
+                bot.moveTo(400, 720)
+
+                posicao = find_position(part_number)
+
+                if posicao in click_coords:
+                    x, y = click_coords[posicao]
+                    bot.click(x, y)
+                    press_key('tab', 1)
+                    bot.typewrite('01')
+                    press_key('tab', 2)
+                    press_key('space', 1)
+                else:
+                    bot.click(1112, 826)
+
+                    bot.click(1136, 1176)
+                    bot.sleep(0.3)
+                    press_key('enter', 1)
+                    bot.sleep(0.3)
+                    bot.typewrite(str(part_number))
+
+                    bot.sleep(0.3)
+                    bot.click(1136, 1176)
 
     line += 1
 

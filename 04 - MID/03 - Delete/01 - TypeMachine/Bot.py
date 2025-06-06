@@ -7,7 +7,7 @@ bot.click(1802, 14)
 
 bot.sleep(0.5)
 
-part_number_qty = 71
+part_number_qty = 80
 line = 0
 
 repeat_count = part_number_qty - line
