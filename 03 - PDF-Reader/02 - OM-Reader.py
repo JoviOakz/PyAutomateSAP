@@ -51,7 +51,7 @@ def extract_text_from_pdf(pdf_path):
     return extracted_text
  
 # PDF PATH
-kw = 17
+kw = 19
 pdf_path = f"03 - PDF-Reader/OMs - KW{kw}.pdf"
 
 # FILTER OM's CORRECTLY
