@@ -42,8 +42,26 @@ def register_verification():
     except Exception:
         return False
 
+def normalize_ocr(text):
+    text = text.upper().replace(' ', '')
+    substitutions = {
+        'O': '0',
+        'I': '1',
+        'L': '1',
+        'Z': '2',
+        'T': '7',
+        'B': '8',
+        'S': '5',
+        '(': 'C',
+        '"/': '7'
+    }
+    for wrong, right in substitutions.items():
+        text = text.replace(wrong, right)
+    return text
+
 def find_position(part_number):
-    part_number = str(part_number).upper().replace('O', '0').replace(' ', '')
+    part_number = str(part_number).upper().replace(' ', '')
+    part_number_norm = normalize_ocr(part_number)
 
     screenshot = bot.screenshot(region=(600, 852, 542, 236))
     img_np = np.array(screenshot)
@@ -57,31 +75,31 @@ def find_position(part_number):
     final_image = Image.fromarray(upscale)
 
     custom_config = r'--oem 3 --psm 7 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
     part_numbers_text = pytesseract.image_to_string(final_image, config=custom_config)
 
     part_numbers_list = [
-        line.strip().upper().replace('O', '0').replace(' ', '')
-        for line in part_numbers_text.splitlines() 
+        line.strip().upper().replace(' ', '')
+        for line in part_numbers_text.splitlines()
         if line.strip()
     ]
 
-    print(part_numbers_list)
+    print("OCR Results:", part_numbers_list)
 
-    if part_number in part_numbers_list:
-        return part_numbers_list.index(part_number) + 1
-
+    # Comparar com normalização
     for idx, item in enumerate(part_numbers_list):
-        ratio = difflib.SequenceMatcher(None, item, part_number).ratio()
-        
-        if ratio >= 0.96:
-            print(f"Parecido com {part_number}: {item} (similaridade: {ratio:.2f})")
+        item_norm = normalize_ocr(item)
+        ratio = difflib.SequenceMatcher(None, item_norm, part_number_norm).ratio()
+
+        print(f"Comparando '{part_number_norm}' com '{item_norm}' → Similaridade: {ratio:.2f}")
+
+        if ratio >= 0.9:
+            print(f"🔍 Encontrado: {item} (linha {idx + 1}) com similaridade {ratio:.2f}")
             return idx + 1
 
     return 0
 
-part_number_qty = 2061
-line = 0
+part_number_qty = 116
+line = 7
 
 repeat_count = part_number_qty - line
 
