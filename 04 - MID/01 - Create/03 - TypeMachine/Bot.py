@@ -11,7 +11,7 @@ bot.PAUSE = 0.35
 
 bot.click(1802, 14)
 
-excel_path = "Data.xlsx"
+excel_path = "Data_reTest.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
 def press_key(key, times):
