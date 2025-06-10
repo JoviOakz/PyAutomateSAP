@@ -92,7 +92,7 @@ def save_lps_to_excel(lps, output_file):
 # ===== MAIN =====
 
 def main():
-    kw = 17
+    kw = 19
     orientation = 'deitado' # [deitado] | [pé]
 
     pdf_path = f'03 - PDF-Reader/LPs - KW{kw} - {orientation}.pdf'
