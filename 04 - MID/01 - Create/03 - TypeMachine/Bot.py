@@ -83,23 +83,17 @@ def find_position(part_number):
         if line.strip()
     ]
 
-    print("OCR Results:", part_numbers_list)
-
-    # Comparar com normalização
     for idx, item in enumerate(part_numbers_list):
         item_norm = normalize_ocr(item)
         ratio = difflib.SequenceMatcher(None, item_norm, part_number_norm).ratio()
 
-        print(f"Comparando '{part_number_norm}' com '{item_norm}' → Similaridade: {ratio:.2f}")
-
         if ratio >= 0.9:
-            print(f"🔍 Encontrado: {item} (linha {idx + 1}) com similaridade {ratio:.2f}")
             return idx + 1
 
     return 0
 
-part_number_qty = 116
-line = 7
+part_number_qty = 230
+line = 0
 
 repeat_count = part_number_qty - line
 
