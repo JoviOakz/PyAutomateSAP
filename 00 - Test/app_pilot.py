@@ -90,14 +90,41 @@ class MainWindow(QWidget):
         layout.addWidget(self.button)
         self.setLayout(layout)
 
-    def send_values(self):
+    def validate_inputs(self):
+        """Valida os campos de entrada antes de enviar ao SAP"""
         lp = self.input_lp.text().strip()
         applicant = self.input_ccreq.text().strip()
         receptor = self.input_cost.text().strip()
 
         if not lp or not applicant or not receptor:
-            QMessageBox.warning(self, "Erro", "Preencha todos os campos!")
+            return False, "Preencha todos os campos!"
+
+        if not lp.startswith('LP-') or len(lp) != 9 or not lp[3:].isdigit():
+            return False, "Formato de LP inválido. Use LP-XXXXXX (6 dígitos)"
+
+        if not applicant.isdigit():
+            return False, "Objeto de liquidação deve conter apenas números"
+
+        try:
+            # Converte o formato brasileiro para float (4000,00 -> 4000.00)
+            custo = float(receptor.replace('.', '').replace(',', '.'))
+            if custo <= 0:
+                return False, "O custo deve ser maior que zero"
+        except ValueError:
+            return False, "Custo inválido. Use formato 4000,00"
+
+        return True, ""
+
+    def send_values(self):
+        """Envia os valores para o SAP após validação"""
+        validation, message = self.validate_inputs()
+        if not validation:
+            QMessageBox.warning(self, "Erro", message)
             return
+
+        lp = self.input_lp.text().strip()
+        applicant = self.input_ccreq.text().strip()
+        receptor = self.input_cost.text().replace('.', '').replace(',', '.')
 
         try:
             sap_connection_params = {
@@ -106,58 +133,75 @@ class MainWindow(QWidget):
                 'ashost': 'rb3ps0a0.server.bosch.com',
                 'sysnr': '00',
                 'client': '011',
-                'lang': 'PT'
+                'lang': 'PT',
+                'timeout': 30  # Adicionado timeout
             }
-            conn = Connection(**sap_connection_params)
 
-            conn.call('BAPI_PROJECT_MAINTAIN',
-                I_PROJECT_DEFINITION={
-                    'PROJECT_DEFINITION': lp,
-                    'DESCRIPTION': 'Alteracao via PyQt6'
-                },
-                I_PROJECT_DEFINITION_UPD={
-                    'PROJECT_DEFINITION': 'X',
-                    'DESCRIPTION': 'X'
-                },
-                I_METHOD_PROJECT={
-                    'METHOD': 'UPDATE'
-                },
-                I_WBS_ELEMENT_TABLE_UPDATE=[{
-                    'WBS_ELEMENT': lp,
-                    'APPLICANT_NO': applicant
-                }],
-                I_WBS_ELEMENT_TABLE_UPDATE_UPD=[{
-                    'WBS_ELEMENT': ' ',
-                    'APPLICANT_NO': 'X'
-                }]
-            )
+            with Connection(**sap_connection_params) as conn:  # Usando context manager
+                # Verifica se a LP existe no SAP
+                lp_check = conn.call('RFC_READ_TABLE',
+                                   QUERY_TABLE='PRPS',
+                                   FIELDS=[{'FIELDNAME': 'PSPNR'}],
+                                   OPTIONS=[f"PSPNR = '{lp}'"])
+                
+                if not lp_check['DATA']:
+                    raise ValueError(f"LP {lp} não encontrada no SAP")
 
-            objnr_result = conn.call('RFC_READ_TABLE',
-                                     QUERY_TABLE='PRPS',
-                                     DELIMITER='|',
-                                     FIELDS=[{'FIELDNAME': 'OBJNR'}],
-                                     OPTIONS=[f"PSPNR = '{lp}'"])
+                # Atualiza o projeto
+                conn.call('BAPI_PROJECT_MAINTAIN',
+                    I_PROJECT_DEFINITION={
+                        'PROJECT_DEFINITION': lp,
+                        'DESCRIPTION': 'Alteracao via PyQt6'
+                    },
+                    I_PROJECT_DEFINITION_UPD={
+                        'PROJECT_DEFINITION': 'X',
+                        'DESCRIPTION': 'X'
+                    },
+                    I_METHOD_PROJECT={
+                        'METHOD': 'UPDATE'
+                    },
+                    I_WBS_ELEMENT_TABLE_UPDATE=[{
+                        'WBS_ELEMENT': lp,
+                        'APPLICANT_NO': applicant
+                    }],
+                    I_WBS_ELEMENT_TABLE_UPDATE_UPD=[{
+                        'WBS_ELEMENT': ' ',
+                        'APPLICANT_NO': 'X'
+                    }]
+                )
 
-            objnr = objnr_result['DATA'][0]['WA'].split('|')[0].strip()
+                # Obtém o objeto do projeto
+                objnr_result = conn.call('RFC_READ_TABLE',
+                                         QUERY_TABLE='PRPS',
+                                         DELIMITER='|',
+                                         FIELDS=[{'FIELDNAME': 'OBJNR'}],
+                                         OPTIONS=[f"PSPNR = '{lp}'"])
 
-            regra_atual = conn.call('K_SETTLEMENT_RULE_READ', OBJNR=objnr, OBJART='PROJ')
-            settlement_rules = regra_atual.get('SETTL_RULE', [])
+                objnr = objnr_result['DATA'][0]['WA'].split('|')[0].strip()
 
-            for regra in settlement_rules:
-                regra['EMPGE'] = receptor
+                # Lê e atualiza as regras de liquidação
+                regra_atual = conn.call('K_SETTLEMENT_RULE_READ', OBJNR=objnr, OBJART='PROJ')
+                settlement_rules = regra_atual.get('SETTL_RULE', [])
+                
+                if not settlement_rules:
+                    raise ValueError("Nenhuma regra de liquidação encontrada para este projeto")
 
-            conn.call('K_SETTLEMENT_RULE_CHECK', OBJNR=objnr, SETTL_RULE=settlement_rules)
-            conn.call('K_SETTLEMENT_RULE_SAVE', OBJNR=objnr, SETTL_RULE=settlement_rules)
-            conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
+                for regra in settlement_rules:
+                    regra['EMPGE'] = receptor
 
-            QMessageBox.information(self, "Sucesso", "Dados enviados com sucesso ao SAP!")
+                conn.call('K_SETTLEMENT_RULE_CHECK', OBJNR=objnr, SETTL_RULE=settlement_rules)
+                conn.call('K_SETTLEMENT_RULE_SAVE', OBJNR=objnr, SETTL_RULE=settlement_rules)
+                conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
+
+                QMessageBox.information(self, "Sucesso", "Dados enviados com sucesso ao SAP!")
 
         except Exception as e:
             QMessageBox.critical(self, "Erro", f"Falha ao conectar ou enviar ao SAP:\n{str(e)}")
-
-        self.input_lp.clear()
-        self.input_ccreq.clear()
-        self.input_cost.clear()
+            # Aqui você poderia adicionar um log do erro
+        finally:
+            self.input_lp.clear()
+            self.input_ccreq.clear()
+            self.input_cost.clear()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

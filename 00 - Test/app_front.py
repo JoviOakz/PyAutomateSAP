@@ -54,21 +54,21 @@ class MainWindow(QWidget):
         self.input_lp.setFixedHeight(40)
         self.input_lp.setStyleSheet(line_edit_style)
 
-        self.label_ccreq = QLabel("Objeto de liquidação:")
-        self.label_ccreq.setFont(font_label)
-        self.input_ccreq = QLineEdit()
-        self.input_ccreq.setFont(font_input)
-        self.input_ccreq.setPlaceholderText("Ex.: 685864")
-        self.input_ccreq.setFixedHeight(40)
-        self.input_ccreq.setStyleSheet(line_edit_style)
+        self.label_pac = QLabel("Perfil de apropriação de custos:")
+        self.label_pac.setFont(font_label)
+        self.input_pac = QLineEdit()
+        self.input_pac.setFont(font_input)
+        self.input_pac.setPlaceholderText("Ex.: ZPS001")
+        self.input_pac.setFixedHeight(40)
+        self.input_pac.setStyleSheet(line_edit_style)
 
-        self.label_cost = QLabel("Insira o Custo:")
-        self.label_cost.setFont(font_label)
-        self.input_cost = QLineEdit()
-        self.input_cost.setFont(font_input)
-        self.input_cost.setPlaceholderText("Ex.: 4000,00")
-        self.input_cost.setFixedHeight(40)
-        self.input_cost.setStyleSheet(line_edit_style)
+        self.label_sca = QLabel("Esquema de alocação:")
+        self.label_sca.setFont(font_label)
+        self.input_sca = QLineEdit()
+        self.input_sca.setFont(font_input)
+        self.input_sca.setPlaceholderText("Ex.: 05")
+        self.input_sca.setFixedHeight(40)
+        self.input_sca.setStyleSheet(line_edit_style)
 
         self.button = QPushButton("Enviar")
         self.button.setFont(QFont("Arial", 11, QFont.Weight.Bold))
@@ -81,29 +81,29 @@ class MainWindow(QWidget):
         layout.setContentsMargins(40, 40, 40, 40)
         layout.addWidget(self.label_lp)
         layout.addWidget(self.input_lp)
-        layout.addWidget(self.label_ccreq)
-        layout.addWidget(self.input_ccreq)
-        layout.addWidget(self.label_cost)
-        layout.addWidget(self.input_cost)
+        layout.addWidget(self.label_pac)
+        layout.addWidget(self.input_pac)
+        layout.addWidget(self.label_sca)
+        layout.addWidget(self.input_sca)
         layout.addStretch()
         layout.addWidget(self.button)
         self.setLayout(layout)
 
     def send_values(self):
         lp = self.input_lp.text().strip()
-        applicant = self.input_ccreq.text().strip()
-        receptor = self.input_cost.text().strip()
+        applicant = self.input_pac.text().strip()
+        receptor = self.input_sca.text().strip()
 
         if not lp or not applicant or not receptor:
             QMessageBox.warning(self, "Erro", "Preencha todos os campos!")
             return
         
         # Apenas mensagem informativa - sem backend
-        QMessageBox.information(self, "Enviado", f"Valores enviados:\nLP: {lp}\nObjeto: {applicant}\nCusto: {receptor}")
+        QMessageBox.information(self, "Enviado", f"Valores enviados:\nLP: {lp}\nPerfil de apropriação: {applicant}\nEsquema de alocação: {receptor}")
 
         self.input_lp.clear()
-        self.input_ccreq.clear()
-        self.input_cost.clear()
+        self.input_pac.clear()
+        self.input_sca.clear()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
