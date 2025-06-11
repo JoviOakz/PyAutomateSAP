@@ -16,3 +16,5 @@ for _ in range(repeat_count):
     bot.click(710, 1046)
     bot.press('tab')
     bot.press('enter')
+
+bot.alert(title='BotText', text='Programa encerrado!')

@@ -37,8 +37,8 @@ def exists_verification():
     except Exception:
         print('Type number doesn\'t exist!')
 
-line = 0
 part_number_qty = 29
+line = 0
 
 repeat_count = part_number_qty - line
 
@@ -61,3 +61,5 @@ for _ in range(repeat_count):
         press_key('enter', 1)
 
     line += 1
+
+bot.alert(title='BotText', text='Programa encerrado!')

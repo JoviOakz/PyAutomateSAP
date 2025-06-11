@@ -145,3 +145,5 @@ for _ in range(repeat_count):
         save()
         serie += 1
     line += 1
+
+bot.alert(title='BotText', text='Programa encerrado!')

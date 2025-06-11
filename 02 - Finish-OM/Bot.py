@@ -134,3 +134,5 @@ for _ in range(repeat_qty):
         com_complete()
             
     line += 1
+
+bot.alert(title='BotText', text='Programa encerrado!')

@@ -88,3 +88,5 @@ for _ in range(4):
 
         serie += 1
     line += 1
+
+bot.alert(title='BotText', text='Programa encerrado!')

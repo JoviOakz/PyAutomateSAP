@@ -529,3 +529,5 @@ for _ in range(repeat_qty):
                 error_conclusion()
             
     line += 1
+
+bot.alert(title='BotText', text='Programa encerrado!')

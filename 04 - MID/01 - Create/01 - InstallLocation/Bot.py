@@ -71,8 +71,8 @@ def main_function(serie):
     
     bot.hotkey('ctrl', 's')
 
-line = 0
 install_location_qty = 60
+line = 0
 
 repeat_count = install_location_qty - line
 
@@ -97,3 +97,5 @@ for _ in range(repeat_count):
         bot.sleep(2.5)
 
     line += 1
+
+bot.alert(title='BotText', text='Programa encerrado!')

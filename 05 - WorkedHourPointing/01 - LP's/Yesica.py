@@ -105,3 +105,4 @@ for _ in range(repeat_qty):
     line += 1
 
 df.to_excel(excel_path, index=False, engine='openpyxl')
+bot.alert(title='BotText', text='Programa encerrado!')
