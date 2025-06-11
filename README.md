@@ -33,4 +33,4 @@ Como complemento do PyRFC, seguir o caminho | 99 - Others > 99 - Files | para ad
 Instale todas as bibliotecas abaixo com o seguinte comando:
 
 ```bash
-pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract
+pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython
