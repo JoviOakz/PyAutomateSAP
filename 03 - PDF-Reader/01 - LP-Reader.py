@@ -4,10 +4,11 @@ import pandas as pd
 from pdf2image import convert_from_path
 import pytesseract
 import re
+from PIL import Image, ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-ROTATION_ANGLE = 270 # [deitado -> 270] | [pé -> 0]
+ROTATION_ANGLE = 270  # [deitado -> 270] | [pé -> 0]
 
 DICTIONARY = {
     '—': '-',
@@ -38,25 +39,21 @@ DICTIONARY = {
 
 # ===== FUNCTIONS =====
 
-# --- REMOVE ALL EXTRA CHARACTERS ---
-def clear_string(s):     
-    return re.sub(r'[^LP0-9-]', '', s)
+def preprocess_image(image):
+    image = image.convert("L")
+    image = image.filter(ImageFilter.MedianFilter())
+    enhancer = ImageEnhance.Contrast(image)
+    image = enhancer.enhance(2.0)
+    return image
 
-# --- ADJUST LP's LENGTH ---
-def normalize_lp(t):
-    if len(t) > 9:
-        return t[:9]
-    elif len(t) == 8:
-        return t[:3] + '0' + t[3:]
-    return t
-
-# --- FIX LP's PRE ISSUES ---
 def preprocess_text(text, dictionary):
     for key, value in dictionary.items():
         text = text.replace(key, value)
     return text
 
-# --- EXTRACT ALL LP's FROM PDF ---
+def clear_string(s):
+    return re.sub(r'[^LP0-9-]', '', s)
+
 def extract_lps_from_pdf(pdf_path, rotation_angle=0, dictionary=None):
     images = convert_from_path(pdf_path)
     extracted_lps = []
@@ -64,28 +61,29 @@ def extract_lps_from_pdf(pdf_path, rotation_angle=0, dictionary=None):
     for i, image in enumerate(images, start=1):
         try:
             image = image.rotate(rotation_angle, expand=True)
-            
+            image = preprocess_image(image)
+
             text = pytesseract.image_to_string(image)
+            text = preprocess_text(text, dictionary)
 
-            preprocess_text(text, dictionary)
+            # LP-XXXXXX (exatamente 6 dígitos)
+            match = re.search(r'LP-\d{6}\b', text)
+            if match:
+                lp = match.group(0)
+                extracted_lps.append(lp)
+                print(f'[{i}/{len(images)}] LP encontrada: {lp}')
+            else:
+                print(f'[{i}/{len(images)}] LP não encontrada ❌')
+                extracted_lps.append("")
 
-            index0 = text.index('LP')
-            index1 = text.index(' ', index0+1)
-    
-            lp = text[index0:index1]
-            extracted_lps.append(lp.strip())
-
-            print(f'[{i}/{len(images)}] LP encontrada: {lp[:9]}')
-            
-        except Exception:
-            print(f'[{i}/{len(images)}] LP não encontrada ❌')
+        except Exception as e:
+            print(f'[{i}/{len(images)}] Erro ao processar página ❌ - {e}')
+            extracted_lps.append("")
 
     return extracted_lps
 
-# --- SAVE EXTRACTED LP's IN EXCEL ---
 def save_lps_to_excel(lps, output_file):
-    cleaned_lps = [normalize_lp(clear_string(lp)) for lp in lps]
-    df = pd.DataFrame({'LP': cleaned_lps, 'Status': ''})
+    df = pd.DataFrame({'LP': lps, 'Status': ''})
     df.to_excel(output_file, index=False)
     print(f'\n✅ Arquivo salvo: {output_file}')
 
@@ -93,7 +91,7 @@ def save_lps_to_excel(lps, output_file):
 
 def main():
     kw = 19
-    orientation = 'deitado' # [deitado] | [pé]
+    orientation = 'deitado'  # [deitado] | [pé]
 
     pdf_path = f'03 - PDF-Reader/LPs - KW{kw} - {orientation}.pdf'
     output_file = f'Open-LPs - {orientation}.xlsx'
@@ -101,8 +99,8 @@ def main():
     print(f'🔍 Extraindo LPs do arquivo: {pdf_path}')
 
     lps = extract_lps_from_pdf(
-        pdf_path, 
-        rotation_angle=ROTATION_ANGLE, 
+        pdf_path,
+        rotation_angle=ROTATION_ANGLE,
         dictionary=DICTIONARY
     )
 
