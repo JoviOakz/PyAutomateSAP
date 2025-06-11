@@ -4,11 +4,11 @@ import pandas as pd
 from pdf2image import convert_from_path
 import pytesseract
 import re
-from PIL import Image, ImageEnhance, ImageFilter
+from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-ROTATION_ANGLE = 270  # [deitado -> 270] | [pé -> 0]
+ROTATION_ANGLE = 0  # [deitado -> 270] | [pé -> 0]
 
 DICTIONARY = {
     '—': '-',
@@ -44,15 +44,33 @@ def preprocess_image(image):
     image = image.filter(ImageFilter.MedianFilter())
     enhancer = ImageEnhance.Contrast(image)
     image = enhancer.enhance(2.0)
+
     return image
 
 def preprocess_text(text, dictionary):
     for key, value in dictionary.items():
         text = text.replace(key, value)
+
     return text
 
 def clear_string(s):
     return re.sub(r'[^LP0-9-]', '', s)
+
+def find_flexible_lp(text):
+    match = re.search(r'LP-\d{6}\b', text)
+    if match:
+        return match.group(0)
+
+    matches = re.findall(r'L\s*P[\s\-_\W]*\d[\d\W]{4,10}', text, re.IGNORECASE)
+    for match in matches:
+        cleaned = re.sub(r'[^0-9]', '', match)
+
+        if len(cleaned) == 6:
+            lp = f'LP-{cleaned}'
+
+            return lp
+        
+    return None
 
 def extract_lps_from_pdf(pdf_path, rotation_angle=0, dictionary=None):
     images = convert_from_path(pdf_path)
@@ -66,10 +84,9 @@ def extract_lps_from_pdf(pdf_path, rotation_angle=0, dictionary=None):
             text = pytesseract.image_to_string(image)
             text = preprocess_text(text, dictionary)
 
-            # LP-XXXXXX (exatamente 6 dígitos)
-            match = re.search(r'LP-\d{6}\b', text)
-            if match:
-                lp = match.group(0)
+            lp = find_flexible_lp(text)
+
+            if lp:
                 extracted_lps.append(lp)
                 print(f'[{i}/{len(images)}] LP encontrada: {lp}')
             else:
@@ -90,8 +107,8 @@ def save_lps_to_excel(lps, output_file):
 # ===== MAIN =====
 
 def main():
-    kw = 19
-    orientation = 'deitado'  # [deitado] | [pé]
+    kw = 20
+    orientation = 'pé'  # [deitado] | [pé]
 
     pdf_path = f'03 - PDF-Reader/LPs - KW{kw} - {orientation}.pdf'
     output_file = f'Open-LPs - {orientation}.xlsx'

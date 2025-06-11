@@ -8,10 +8,10 @@ from PIL import Image, ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = 19
+KW = 20
 PDF_PATH = f"03 - PDF-Reader/OMs - KW{KW}.pdf"
 OUTPUT_FILE = "Open-OMs.xlsx"
-ROTATION_ANGLE = 0  # ajuste se o PDF estiver deitado, ex: 270
+ROTATION_ANGLE = 0
 
 DICTIONARY = {
     "—": "-",
@@ -26,41 +26,37 @@ DICTIONARY = {
 
 # ===== FUNCTIONS =====
 
-# --- LIMPA A STRING (retém números apenas) ---
 def limpar_string(s):    
     return re.sub(r'[^0-9]', '', s)
 
-# --- MELHORA A QUALIDADE DA IMAGEM PARA OCR ---
 def preprocess_image(image):
     image = image.convert("L")  # escala de cinza
     image = image.filter(ImageFilter.MedianFilter())
     enhancer = ImageEnhance.Contrast(image)
     image = enhancer.enhance(2.0)
+
     return image
 
-# --- PRÉ-PROCESSA O TEXTO SUBSTITUINDO ERROS COMUNS ---
 def preprocess_text(text, dictionary):
     for key, value in dictionary.items():
         text = text.replace(key, value)
+
     return text
 
-# --- EXTRAI OM DE CADA PÁGINA ---
 def extract_text_from_pdf(pdf_path):
     images = convert_from_path(pdf_path)
     extracted_oms = []
 
     for i, image in enumerate(images):
         try:
-            # Rotaciona e melhora imagem
             rotated_image = image.rotate(ROTATION_ANGLE, expand=True)
             preprocessed_image = preprocess_image(rotated_image)
 
-            # OCR
             text = pytesseract.image_to_string(preprocessed_image, config='--psm 6')
             text = preprocess_text(text, DICTIONARY)
 
-            # Busca padrão que parece uma OM (sequência numérica com possível hífen ou não)
             match = re.search(r'\b\d{5,}\b', text)
+
             if match:
                 om = match.group(0)
                 om_limpa = limpar_string(om)
