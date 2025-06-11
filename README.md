@@ -6,11 +6,23 @@ Abaixo estão listadas as bibliotecas necessárias com instruções de instalaç
 
 ---
 
-## 📋 Pré-requisitos
+## 🐍 Instalação do Python
 
-- ✅ Python 3.10 (64 bits) — recomendado para maior compatibilidade
-- ✅ pip atualizado
-- ✅ Ambiente virtual recomendado (opcional, mas ideal)
+- ✅ **Python 3.10 (64 bits)** — recomendado para maior compatibilidade  
+  🔗 [Download Python 3.10.11](https://www.python.org/downloads/release/python-31011/)
+
+- ✅ pip atualizado  
+  ```bash
+  python -m pip install --upgrade pip
+---
+
+## 🔧 Dependências Externas
+
+Estas ferramentas devem ser instaladas separadamente, pois não estão disponíveis diretamente via `pip`.
+
+👉 [Baixar Poppler v24.08.0-0](https://github.com/oschwartz10612/poppler-windows/releases/tag/v24.08.0-0)  
+👉 [Repositório Tesseract OCR (oficial)](https://github.com/tesseract-ocr/tesseract)  
+👉 [Releases do PyRFC (SAP)](https://github.com/SAP-archive/PyRFC/releases)
 
 ---
 
@@ -20,3 +32,6 @@ Instale todas as bibliotecas abaixo com o seguinte comando:
 
 ```bash
 pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract
+
+👉 [Repositório Tesseract OCR (oficial)](https://github.com/tesseract-ocr/tesseract)  
+👉 [Releases do PyRFC (SAP)](https://github.com/SAP-archive/PyRFC/releases)
