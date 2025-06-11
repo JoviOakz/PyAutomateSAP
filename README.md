@@ -24,6 +24,8 @@ Estas ferramentas devem ser instaladas separadamente, pois não estão disponív
 👉 [Repositório Tesseract OCR (oficial)](https://github.com/tesseract-ocr/tesseract)  
 👉 [Releases do PyRFC (SAP)](https://github.com/SAP-archive/PyRFC/releases)
 
+Como complemento do PyRFC, seguir o caminho | 99 - Others > 99 - Files | para adquirir o arquivo SDK do SAP -> nwrfcsdk.zip
+
 ---
 
 ## 📚 Bibliotecas Python
@@ -32,6 +34,3 @@ Instale todas as bibliotecas abaixo com o seguinte comando:
 
 ```bash
 pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract
-
-👉 [Repositório Tesseract OCR (oficial)](https://github.com/tesseract-ocr/tesseract)  
-👉 [Releases do PyRFC (SAP)](https://github.com/SAP-archive/PyRFC/releases)
