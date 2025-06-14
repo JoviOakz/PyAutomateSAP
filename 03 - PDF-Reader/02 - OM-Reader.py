@@ -9,19 +9,19 @@ from PIL import Image, ImageEnhance, ImageFilter
 # ===== CONSTANTS =====
 
 KW = 20
-PDF_PATH = f"03 - PDF-Reader/OMs - KW{KW}.pdf"
-OUTPUT_FILE = "Open-OMs.xlsx"
+PDF_PATH = f'03 - PDF-Reader/OMs - KW{KW}.pdf'
+OUTPUT_FILE = 'Open-OMs.xlsx'
 ROTATION_ANGLE = 0
 
 DICTIONARY = {
-    "—": "-",
-    "~": "-",
-    "‘": "",
-    "'": "",
-    "_": "-",
-    "o": "0",
-    "O": "0",
-    ",": "",
+    '—': '-',
+    '~': '-',
+    '‘': '',
+    '\'': '',
+    '_': '-',
+    'o': '0',
+    'O': '0',
+    ',': '',
 }
 
 # ===== FUNCTIONS =====
@@ -30,7 +30,7 @@ def limpar_string(s):
     return re.sub(r'[^0-9]', '', s)
 
 def preprocess_image(image):
-    image = image.convert("L")  # escala de cinza
+    image = image.convert('L')  # escala de cinza
     image = image.filter(ImageFilter.MedianFilter())
     enhancer = ImageEnhance.Contrast(image)
     image = enhancer.enhance(2.0)
@@ -61,28 +61,28 @@ def extract_text_from_pdf(pdf_path):
                 om = match.group(0)
                 om_limpa = limpar_string(om)
                 extracted_oms.append(om_limpa)
-                print(f"[{i + 1}/{len(images)}] OM encontrada: {om_limpa}")
+                print(f'[{i + 1}/{len(images)}] OM encontrada: {om_limpa}')
             else:
-                print(f"[{i + 1}/{len(images)}] Nenhuma OM encontrada ❌")
-                extracted_oms.append("")
+                print(f'[{i + 1}/{len(images)}] Nenhuma OM encontrada ❌')
+                extracted_oms.append('')
 
         except Exception as e:
-            print(f"[{i + 1}/{len(images)}] Erro ao processar página ❌ - {e}")
-            extracted_oms.append("")
+            print(f'[{i + 1}/{len(images)}] Erro ao processar página ❌ - {e}')
+            extracted_oms.append('')
 
     return extracted_oms
 
 # ===== MAIN =====
 
 def main():
-    print(f"🔍 Extraindo OMs do arquivo: {PDF_PATH}")
+    print(f'🔍 Extraindo OMs do arquivo: {PDF_PATH}')
     
     oms = extract_text_from_pdf(PDF_PATH)
 
-    df = pd.DataFrame({"OM": oms, "Status": ""})
+    df = pd.DataFrame({'OM': oms, 'Status': ''})
     df.to_excel(OUTPUT_FILE, index=False)
 
-    print(f"\n✅ Arquivo salvo: {OUTPUT_FILE}")
+    print(f'\n✅ Arquivo salvo: {OUTPUT_FILE}')
 
 if __name__ == '__main__':
     main()

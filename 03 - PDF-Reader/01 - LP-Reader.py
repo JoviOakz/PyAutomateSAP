@@ -40,7 +40,7 @@ DICTIONARY = {
 # ===== FUNCTIONS =====
 
 def preprocess_image(image):
-    image = image.convert("L")
+    image = image.convert('L')
     image = image.filter(ImageFilter.MedianFilter())
     enhancer = ImageEnhance.Contrast(image)
     image = enhancer.enhance(2.0)
@@ -91,11 +91,11 @@ def extract_lps_from_pdf(pdf_path, rotation_angle=0, dictionary=None):
                 print(f'[{i}/{len(images)}] LP encontrada: {lp}')
             else:
                 print(f'[{i}/{len(images)}] LP não encontrada ❌')
-                extracted_lps.append("")
+                extracted_lps.append('')
 
         except Exception as e:
             print(f'[{i}/{len(images)}] Erro ao processar página ❌ - {e}')
-            extracted_lps.append("")
+            extracted_lps.append('')
 
     return extracted_lps
 
