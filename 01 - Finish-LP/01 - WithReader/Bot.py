@@ -1,13 +1,15 @@
-# --- README ---
+# ===== README =====
 # TESTS NEED '../' BEFORE THE PATH OF IMAGES
 # TESTS NEED '../../../' BEFORE THE EXCEL PATH
 
-# LIBRARIES
+# ===== LIBRARIES =====
+
 import pyautogui as bot
 import pandas as pd
 import pyperclip
 
-# GLOBAL SOFTWARE SETTINGS
+# ===== GLOBAL SETTINGS =====
+
 bot.FAILSAFE = True
 bot.PAUSE = 0.75
 
@@ -24,14 +26,17 @@ coordinates = [
     ((605, 570, 33, 26), (1102, 582))
 ]
 
-# PUT DOWN THE CODE SCREEN
+# ===== INITIAL ACTION =====
+
 bot.click(1802, 14)
 
-# EXCEL CONFIGURATION
+# ===== EXCEL CONFIGURATION =====
+
 excel_path = "../../Open-LPs.xlsx"
 df = pd.read_excel(excel_path, engine='openpyxl')
 
-# FUNCTION TO PRESS COMMAND X TIMES
+# ===== FUNCTIONS =====
+
 def press_key(key, times):
     for _ in range(times):
         if key == 'ctrlv':
@@ -39,12 +44,10 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-# SEQUENCE TO FINISH WITH ENTE AND ENCE STATUS
 def ence_sequence(coords):
     for x, y in coords:
         bot.click(x, y)
 
-# OPEN THE PROJECT
 def open_project():
     bot.click(26, 146)
 
@@ -57,7 +60,6 @@ def open_project():
 
     bot.sleep(2)
 
-# IDENTIFIES THE PROJECT STATUS (IF DON'T EXIST, HAVE LBPA OR ALREADY FINISHED) 
 def project_status():
     try:
         lp_error_exist = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.7))
@@ -109,7 +111,6 @@ def project_status():
     except Exception:
         print('LBPA status not found!')
 
-# OPEN PROJECT TREE
 def open_tree():
     try:
         have_diagram = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
@@ -126,7 +127,6 @@ def open_tree():
     except Exception:
         print('Doesn\'t have diagram!')
 
-# CHECK IF THE DIAGRAM IS ALREADY ENCE
 def diagram_notLib():
     try:
         have_purchase = list(bot.locateOnScreen('images/ARROW.png', grayscale=True, confidence=0.8, region=arrowCoords))
@@ -163,7 +163,6 @@ def diagram_notLib():
     except Exception:
         print('Doesn\'t have any purchase line!')
 
-# FINISH THE TREE LINE STATUS WITH (ENCE)
 def finish_treeLine():
     try:
         have_aber = list(bot.locateOnScreen('images/ABER.png', grayscale=True, confidence=0.8))
@@ -265,7 +264,6 @@ def finish_treeLine():
             except Exception as e:
                 print(f'Error: {e}')
 
-# CHANGE THE PURCHASE LINE STATUS TO (BAIX CFMN CONF)
 def change_purchaseLine_status():
     press_key('tab', 2)
     bot.sleep(0.3)
@@ -313,7 +311,6 @@ def change_purchaseLine_status():
     except Exception:
         print('Doesn\'t have any additional information!')
 
-# FINISH THE PURCHASE LINE STATUS
 def ence_purchaseLine():
     workedHours = 0
 
@@ -453,7 +450,6 @@ def ence_purchaseLine():
     bot.click(580, 200)
     bot.sleep(2)
 
-# CHANGE THE LP STATUS TO ENCE AND SAVE EVERYTHING
 def conclusion():
     df.at[line, 'Status'] = 'Encerrado!'
     df.to_excel(excel_path, index=False, engine='openpyxl')
@@ -462,7 +458,6 @@ def conclusion():
 
     bot.sleep(5)
 
-# PUT THE ERROR STATUS OF LP AND DON'T SAVE THE CHANGES
 def error_conclusion():
     press_key('f3', 1)
     bot.sleep(2)
@@ -479,55 +474,57 @@ def error_conclusion():
 
     bot.sleep(5)
 
-# EXCEL CONFIG
+# ===== PROGRAM CONFIGURATION =====
+
 lp_qty = 23
 line = 2
-
-# REPEAT QUANTITY TO PROGRAM RUN
 repeat_qty = lp_qty - line
 
-# MAIN PROGRAM
-for _ in range(repeat_qty):
-    jump_all_process = False
-    jump_main_function = False
-    purchase_line = False
-    diagram = True
+# ===== MAIN =====
 
-    pending = 0
+def main():
+    global line
 
-    open_project()
+    for _ in range(repeat_qty):
+        jump_all_process = False
+        jump_main_function = False
+        purchase_line = False
+        diagram = True
+        pending = 0
 
-    jump_all_process = project_status()
+        open_project()
 
-    if not jump_all_process:
-        diagram = open_tree()
+        jump_all_process = project_status()
 
-        if diagram:
-            finish_treeLine()
-            jump_main_function = True
+        if not jump_all_process:
+            diagram = open_tree()
 
-        if not jump_main_function:
-            purchase_line = diagram_notLib()
-            
-            if purchase_line:
-                pending = ence_purchaseLine()
+            if diagram:
+                finish_treeLine()
+                jump_main_function = True
 
-            if pending != 1:
-                pending = finish_treeLine()
+            if not jump_main_function:
+                purchase_line = diagram_notLib()
+
+                if purchase_line:
+                    pending = ence_purchaseLine()
 
                 if pending != 1:
-                    bot.click(186, 212)
-                    bot.sleep(2)
-                    
                     pending = finish_treeLine()
-                    conclusion()
 
+                    if pending != 1:
+                        bot.click(186, 212)
+                        bot.sleep(2)
+                        pending = finish_treeLine()
+                        conclusion()
+                    else:
+                        error_conclusion()
                 else:
                     error_conclusion()
 
-            else:
-                error_conclusion()
-            
-    line += 1
+        line += 1
 
-bot.alert(title='BotText', text='Programa encerrado!')
+    bot.alert(title='BotText', text='Programa encerrado!')
+
+if __name__ == '__main__':
+    main()
