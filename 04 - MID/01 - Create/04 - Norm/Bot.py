@@ -1,15 +1,30 @@
+# ===== LIBRARIES =====
+
 import pyautogui as bot
 import pandas as pd
+
+# ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
 bot.PAUSE = 0.3
 
+# ===== INITIAL ACTION =====
+
 bot.click(1780, 14)
 
-excel_path = "Data.xlsx"
-df = pd.read_excel(excel_path, engine='openpyxl')
+# ===== EXCEL CONFIGURATION =====
 
-line = 20
+EXCEL_PATH = "Data.xlsx"
+df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
+
+# ===== FUNCTIONS =====
+
+def press_key(key, times):
+    for _ in range(times):
+        if key == 'ctrls':
+            bot.hotkey('ctrl', 's')
+        else:
+            bot.press(key)
 
 def enter_material(norm):
     bot.click(200, 488)
@@ -43,34 +58,36 @@ def save():
     press_key('enter', 1)
     bot.sleep(0.5)
 
-def press_key(key, times):
-    for _ in range(times):
-        if key == 'ctrls':
-            bot.hotkey('ctrl', 's')
-        else:
-            bot.press(key)
+# ===== PROGRAM CONFIGURATION =====
 
 line = 0
 serie_qty = 1
-
 repeat_count = serie_qty - line
 
-for _ in range(repeat_count):
-    norm = df.at[line, 'Norma']
-    qty = df.at[line, 'Quantidade']
+# ===== MAIN =====
 
-    if norm == 4718301460:
-        serie = 4
-    else:
-        serie = 2
+def main():
+    global line
 
-    enter_material(norm)
+    for _ in range(repeat_count):
+        norm = df.at[line, 'Norma']
+        qty = df.at[line, 'Quantidade']
 
-    for __ in range(qty):
-        main_function(serie)
-        serie += 1
+        if norm == 4718301460:
+            serie = 4
+        else:
+            serie = 2
 
-    line += 1
-    save()
+        enter_material(norm)
 
-bot.alert(title='BotText', text='Programa encerrado!')
+        for __ in range(qty):
+            main_function(serie)
+            serie += 1
+
+        line += 1
+        save()
+
+    bot.alert(title='BotText', text='Programa encerrado!')
+
+if __name__ == '__main__':
+    main()

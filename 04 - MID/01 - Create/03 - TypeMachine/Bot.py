@@ -1,3 +1,5 @@
+# ===== LIBRARIES =====
+
 import pyautogui as bot
 import pandas as pd
 import pytesseract
@@ -6,13 +8,21 @@ import numpy as np
 from PIL import Image
 import difflib
 
+# ===== GLOBAL SETTINGS =====
+
 bot.FAILSAFE = True
 bot.PAUSE = 0.35
 
+# ===== INITIAL ACTION =====
+
 bot.click(1802, 14)
 
-excel_path = "Data_reTest.xlsx"
-df = pd.read_excel(excel_path, engine='openpyxl')
+# ===== EXCEL CONFIGURATION =====
+
+EXCEL_PATH = "Data_reTest.xlsx"
+df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
+
+# ===== FUNCTIONS =====
 
 def press_key(key, times):
     for _ in range(times):
@@ -24,7 +34,7 @@ def press_key(key, times):
 def register_verification():
     try:
         typeNumber_notExist = list(bot.locateAllOnScreen('images/NOTFIND.png', grayscale=True, confidence=0.9))
-        
+
         if typeNumber_notExist:
             bot.click(1126, 834)
             bot.sleep(0.3)
@@ -33,12 +43,11 @@ def register_verification():
             press_key('enter', 1)
             bot.sleep(0.3)
             bot.typewrite(str(part_number))
-
             bot.sleep(0.3)
             bot.click(1136, 1176)
             
             return True
-        
+
     except Exception:
         return False
 
@@ -92,57 +101,45 @@ def find_position(part_number):
 
     return 0
 
+# ===== PROGRAM CONFIGURATION =====
+
 part_number_qty = 230
 line = 0
-
 repeat_count = part_number_qty - line
 
-for _ in range(repeat_count):
-    need_register = False
+# ===== MAIN =====
 
-    part_number = df.at[line, 'Bico (normal final)'] # W -> 764 | X -> 772 | S -> 775 | K -> 29 | Bico (normal final) -> 2061
+def main():
+    global line
+    global part_number
 
-    if str(part_number).startswith('433'):
-        part_number = ('0' + str(part_number))
+    for _ in range(repeat_count):
+        need_register = False
 
-    bot.click(812, 830)
-    bot.sleep(0.3)
+        part_number = df.at[line, 'Bico (normal final)']  # W -> 764 | X -> 772 | S -> 775 | K -> 29 | Bico (normal final) -> 2061
 
-    bot.typewrite(str(part_number))
+        if str(part_number).startswith('433'):
+            part_number = ('0' + str(part_number))
 
-    bot.sleep(1.25)
+        bot.click(812, 830)
+        bot.sleep(0.3)
+        bot.typewrite(str(part_number))
+        bot.sleep(1.25)
 
-    need_register = register_verification()
+        need_register = register_verification()
 
-    if not need_register:
-        click_coords = {
-            1: (874, 870),
-            2: (874, 922),
-            3: (874, 970),
-            4: (874, 1020),
-            5: (874, 1070)
-        }
+        if not need_register:
+            click_coords = {
+                1: (874, 870),
+                2: (874, 922),
+                3: (874, 970),
+                4: (874, 1020),
+                5: (874, 1070)
+            }
 
-        bot.moveTo(964, 920)
-        bot.scroll(1000)
-        bot.moveTo(400, 720)
-
-        bot.sleep(0.5)
-
-        posicao = find_position(part_number)
-
-        if posicao in click_coords:
-            x, y = click_coords[posicao]
-            bot.click(x, y)
-            press_key('tab', 1)
-            bot.typewrite('01')
-            press_key('tab', 2)
-            press_key('space', 1)
-        else:
             bot.moveTo(964, 920)
-            bot.scroll(-290)
+            bot.scroll(1000)
             bot.moveTo(400, 720)
-            
             bot.sleep(0.5)
 
             posicao = find_position(part_number)
@@ -158,6 +155,7 @@ for _ in range(repeat_count):
                 bot.moveTo(964, 920)
                 bot.scroll(-290)
                 bot.moveTo(400, 720)
+                bot.sleep(0.5)
 
                 posicao = find_position(part_number)
 
@@ -169,18 +167,32 @@ for _ in range(repeat_count):
                     press_key('tab', 2)
                     press_key('space', 1)
                 else:
-                    bot.click(1112, 826)
+                    bot.moveTo(964, 920)
+                    bot.scroll(-290)
+                    bot.moveTo(400, 720)
+                    posicao = find_position(part_number)
 
-                    bot.click(1136, 1176)
-                    bot.sleep(0.3)
-                    press_key('enter', 1)
-                    bot.sleep(0.3)
-                    bot.typewrite(str(part_number))
+                    if posicao in click_coords:
+                        x, y = click_coords[posicao]
+                        bot.click(x, y)
+                        press_key('tab', 1)
+                        bot.typewrite('01')
+                        press_key('tab', 2)
+                        press_key('space', 1)
+                    else:
+                        bot.click(1112, 826)
+                        bot.click(1136, 1176)
+                        bot.sleep(0.3)
+                        press_key('enter', 1)
+                        bot.sleep(0.3)
+                        bot.typewrite(str(part_number))
+                        bot.sleep(0.3)
+                        bot.click(1136, 1176)
 
-                    bot.sleep(0.3)
-                    bot.click(1136, 1176)
+        line += 1
 
-    line += 1
+    bot.sleep(0.3)
+    bot.click(1852, 1074)
 
-bot.sleep(0.3)
-bot.click(1852, 1074)
+if __name__ == '__main__':
+    main()
