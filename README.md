@@ -11,7 +11,7 @@ Abaixo estão listadas as bibliotecas necessárias com instruções de instalaç
 - ✅ **Python 3.10 (64 bits)** — recomendado para maior compatibilidade  
   🔗 [Download Python 3.10.11](https://www.python.org/downloads/release/python-31011/)
 
-- ✅ pip atualizado  
+- ✅ Atualizar pip  
   ```bash
   python -m pip install --upgrade pip
 ---
