@@ -80,8 +80,10 @@ if __name__ == '__main__':
 
 # ===== CALCULO A SER FEITO =====
 
-# valor total mes / qtd total de ordens
+# valor total mês / qtd total de ordens
 # 20.000 ÷ 22 = R$909,09 por OT
 
 # qtd em reais por ordem / qtd reais por hora
 # 909,09 ÷ 120 = 7,58 horas por OT
+
+# França precisa de 167 horas para bater sua meta de 20.000 no mês
