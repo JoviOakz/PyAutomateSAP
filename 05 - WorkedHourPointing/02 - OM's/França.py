@@ -68,6 +68,9 @@ def main():
         press_key('down', 1)
     press_key('space', 1)
 
+    wb.Close(SaveChanges=False)
+    excel.Quit()
+
 if __name__ == '__main__':
     main()
 
