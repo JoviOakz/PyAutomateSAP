@@ -30,46 +30,48 @@ def press_key(key, times):
 # ===== MAIN =====
 
 def main():
-    bot.sleep(0.5)
-    press_key('tab', 1)
+    try:
+        bot.sleep(0.5)
+        press_key('tab', 1)
 
-    ws.Range('A2:B23').Copy()
-    bot.hotkey('ctrl', 'v')
-    bot.sleep(0.5)
+        ws.Range('A2:B23').Copy()
+        bot.hotkey('ctrl', 'v')
+        bot.sleep(0.5)
 
-    ws.Range('C2:E23').Copy()
-    press_key('tab', 3)
-    bot.hotkey('ctrl', 'v')
-    bot.sleep(0.5)
+        ws.Range('C2:E23').Copy()
+        press_key('tab', 3)
+        bot.hotkey('ctrl', 'v')
+        bot.sleep(0.5)
 
-    ws.Range('F2:J23').Copy()
-    press_key('tab', 5)
-    bot.hotkey('ctrl', 'v')
-    bot.sleep(0.5)
-    
-    press_key('shtab', 2)
+        ws.Range('F2:J23').Copy()
+        press_key('tab', 5)
+        bot.hotkey('ctrl', 'v')
+        bot.sleep(0.5)
+        
+        press_key('shtab', 2)
 
-    for __ in range(21):
+        for __ in range(21):
+            press_key('space', 1)
+            press_key('down', 1)
         press_key('space', 1)
-        press_key('down', 1)
-    press_key('space', 1)
 
-    press_key('tab', 1)
+        press_key('tab', 1)
 
-    for __ in range(21):
+        for __ in range(21):
+            press_key('space', 1)
+            press_key('up', 1)
         press_key('space', 1)
-        press_key('up', 1)
-    press_key('space', 1)
 
-    press_key('tab', 10)
+        press_key('tab', 10)
 
-    for __ in range(21):
+        for __ in range(21):
+            press_key('space', 1)
+            press_key('down', 1)
         press_key('space', 1)
-        press_key('down', 1)
-    press_key('space', 1)
 
-    wb.Close(SaveChanges=False)
-    excel.Quit()
+    finally:
+        wb.Close(SaveChanges=False)
+        excel.Quit()
 
 if __name__ == '__main__':
     main()
