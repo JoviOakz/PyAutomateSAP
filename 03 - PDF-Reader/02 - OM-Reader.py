@@ -8,10 +8,11 @@ from PIL import Image, ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = 20
+KW = 21
+ROTATION_ANGLE = 0
+
 PDF_PATH = f'03 - PDF-Reader/OMs - KW{KW}.pdf'
 OUTPUT_FILE = 'Open-OMs.xlsx'
-ROTATION_ANGLE = 0
 
 DICTIONARY = {
     '—': '-',

@@ -8,7 +8,12 @@ from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-ROTATION_ANGLE = 0  # [deitado -> 270] | [pé -> 0]
+KW = 21
+ORIENTATION = 'deitado'  # [deitado] | [pé]
+ROTATION_ANGLE = 270  # [deitado -> 270] | [pé -> 0]
+
+PDF_PATH = f'03 - PDF-Reader/LPs - KW{KW} - {ORIENTATION}.pdf'
+OUTPUT_FILE = f'Open-LPs - {ORIENTATION}.xlsx'
 
 DICTIONARY = {
     '—': '-',
@@ -44,13 +49,11 @@ def preprocess_image(image):
     image = image.filter(ImageFilter.MedianFilter())
     enhancer = ImageEnhance.Contrast(image)
     image = enhancer.enhance(2.0)
-
     return image
 
 def preprocess_text(text, dictionary):
     for key, value in dictionary.items():
         text = text.replace(key, value)
-
     return text
 
 def clear_string(s):
@@ -64,12 +67,9 @@ def find_flexible_lp(text):
     matches = re.findall(r'L\s*P[\s\-_\W]*\d[\d\W]{4,10}', text, re.IGNORECASE)
     for match in matches:
         cleaned = re.sub(r'[^0-9]', '', match)
-
         if len(cleaned) == 6:
             lp = f'LP-{cleaned}'
-
             return lp
-        
     return None
 
 def extract_lps_from_pdf(pdf_path, rotation_angle=0, dictionary=None):
@@ -107,21 +107,15 @@ def save_lps_to_excel(lps, output_file):
 # ===== MAIN =====
 
 def main():
-    kw = 20
-    orientation = 'pé'  # [deitado] | [pé]
-
-    pdf_path = f'03 - PDF-Reader/LPs - KW{kw} - {orientation}.pdf'
-    output_file = f'Open-LPs - {orientation}.xlsx'
-
-    print(f'🔍 Extraindo LPs do arquivo: {pdf_path}')
+    print(f'🔍 Extraindo LPs do arquivo: {PDF_PATH}')
 
     lps = extract_lps_from_pdf(
-        pdf_path,
+        PDF_PATH,
         rotation_angle=ROTATION_ANGLE,
         dictionary=DICTIONARY
     )
 
-    save_lps_to_excel(lps, output_file)
+    save_lps_to_excel(lps, OUTPUT_FILE)
 
 if __name__ == '__main__':
     main()
