@@ -15,6 +15,7 @@ bot.click(1802, 14)
 # ===== EXCEL CONFIGURATION =====
 
 excel = win32.gencache.EnsureDispatch('Excel.Application')
+excel.DisplayAlerts = False
 wb = excel.Workbooks.Open(r"C:\Users\Mao8ct\Desktop\PyAutomateSAP\05 - WorkedHourPointing\02 - OM's\ApontamentoFrança.xlsx")
 ws = wb.Sheets('Sheet1')
 
