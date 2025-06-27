@@ -11,7 +11,8 @@ import pyperclip
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+# bot.PAUSE = 0.75 verificar a velocidade do code
+bot.PAUSE = 2
 
 arrowCoords = (15, 166, 400, 200)
 hourCoords = (880, 332, 50, 188)
@@ -481,8 +482,8 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 23
-line = 21
+lp_qty = 21
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
