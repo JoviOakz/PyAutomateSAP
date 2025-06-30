@@ -5,7 +5,7 @@ import pyautogui as bot
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1
+bot.PAUSE = 2
 
 projectHeight = 244
 arrowCoords = (15, 166, 400, 200)
@@ -332,8 +332,7 @@ def finish_sequence(coords):
     for x, y in coords:
         bot.click(x, y)
 
-def adjust_tree_height(height):
-    global height_adjust_count
+def adjust_tree_height(height, height_adjust_count):
 
     if height_adjust_count < 1:
         height -= 40
@@ -363,7 +362,7 @@ def main_function(treeHeight):
             except Exception:
                 print('WARNING não encontrado!')
 
-            treeHeight = adjust_tree_height(treeHeight)
+            treeHeight = adjust_tree_height(treeHeight, height_adjust_count)
 
     except Exception:
         try:
@@ -385,7 +384,7 @@ def main_function(treeHeight):
                 except Exception:
                     print('WARNING não encontrado!')
 
-                treeHeight = adjust_tree_height(treeHeight)
+                treeHeight = adjust_tree_height(treeHeight, height_adjust_count)
 
         except Exception:
             try:
@@ -405,10 +404,10 @@ def main_function(treeHeight):
                     except Exception:
                         print('WARNING não encontrado!')
 
-                    treeHeight = adjust_tree_height(treeHeight)
+                    treeHeight = adjust_tree_height(treeHeight, height_adjust_count)
 
             except Exception:
-                treeHeight = adjust_tree_height(treeHeight)
+                treeHeight = adjust_tree_height(treeHeight, height_adjust_count)
 
     return treeHeight
 
@@ -420,6 +419,7 @@ def conclusion():
 
 def main():
     global projectHeight
+    global height_adjust_count
 
     for _ in range(40):
         treeHeight = 250
