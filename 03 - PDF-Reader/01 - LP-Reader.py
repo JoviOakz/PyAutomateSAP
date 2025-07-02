@@ -8,9 +8,9 @@ from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = 22
-ORIENTATION = 'pé'  # [deitado] | [pé]
-ROTATION_ANGLE = 0  # [deitado -> 270] | [pé -> 0]
+KW = 23
+ORIENTATION = 'deitado'  # [deitado] | [pé]
+ROTATION_ANGLE = 270  # [deitado -> 270] | [pé -> 0]
 
 PDF_PATH = f'03 - PDF-Reader/LPs - KW{KW} - {ORIENTATION}.pdf'
 OUTPUT_FILE = f'Open-LPs - {ORIENTATION}.xlsx'
