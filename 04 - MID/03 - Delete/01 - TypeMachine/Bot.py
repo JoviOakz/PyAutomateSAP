@@ -30,7 +30,7 @@ def process_part_numbers():
 
 def main():
     process_part_numbers()
-    bot.alert(title='BotText', text='Program terminated!')
+    bot.alert(title='BotText', text='Programa encerrado!')
 
 if __name__ == '__main__':
     main()

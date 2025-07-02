@@ -110,7 +110,7 @@ total_lines = 4
 
 def main():
     process_lines()
-    bot.alert(title='BotText', text='Program terminated!')
+    bot.alert(title='BotText', text='Programa encerrado!')
 
 if __name__ == '__main__':
     main()

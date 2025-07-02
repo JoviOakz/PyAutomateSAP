@@ -115,7 +115,7 @@ repeat_count = install_location_qty - line
 
 def main():
     process_lines()
-    bot.alert(title='BotText', text='Program terminated!')
+    bot.alert(title='BotText', text='Programa encerrado!')
 
 if __name__ == '__main__':
     main()

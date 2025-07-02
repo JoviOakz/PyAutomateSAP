@@ -105,7 +105,7 @@ def main():
         line += 1
 
     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-    bot.alert(title='BotText', text='Program terminated!')
+    bot.alert(title='BotText', text='Programa encerrado!')
 
 if __name__ == '__main__':
     main()

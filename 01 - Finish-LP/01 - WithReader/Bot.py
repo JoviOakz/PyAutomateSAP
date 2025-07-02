@@ -11,8 +11,7 @@ import pyperclip
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-# bot.PAUSE = 0.75 verificar a velocidade do code
-bot.PAUSE = 2
+bot.PAUSE = 0.75
 
 arrowCoords = (15, 166, 400, 200)
 hourCoords = (880, 332, 50, 188)

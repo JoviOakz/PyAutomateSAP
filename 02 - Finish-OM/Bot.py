@@ -10,11 +10,12 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.75
+bot.PAUSE = 2
 
 # ===== INITIAL ACTION =====
 
 bot.click(1802, 14)
+bot.moveTo(1400, 50, 0.3)
 
 # ===== EXCEL CONFIGURATION =====
 
@@ -100,8 +101,8 @@ def com_complete():
 
 # ===== PROGRAM CONFIGURATION =====
 
-om_qty = 32
-line = 0
+om_qty = 5
+line = 1
 repeat_qty = om_qty - line
 
 # ===== MAIN =====
@@ -129,7 +130,7 @@ def main():
 
         line += 1
 
-    bot.alert(title='BotText', text='Program terminated!')
+    bot.alert(title='BotText', text='Programa encerrado!')
 
 if __name__ == '__main__':
     main()
