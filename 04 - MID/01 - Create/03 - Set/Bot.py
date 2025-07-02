@@ -34,8 +34,8 @@ def save():
 
 # ===== PROGRAM CONFIGURATION =====
 
+set_qty = 1
 line = 0
-set_qty = 2
 repeat_count = set_qty - line
 
 # ===== MAIN =====
@@ -47,11 +47,6 @@ def main():
         norm = df.at[line, 'Norma']
         qty = df.at[line, 'Quantidade']
         name = df.at[line, 'Nome']
-
-        if norm == 4718301758:
-            serie = 3
-        else:
-            serie = 1
 
         for __ in range(qty):
             bot.click(1850, 946)
@@ -146,8 +141,6 @@ def main():
             serie += 1
 
         line += 1
-
-    bot.alert(title='BotText', text='Programa encerrado!')
 
 if __name__ == '__main__':
     main()
