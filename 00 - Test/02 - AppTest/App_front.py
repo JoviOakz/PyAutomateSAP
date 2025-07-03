@@ -157,13 +157,11 @@ class MainWindow(QWidget):
     def update_debit_format(self, text):
         if self.checkbox_pep.isChecked():
             digits = ''.join(filter(str.isdigit, text))[:6]
-            if len(digits) == 6:
-                formatted = f"LP-{digits}"
-            else:
-                formatted = digits
+            formatted = f"LP-{digits}" if len(digits) == 6 else digits
             self.input_dbt.blockSignals(True)
             self.input_dbt.setText(formatted)
             self.input_dbt.blockSignals(False)
+
         elif self.checkbox_bm.isChecked():
             digits = ''.join(filter(str.isdigit, text))[:19]
             if len(digits) == 19:
