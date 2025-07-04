@@ -8,7 +8,7 @@ Abaixo estão listadas as bibliotecas necessárias com instruções de instalaç
 
 ## 🐍 Instalação do Python
 
-- ✅ **Python 3.12 (64 bits)** — recomendado para maior compatibilidade com PyRFC
+- ✅ **Python 3.12 (64 bits)** — recomendado para maior compatibilidade com PyRFC  
   🔗 [Download Python 3.12.10](https://www.python.org/downloads/release/python-31210/)
 
 - ✅ Atualizar pip  
