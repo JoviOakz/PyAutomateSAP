@@ -8,8 +8,8 @@ Abaixo estão listadas as bibliotecas necessárias com instruções de instalaç
 
 ## 🐍 Instalação do Python
 
-- ✅ **Python 3.10 (64 bits)** — recomendado para maior compatibilidade  
-  🔗 [Download Python 3.10.11](https://www.python.org/downloads/release/python-31011/)
+- ✅ **Python 3.12 (64 bits)** — recomendado para maior compatibilidade com PyRFC
+  🔗 [Download Python 3.12.10](https://www.python.org/downloads/release/python-31210/)
 
 - ✅ Atualizar pip  
   ```bash
@@ -22,7 +22,7 @@ Estas ferramentas devem ser instaladas separadamente, pois não estão disponív
 
 👉 [Baixar Poppler v24.08.0-0](https://github.com/oschwartz10612/poppler-windows/releases/tag/v24.08.0-0)  
 👉 [Repositório Tesseract OCR (oficial)](https://github.com/tesseract-ocr/tesseract)  
-👉 [Releases do PyRFC (SAP)](https://github.com/SAP-archive/PyRFC/releases)
+👉 [Releases do PyRFC (SAP) - Versão compatível com python 3.12 -> 3.3.1](https://github.com/SAP-archive/PyRFC/releases)
 
 Como complemento do PyRFC, seguir o caminho | 99 - Others > 99 - Files | para adquirir o arquivo SDK do SAP -> nwrfcsdk.zip
 
