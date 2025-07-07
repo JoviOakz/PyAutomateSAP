@@ -2,8 +2,8 @@ from pyrfc import Connection
 
 def criar_diagrama_rede_rollback():
     sap_connection_params = {
-        'user': 'ARA2CT',
-        'passwd': 'AKDAgmr007@@y',
+        'user': 'SEU_USUARIO',
+        'passwd': 'SUA_SENHA',
         'ashost': 'rb3ps0a0.server.bosch.com',
         'sysnr': '00',
         'client': '011',
