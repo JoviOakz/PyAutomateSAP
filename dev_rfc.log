@@ -1,21 +1,10 @@
 
-**** Log file opened at 2025-07-03 13:44:07.143733 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+**** Log file opened at 2025-07-11 17:15:30.145447 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
 NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
  CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
  Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
  Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
  Hostname: CT-C-002AE, IP address: 10.234.198.178, IPv6 address: fe80::c6c6:e6ff:fed4:fed5
 
-2025-07-03 13:44:07.143940 [15196] >> Info entry
+2025-07-11 17:15:30.145593 [13716] >> Info entry
 	Did not find config file C:\Users\Mao8ct\Desktop\PyAutomateSAP\sapnwrfc.ini.
-
-**** Log file opened at 2025-07-03 14:24:10.762138 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
-NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
- CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
- Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
- Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
- Hostname: CT-C-002AE, IP address: 10.234.198.178, IPv6 address: fe80::c6c6:e6ff:fed4:fed5
-
-2025-07-03 14:24:10.765318 [26856] >> Error entry
-	[Handle: 2062243776816	ConvID: 64708453	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: ARA2CT	Mandant: 011	Language: P	Codepage: 4103]
-	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_PROJECT_GETDETAIL
