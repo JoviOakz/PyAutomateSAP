@@ -21,7 +21,8 @@ class MainWindow(QWidget):
         font_label = QFont("Arial", 12)
         font_input = QFont("Arial", 11)
 
-        line_edit_style = """
+        # Estilo para campo normal (editável)
+        self.line_edit_style_normal = """
             QLineEdit {
                 border: 2px solid #ccc;
                 border-radius: 6px;
@@ -32,6 +33,17 @@ class MainWindow(QWidget):
             QLineEdit:focus {
                 border: 2px solid #0078d7;
                 background-color: #ffffff;
+            }
+        """
+
+        # Estilo para campo bloqueado (readonly)
+        self.line_edit_style_readonly = """
+            QLineEdit {
+                border: 2px solid #797979;
+                border-radius: 6px;
+                padding: 8px;
+                background-color: #999;
+                color: #595959;
             }
         """
 
@@ -55,18 +67,23 @@ class MainWindow(QWidget):
         self.input_lp.setFixedHeight(40)
         self.input_lp.setMaxLength(9)
         self.input_lp.setValidator(QIntValidator(0, 999999))
-        self.input_lp.setStyleSheet(line_edit_style)
+        self.input_lp.setStyleSheet(self.line_edit_style_normal)
         self.input_lp.textChanged.connect(self.update_lp_text)
 
         self.label_debitando = QLabel("Essa RS está debitando em:")
         self.label_debitando.setFont(font_label)
 
+        # Checkbox HEIJUNKA (independente)
+        self.checkbox_heijunka = QCheckBox("HEIJUNKA")
+        self.checkbox_heijunka.setFont(font_input)
+
         self.checkbox_cc = QCheckBox("Centro de Custo")
         self.checkbox_pep = QCheckBox("Elemento PEP")
         self.checkbox_bm = QCheckBox("BM")
         self.checkbox_ordem = QCheckBox("Ordem")
+        self.checkbox_encomenda = QCheckBox("Encomenda Experiência")
 
-        for cb in (self.checkbox_cc, self.checkbox_pep, self.checkbox_bm, self.checkbox_ordem):
+        for cb in (self.checkbox_cc, self.checkbox_pep, self.checkbox_bm, self.checkbox_ordem, self.checkbox_encomenda):
             cb.setFont(font_input)
             cb.toggled.connect(self.on_checkbox_toggled)
 
@@ -78,7 +95,7 @@ class MainWindow(QWidget):
         self.input_allcsch.setFixedHeight(40)
         self.input_allcsch.setMaxLength(2)
         self.input_allcsch.setValidator(QIntValidator(0, 99))
-        self.input_allcsch.setStyleSheet(line_edit_style)
+        self.input_allcsch.setStyleSheet(self.line_edit_style_normal)
 
         self.label_dbt = QLabel("Débito:")
         self.label_dbt.setFont(font_label)
@@ -86,7 +103,7 @@ class MainWindow(QWidget):
         self.input_dbt.setFont(font_input)
         self.input_dbt.setFixedHeight(40)
         self.input_dbt.setMaxLength(24)
-        self.input_dbt.setStyleSheet(line_edit_style)
+        self.input_dbt.setStyleSheet(self.line_edit_style_normal)
         self.input_dbt.textChanged.connect(self.update_debit_format)
 
         self.button = QPushButton("Enviar")
@@ -100,11 +117,13 @@ class MainWindow(QWidget):
         layout.setContentsMargins(40, 30, 40, 30)
         layout.addWidget(self.label_lp)
         layout.addWidget(self.input_lp)
+        layout.addWidget(self.checkbox_heijunka)
         layout.addWidget(self.label_debitando)
         layout.addWidget(self.checkbox_cc)
         layout.addWidget(self.checkbox_pep)
         layout.addWidget(self.checkbox_bm)
         layout.addWidget(self.checkbox_ordem)
+        layout.addWidget(self.checkbox_encomenda)
         layout.addWidget(self.label_allcsch)
         layout.addWidget(self.input_allcsch)
         layout.addWidget(self.label_dbt)
@@ -125,8 +144,13 @@ class MainWindow(QWidget):
 
     def on_checkbox_toggled(self, checked):
         sender = self.sender()
+        
+        # Se for o checkbox HEIJUNKA, não interfere com os outros
+        if sender == self.checkbox_heijunka:
+            return
+        
         if checked:
-            for cb in (self.checkbox_cc, self.checkbox_pep, self.checkbox_bm, self.checkbox_ordem):
+            for cb in (self.checkbox_cc, self.checkbox_pep, self.checkbox_bm, self.checkbox_ordem, self.checkbox_encomenda):
                 if cb != sender:
                     cb.blockSignals(True)
                     cb.setChecked(False)
@@ -134,22 +158,32 @@ class MainWindow(QWidget):
 
             if sender == self.checkbox_cc:
                 self.input_allcsch.setReadOnly(False)
+                self.input_allcsch.setStyleSheet(self.line_edit_style_normal)
                 self.input_allcsch.clear()
                 self.input_dbt.setPlaceholderText("Ex.: 685485")
                 self.input_dbt.setMaxLength(6)
             elif sender == self.checkbox_pep:
                 self.input_allcsch.setText("07")
                 self.input_allcsch.setReadOnly(True)
+                self.input_allcsch.setStyleSheet(self.line_edit_style_readonly)
                 self.input_dbt.setPlaceholderText("Ex.: LP-011144")
                 self.input_dbt.setMaxLength(9)
             elif sender == self.checkbox_bm:
                 self.input_allcsch.setText("07")
                 self.input_allcsch.setReadOnly(True)
+                self.input_allcsch.setStyleSheet(self.line_edit_style_readonly)
                 self.input_dbt.setPlaceholderText("Ex.: BM-00045998_001_00000008")
                 self.input_dbt.setMaxLength(24)
             elif sender == self.checkbox_ordem:
                 self.input_allcsch.setText("07")
                 self.input_allcsch.setReadOnly(True)
+                self.input_allcsch.setStyleSheet(self.line_edit_style_readonly)
+                self.input_dbt.setPlaceholderText("Ex.: 68500066947")
+                self.input_dbt.setMaxLength(11)
+            elif sender == self.checkbox_encomenda:
+                self.input_allcsch.setText("07")
+                self.input_allcsch.setReadOnly(True)
+                self.input_allcsch.setStyleSheet(self.line_edit_style_readonly)
                 self.input_dbt.setPlaceholderText("Ex.: 68500066947")
                 self.input_dbt.setMaxLength(11)
             self.input_dbt.clear()
@@ -186,7 +220,7 @@ class MainWindow(QWidget):
             return
 
         if not (self.checkbox_cc.isChecked() or self.checkbox_pep.isChecked() or
-                self.checkbox_bm.isChecked() or self.checkbox_ordem.isChecked()):
+                self.checkbox_bm.isChecked() or self.checkbox_ordem.isChecked() or self.checkbox_encomenda.isChecked()):
             QMessageBox.warning(self, "Erro", "Selecione uma das opções de débito!")
             return
 
@@ -210,20 +244,30 @@ class MainWindow(QWidget):
                 QMessageBox.warning(self, "Erro", "Ordem deve ser válida.")
                 return
 
+        elif self.checkbox_encomenda.isChecked():
+            if len(debit) != 11 or not debit.isdigit():
+                QMessageBox.warning(self, "Erro", "Encomenda Experiência deve ser válida.")
+                return
+
         tipo = "Centro de Custo" if self.checkbox_cc.isChecked() else \
             "Elemento PEP" if self.checkbox_pep.isChecked() else \
-            "BM" if self.checkbox_bm.isChecked() else "Ordem"
+            "BM" if self.checkbox_bm.isChecked() else \
+            "Ordem" if self.checkbox_ordem.isChecked() else "Encomenda Experiência"
+
+        heijunka_status = "Sim" if self.checkbox_heijunka.isChecked() else "Não"
 
         QMessageBox.information(self, "Enviado",
-                                f"{lp}\nEsquema: {allocation_scheme}\nTipo: {tipo}\nDébito: {debit}")
+                                f"{lp}\nEsquema: {allocation_scheme}\nTipo: {tipo}\nDébito: {debit}\nHEIJUNKA: {heijunka_status}")
 
         self.input_lp.clear()
         self.input_allcsch.clear()
         self.input_allcsch.setReadOnly(False)
+        self.input_allcsch.setStyleSheet(self.line_edit_style_normal)
         self.input_dbt.clear()
         self.input_dbt.setPlaceholderText("")
-        for cb in (self.checkbox_cc, self.checkbox_pep, self.checkbox_bm, self.checkbox_ordem):
+        for cb in (self.checkbox_cc, self.checkbox_pep, self.checkbox_bm, self.checkbox_ordem, self.checkbox_encomenda):
             cb.setChecked(False)
+        # Checkbox HEIJUNKA permanece independente e não é resetado
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
