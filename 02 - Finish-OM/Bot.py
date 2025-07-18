@@ -10,7 +10,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 2
+bot.PAUSE = 1.75
 
 # ===== INITIAL ACTION =====
 
@@ -101,7 +101,7 @@ def com_complete():
 
 # ===== PROGRAM CONFIGURATION =====
 
-om_qty = 31
+om_qty = 45
 line = 0
 repeat_qty = om_qty - line
 
@@ -130,7 +130,6 @@ def main():
 
         line += 1
 
-    bot.alert(title='BotText', text='Programa encerrado!')
-
 if __name__ == '__main__':
     main()
+    bot.alert(title='BotText', text='Programa encerrado!')

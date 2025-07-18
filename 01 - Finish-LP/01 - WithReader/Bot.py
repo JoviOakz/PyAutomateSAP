@@ -481,7 +481,7 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 98
+lp_qty = 74
 line = 0
 repeat_qty = lp_qty - line
 
@@ -529,7 +529,6 @@ def main():
 
         line += 1
 
-    bot.alert(title='BotText', text='Programa encerrado!')
-
 if __name__ == '__main__':
     main()
+    bot.alert(title='BotText', text='Programa encerrado!')

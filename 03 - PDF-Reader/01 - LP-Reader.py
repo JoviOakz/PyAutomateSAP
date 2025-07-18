@@ -8,9 +8,9 @@ from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = 23
-ORIENTATION = 'deitado'  # [deitado] | [pé]
-ROTATION_ANGLE = 270  # [deitado -> 270] | [pé -> 0]
+KW = 24
+ORIENTATION = 'pé'  # [deitado] | [pé]
+ROTATION_ANGLE = 0  # [deitado -> 270] | [pé -> 0]
 
 PDF_PATH = f'03 - PDF-Reader/LPs - KW{KW} - {ORIENTATION}.pdf'
 OUTPUT_FILE = f'Open-LPs - {ORIENTATION}.xlsx'
@@ -100,7 +100,7 @@ def extract_lps_from_pdf(pdf_path, rotation_angle=0, dictionary=None):
     return extracted_lps
 
 def save_lps_to_excel(lps, output_file):
-    df = pd.DataFrame({'LP': lps, 'Status': ''})
+    df = pd.DataFrame({'LP': lps})
     df.to_excel(output_file, index=False)
     print(f'\n✅ Arquivo salvo: {output_file}')
 
