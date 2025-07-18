@@ -6,7 +6,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.5
+bot.PAUSE = 0.15
 
 # ===== INITIAL ACTION =====
 
@@ -20,7 +20,7 @@ df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== PROGRAM CONFIGURATION =====
 
-order_qty = 37
+order_qty = 0
 line = 0
 repeat_count = order_qty - line
 
@@ -61,7 +61,7 @@ def demand_conclusion():
                         middle_y = actions_position.top + (actions_position.height / 2)
 
                         bot.click(right_x, middle_y)
-                        bot.sleep(0.4)
+                        bot.sleep(0.65)
 
                         try:
                             schedule_position = bot.locateOnScreen('images/SCHEDULE.png', grayscale=True, confidence=0.9)
@@ -70,24 +70,21 @@ def demand_conclusion():
                                 bot.click(bot.center(schedule_position))
                                 bot.sleep(0.1)
                                 press_key('enter', 1)
-                                bot.sleep(0.3)
-
-                                # ====================================================================================================
+                                bot.sleep(0.65)
 
                                 try:
-                                    save_position = bot.locateOnScreen('image/SAVE.png', grayscale=True, confidence=0.9)
+                                    save_position = bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.9)
 
                                     if save_position:
                                         bot.click(bot.center(save_position))
-                                        bot.sleep(0.4)
+                                        bot.sleep(0.85)
 
                                         press_key('enter', 1)
+                                        bot.sleep(0.4)
 
                                 except Exception as e:
                                     print(f'Error: Save not found!\nException: {e}')
                                 
-                                # ====================================================================================================
-                        
                         except Exception as e:
                             print(f'Error: Schedule not found!\nException: {e}')
 
@@ -114,7 +111,7 @@ def close_order():
 
             while not enough:
                 try:
-                    finish_position = bot.locateOnScreen('image/FINISH.png', grayscale=True, confidence=0.9)
+                    finish_position = bot.locateOnScreen('images/FINISH.png', grayscale=True, confidence=0.9)
 
                     if finish_position:
                         middle_x = finish_position.left + (finish_position.width / 2)
@@ -124,7 +121,7 @@ def close_order():
 
                         press_key('tab', 1)
                         press_key('enter', 1)
-                        bot.sleep(1)
+                        bot.sleep(1.85)
                         press_key('enter', 1)
 
                 except Exception:
@@ -136,7 +133,9 @@ def close_order():
 # ===== MAIN =====
 
 def main():
-    demand_conclusion()
+    if repeat_count != 0:
+        demand_conclusion()
+
     close_order()
     bot.alert(title='BotText', text='Programa encerrado!')
 
