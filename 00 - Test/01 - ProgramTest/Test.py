@@ -35,28 +35,46 @@
 
 # ==============================================================================================================
 
+# import pyautogui as bot
+# import pandas as pd
+# import pyperclip
+
+# bot.FAILSAFE = True
+# bot.PAUSE = 1
+
+# bot.click(1162, 1172)
+
+# df = pd.read_excel("Pasta1.xlsx", engine='openpyxl')
+
+# group = []
+# line = 0
+
+# for _ in range(15):
+#     value = df.at[line, "Coluna"]
+#     group.append(value)
+#     line += 1
+
+# all_values = '\n'.join(map(str, group))
+
+# pyperclip.copy(all_values)
+# bot.hotkey('ctrl', 'v')
+    
+# ==============================================================================================================
+
 import pyautogui as bot
-import pandas as pd
-import pyperclip
 
 bot.FAILSAFE = True
 bot.PAUSE = 1
 
-bot.click(1162, 1172)
+bot.click(1802, 14)
 
-df = pd.read_excel("Pasta1.xlsx", engine='openpyxl')
+bot.sleep(1)
 
-group = []
-line = 0
+try:
+    save_position = bot.locateOnScreen('SAVE.png', grayscale=True, confidence=0.9)
 
-for _ in range(15):
-    value = df.at[line, "Coluna"]
-    group.append(value)
-    line += 1
+    if save_position:
+        bot.moveTo(bot.center(save_position))
 
-all_values = '\n'.join(map(str, group))
-
-pyperclip.copy(all_values)
-bot.hotkey('ctrl', 'v')
-    
-# ==============================================================================================================
+except Exception as e:
+    print(f'Error: Save not found!\nException: {e}')
