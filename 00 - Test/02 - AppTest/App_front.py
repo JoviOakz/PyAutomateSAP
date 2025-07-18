@@ -13,7 +13,7 @@ class MainWindow(QWidget):
 
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
         self.setWindowTitle("RS's Register")
-        self.setFixedSize(400, 650)
+        self.setFixedSize(400, 700)
 
         icon_path = os.path.join(os.path.dirname(__file__), "User_icon_2.ico")
         self.setWindowIcon(QIcon(icon_path))
