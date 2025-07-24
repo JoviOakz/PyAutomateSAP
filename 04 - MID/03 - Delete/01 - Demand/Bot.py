@@ -20,8 +20,8 @@ df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== PROGRAM CONFIGURATION =====
 
-order_qty = 14
-line = 1
+order_qty = 11
+line = 0
 repeat_count = order_qty - line
 
 # ===== FUNCTIONS =====
