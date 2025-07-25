@@ -35,7 +35,7 @@ def press_key(key, times):
 
 def demand_conclusion():
     try:
-        heijunka_position = bot.locateOnScreen('images/HEIJUNKA.png', grayscale=True, confidence=0.9)
+        heijunka_position = bot.locateOnScreen('images/HEIJUNKA.png', grayscale=True, confidence=0.85)
 
         if heijunka_position:
             bot.click(bot.center(heijunka_position))
@@ -54,7 +54,7 @@ def demand_conclusion():
                 bot.sleep(0.4)
 
                 try:
-                    actions_position = bot.locateOnScreen('images/ACTIONS.png', grayscale=True, confidence=0.9)
+                    actions_position = bot.locateOnScreen('images/ACTIONS.png', grayscale=True, confidence=0.85)
 
                     if actions_position:
                         right_x = actions_position.left + (8.75 * (actions_position.width / 10))
@@ -64,7 +64,7 @@ def demand_conclusion():
                         bot.sleep(0.65)
 
                         try:
-                            schedule_position = bot.locateOnScreen('images/SCHEDULE.png', grayscale=True, confidence=0.9)
+                            schedule_position = bot.locateOnScreen('images/SCHEDULE.png', grayscale=True, confidence=0.85)
 
                             if schedule_position:
                                 bot.click(bot.center(schedule_position))
@@ -73,7 +73,7 @@ def demand_conclusion():
                                 bot.sleep(0.65)
 
                                 try:
-                                    save_position = bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.9)
+                                    save_position = bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.85)
 
                                     if save_position:
                                         bot.click(bot.center(save_position))
@@ -101,7 +101,7 @@ def demand_conclusion():
 
 def close_order():
     try:
-        closure_position = bot.locateOnScreen('images/CLOSURE.png', grayscale=True, confidence=0.9)
+        closure_position = bot.locateOnScreen('images/CLOSURE.png', grayscale=True, confidence=0.85)
 
         if closure_position:
             bot.click(bot.center(closure_position))
@@ -111,7 +111,7 @@ def close_order():
 
             while not enough:
                 try:
-                    finish_position = bot.locateOnScreen('images/FINISH.png', grayscale=True, confidence=0.9)
+                    finish_position = bot.locateOnScreen('images/FINISH.png', grayscale=True, confidence=0.85)
 
                     if finish_position:
                         middle_x = finish_position.left + (finish_position.width / 2)
