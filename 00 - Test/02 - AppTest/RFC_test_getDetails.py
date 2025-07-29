@@ -1,8 +1,8 @@
 from pyrfc import Connection
 
 sap_conn_params = {
-    'user': 'ARA2CT',
-    'passwd': 'AKDAgmr007@@y',
+    'user': 'MAO8CT',
+    'passwd': 'ZetsubounoShima13@@',
     'ashost': 'rb3ps0a0.server.bosch.com',
     'sysnr': '00',
     'client': '011',

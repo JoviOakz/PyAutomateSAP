@@ -128,8 +128,8 @@ class MainWindow(QWidget):
 
         try:
             sap_connection_params = {
-                'user': 'SEU_USUARIO',
-                'passwd': 'SUA_SENHA',
+                'user': 'MAO8CT',
+                'passwd': 'ZetsubounoShima13@@',
                 'ashost': 'rb3ps0a0.server.bosch.com',
                 'sysnr': '00',
                 'client': '011',
