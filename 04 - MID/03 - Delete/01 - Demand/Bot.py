@@ -20,7 +20,7 @@ df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== PROGRAM CONFIGURATION =====
 
-order_qty = 11
+order_qty = 2
 line = 0
 repeat_count = order_qty - line
 
@@ -35,10 +35,11 @@ def press_key(key, times):
 
 def demand_conclusion():
     try:
-        heijunka_position = bot.locateOnScreen('images/HEIJUNKA.png', grayscale=True, confidence=0.85)
+        heijunka_position = bot.screenshot(region=(52, 364, 122, 90))
+        heijunka_founded = bot.locateOnScreen(heijunka_position, grayscale=True, confidence=0.9)
 
-        if heijunka_position:
-            bot.click(bot.center(heijunka_position))
+        if heijunka_founded:
+            bot.click(bot.center(heijunka_founded))
             bot.sleep(1.15)
 
             press_key('tab', 3)
@@ -54,30 +55,33 @@ def demand_conclusion():
                 bot.sleep(0.4)
 
                 try:
-                    actions_position = bot.locateOnScreen('images/ACTIONS.png', grayscale=True, confidence=0.85)
+                    actions_position = bot.screenshot(region=(1642, 484, 170, 38))
+                    actions_founded = bot.locateOnScreen(actions_position, grayscale=True, confidence=0.9)
 
-                    if actions_position:
-                        right_x = actions_position.left + (8.75 * (actions_position.width / 10))
-                        middle_y = actions_position.top + (actions_position.height / 2)
+                    if actions_founded:
+                        right_x = actions_founded.left + (8.75 * (actions_founded.width / 10))
+                        middle_y = actions_founded.top + (actions_founded.height / 2)
 
                         bot.click(right_x, middle_y)
                         bot.sleep(0.65)
 
                         try:
-                            schedule_position = bot.locateOnScreen('images/SCHEDULE.png', grayscale=True, confidence=0.85)
+                            schedule_position = bot.screenshot(region=(744, 606, 44, 38))
+                            schedule_founded = bot.locateOnScreen(schedule_position, grayscale=True, confidence=0.9)
 
-                            if schedule_position:
-                                bot.click(bot.center(schedule_position))
+                            if schedule_founded:
+                                bot.click(bot.center(schedule_founded))
                                 bot.sleep(0.1)
                                 press_key('enter', 1)
                                 bot.sleep(0.65)
 
                                 try:
-                                    save_position = bot.locateOnScreen('images/SAVE.png', grayscale=True, confidence=0.85)
+                                    save_position = bot.screenshot(region=(1102, 690, 84, 40))
+                                    save_founded = bot.locateOnScreen(save_position, grayscale=True, confidence=0.9)
 
-                                    if save_position:
-                                        bot.click(bot.center(save_position))
-                                        bot.sleep(0.85)
+                                    if save_founded:
+                                        bot.click(bot.center(save_founded))
+                                        bot.sleep(0.9)
 
                                         press_key('enter', 1)
                                         bot.sleep(0.4)
@@ -101,21 +105,23 @@ def demand_conclusion():
 
 def close_order():
     try:
-        closure_position = bot.locateOnScreen('images/CLOSURE.png', grayscale=True, confidence=0.85)
+        closure_position = bot.screenshot(region=(22, 570, 186, 116))
+        closure_founded = bot.locateOnScreen(closure_position, grayscale=True, confidence=0.9)
 
-        if closure_position:
-            bot.click(bot.center(closure_position))
+        if closure_founded:
+            bot.click(bot.center(closure_founded))
             bot.sleep(1.15)
 
             enough = False
 
             while not enough:
                 try:
-                    finish_position = bot.locateOnScreen('images/FINISH.png', grayscale=True, confidence=0.85)
+                    finish_position = bot.screenshot(region=(1696, 426, 70, 102))
+                    finish_founded = bot.locateOnScreen(finish_position, grayscale=True, confidence=0.9)
 
-                    if finish_position:
-                        middle_x = finish_position.left + (finish_position.width / 2)
-                        threeQ_y = finish_position.top + (3 * (finish_position.height / 4))
+                    if finish_founded:
+                        middle_x = finish_founded.left + (finish_founded.width / 2)
+                        threeQ_y = finish_founded.top + (3 * (finish_founded.height / 4))
 
                         bot.click(middle_x, threeQ_y)
 
@@ -125,7 +131,7 @@ def close_order():
                         press_key('enter', 1)
 
                 except Exception:
-                    enough += True
+                    enough = True
 
     except Exception as e:
         print(f'Error : Closure not found!\nException: {e}')
@@ -133,9 +139,9 @@ def close_order():
 # ===== MAIN =====
 
 def main():
-    if repeat_count != 0:
+    if repeat_count != 0:   
         demand_conclusion()
-
+    
     close_order()
     bot.alert(title='BotText', text='Programa encerrado!')
 
