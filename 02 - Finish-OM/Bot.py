@@ -10,7 +10,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.75
+bot.PAUSE = 1.85
 
 # ===== INITIAL ACTION =====
 
@@ -101,7 +101,7 @@ def com_complete():
 
 # ===== PROGRAM CONFIGURATION =====
 
-om_qty = 7
+om_qty = 40
 line = 0
 repeat_qty = om_qty - line
 
