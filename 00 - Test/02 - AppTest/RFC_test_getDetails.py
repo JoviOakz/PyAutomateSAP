@@ -24,12 +24,23 @@ try:
         }],
         DELIMITER='|'
     )
- 
-    notif_result = conn.call('BAPI_ALM_NOTIF_GET_DETAIL', NUMBER=notif_number)
-    
-    for key, value in notif_result.items():
-        print(f"\n--- {key} ---")
-        print(value)
+
+    if result['DATA']:
+        raw_line = result['DATA'][0]['WA']
+        fields = raw_line.split('|')
+
+        print('\n----- Informações Gerais -----')
+
+        for i, field in enumerate(fields):
+            print(f"Campo {i}: {field.strip()}")
+
+        description = fields[5].strip()
+        part_number = fields[6].strip()
+        cost = fields[10].strip()
+        date = fields[12].strip()
+
+        print('\n----- Informações Importantes -----')
+        print(f'Denominação: {description}\nPart Number: {part_number}\nCusto Orçado: {cost}\nPrazo Final: {date}\n')
 
 except Exception as e:
     print(f"❌ Erro ao conectar ou chamar BAPI: {e}")
