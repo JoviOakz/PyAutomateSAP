@@ -6,7 +6,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.15
+bot.PAUSE = 0.225
 
 # ===== INITIAL ACTION =====
 
@@ -20,7 +20,7 @@ df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== PROGRAM CONFIGURATION =====
 
-order_qty = 2
+order_qty = 20
 line = 0
 repeat_count = order_qty - line
 
@@ -80,7 +80,7 @@ def demand_conclusion():
                                     save_founded = bot.locateOnScreen(save_position, grayscale=True, confidence=0.9)
 
                                     if save_founded:
-                                        bot.click(bot.center(save_founded))
+                                        bot.click(1150, 720)
                                         bot.sleep(0.9)
 
                                         press_key('enter', 1)

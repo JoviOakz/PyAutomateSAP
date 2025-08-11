@@ -10,7 +10,7 @@ result = conn.call(
         DELIMITER='|'
     )
 
----------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 
 FUNÇÃO PARA VISUALIZAR TODOS OS CAMPOS DA TABELA (SEUS RESPECTIVOS NOMES REAIS)
 

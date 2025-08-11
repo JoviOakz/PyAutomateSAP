@@ -10,58 +10,34 @@ sap_conn_params = {
 }
 
 project_def = 'LP-050771'
-nova_descricao = "Teste"
+nova_descricao = "Retrabalho Holder"
 
 try:
     conn = Connection(**sap_conn_params)
-    print('✅ Conectado ao SAP')
+    print("✅ Conectado ao SAP")
 
-    # --- Atualizar cabeçalho do projeto (PROJ)
-    result_proj = conn.call(
-        'BAPI_PROJECTDEF_UPDATE',
-        PROJECT_DEFINITION_STRU=project_def,
-        PROJECT_DEFINITION_UPD={
-            'PROJECT_DEFINITION': project_def,
-            'DESCRIPTION': nova_descricao
-        }
+    # Monta estrutura de dados a atualizar
+    proj_stru = {
+        "PROJECT_DEFINITION": project_def,  # Código do projeto
+        "DESCRIPTION": nova_descricao             # Descrição do projeto (tabela PROJ)
+    }
+
+    # Estrutura de atualização (indica quais campos serão alterados)
+    proj_up = {
+        "DESCRIPTION": "X"  # Marca que a descrição será atualizada
+    }
+
+    # Chamada da BAPI
+    result = conn.call(
+        "BAPI_PROJECTDEF_UPDATE",
+        CURRENTEXTERNALPROJE=project_def,     # Identificação do projeto
+        PROJECT_DEFINITION_STRU=proj_stru,    # Novos dados
+        PROJECT_DEFINITION_UP=proj_up         # Campos a alterar
     )
 
-    print("🟨 Resultado BAPI_PROJECTDEF_UPDATE:")
-    print(result_proj)
-
-    # --- Atualizar todos os elementos WBS vinculados ao projeto (PRPS)
-    # Primeiro, buscar os elementos WBS do projeto
-    estrutura = conn.call(
-        'BAPI_PROJECT_STRUCTURE_GET',
-        PROJECT_DEFINITION=project_def
-    )
-
-    wbs_elements = estrutura.get('WBS_ELEMENTS', [])
-
-    # Prepara as alterações
-    wbs_changes = []
-    for wbs in wbs_elements:
-        wbs_id = wbs['WBS_ELEMENT']
-        wbs_changes.append({
-            'WBS_ELEMENT': wbs_id,
-            'DESCRIPTION': nova_descricao
-        })
-
-    # Envia alterações dos WBS (PRPS)
-    if wbs_changes:
-        result_prps = conn.call(
-            'BAPI_BUS2054_CHANGE_MULTI',
-            WBS_ELEMENT_UPD=wbs_changes
-        )
-
-        print("🟨 Resultado BAPI_BUS2054_CHANGE_MULTI:")
-        print(result_prps)
-    else:
-        print("⚠️ Nenhum elemento WBS encontrado para o projeto.")
-
-    # --- Commitar as alterações
-    conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
-    print("✅ Alterações confirmadas com sucesso.")
+    # Commit das alterações
+    conn.call("BAPI_TRANSACTION_COMMIT", WAIT="X")
+    print("✅ Alteração confirmada com sucesso.")
 
 except Exception as e:
     print(f"❌ Erro: {e}")
