@@ -39,13 +39,13 @@ try:
         {
             'REFNUMBER': '000001',
             'OBJECTTYPE': 'PROJECT',
-            'METHOD': 'CHANGE',
+            'METHOD': 'UPDATE',
             'OBJECTKEY': project_number
         },
         {
             'REFNUMBER': '000002',
             'OBJECTTYPE': 'WBS-ELEMENT',
-            'METHOD': 'CHANGE',
+            'METHOD': 'UPDATE',
             'OBJECTKEY': project_number
         }
     ]
