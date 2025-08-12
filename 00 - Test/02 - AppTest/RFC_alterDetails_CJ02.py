@@ -9,8 +9,17 @@ sap_conn_params = {
     'lang': 'PT'
 }
 
+# ----- VALORES ORIGINAIS -----
+# Descrição: BATENTE
+# Requerente: 68540003
+# Data início: 15.07.2025 ou 20250715
+# Data fim: 18.07.2025 ou 20250718
+
 proj_num = 'LP-050771'
 new_description = 'BATENTE Teste'
+new_applicant = '68540028'
+initial_date = '20250111'
+final_date = '20251101'
 
 try:
     conn = Connection(**sap_conn_params)
@@ -18,14 +27,20 @@ try:
 
     proj_struct = {
         'PROJECT_DEFINITION': proj_num,
-        'DESCRIPTION': new_description
+        'DESCRIPTION': new_description,
+        'APPLICANT_NO': new_applicant,
+        'START': initial_date,
+        'FINISH': final_date
     }
 
     proj_struct_upd = {
-        'DESCRIPTION': 'X'
+        'DESCRIPTION': 'X',
+        'APPLICANT_NO': 'X',
+        'START': 'X',
+        'FINISH': 'X'
     }
 
-    result = conn.call(
+    proj_result = conn.call(
         'BAPI_PROJECTDEF_UPDATE',
         CURRENTEXTERNALPROJE=proj_num,
         PROJECT_DEFINITION_STRU=proj_struct,
