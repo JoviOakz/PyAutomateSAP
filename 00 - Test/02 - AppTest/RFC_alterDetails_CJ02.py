@@ -10,34 +10,30 @@ sap_conn_params = {
 }
 
 project_def = 'LP-050771'
-nova_descricao = "Retrabalho Holder"
+new_description = 'BATENTE Teste'
 
 try:
     conn = Connection(**sap_conn_params)
-    print("✅ Conectado ao SAP")
+    print('✅ SAP connected successfully')
 
-    # Monta estrutura de dados a atualizar
     proj_stru = {
-        "PROJECT_DEFINITION": project_def,  # Código do projeto
-        "DESCRIPTION": nova_descricao             # Descrição do projeto (tabela PROJ)
+        'PROJECT_DEFINITION': project_def,
+        'DESCRIPTION': new_description
     }
 
-    # Estrutura de atualização (indica quais campos serão alterados)
     proj_up = {
-        "DESCRIPTION": "X"  # Marca que a descrição será atualizada
+        'DESCRIPTION': 'X'
     }
 
-    # Chamada da BAPI
     result = conn.call(
-        "BAPI_PROJECTDEF_UPDATE",
-        CURRENTEXTERNALPROJE=project_def,     # Identificação do projeto
-        PROJECT_DEFINITION_STRU=proj_stru,    # Novos dados
-        PROJECT_DEFINITION_UP=proj_up         # Campos a alterar
+        'BAPI_PROJECTDEF_UPDATE',
+        CURRENTEXTERNALPROJE=project_def,
+        PROJECT_DEFINITION_STRU=proj_stru,
+        PROJECT_DEFINITION_UP=proj_up
     )
 
-    # Commit das alterações
-    conn.call("BAPI_TRANSACTION_COMMIT", WAIT="X")
-    print("✅ Alteração confirmada com sucesso.")
+    conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
+    print('✅ Data updated successfully')
 
 except Exception as e:
-    print(f"❌ Erro: {e}")
+    print(f'Message: Connection or project update failed\nError: {e}')
