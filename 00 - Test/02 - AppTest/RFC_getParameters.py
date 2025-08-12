@@ -13,24 +13,24 @@ try:
     conn = Connection(**sap_conn_params)
     print('✅ SAP connected successfully')
 
+    # try:
+    #     # PARAMETERS: FUNCTION MODULE
+    #     func_desc = conn.get_function_description('BAPI_PROJECT_MAINTAIN')
+
+    #     print('\n📌 BAPI_PROJECT_MAINTAIN - Function Module:\n')
+    #     for param in func_desc.parameters:
+    #         print(param)
+
+    # except Exception as e:
+    #     print(f'Message: error with Function Modules parameters\nError: {e}')
+
     try:
-        # PARAMETERS: FUNCTION MODULE
-        func_desc = conn.get_function_description('BAPI_PROJECTDEF_UPDATE')
-
-        print('\n📌 BAPI_PROJECTDEF_UPDATE - Function Module:\n')
-        for param in func_desc.parameters:
-            print(param)
-
-    except Exception as e:
-        print(f'Message: error with Function Modules parameters\nError: {e}')
-
-    try:
-        # PARAMETERS: TABLE
-        func_desc = conn.get_function_description('BAPI_PROJECTDEF_UPDATE')
+        # PARAMETERS: FIELDS
+        func_desc = conn.get_function_description('BAPI_PROJECT_MAINTAIN')
 
         for param in func_desc.parameters:
-            if param['name'] == 'PROJECT_DEFINITION_STRU':
-                print('\n\n📌 PROJECT_DEFINITION_STRU - Fields:\n')
+            if param['name'] == 'I_METHOD_PROJECT':
+                print('\n\n📌 I_METHOD_PROJECT - Fields:\n')
                 for field in param['type_description'].fields:
                     print(field)
 
