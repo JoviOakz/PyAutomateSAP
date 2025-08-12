@@ -9,37 +9,33 @@ sap_conn_params = {
     'lang': 'PT'
 }
 
-# =======================================================================================
-# GET PARAMETERS -> FUNCTION MODULE
-
 try:
     conn = Connection(**sap_conn_params)
-    print("✅ Conectado ao SAP")
+    print('✅ SAP connected successfully')
 
-    # Obter a descrição da BAPI
-    func_desc = conn.get_function_description("MAP_BAPI_WBS_ELEMENT_2_PRPS")
+    try:
+        # PARAMETERS: FUNCTION MODULE
+        func_desc = conn.get_function_description('MAP_BAPI_WBS_ELEMENT_2_PRPS')
 
-    print("\n📌 Parâmetros da MAP_BAPI_WBS_ELEMENT_2_PRPS:\n")
-    for param in func_desc.parameters:  # Agora usando atributo parameters
-        print(param)
+        print('\n📌 MAP_BAPI_WBS_ELEMENT_2_PRPS - Parameters:\n')
+        for param in func_desc.parameters:
+            print(param)
+
+    except Exception as e:
+        print(f'Message: error with Function Modules parameters\nError: {e}')
+
+    try:
+        # PARAMETERS: TABLE
+        func_desc = conn.get_function_description('MAP_BAPI_WBS_ELEMENT_2_PRPS')
+
+        for param in func_desc.parameters:
+            if param['name'] == 'BAPI_WBS_ELEMENT':
+                print('\n\n📌 BAPI_WBS_ELEMENT - Fields:\n')
+                for field in param['type_description'].fields:
+                    print(field)
+
+    except Exception as e:
+        print(f'Message: error with Table parameters\nError: {e}')
 
 except Exception as e:
-    print(f"❌ Erro: {e}")
-
-# =======================================================================================
-# GET PARAMETERS -> TABLE
-
-try:
-    conn = Connection(**sap_conn_params)
-    print("\n\n✅ Conectado ao SAP")
-
-    func_desc = conn.get_function_description("MAP_BAPI_WBS_ELEMENT_2_PRPS")
-
-    for param in func_desc.parameters:
-        if param["name"] == "BAPI_WBS_ELEMENT":
-            print("\n📌 Campos de BAPI_WBS_ELEMENT:")
-            for field in param["type_description"].fields:
-                print(field)  # Mostra o dicionário completo para sabermos o nome certo
-
-except Exception as e:
-    print(f"❌ Erro: {e}")
+    print(f'Message: SAP connection attempt failed\nError: {e}')

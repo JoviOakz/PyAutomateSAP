@@ -36,4 +36,4 @@ try:
     print('✅ Data updated successfully')
 
 except Exception as e:
-    print(f'Message: Connection or project update failed\nError: {e}')
+    print(f'Message: SAP connection or project update failed\nError: {e}')

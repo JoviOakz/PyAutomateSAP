@@ -13,7 +13,7 @@ notif_number = '14088187'.zfill(12)
 
 try:
     conn = Connection(**sap_conn_params)
-    print('✅ Conectado ao SAP')
+    print('✅ SAP connected successfully')
 
     try:
         result_0054 = conn.call(
@@ -38,7 +38,7 @@ try:
             print(f'Emitente: {payee}\nResponsável: {resp}\nObjeto de liquidação: {liquidation_obj}')
    
     except Exception as e:
-        print(f'Message: Problem with Z22I0054_MD table\nError: {e}')
+        print(f'Message: error with Z22I0054_MD table\nError: {e}')
 
     try:
         result_0055 = conn.call(
@@ -67,7 +67,7 @@ try:
             print(f'Quantidade: {quantity}\nDescrição: {description}\nNorma: {part_number}\nEntregar a: {payee}\nCusto orçado: {cost}\nPrazo final: {date}\n')
    
     except Exception as e:
-        print(f'Message: Problem with Z22I0055_MD table\nError: {e}')
+        print(f'Message: error with Z22I0055_MD table\nError: {e}')
 
 except Exception as e:
-    print(f'Error to connect SAP: {e}')
+    print(f'Message: SAP connection attempt failed\nError: {e}')
