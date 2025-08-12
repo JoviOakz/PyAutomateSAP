@@ -9,7 +9,7 @@ sap_conn_params = {
     'lang': 'PT'
 }
 
-project_number = 'LP-050771'
+proj_num = 'LP-050771'
 new_description = 'BATENTE Teste'
 
 try:
@@ -17,7 +17,7 @@ try:
     print('✅ SAP connected successfully')
 
     proj_struct = {
-        'PROJECT_DEFINITION': project_number,
+        'PROJECT_DEFINITION': proj_num,
         'DESCRIPTION': new_description
     }
 
@@ -25,46 +25,12 @@ try:
         'DESCRIPTION': 'X'
     }
 
-    wbs_struct = [{
-        'WBS_ELEMENT': project_number,
-        'PROJECT_DEFINITION': project_number,
-        'DESCRIPTION': new_description
-    }]
-
-    wbs_struct_upd = [{
-        'DESCRIPTION': 'X'
-    }]
-
-    method_project = [
-        {
-            'REFNUMBER': '000001',
-            'OBJECTTYPE': 'PROJECT',
-            'METHOD': 'CHANGE',
-            'OBJECTKEY': project_number
-        },
-        {
-            'REFNUMBER': '000002',
-            'OBJECTTYPE': 'WBS-ELEMENT',
-            'METHOD': 'CHANGE',
-            'OBJECTKEY': project_number
-        }
-    ]
-
     result = conn.call(
-        'BAPI_PROJECT_MAINTAIN',
-        I_PROJECT_DEFINITION=proj_struct,
-        I_PROJECT_DEFINITION_UPD=proj_struct_upd,
-        I_WBS_ELEMENT_TABLE=wbs_struct,
-        I_WBS_ELEMENT_TABLE_UPDATE=wbs_struct_upd,
-        I_METHOD_PROJECT=method_project
+        'BAPI_PROJECTDEF_UPDATE',
+        CURRENTEXTERNALPROJE=proj_num,
+        PROJECT_DEFINITION_STRU=proj_struct,
+        PROJECT_DEFINITION_UP=proj_struct_upd
     )
-    
-    if 'RETURN' in result:
-        ret = result['RETURN']
-        print("Mensagem de retorno SAP:")
-        for key, value in ret.items():
-            print(f"{key}: {value}")
-
 
     conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
     print('✅ Data updated successfully')
