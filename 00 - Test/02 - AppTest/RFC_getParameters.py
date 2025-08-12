@@ -15,9 +15,9 @@ try:
 
     try:
         # PARAMETERS: FUNCTION MODULE
-        func_desc = conn.get_function_description('MAP_BAPI_WBS_ELEMENT_2_PRPS')
+        func_desc = conn.get_function_description('BAPI_PROJECTDEF_UPDATE')
 
-        print('\n📌 MAP_BAPI_WBS_ELEMENT_2_PRPS - Parameters:\n')
+        print('\n📌 BAPI_PROJECTDEF_UPDATE - Function Module:\n')
         for param in func_desc.parameters:
             print(param)
 
@@ -26,11 +26,11 @@ try:
 
     try:
         # PARAMETERS: TABLE
-        func_desc = conn.get_function_description('MAP_BAPI_WBS_ELEMENT_2_PRPS')
+        func_desc = conn.get_function_description('BAPI_PROJECTDEF_UPDATE')
 
         for param in func_desc.parameters:
-            if param['name'] == 'BAPI_WBS_ELEMENT':
-                print('\n\n📌 BAPI_WBS_ELEMENT - Fields:\n')
+            if param['name'] == 'PROJECT_DEFINITION_STRU':
+                print('\n\n📌 PROJECT_DEFINITION_STRU - Fields:\n')
                 for field in param['type_description'].fields:
                     print(field)
 
