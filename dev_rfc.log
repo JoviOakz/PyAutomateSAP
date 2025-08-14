@@ -186,3 +186,25 @@ NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 20
 2025-08-13 16:31:08.832170 [30724] >> Error entry
 	[Handle: 1934871134256	ConvID: 60393645	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
 	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_BUS2054_CHANGE
+
+**** Log file opened at 2025-08-13 21:40:58.491891 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
+ CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
+ Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
+ Hostname: CT-C-002AE, IP address: 10.68.50.135, IPv6 address: fe80::205:9aff:fe3c:7a00
+
+2025-08-13 21:40:58.492384 [28576] >> Error entry
+	[Handle: 1738916994336	ConvID: 78899026	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
+	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_NETWORK_CHANGE
+
+**** Log file opened at 2025-08-13 21:41:07.402520 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
+ CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
+ Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
+ Hostname: CT-C-002AE, IP address: 10.68.50.135, IPv6 address: fe80::205:9aff:fe3c:7a00
+
+2025-08-13 21:41:07.402743 [15588] >> Error entry
+	[Handle: 1434660851280	ConvID: 79030032	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
+	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_NETWORK_ACT_CHANGE
