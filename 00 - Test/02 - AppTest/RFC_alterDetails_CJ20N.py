@@ -62,6 +62,7 @@ try:
         }]
 
         wbs_struct_upd = [{
+            'WBS_ELEMENT': proj_num,
             'DESCRIPTION': 'X'
         }]
 
@@ -76,6 +77,44 @@ try:
 
     except Exception as e:
         print(f'Message: WBS element update failed\nError: {e}')
+
+
+    # ----- Create network -----
+    try:
+        method_project = [{
+            'REFNUMBER': '000001',
+            'OBJECTTYPE': 'NETWORK',
+            'METHOD': 'CREATE',
+            'OBJECTKEY': '6000001'  # Novo número ou 'INTERNAL' se SAP gerar
+        }]
+
+        network_header = [{
+            'NETWORK': '6000001',       # Ou em branco se for número interno
+            'DESCRIPTION': 'Rede de Teste',
+            'PLANT': '1000',            # VERIFICAR SE É 6854
+            'NETWORK_TYPE': 'N1',       # Tipo configurado no SAP
+            'PROJECT_DEFINITION': proj_num
+        }]
+
+        network_header_upd = [{
+            'NETWORK': '6000001',
+            'DESCRIPTION': 'X',
+            'PLANT': 'X',
+            'NETWORK_TYPE': 'X',
+            'PROJECT_DEFINITION': 'X'
+        }]
+
+        result = conn.call(
+            'BAPI_NETWORK_MAINTAIN',
+            I_NETWORK_HEADER=network_header,
+            I_NETWORK_HEADER_UPD=network_header_upd,
+            I_METHOD_PROJECT=method_project
+        )
+
+        print('✅ Network created successfully')
+
+    except Exception as e:
+        print(f'Message: Network creation failed\nError: {e}')
 
     # ----- Commit changes -----
     try:
