@@ -8,7 +8,7 @@ from PIL import Image, ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = 27
+KW = 28
 ROTATION_ANGLE = 0
 
 PDF_PATH = f'03 - PDF-Reader/OMs - KW{KW}.pdf'
@@ -31,7 +31,7 @@ def limpar_string(s):
     return re.sub(r'[^0-9]', '', s)
 
 def preprocess_image(image):
-    image = image.convert('L')  # escala de cinza
+    image = image.convert('L')
     image = image.filter(ImageFilter.MedianFilter())
     enhancer = ImageEnhance.Contrast(image)
     image = enhancer.enhance(2.0)
