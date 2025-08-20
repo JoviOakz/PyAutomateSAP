@@ -208,3 +208,69 @@ NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 20
 2025-08-13 21:41:07.402743 [15588] >> Error entry
 	[Handle: 1434660851280	ConvID: 79030032	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
 	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_NETWORK_ACT_CHANGE
+
+**** Log file opened at 2025-08-20 14:09:02.949504 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
+ CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
+ Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
+ Hostname: CT-C-002AE, IP address: 10.234.198.178, IPv6 address: fe80::c6c6:e6ff:fed4:fed5
+
+2025-08-20 14:09:02.949644 [09484] >> Error entry
+	[Handle: 1443980839008	ConvID: 41468772	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
+	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_BUS2054_GET_DETAIL
+
+**** Log file opened at 2025-08-20 14:10:20.659302 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
+ CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
+ Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
+ Hostname: CT-C-002AE, IP address: 10.234.198.178, IPv6 address: fe80::c6c6:e6ff:fed4:fed5
+
+2025-08-20 14:10:20.659392 [10568] >> Error entry
+	[Handle: 2511416967056	ConvID: 42261491	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
+	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_BUS2054_GET_DETAIL
+
+**** Log file opened at 2025-08-20 14:13:58.580779 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
+ CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
+ Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
+ Hostname: CT-C-002AE, IP address: 10.234.198.178, IPv6 address: fe80::c6c6:e6ff:fed4:fed5
+
+2025-08-20 14:13:58.581087 [32428] >> Error entry
+	[Handle: 2157354872720	ConvID: 41957455	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
+	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_BUS2054_GETLIST
+
+**** Log file opened at 2025-08-20 14:14:54.744941 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
+ CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
+ Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
+ Hostname: CT-C-002AE, IP address: 10.234.198.178, IPv6 address: fe80::c6c6:e6ff:fed4:fed5
+
+2025-08-20 14:14:54.745125 [26000] >> Error entry
+	[Handle: 2344454228480	ConvID: 42509587	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
+	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_BUS2054_GET_DETAIL
+
+**** Log file opened at 2025-08-20 14:23:24.741922 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
+ CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
+ Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
+ Hostname: CT-C-002AE, IP address: 10.234.198.178, IPv6 address: fe80::c6c6:e6ff:fed4:fed5
+
+2025-08-20 14:23:24.742136 [23148] >> Error entry
+	[Handle: 1797494407456	ConvID: 42866622	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
+	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_BUS2054_CHG
+
+**** Log file opened at 2025-08-20 14:55:21.380378 UTC-03:00 (E. South America Standard Time), Encoding UTF-8
+NW RFC Library: Kernel variant, Release 750 Patch Level 8, Compiled on Aug  4 2021 04:51:59
+ CPIC library: 753.2021.05.10 version 3, NI library: 40, Kernel Release: 753 Patch Level 827
+ Current working directory: C:\Users\Mao8ct\Desktop\PyAutomateSAP, Program: python
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 186 Step 2), Operating_system: Windows NT 10.0
+ Hostname: CT-C-002AE, IP address: 10.234.198.178, IPv6 address: fe80::c6c6:e6ff:fed4:fed5
+
+2025-08-20 14:55:21.382372 [33472] >> Error entry
+	[Handle: 1210233529392	ConvID: 44416109	Target: rb3ps0a0.server.bosch.com	SysID: PS0	SysNr: 00	User: MAO8CT	Mandant: 011	Language: P	Codepage: 4103]
+	RfcABAPException: Key: FU_NOT_FOUND, Code: RFC_ABAP_EXCEPTION, Message: ID:FL Type:E Number:046 BAPI_PROJECTDEF_GETINFO
