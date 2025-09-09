@@ -24,17 +24,28 @@ def insertInfo():
     bot.keyUp('ctrl')
     bot.sleep(1)
 
-    bot.typewrite('4700.100.981')
+    bot.typewrite('4700.100.980')
     bot.sleep(0.25)
-
     pressKey('tab', 1)
-    bot.sleep(0.25)
+    bot.sleep(1)
 
     bot.typewrite('6854')
     bot.sleep(0.25)
-
     pressKey('tab', 5)
+    bot.sleep(0.15)
+    
+    bot.typewrite('MAO09092025')
     bot.sleep(0.25)
+    pressKey('tab', 1)
+    bot.sleep(0.15)
+    bot.typewrite('10.09.2025')
+    bot.sleep(0.25)
+    pressKey('tab', 2)
+    bot.sleep(0.15)
+
+    bot.typewrite('ZBR0001')
+    bot.sleep(0.25)
+    # pressKey('enter')
 
 # ----- Start Program -----
 if __name__ == '__main__':
