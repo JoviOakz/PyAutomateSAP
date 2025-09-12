@@ -15,6 +15,8 @@ def pressKey(key, count):
     for _ in range(count):
         if key == 'stab':
             bot.hotkey('shift', 'tab')
+        elif key == 'csf4':
+            bot.hotkey('ctrl', 'shift', 'f4')
         else:
             bot.press(key)
 
@@ -58,9 +60,9 @@ def scriptCreation():
     bot.sleep(0.375)
     bot.typewrite('1')
     bot.sleep(0.375)
-    pressKey('stab', 17)
-    bot.sleep(0.375)
-    pressKey('enter', 1)
+    pressKey('f7', 1)
+    bot.sleep(1.875)
+    pressKey('csf4', 1)
 
 def opInsertion():
     print('Hello World!')
