@@ -101,7 +101,7 @@ def com_complete():
 
 # ===== PROGRAM CONFIGURATION =====
 
-om_qty = 28
+om_qty = 26
 line = 0
 repeat_qty = om_qty - line
 
