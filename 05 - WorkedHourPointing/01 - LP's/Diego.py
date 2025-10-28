@@ -6,7 +6,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 1.25
 
 # ===== INITIAL ACTION =====
 

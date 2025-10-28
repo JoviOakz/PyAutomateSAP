@@ -6,7 +6,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 1.25
 
 # ===== INITIAL ACTION =====
 
@@ -56,7 +56,7 @@ def verify_lp():
 
 def create_apointment():
     press_key('tab', 2)
-    bot.typewrite('Planejadora Yesica - 29.10.2025')
+    bot.typewrite('Planejadora Yesica - 30.10.2025')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
@@ -83,7 +83,7 @@ def save_line():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 56
+lp_qty = 90
 line = 0
 repeat_qty = lp_qty - line
 
