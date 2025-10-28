@@ -55,26 +55,36 @@ def change_to_impact():
     press_key('down', 38)
     bot.sleep(0.75)
     press_key('enter', 1)
-    bot.sleep(1)
+    bot.sleep(1.25)
     press_key('enter', 1)
-    bot.sleep(1)
+    bot.sleep(1.25)
     press_key('enter', 1)
-    bot.sleep(1)
+    bot.sleep(1.25)
 
-# def find_orange():
-#     screenshot = bot.screenshot()
+def find_orange():
+    press_key('f3', 1)
+    bot.sleep(0.5)
+    press_key('backspace', 1)
+    bot.sleep(0.5)
+    bot.typewrite('Nenhum resultado encontrado')
+    bot.sleep(0.75)
 
-#     img = screenshot.convert('RGB')
+    screenshot = bot.screenshot()
+    img = screenshot.convert('RGB')
+    width, height = img.size
+    min_orange = (250, 145, 45)
+    max_orange = (255, 155, 55)
 
-#     orange_color = (255, 150, 51)
+    bot.sleep(0.25)
+    press_key('esc', 1)
 
-#     width, height = img.size
-
-#     for x in range(0, width, 5):
-#         for y in range(0, height, 5):
-#             r, g, b = img.getpixel((x, y))
-#             if (r, g, b) == orange_color:
-#                 return True
+    for x in range(0, width, 5):
+        for y in range(0, height, 5):
+            r, g, b = img.getpixel((x, y))
+            if (min_orange[0] <= r <= max_orange[0] and
+                min_orange[1] <= g <= max_orange[1] and
+                min_orange[2] <= b <= max_orange[2]):
+                return True
             
     return False
 
@@ -82,6 +92,8 @@ def change_to_impact():
 
 def main():
     while True:
+        bot.sleep(1)
+
         try:
             if find_orange():
                 break
