@@ -5,7 +5,7 @@ import pyautogui as bot
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.001
+bot.PAUSE = 0.15
 
 # ===== INITIAL ACTION =====
 
@@ -77,6 +77,7 @@ def find_orange():
 
     bot.sleep(0.25)
     press_key('esc', 1)
+    bot.sleep(0.25)
 
     for x in range(0, width, 5):
         for y in range(0, height, 5):
@@ -97,10 +98,12 @@ def main():
         try:
             if find_orange():
                 break
-            
-        except Exception:
-            find_palletDuBico()
-            change_to_impact()
+            else:
+                find_palletDuBico()
+                change_to_impact()
+
+        except Exception as e:
+            print(f'Error: {e}')
 
     bot.alert(title='BotText', text='Programa encerrado!')
 
