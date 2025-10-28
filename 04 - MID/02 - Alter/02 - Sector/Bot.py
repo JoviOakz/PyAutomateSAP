@@ -5,7 +5,7 @@ import pyautogui as bot
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.15
+bot.PAUSE = 0.1
 
 # ===== INITIAL ACTION =====
 
@@ -23,41 +23,41 @@ def press_key(key, times):
 
 def find_palletDuBico():
     press_key('tab', 18)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('space', 1)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('down', 9)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('space', 1)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('tab', 1)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('space', 1)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('down', 34)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('space', 1)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('tab', 3)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('space', 1)
-    bot.sleep(1)
+    bot.sleep(3.5)
 
 def change_to_impact():
     press_key('tab', 3)
     bot.sleep(1)
     press_key('space', 1)
-    bot.sleep(2)
+    bot.sleep(3.5)
     press_key('tab', 25)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('space', 1)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('down', 38)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
     press_key('enter', 1)
     bot.sleep(1.25)
     press_key('enter', 1)
-    bot.sleep(1.25)
+    bot.sleep(3.5)
     press_key('enter', 1)
     bot.sleep(1.25)
 
