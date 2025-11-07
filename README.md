@@ -8,12 +8,13 @@ Abaixo estão listadas as bibliotecas necessárias com instruções de instalaç
 
 ## 🐍 Instalação do Python
 
-- ✅ **Python 3.12 (64 bits)** — recomendado para maior compatibilidade com PyRFC  
+- **Python 3.12 (64 bits)** — recomendado para maior compatibilidade com PyRFC  
   🔗 [Download Python 3.12.10](https://www.python.org/downloads/release/python-31210/)
 
-- ✅ Atualizar pip  
+- Atualizar pip  
   ```bash
   python -m pip install --upgrade pip
+
 ---
 
 ## 🔧 Dependências Externas
@@ -34,3 +35,15 @@ Instale todas as bibliotecas abaixo com o seguinte comando:
 
 ```bash
 pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython
+
+---
+
+## 🚀 Próximos Passos
+
+🔹 **Atualizar bot para apontamento de horas**  
+  - Verificar linhas em que é possível criar o apontamento  
+  - Realizar o apontamento automaticamente conforme regras de negócio  
+
+🔹 **Criar novo bot para cadastros de LP**  
+  - Utilizar **PyRFC** para resgate de informações diretamente do SAP  
+  - Implementar lógica de validação e tratamento de dados antes do envio
