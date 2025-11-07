@@ -26,7 +26,7 @@ Estas ferramentas devem ser instaladas separadamente, pois não estão disponív
 - Repositório [Tesseract OCR (oficial)](https://github.com/tesseract-ocr/tesseract)  
 - Releases [PyRFC (SAP) - Versão 3.3.1](https://github.com/SAP-archive/PyRFC/releases) -> compatível com python 3.12
 
-Como complemento do PyRFC:
+Como complemento do PyRFC:<br>
 Seguir o caminho | 99 - Others -> 99 - Files | para adquirir o arquivo SDK do SAP -> nwrfcsdk.zip
 
 ---
