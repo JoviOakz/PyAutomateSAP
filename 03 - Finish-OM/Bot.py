@@ -19,7 +19,7 @@ bot.moveTo(1400, 50, 0.3)
 
 # ===== EXCEL CONFIGURATION =====
 
-EXCEL_PATH = '../Open-OMs.xlsx'
+EXCEL_PATH = '../08 - Excels/Open-OMs.xlsx'
 df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== FUNCTIONS =====
