@@ -22,9 +22,9 @@ Abaixo estão listadas as bibliotecas necessárias com instruções de instalaç
 
 Estas ferramentas devem ser instaladas separadamente, pois não estão disponíveis diretamente via `pip`.
 
-👉 [Baixar Poppler v24.08.0-0](https://github.com/oschwartz10612/poppler-windows/releases/tag/v24.08.0-0)  
-👉 [Repositório Tesseract OCR (oficial)](https://github.com/tesseract-ocr/tesseract)  
-👉 [Releases do PyRFC (SAP) - Versão compatível com python 3.12 -> 3.3.1](https://github.com/SAP-archive/PyRFC/releases)
+- [Baixar Poppler v24.08.0-0](https://github.com/oschwartz10612/poppler-windows/releases/tag/v24.08.0-0)  
+- [Repositório Tesseract OCR (oficial)](https://github.com/tesseract-ocr/tesseract)  
+- [Releases do PyRFC (SAP) - Versão 3.3.1 -> compatível com python 3.12](https://github.com/SAP-archive/PyRFC/releases)
 
 Como complemento do PyRFC, seguir o caminho | 99 - Others > 99 - Files | para adquirir o arquivo SDK do SAP -> nwrfcsdk.zip
 
