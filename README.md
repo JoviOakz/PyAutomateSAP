@@ -14,6 +14,7 @@ Abaixo estão listadas as bibliotecas necessárias com instruções de instalaç
 - Atualizar pip  
   ```bash
   python -m pip install --upgrade pip
+  ```
 
 ---
 
