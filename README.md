@@ -35,6 +35,7 @@ Instale todas as bibliotecas abaixo com o seguinte comando:
 
 ```bash
 pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython
+```
 
 ---
 
