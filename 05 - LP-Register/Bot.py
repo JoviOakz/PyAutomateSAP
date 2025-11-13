@@ -7,7 +7,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 0.5
 
 # ===== INITIAL ACTION =====
 
@@ -15,7 +15,7 @@ bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
-excel_path = "../08 - Excels/Cadastro-LPs.xlsx"
+excel_path = '../08 - Excels/Cadastro-LPs.xlsx'
 df = pd.read_excel(excel_path, engine='openpyxl')
 
 # ===== FUNCTIONS =====
@@ -30,7 +30,7 @@ def getInformation(pm_value):
         'lang': 'PT'
     }
 
-    payee = resp = liquidation_obj = quantity = description = part_number = deliverTo = cost = date = ""
+    payee = resp = liquidation_obj = quantity = description = part_number = deliverTo = cost = date = project = ''
 
     try:
         conn = Connection(**sap_conn_params)
@@ -78,6 +78,7 @@ def getInformation(pm_value):
                 deliverTo = fields[9].strip()
                 cost = fields[10].strip()
                 date = fields[12].strip()
+                project = fields[13].strip()
 
                 date = str(date[6:8]) + '.' + str(date[4:6]) + '.' + str(date[:4])
 
@@ -88,16 +89,26 @@ def getInformation(pm_value):
         print(f'Message: SAP connection attempt failed\nError: {e}')
 
     return {
-        "payee": payee,
-        "resp": resp,
-        "liquidation_obj": liquidation_obj,
-        "quantity": quantity,
-        "description": description,
-        "part_number": part_number,
-        "deliverTo": deliverTo,
-        "cost": cost,
-        "date": date
+        'payee': payee,
+        'resp': resp,
+        'liquidation_obj': liquidation_obj,
+        'quantity': quantity,
+        'description': description,
+        'part_number': part_number,
+        'deliverTo': deliverTo,
+        'cost': cost,
+        'date': date,
+        'project': project
     }
+
+def press_key(key, times):
+    for _ in range(times):
+        if key == 'ctrls':
+            bot.hotkey('ctrl', 's')
+        elif key == 'ctrlf9':
+            bot.hotkey('ctrl', 'f9')
+        else:
+            bot.press(key)
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -114,6 +125,30 @@ if __name__ == '__main__':
         data = getInformation(pm_value)
 
         print(data)
+
+        bot.typewrite(str(data['project']))
+        bot.sleep(2)
+        press_key('enter')
+        bot.sleep(2)
+
+        # essa verificação do tamanho pode ser feito uma unica vez e ser criado uma var para o nome "novo"
+        # if (desc < 12c == norm+desc):
+        #     bot.typewrite(norm+desc)
+
+        press_key('tab', 3)
+
+        # if (desc < 12c == norm+desc):
+        #     bot.typewrite(norm+desc)
+
+        press_key('ctrlf9', 1)
+
+
+
+
+
+
+
+        
 
         line += 1
 
