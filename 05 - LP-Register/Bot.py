@@ -20,6 +20,21 @@ df = pd.read_excel(excel_path, engine='openpyxl')
 
 # ===== FUNCTIONS =====
 
+def press_key(key, times):
+    for _ in range(times):
+        if key == 'ctrlf9':
+            bot.hotkey('ctrl', 'f9')
+        elif key == 'ctrla':
+            bot.hotkey('ctrl', 'a')
+        elif key == 'shtab':
+            bot.hotkey('shift', 'tab')
+        elif key == 'shf1':
+            bot.hotkey('shift', 'f1')
+        elif key == 'ctrls':
+            bot.hotkey('ctrl', 's')
+        else:
+            bot.press(key)
+
 def getInformation(pm_value):
     sap_conn_params = {
         'user': 'MAO8CT',
@@ -101,14 +116,149 @@ def getInformation(pm_value):
         'project': project
     }
 
-def press_key(key, times):
-    for _ in range(times):
-        if key == 'ctrls':
-            bot.hotkey('ctrl', 's')
-        elif key == 'ctrlf9':
-            bot.hotkey('ctrl', 'f9')
-        else:
-            bot.press(key)
+def wbs_element_register(data):
+    bot.typewrite(str(data['project']))
+    bot.sleep(2)
+    press_key('enter')
+    bot.sleep(2)
+
+
+
+    # ==========================================================================================================
+    # essa verificação do tamanho pode ser feito uma unica vez e ser criado uma var para o nome "novo"
+    # if (desc < 12c == norm+desc):
+    #     bot.typewrite(norm+desc)
+
+    press_key('tab', 3)
+
+    # if (desc < 12c == norm+desc):
+    #     bot.typewrite(norm+desc)
+    # ==========================================================================================================
+
+
+
+    press_key('ctrlf9', 1)
+    bot.sleep(2)
+    press_key('down', 2)
+    press_key('tab', 1)
+    press_key('down', 2)
+    press_key('ctrla', 1)
+
+
+
+    # ==========================================================================================================
+    # verificação do Requerente | QMM = 68540007 e outros
+    # bot.typewrite('68540007')
+    # ==========================================================================================================
+
+
+
+    press_key('up', 3)
+    press_key('shtab', 1)
+    press_key('right', 1)
+    press_key('space', 1)
+    bot.sleep(2)
+    press_key('tab', 1)
+
+
+
+    # ==========================================================================================================
+    # inserção das datas
+    # bot.typewrite(str(data['date']))
+    # ==========================================================================================================
+
+
+
+    press_key('up', 3)
+    press_key('shtab', 1)
+    press_key('right', 3)
+    press_key('space', 1)
+    bot.sleep(2)
+    press_key('tab', 4)
+
+
+
+    # ==========================================================================================================
+    # inserção dos campos gerais e numéricos
+    # bot.typewrite('REQUERENTE')
+    # press_key('tab', 2)
+    # bot.typewrite('QUANTIDADE')
+    # press_key('tab', 1)
+    # bot.typewrite('PC')
+    # press_key('tab', 3)
+    # bot.typewrite('VALOR')
+    # press_key('tab', 1)
+    # bot.typewrite('BRL')
+    # ==========================================================================================================
+
+
+
+    press_key('tab', 8)
+    press_key('space', 1)
+    bot.sleep(2)
+    press_key('tab', 1)
+
+
+
+    # ==========================================================================================================
+    # inserção dos parametros
+    # bot.typewrite('ZPS001')
+    # press_key('tab', 1)
+    # bot.typewrite('19')
+    # press_key('f3', 1)
+    # bot.sleep(2)
+    # ==========================================================================================================
+
+
+
+    # ==========================================================================================================
+    # inserção do objeto de liquidação
+    # press_key('tab', 1)
+    # bot.typewrite('CENTRO DE CUSTO')
+    # ==========================================================================================================
+    
+    
+    
+    press_key('f3', 1)
+    bot.sleep(2)
+    press_key('f3', 1)
+    bot.sleep(2)
+    press_key('shf1', 1)
+    bot.sleep(2)
+    press_key('down', 3)
+    press_key('ctrla', 1)
+
+
+
+    # ==========================================================================================================
+    # inserção das responsabilidades e datas
+    # bot.typewrite('REQUERENTE')
+    # press_key('down', 1)
+    # bot.typewrite('DATA')
+    # press_key('down', 1)
+    # bot.typewrite('DATA')
+
+    # VERIFICAR COMO FAZER PARA CLICAR EM PROCESSAR -> STATUS -> LIBERAR | DE FORMA DINÂMICA!
+    # ==========================================================================================================
+
+
+
+    press_key('ctrls', 1)
+    bot.sleep(3)
+
+def network_creation(data):
+    press_key('enter', 1)
+    
+
+
+    # ==========================================================================================================
+    # INSERIR O NÚMERO DA LP SEM O TRAÇO
+    # ==========================================================================================================
+
+
+
+    press_key('enter', 1)
+    bot.sleep(2)
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -126,29 +276,13 @@ if __name__ == '__main__':
 
         print(data)
 
-        bot.typewrite(str(data['project']))
-        bot.sleep(2)
-        press_key('enter')
-        bot.sleep(2)
+        wbs_element_register(data)
 
-        # essa verificação do tamanho pode ser feito uma unica vez e ser criado uma var para o nome "novo"
-        # if (desc < 12c == norm+desc):
-        #     bot.typewrite(norm+desc)
+        # ===================================================================================================
+        # VERIFICAR COMO TROCAR A TELA, OU UTILIZAR PYRFC PARA COMMITAR E CRIAR DEIRETAMENTE O DIAGRAMA
+        # ===================================================================================================
 
-        press_key('tab', 3)
-
-        # if (desc < 12c == norm+desc):
-        #     bot.typewrite(norm+desc)
-
-        press_key('ctrlf9', 1)
-
-
-
-
-
-
-
-        
+        network_creation(data)
 
         line += 1
 
