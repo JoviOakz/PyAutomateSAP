@@ -8,12 +8,12 @@ from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = 40
+KW = 42
 ORIENTATION = 'deitado'  # [deitado] | [pé]
 ROTATION_ANGLE = 270  # [deitado -> 270] | [pé -> 0]
 
-PDF_PATH = f'03 - PDF-Reader/LPs - KW{KW} - {ORIENTATION}.pdf'
-OUTPUT_FILE = f'Open-LPs - {ORIENTATION}.xlsx'
+PDF_PATH = f'01 - PDF-Reader/LPs - KW{KW} - {ORIENTATION}.pdf'
+OUTPUT_FILE = f'08 - Excels/Open-LPs - {ORIENTATION}.xlsx'
 
 DICTIONARY = {
     '—': '-',
