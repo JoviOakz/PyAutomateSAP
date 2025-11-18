@@ -13,11 +13,11 @@ try:
     conn = Connection(**sap_conn_params)
     print('✅ SAP connected successfully')
 
-    # ----- Parameters: Function module -----
+    # # ----- Parameters: Function module -----
     try:
-        func_desc = conn.get_function_description('BAPI_BUS2054_CHANGE_MULTI')
+        func_desc = conn.get_function_description('BAPI_NETWORK_MAINTAIN')
 
-        print('\n📌 BAPI_BUS2054_CHANGE_MULTI - Function Module:\n')
+        print('\n\n📌 BAPI_NETWORK_MAINTAIN - Function Module:\n')
         for param in func_desc.parameters:
             print(param)
 
@@ -26,11 +26,11 @@ try:
 
     # ----- Parameters: Fields -----
     try:
-        func_desc = conn.get_function_description('BAPI_BUS2054_CHANGE_MULTI')
+        func_desc = conn.get_function_description('BAPI_NETWORK_MAINTAIN')
 
         for param in func_desc.parameters:
-            if param['name'] == 'I_PROJECT_DEFINITION':
-                print('\n\n📌 I_PROJECT_DEFINITION - Fields:\n')
+            if param['name'] == 'I_NETWORK':
+                print('\n\n📌 I_NETWORK - Fields:\n')
                 for field in param['type_description'].fields:
                     print(field)
 
