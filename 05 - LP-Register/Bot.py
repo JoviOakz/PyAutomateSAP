@@ -129,7 +129,7 @@ def wbs_element_register(data):
 
 
     # ==========================================================================================================
-    # essa verificação do tamanho pode ser feito uma unica vez e ser criado uma var para o nome "novo"
+    # essa verificação do tamanho pode ser feito uma unica vez e ser criado uma var para o nome 'novo'
     # if (desc < 12c == norm+desc):
     #     bot.typewrite(norm+desc)
 
@@ -250,62 +250,6 @@ def wbs_element_register(data):
     press_key('ctrls', 1)
     bot.sleep(3)
 
-def network_creation_via_SAP(data):
-    press_key('enter', 1)
-    
-
-
-    # ==========================================================================================================
-    # INSERIR O NÚMERO DA LP SEM O TRAÇO
-    # ==========================================================================================================
-
-
-
-    press_key('enter', 1)
-    bot.sleep(2)
-
-
-
-    # ==========================================================================================================
-    # INSERIR A DESCRIÇÃO + NORMA
-    # ==========================================================================================================
-
-
-
-    press_key('tab', 2)
-    press_key('right', 1)
-    press_key('space', 1)
-    bot.sleep(2)
-    press_key('tab', 2)
-    # bot.typewrite('LP')
-    press_key('shtab', 2)
-
-
-
-    # ==========================================================================================================
-    # VERIFICAÇÃO SE O RESPONSÁVEL DO PROJETO É O MESMO CUJO ESTÁ NA NOTA E NO PADRAO DE UTILIZAÇÃO
-    # IF (NÃO ESTIVER):
-        # press_key('right', 1)
-        # press_key('space', 1)
-        # bot.sleep(2)
-        # press_key('tab', 1)
-        # bot.typewrite('PLANEJADOR MRP')
-        # press_key('shtab', 1)
-        # press_key('right', 2)
-    # ELSE:
-        # press_key('right', 3)
-    # ==========================================================================================================
-
-    press_key('space', 1)
-    bot.sleep(2)
-    press_key('tab', 4)
-    bot.sleep(2)
-    # bot.typewrite('DESCRIÇÃO + NORMA + IF(HEIJUNKA) + RESPONSÁVEL')
-    press_key('ctrlf12', 1)
-    bot.sleep(2)
-    press_key('ctrls', 1)
-    bot.sleep(2)
-
 def network_creation_via_PyRFC(data):
     try:
         conn = Connection(**sap_conn_params)
@@ -313,16 +257,31 @@ def network_creation_via_PyRFC(data):
 
         # ===== CREATE NETWORK =====
         try:
+            # ===== BUILD NETWORK HEADER =====
             network_header = {
-                "NETWORK": lp_number,            # LP012346
-                "DESCRIPTION": "Network gerada automaticamente",
-                "NETWORK_TYPE": "ZLP",           # se aplicável
+                'NETWORK': lp_number,
+                'PROFILE': 'ZBP0001',
+                'NETWORK_TYPE': 'BP01',
+                'PLANT': '6854',
+                'MRP_CONTROLLER': mrp,
+                'SHORT_TEXT': description,
+                'PROJECT_DEFINITION': lp_number,
+                'WBS_ELEMENT': lp_number,
             }
 
+            # ===== BUILD METHOD TABLE (MANDATORY) =====
+            network_method = {
+                'REFNUMBER': '000001',
+                'OBJECTTYPE': 'NETWORK',
+                'METHOD': 'CREATE',
+                'OBJECTKEY': lp_number
+            }
+
+            # ===== CALL BAPI =====
             resp = conn.call(
-                "BAPI_NETWORK_MAINTAIN",
-                I_NETWORKHEADER=[network_header],
-                # ... demais tabelas que sua empresa exige
+                'BAPI_NETWORK_MAINTAIN',
+                I_NETWORK=[network_header],
+                I_METHOD_PROJECT=[network_method]
             )
 
         except Exception as e:
@@ -356,13 +315,6 @@ if __name__ == '__main__':
         print(data)
 
         wbs_element_register(data)
-
-        # ===================================================================================================
-        # VERIFICAR COMO TROCAR A TELA, OU UTILIZAR PYRFC PARA COMMITAR E CRIAR DIRETAMENTE O DIAGRAMA
-        # ===================================================================================================
-
-        network_creation_via_SAP(data)
-        # or
         network_creation_via_PyRFC(data)
 
         line += 1
