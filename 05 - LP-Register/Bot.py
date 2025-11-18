@@ -284,16 +284,39 @@ def network_creation_via_PyRFC(data):
                 I_METHOD_PROJECT=[network_method]
             )
 
-        except Exception as e:
-            print(f'Message: Network creation failed\nError: {e}')
+            return_messages = resp.get('RETURN', [])
+            
+            print("\n📩 SAP RETURN MESSAGES:")
+            for msg in return_messages:
+                print(f"[{msg['TYPE']}] {msg['MESSAGE']}")
 
-        # ===== COMMIT CHANGES =====
-        try:
+            # ========== VALIDATE ERRORS ==========
+            has_error = any(msg['TYPE'] in ('E', 'A') for msg in return_messages)
+
+            if has_error:
+                print("\n❌ ERROR: Network was NOT created due to SAP errors.")
+
+                return {
+                    'success': False,
+                    'messages': return_messages
+                }
+
+            # ========== COMMIT ==========
             conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
-            print('✅ LP registered successfully')
+            print("\n✅ SUCCESS: Network created successfully!")
+
+            return {
+                'success': True,
+                'messages': return_messages
+            }
 
         except Exception as e:
-            print(f'Message: Commit failed (check LP)\nError: {e}')
+            print(f'\n❌ SAP connection or execution failed\nError: {e}')
+            
+            return {
+                'success': False,
+                'messages': [{'TYPE': 'X', 'MESSAGE': str(e)}]
+            }
 
     except Exception as e:
         print(f'Message: SAP connection failed\nError: {e}')
