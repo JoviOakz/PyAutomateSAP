@@ -9,6 +9,17 @@ import pandas as pd
 bot.FAILSAFE = True
 bot.PAUSE = 0.5
 
+# ===== SAP PARAMETERS (PyRFC) =====
+
+sap_conn_params = {
+    'user': 'MAO8CT',
+    'passwd': '86IQ3J$.7vCj@',
+    'ashost': 'rb3ps0a0.server.bosch.com',
+    'sysnr': '00',
+    'client': '011',
+    'lang': 'PT'
+}
+
 # ===== INITIAL ACTION =====
 
 bot.click(1802, 14)
@@ -32,19 +43,12 @@ def press_key(key, times):
             bot.hotkey('shift', 'f1')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
+        elif key == 'ctrlf12':
+            bot.hotkey('ctrl', 'f12')
         else:
             bot.press(key)
 
 def getInformation(pm_value):
-    sap_conn_params = {
-        'user': 'MAO8CT',
-        'passwd': '86IQ3J$.7vCj@',
-        'ashost': 'rb3ps0a0.server.bosch.com',
-        'sysnr': '00',
-        'client': '011',
-        'lang': 'PT'
-    }
-
     payee = resp = liquidation_obj = quantity = description = part_number = deliverTo = cost = date = project = ''
 
     try:
@@ -246,7 +250,7 @@ def wbs_element_register(data):
     press_key('ctrls', 1)
     bot.sleep(3)
 
-def network_creation(data):
+def network_creation_via_SAP(data):
     press_key('enter', 1)
     
 
@@ -259,6 +263,81 @@ def network_creation(data):
 
     press_key('enter', 1)
     bot.sleep(2)
+
+
+
+    # ==========================================================================================================
+    # INSERIR A DESCRIÇÃO + NORMA
+    # ==========================================================================================================
+
+
+
+    press_key('tab', 2)
+    press_key('right', 1)
+    press_key('space', 1)
+    bot.sleep(2)
+    press_key('tab', 2)
+    # bot.typewrite('LP')
+    press_key('shtab', 2)
+
+
+
+    # ==========================================================================================================
+    # VERIFICAÇÃO SE O RESPONSÁVEL DO PROJETO É O MESMO CUJO ESTÁ NA NOTA E NO PADRAO DE UTILIZAÇÃO
+    # IF (NÃO ESTIVER):
+        # press_key('right', 1)
+        # press_key('space', 1)
+        # bot.sleep(2)
+        # press_key('tab', 1)
+        # bot.typewrite('PLANEJADOR MRP')
+        # press_key('shtab', 1)
+        # press_key('right', 2)
+    # ELSE:
+        # press_key('right', 3)
+    # ==========================================================================================================
+
+    press_key('space', 1)
+    bot.sleep(2)
+    press_key('tab', 4)
+    bot.sleep(2)
+    # bot.typewrite('DESCRIÇÃO + NORMA + IF(HEIJUNKA) + RESPONSÁVEL')
+    press_key('ctrlf12', 1)
+    bot.sleep(2)
+    press_key('ctrls', 1)
+    bot.sleep(2)
+
+def network_creation_via_PyRFC(data):
+    try:
+        conn = Connection(**sap_conn_params)
+        print('✅ SAP connected successfully')
+
+        # ===== CREATE NETWORK =====
+        try:
+            network_header = {
+                "NETWORK": lp_number,            # LP012346
+                "DESCRIPTION": "Network gerada automaticamente",
+                "NETWORK_TYPE": "ZLP",           # se aplicável
+            }
+
+            resp = conn.call(
+                "BAPI_NETWORK_MAINTAIN",
+                I_NETWORKHEADER=[network_header],
+                # ... demais tabelas que sua empresa exige
+            )
+
+        except Exception as e:
+            print(f'Message: Network creation failed\nError: {e}')
+
+        # ===== COMMIT CHANGES =====
+        try:
+            conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
+            print('✅ LP registered successfully')
+
+        except Exception as e:
+            print(f'Message: Commit failed (check LP)\nError: {e}')
+
+    except Exception as e:
+        print(f'Message: SAP connection failed\nError: {e}')
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -279,10 +358,12 @@ if __name__ == '__main__':
         wbs_element_register(data)
 
         # ===================================================================================================
-        # VERIFICAR COMO TROCAR A TELA, OU UTILIZAR PYRFC PARA COMMITAR E CRIAR DEIRETAMENTE O DIAGRAMA
+        # VERIFICAR COMO TROCAR A TELA, OU UTILIZAR PYRFC PARA COMMITAR E CRIAR DIRETAMENTE O DIAGRAMA
         # ===================================================================================================
 
-        network_creation(data)
+        network_creation_via_SAP(data)
+        # or
+        network_creation_via_PyRFC(data)
 
         line += 1
 
