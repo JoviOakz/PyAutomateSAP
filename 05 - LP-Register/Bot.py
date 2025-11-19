@@ -22,7 +22,7 @@ sap_conn_params = {
 
 # ===== INITIAL ACTION =====
 
-bot.click(1802, 14)
+# bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
@@ -43,82 +43,8 @@ def press_key(key, times):
             bot.hotkey('shift', 'f1')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
-        elif key == 'ctrlf12':
-            bot.hotkey('ctrl', 'f12')
         else:
             bot.press(key)
-
-def getInformation(pm_value):
-    payee = resp = liquidation_obj = quantity = description = part_number = deliverTo = cost = date = project = ''
-
-    try:
-        conn = Connection(**sap_conn_params)
-
-        try:
-            result_0054 = conn.call(
-                'RFC_READ_TABLE',
-                QUERY_TABLE='Z22I0054_MD',
-                ROWCOUNT=5,
-                OPTIONS=[{
-                    'TEXT': f"QMNUM = '{pm_value}'"
-                }],
-                DELIMITER='|'
-            )
-        
-            if result_0054['DATA']:
-                raw_line = result_0054['DATA'][0]['WA']
-                fields = raw_line.split('|')
-
-                payee = fields[7].strip()
-                resp = fields[9].strip()
-                liquidation_obj = fields[12].strip()
-
-        except Exception as e:
-            print(f'Message: error with Z22I0054_MD table\nError: {e}')
-
-        try:
-            result_0055 = conn.call(
-                'RFC_READ_TABLE',
-                QUERY_TABLE='Z22I0055_MD',
-                ROWCOUNT=5,
-                OPTIONS=[{
-                    'TEXT': f"QMNUM = '{pm_value}'"
-                }],
-                DELIMITER='|'
-            )
-        
-            if result_0055['DATA']:
-                raw_line = result_0055['DATA'][0]['WA']
-                fields = raw_line.split('|')
-
-                quantity = int(float(fields[4].strip()))
-                description = fields[5].strip()
-                part_number = fields[6].strip()
-                deliverTo = fields[9].strip()
-                cost = fields[10].strip()
-                date = fields[12].strip()
-                project = fields[13].strip()
-
-                date = str(date[6:8]) + '.' + str(date[4:6]) + '.' + str(date[:4])
-
-        except Exception as e:
-            print(f'Message: error with Z22I0055_MD table\nError: {e}')
-        
-    except Exception as e:
-        print(f'Message: SAP connection attempt failed\nError: {e}')
-
-    return {
-        'payee': payee,
-        'resp': resp,
-        'liquidation_obj': liquidation_obj,
-        'quantity': quantity,
-        'description': description,
-        'part_number': part_number,
-        'deliverTo': deliverTo,
-        'cost': cost,
-        'date': date,
-        'project': project
-    }
 
 def wbs_element_register(data):
     bot.typewrite(str(data['project']))
@@ -250,7 +176,7 @@ def wbs_element_register(data):
     press_key('ctrls', 1)
     bot.sleep(3)
 
-def network_creation_via_PyRFC(data):
+def network_creation_via_PyRFC():
     try:
         conn = Connection(**sap_conn_params)
         print('✅ SAP connected successfully')
@@ -259,14 +185,16 @@ def network_creation_via_PyRFC(data):
         try:
             # ===== BUILD NETWORK HEADER =====
             network_header = {
-                'NETWORK': lp_number,
+                'NETWORK': 'LP053617',
                 'PROFILE': 'ZBP0001',
                 'NETWORK_TYPE': 'BP01',
                 'PLANT': '6854',
-                'MRP_CONTROLLER': mrp,
-                'SHORT_TEXT': description,
-                'PROJECT_DEFINITION': lp_number,
-                'WBS_ELEMENT': lp_number,
+                'MRP_CONTROLLER': 'I49',
+                'SHORT_TEXT': '4316400030-0229 - BASE - CONSERTO',
+                'PROJECT_DEFINITION': 'LP-053617',
+                'WBS_ELEMENT': 'LP-053617',
+                'START_DATE': '20251119',
+                'FINISH_DATE': '20260306'
             }
 
             # ===== BUILD METHOD TABLE (MANDATORY) =====
@@ -274,24 +202,47 @@ def network_creation_via_PyRFC(data):
                 'REFNUMBER': '000001',
                 'OBJECTTYPE': 'NETWORK',
                 'METHOD': 'CREATE',
-                'OBJECTKEY': lp_number
+                'OBJECTKEY': 'LP053617'
             }
+
+            conn.call("BAPI_PS_INITIALIZATION")
 
             # ===== CALL BAPI =====
             resp = conn.call(
                 'BAPI_NETWORK_MAINTAIN',
                 I_NETWORK=[network_header],
+                I_ACTIVITY=[],
                 I_METHOD_PROJECT=[network_method]
             )
 
-            return_messages = resp.get('RETURN', [])
-            
-            print("\n📩 SAP RETURN MESSAGES:")
-            for msg in return_messages:
-                print(f"[{msg['TYPE']}] {msg['MESSAGE']}")
+            print("\n===== RAW SAP RESPONSE =====")
+            for key, value in resp.items():
+                print(f"\n--- {key} ---")
+                print(value)
 
-            # ========== VALIDATE ERRORS ==========
-            has_error = any(msg['TYPE'] in ('E', 'A') for msg in return_messages)
+            # ===== NORMALIZE RETURN =====
+            return_raw = resp.get("RETURN", [])
+
+            if isinstance(return_raw, dict):
+                return_messages = [return_raw]
+            elif isinstance(return_raw, list):
+                return_messages = return_raw
+            else:
+                return_messages = []
+
+            print("\n📩 SAP RETURN MESSAGES:")
+                
+            for msg in return_messages:
+                if isinstance(msg, dict):
+                    print(f"[{msg.get('TYPE', '?')}] {msg.get('MESSAGE', '')}")
+                else:
+                    print(f"[?] {msg}")
+
+            # ===== CHECK ERRORS SAFELY =====
+            has_error = any(
+                isinstance(msg, dict) and msg.get("TYPE") in ("E", "A")
+                for msg in return_messages
+            )
 
             if has_error:
                 print("\n❌ ERROR: Network was NOT created due to SAP errors.")
@@ -302,6 +253,7 @@ def network_creation_via_PyRFC(data):
                 }
 
             # ========== COMMIT ==========
+            conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
             conn.call('BAPI_TRANSACTION_COMMIT', WAIT='X')
             print("\n✅ SUCCESS: Network created successfully!")
 
@@ -331,15 +283,9 @@ repeat_qty = lp_qty - line
 
 if __name__ == '__main__':
     for _ in range(repeat_qty):
-        pm_value = df.at[line, 'PM']
-        pm_value = str(pm_value).zfill(12)
-        data = getInformation(pm_value)
-
-        print(data)
-
-        wbs_element_register(data)
-        network_creation_via_PyRFC(data)
+        # wbs_element_register(data)
+        network_creation_via_PyRFC()
 
         line += 1
 
-    bot.alert(title='BotText', text='Programa encerrado!')
+    # bot.alert(title='BotText', text='Programa encerrado!')
