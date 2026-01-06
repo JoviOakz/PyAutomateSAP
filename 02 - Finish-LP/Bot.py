@@ -336,18 +336,14 @@ def ence_purchaseLine():
                 workedHours = 1
 
     except Exception:
-        try:
-            have_workCenter = list(bot.locateOnScreen('images/FF78012.png', grayscale=True, confidence=0.9, region=workCenterCoords))
-
-            if have_workCenter:
-                print('Doesn\'t have worked hours apointment line!')
-
-        except Exception:
-            workedHours = 1
+        print('Doesn\'t have worked hours apointment line!')
 
     bot.click(484, 992)
     bot.sleep(2)
-    
+
+    if workedHours == 1:
+        bot.click(452, 372)
+
     bot.moveTo(606, 956)
     bot.mouseDown()
     bot.moveTo(700, 956, duration=0.25)
@@ -355,102 +351,85 @@ def ence_purchaseLine():
 
     bot.sleep(2)
 
-    if workedHours != 1:
-        try:
-            check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
-                                    
-            if check_box:
-                try:
-                    have_baixa = list(bot.locateAllOnScreen('images/BAIXCFMN.png', grayscale=True, confidence=0.8))
-                    
-                    if have_baixa:
-                        if len(check_box) != len(have_baixa):
-                            bot.click(150, 15)
-                            bot.sleep(2)
-                            bot.click(240, 75)
-                            bot.sleep(2)
-                            bot.click(520, 270)
-                            bot.sleep(2)
-                            bot.click(680, 300)
-                            bot.sleep(2)
-                            bot.click(484, 992)
-                            bot.sleep(2)
-                            bot.click(600, 992)
-                            bot.sleep(2)
-                            press_key('enter', 1)
-                            bot.sleep(2)
-                            press_key('enter', 1)
-
-                            bot.sleep(2)
-                            
-                            warning_exist = False
-
-                            while not warning_exist:
-                                change_purchaseLine_status()
-
-                                try:
-                                    warning = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
-                                    conforder = list(bot.locateAllOnScreen('images/CONFORDER.png', grayscale=True, confidence=0.8))
-                            
-                                    if warning or conforder:
-                                        warning_exist = True
-
-                                except Exception as e:
-                                    print(f'Error: {e}')
-
-                            press_key('tab', 2)
-                            press_key('enter', 1)
-                            bot.sleep(2)
-                            press_key('tab', 1)
-                            press_key('enter', 1)
-
-                            bot.sleep(2)
-
-                except Exception as e:
-                    bot.click(600, 992)
-                    bot.sleep(2)
-
-                    warning_exist = False
-
-                    while not warning_exist:
-                        change_purchaseLine_status()
+    try:
+        check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
                                 
-                        try:
-                            warning = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
-                            conforder = list(bot.locateAllOnScreen('images/CONFORDER.png', grayscale=True, confidence=0.8))
-                    
-                            if warning or conforder:
-                                warning_exist = True
-
-                        except Exception as e:
-                            print(f'Error: {e}')
-
-                    press_key('tab', 2)
-                    press_key('enter', 1)
-                    bot.sleep(2)
-                    press_key('tab', 1)
-                    press_key('enter', 1)
-
-                    bot.sleep(2)
-
-        except Exception as e:
-            print(f'Error: {e}')
-    
-    else:
-        try:
-            check_box = list(bot.locateAllOnScreen('images/CHECK.png', grayscale=True, confidence=0.8))
-                                    
-            if check_box:
-                if len(check_box) != 1:
-                    df.at[line, 'Status'] = 'Possui linhas de compra e apontamento!'
-                    df.to_excel(excel_path, index=False, engine='openpyxl')
-
-                    bot.sleep(5)
-        
-                    return 1
+        if check_box:
+            try:
+                have_baixa = list(bot.locateAllOnScreen('images/BAIXCFMN.png', grayscale=True, confidence=0.8))
                 
-        except Exception:
-            print('Only the apointment line!')
+                if have_baixa:
+                    if len(check_box) != len(have_baixa):
+                        bot.click(150, 15)
+                        bot.sleep(2)
+                        bot.click(240, 75)
+                        bot.sleep(2)
+                        bot.click(520, 270)
+                        bot.sleep(2)
+                        bot.click(680, 300)
+                        bot.sleep(2)
+                        bot.click(484, 992)
+                        bot.sleep(2)
+                        bot.click(600, 992)
+                        bot.sleep(2)
+                        press_key('enter', 1)
+                        bot.sleep(2)
+                        press_key('enter', 1)
+
+                        bot.sleep(2)
+                        
+                        warning_exist = False
+
+                        while not warning_exist:
+                            change_purchaseLine_status()
+
+                            try:
+                                warning = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                                conforder = list(bot.locateAllOnScreen('images/CONFORDER.png', grayscale=True, confidence=0.8))
+                        
+                                if warning or conforder:
+                                    warning_exist = True
+
+                            except Exception as e:
+                                print(f'Error: {e}')
+
+                        press_key('tab', 2)
+                        press_key('enter', 1)
+                        bot.sleep(2)
+                        press_key('tab', 1)
+                        press_key('enter', 1)
+
+                        bot.sleep(2)
+
+            except Exception as e:
+                bot.click(600, 992)
+                bot.sleep(2)
+
+                warning_exist = False
+
+                while not warning_exist:
+                    change_purchaseLine_status()
+                            
+                    try:
+                        warning = list(bot.locateAllOnScreen('images/WARNING.png', grayscale=True, confidence=0.8))
+                        conforder = list(bot.locateAllOnScreen('images/CONFORDER.png', grayscale=True, confidence=0.8))
+                
+                        if warning or conforder:
+                            warning_exist = True
+
+                    except Exception as e:
+                        print(f'Error: {e}')
+
+                press_key('tab', 2)
+                press_key('enter', 1)
+                bot.sleep(2)
+                press_key('tab', 1)
+                press_key('enter', 1)
+
+                bot.sleep(2)
+
+    except Exception as e:
+        print(f'Error: {e}')
  
     bot.click(580, 200)
     bot.sleep(2)
@@ -481,8 +460,8 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 11
-line = 7
+lp_qty = 98
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
