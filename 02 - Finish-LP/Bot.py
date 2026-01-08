@@ -11,8 +11,7 @@ import pyperclip
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-# bot.PAUSE = 1.5
-bot.PAUSE = 2.25
+bot.PAUSE = 1.5
 
 arrowCoords = (15, 166, 400, 200)
 hourCoords = (880, 332, 50, 188)
@@ -461,7 +460,7 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 96
+lp_qty = 47
 line = 0
 repeat_qty = lp_qty - line
 
