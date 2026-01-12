@@ -11,19 +11,19 @@ import pyperclip
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.5
+bot.PAUSE = 1.75
 
 arrowCoords = (15, 166, 400, 200)
-hourCoords = (880, 332, 50, 188)
-workCenterCoords = (986, 332, 108, 188)
+hourCoords = (814, 334, 42, 54)
+workCenterCoords = (914, 332, 108, 54)
 
 first_sequence = [(150, 12), (182, 80), (516, 206), (682, 206)]
 second_sequence = [(150, 12), (182, 80), (404, 276), (698, 272)]
 
 coordinates = [
-    ((952, 544, 33, 26), (966, 552)),
-    ((948, 570, 33, 26), (966, 582)),
-    ((605, 570, 33, 26), (1102, 582))
+    ((952, 424, 32, 26), (966, 442)),
+    ((952, 452, 32, 26), (966, 470)),
+    ((1086, 452, 32, 26), (1102, 470))
 ]
 
 # ===== INITIAL ACTION =====
@@ -286,7 +286,7 @@ def change_purchaseLine_status():
             bot.click(click_position)
 
     bot.sleep(2)
-    bot.click(1128, 1100)
+    bot.click(1126, 990)
     bot.sleep(2)
 
     try:
@@ -319,7 +319,7 @@ def change_purchaseLine_status():
 def ence_purchaseLine():
     workedHours = 0
 
-    bot.click(580, 240)
+    bot.click(512, 234)
     bot.sleep(2)
 
     try:
@@ -338,15 +338,15 @@ def ence_purchaseLine():
     except Exception:
         print('Doesn\'t have worked hours apointment line!')
 
-    bot.click(484, 992)
+    bot.click(414, 882)
     bot.sleep(2)
 
     if workedHours == 1:
-        bot.click(452, 372)
+        bot.click(384, 372)
 
-    bot.moveTo(606, 956)
+    bot.moveTo(546, 852)
     bot.mouseDown()
-    bot.moveTo(700, 956, duration=0.25)
+    bot.moveTo(640, 852, duration=0.25)
     bot.mouseUp()
 
     bot.sleep(2)
@@ -402,7 +402,7 @@ def ence_purchaseLine():
                         bot.sleep(2)
 
             except Exception as e:
-                bot.click(600, 992)
+                bot.click(526, 882)
                 bot.sleep(2)
 
                 warning_exist = False
@@ -431,7 +431,7 @@ def ence_purchaseLine():
     except Exception as e:
         print(f'Error: {e}')
  
-    bot.click(580, 200)
+    bot.click(512, 210)
     bot.sleep(2)
 
 def conclusion():
@@ -440,7 +440,7 @@ def conclusion():
 
     bot.hotkey('ctrl', 's')
 
-    bot.sleep(5)
+    bot.sleep(8)
 
 def error_conclusion():
     press_key('f3', 1)
@@ -456,12 +456,12 @@ def error_conclusion():
     except Exception:
         print('Doesn\'t have changes!')
 
-    bot.sleep(5)
+    bot.sleep(8)
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 78
-line = 0
+lp_qty = 75
+line = 6
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
