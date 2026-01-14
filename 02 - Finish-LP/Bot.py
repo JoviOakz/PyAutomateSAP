@@ -11,11 +11,11 @@ import pyperclip
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.75
+bot.PAUSE = 1.5
 
 arrowCoords = (15, 166, 400, 200)
-hourCoords = (814, 334, 42, 54)
-workCenterCoords = (914, 332, 108, 54)
+hourCoords = (802, 332, 60, 60)
+workCenterCoords = (908, 326, 118, 64)
 
 first_sequence = [(150, 12), (182, 80), (516, 206), (682, 206)]
 second_sequence = [(150, 12), (182, 80), (404, 276), (698, 272)]
@@ -460,7 +460,7 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 75
+lp_qty = 70
 line = 6
 repeat_qty = lp_qty - line
 
