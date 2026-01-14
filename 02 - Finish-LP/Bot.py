@@ -460,7 +460,7 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 117
+lp_qty = 50
 line = 0
 repeat_qty = lp_qty - line
 
