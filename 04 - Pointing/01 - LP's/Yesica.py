@@ -56,7 +56,7 @@ def verify_lp():
 
 def create_apointment():
     press_key('tab', 2)
-    bot.typewrite('Planejadora Yesica - 12.12.2025')
+    bot.typewrite('Planejadora Yesica - 21.01.2026')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
@@ -79,12 +79,13 @@ def save_line():
     press_key('tab', 1)
     bot.sleep(0.3)
     press_key('enter', 1)
+    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
     bot.sleep(3)
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 72
-line = 0
+lp_qty = 91
+line = 20
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====

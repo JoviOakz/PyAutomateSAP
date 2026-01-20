@@ -79,6 +79,7 @@ def save_line():
     press_key('tab', 1)
     bot.sleep(0.3)
     press_key('enter', 1)
+    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
     bot.sleep(3)
 
 # ===== PROGRAM CONFIGURATION =====
