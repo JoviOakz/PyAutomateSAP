@@ -139,14 +139,14 @@ def save_line():
     except Exception as e:
         print(f'Error: {e}')
 
-    df.at[line, 'Status'] = 'Line created!'
+    df.at[line, 'Status'] = 'Apointing created!'
     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
     bot.sleep(3)
 
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 91
-line = 1
+line = 12
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
