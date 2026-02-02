@@ -2,14 +2,14 @@ from pyrfc import Connection
 
 sap_conn_params = {
     'user': 'MAO8CT',
-    'passwd': '86IQ3J$.7vCj@',
+    'passwd': 'd0g$e8H#K0W)',
     'ashost': 'rb3ps0a0.server.bosch.com',
     'sysnr': '00',
     'client': '011',
     'lang': 'PT'
 }
 
-notif_number = '14088187'.zfill(12)
+notif_number = '14178948'.zfill(12)
 
 try:
     conn = Connection(**sap_conn_params)
