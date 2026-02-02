@@ -13,7 +13,7 @@ ORIENTATION = 'pé'  # [deitado] | [pé]
 ROTATION_ANGLE = 0  # [deitado -> 270] | [pé -> 0]
 
 PDF_PATH = f'01 - PDF-Reader/LPs - KW{KW} - {ORIENTATION}.pdf'
-OUTPUT_FILE = f'08 - Excels/Open-LPs - {ORIENTATION}.xlsx'
+OUTPUT_FILE = f'98 - Excels/Open-LPs - {ORIENTATION}.xlsx'
 
 DICTIONARY = {
     '—': '-',
