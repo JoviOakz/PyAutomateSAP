@@ -6,7 +6,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.25
+bot.PAUSE = 1.5
 
 # ===== INITIAL ACTION =====
 
@@ -21,20 +21,18 @@ df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 def press_key(key, times):
     for _ in range(times):
-        if key == 'ctrlv':
-            bot.hotkey('ctrl', 'v')
-        elif key == 'ctrlf12':
-            bot.hotkey('ctrl', 'f12')
-        elif key == 'ctrlshf12':
-            bot.hotkey('ctrl', 'shift', 'f12')
+        if key == 'ctrlf9':
+            bot.hotkey('ctrl', 'f9')
+        elif key == 'ctrla':
+            bot.hotkey('ctrl', 'a')
         else:
             bot.press(key)
 
 # ===== PROGRAM CONFIGURATION =====
 
-om_qty = 1
+lp_qty = 1
 line = 0
-repeat_qty = om_qty - line
+repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
@@ -42,17 +40,26 @@ def main():
     global line
 
     for _ in range(repeat_qty):
-        jump_process = 0
+        bot.typewrite('LP-055036')
+        press_key('enter', 1)
+        bot.sleep(1)
 
-        if jump_process != 1:
-            try:
-                tec_finished = bot.locateOnScreen('images/BANDEIRA.png', grayscale=True, confidence=0.9)
+        bot.PAUSE = 0.35
+        press_key('tab', 3)
+        bot.sleep(1)
+        press_key('ctrlf9', 1)
+        bot.sleep(1.5)
+        press_key('down', 2)
+        press_key('tab', 1)
+        press_key('down', 2)
+        
+        bot.PAUSE = 1.5
 
-            except Exception:
-                print('Already technically completed!')
+        press_key('ctrla', 1)
+        bot.typewrite('99999999')
 
         line += 1
 
 if __name__ == '__main__':
     main()
-    bot.alert(title='BotText', text='Programa encerrado!')
+    # bot.alert(title='BotText', text='Programa encerrado!')
