@@ -30,6 +30,10 @@ def press_key(key, times):
             bot.hotkey('shift', 'tab')
         elif key == 'sf1':
             bot.hotkey('shift', 'f1')
+        elif key == 'ctrls':
+            bot.hotkey('ctrl', 's')
+        elif key == 'ctrlsf12':
+            bot.hotkey('ctrl', 'shift', 'f12')
         else:
             bot.press(key)
 
@@ -41,7 +45,7 @@ repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
-def main():
+def wbs_element_creation():
     global line
 
     for _ in range(repeat_qty):
@@ -49,17 +53,10 @@ def main():
         press_key('enter', 1)
         bot.sleep(1)
 
-        part_number = df.at[line, 'Part Number']
-        description = df.at[line, 'Denominação']
-        lp_title = f'{part_number} - {description}'
-        bot.typewrite(lp_title)
-
-        bot.PAUSE = 0.25
+        bot.PAUSE = 0.4
         
         press_key('tab', 3)
-        bot.sleep(1.15)
-        bot.typewrite(lp_title)
-        bot.sleep(1.15)
+        bot.sleep(1.25)
         press_key('ctrlf9', 1)
         bot.sleep(1.5)
         press_key('down', 2)
@@ -71,13 +68,13 @@ def main():
         press_key('ctrla', 1)
         bot.typewrite('68540028')
 
-        bot.PAUSE = 0.25
+        bot.PAUSE = 0.4
 
         press_key('up', 3)
         press_key('stab', 1)
         press_key('right', 1)
         press_key('enter', 1)
-        bot.sleep(1.15)
+        bot.sleep(1.25)
 
         bot.PAUSE = 0.85
 
@@ -109,13 +106,13 @@ def main():
         # else:
         #     bot.typewrite(data_entrega)
         
-        bot.PAUSE = 0.25
+        bot.PAUSE = 0.4
 
         press_key('up', 3)
         press_key('stab', 1)
         press_key('right', 3)
         press_key('enter', 1)
-        bot.sleep(1.15)
+        bot.sleep(1.25)
         press_key('tab', 1)
         press_key('down', 3)
         bot.sleep(0.65)
@@ -136,37 +133,143 @@ def main():
         press_key('enter', 1)
         bot.sleep(1.25)
 
-        bot.PAUSE = 0.25
+        bot.PAUSE = 0.4
 
         press_key('stab', 4)
         press_key('enter', 1)
-        bot.sleep(1.15)
+        bot.sleep(1.25)
 
-        bot.PAUSE = 0.85
+        bot.PAUSE = 1.25
 
         press_key('tab', 1)
+
+
+
+
+
+        
+
+        # if valor for centro de custo no caso 6 digitos -> ZPS001
+        # if valor começa com BM -> ZPS007 e esquema 07
         
         # --
-        bot.typewrite('ZPS007')
+        bot.typewrite('ZPS001')
         # --
         
         # calculo objeto de liquidação (ex: ZPS007)
         
         press_key('tab', 1)
         bot.typewrite(str(df.at[line, 'Esquema de Alocação']))
+
+
+
+
+
+
+
+
+
         press_key('f3', 1)
-        bot.sleep(0.65)
+        bot.sleep(0.85)
+        press_key('tab', 1)
+        bot.typewrite(str(df.at[line, 'Objeto de Liquidação']))
         press_key('f3', 1)
-        bot.sleep(0.65)
+        bot.sleep(0.85)
+        press_key('f3', 1)
+        bot.sleep(0.85)
         press_key('sf1', 1)
         press_key('down', 1)
-        press_key('tab', 1)
-        press_key('down', 1)
-        press_key('tab', 1)
+        press_key('tab', 2)
         bot.typewrite('68540028')
+        press_key('down', 1)
+        bot.typewrite(date.today().strftime("%d.%m.%Y"))
+        press_key('down', 1)
+
+        # --
+        bot.typewrite(date.today().strftime("%d.%m.%Y"))
+        # --
+
+        # if data_atual > data_entrega:
+        #     bot.typewrite(date.today().strftime("%d.%m.%Y"))
+        # else:
+        #     bot.typewrite(data_entrega)
+
+        # fazer processo mouse para liberar
+
+        # press_key('ctrls', 1)
+        bot.sleep(2)
         
         line += 1
 
+    bot.sleep(2)
+
+def diagram_creation():
+    global line
+
+    bot.PAUSE = 0.4
+
+    press_key('stab', 1)
+    press_key('left', 7)
+    bot.typewrite('/ncn21')
+    press_key('enter', 1)
+    bot.sleep(3)
+
+    bot.PAUSE = 0.4
+
+    press_key('right', 3)
+    press_key('tab', 1)
+    bot.typewrite('BP01')
+    press_key('tab', 1)
+    bot.sleep(1.25)
+    bot.typewrite('6854')
+    press_key('tab', 1)
+    bot.sleep(1.25)
+    bot.typewrite('I33')
+    bot.sleep(1.25)
+
+    bot.PAUSE = 1.25
+
+    for _ in range(repeat_qty):
+        press_key('enter', 1)
+        bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
+        press_key('enter', 1)
+        bot.sleep(1)
+
+        bot.PAUSE = 0.4
+
+        press_key('tab', 2)
+        press_key('right', 1)
+        press_key('enter', 1)
+        bot.sleep(0.85)
+        press_key('tab', 2)
+        bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
+        press_key('enter', 1)
+        bot.sleep(1.25)
+        press_key('tab', 1)
+        press_key('enter', 1)
+        bot.sleep(1.25)
+
+        bot.PAUSE = 0.4
+
+        press_key('tab', 2)
+        press_key('right', 3)
+        press_key('enter', 1)
+        bot.sleep(1.25)
+        press_key('tab', 4)
+
+        bot.PAUSE = 0.85
+        
+        text = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - ' + df.at[line, 'Denominação'] + '\nResp. Yesica Gonzalez'
+        bot.typewrite(text)
+        press_key('ctrlsf12', 1)
+        bot.sleep(1.25)
+        press_key('ctrls', 1)
+        bot.sleep(2)
+
+        line += 1
+
 if __name__ == '__main__':
-    main()
+    wbs_element_creation()
+    # diagram_creation()
+
     bot.alert(title='BotText', text='Programa encerrado!')
