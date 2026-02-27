@@ -7,7 +7,7 @@ from datetime import datetime, date
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.5
+bot.PAUSE = 1.25
 
 # ===== INITIAL ACTION =====
 
@@ -125,35 +125,30 @@ def wbs_element_creation():
         press_key('enter', 1)
         bot.sleep(1.25)
 
-        bot.PAUSE = 1.25
+        bot.PAUSE = 1.5
 
         press_key('tab', 1)
 
+        liquidation_object = str(df.at[line, 'Objeto de Liquidação']).strip()
+        alocation = str(df.at[line, 'Esquema de Alocação']).strip()
 
-
-
-
+        if len(alocation) == 1:
+            alocation = '0' + str(df.at[line, 'Esquema de Alocação']).strip()
         
-
-        # if valor for centro de custo no caso 6 digitos -> ZPS001
-        # if valor começa com BM -> ZPS007 e esquema 07
-        
-        # --
-        bot.typewrite('ZPS001')
-        # --
-        
-        # calculo objeto de liquidação (ex: ZPS007)
+        if liquidation_object.startswith('685') and len(liquidation_object) == 6:
+            bot.typewrite('ZPS001')
+        elif liquidation_object.startswith('LP-'):
+            bot.typewrite('ZPS007')
+            alocation = '07'
+        elif liquidation_object.startswith('BM'):
+            bot.typewrite('ZPS007')
+            alocation = '07'
+        else:
+            bot.typewrite('ZPS003')
+            alocation = '07'
         
         press_key('tab', 1)
-        bot.typewrite(str(df.at[line, 'Esquema de Alocação']))
-
-
-
-
-
-
-
-
+        bot.typewrite(alocation)
 
         press_key('f3', 1)
         bot.sleep(0.85)
@@ -171,18 +166,17 @@ def wbs_element_creation():
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
 
-        # --
-        bot.typewrite(date.today().strftime('%d.%m.%Y'))
-        # --
+        if date.today() > prazo_final:
+            bot.typewrite(date.today().strftime('%d.%m.%Y'))
+        else:
+            bot.typewrite(df.at[line, 'Prazo Final'])
 
-        # if data_atual > data_entrega:
-        #     bot.typewrite(date.today().strftime('%d.%m.%Y'))
-        # else:
-        #     bot.typewrite(data_entrega)
+        bot.click(150, 14)
+        bot.click(206, 106)
+        bot.click(450, 106)
+        bot.sleep(1.25)
 
-        # fazer processo mouse para liberar
-
-        # press_key('ctrls', 1)
+        press_key('ctrls', 1)
         bot.sleep(2)
         
         line += 1
@@ -245,7 +239,7 @@ def diagram_creation():
 
         bot.PAUSE = 0.85
         
-        text = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - ' + df.at[line, 'Denominação'] + '\nResp. Yesica Gonzalez'
+        text = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - ' + df.at[line, 'Denominação'] + '\nResp. ' + df.at[line, 'Responsável']
         bot.typewrite(text)
         press_key('ctrlsf12', 1)
         bot.sleep(1.25)
@@ -257,13 +251,14 @@ def diagram_creation():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 2
-line = 0
+line = 1
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
     wbs_element_creation()
+    line = 1
     diagram_creation()
 
     bot.alert(title='BotText', text='Programa encerrado!')
