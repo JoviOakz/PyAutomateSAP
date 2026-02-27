@@ -2,7 +2,7 @@
 
 import pyautogui as bot
 import pandas as pd
-from datetime import date
+from datetime import datetime, date
 
 # ===== GLOBAL SETTINGS =====
 
@@ -36,14 +36,6 @@ def press_key(key, times):
             bot.hotkey('ctrl', 'shift', 'f12')
         else:
             bot.press(key)
-
-# ===== PROGRAM CONFIGURATION =====
-
-lp_qty = 1
-line = 0
-repeat_qty = lp_qty - line
-
-# ===== MAIN =====
 
 def wbs_element_creation():
     global line
@@ -79,32 +71,26 @@ def wbs_element_creation():
         bot.PAUSE = 0.85
 
         press_key('tab', 1)
-        bot.typewrite(date.today().strftime("%d.%m.%Y"))
+        bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
 
-        # --
-        bot.typewrite(date.today().strftime("%d.%m.%Y"))
-        # --
+        prazo_final = datetime.strptime(df.at[line, 'Prazo Final'], '%d.%m.%Y').date()
 
-        # if data_atual > data_entrega:
-        #     bot.typewrite(date.today().strftime("%d.%m.%Y"))
-        # else:
-        #     bot.typewrite(data_entrega)
+        if date.today() > prazo_final:
+            bot.typewrite(date.today().strftime('%d.%m.%Y'))
+        else:
+            bot.typewrite(df.at[line, 'Prazo Final'])
 
         press_key('down', 1)
         press_key('ctrla', 1)
-        bot.typewrite(date.today().strftime("%d.%m.%Y"))
+        bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
         press_key('ctrla', 1)
 
-        # --
-        bot.typewrite(date.today().strftime("%d.%m.%Y"))
-        # --
-
-        # if data_atual > data_entrega:
-        #     bot.typewrite(date.today().strftime("%d.%m.%Y"))
-        # else:
-        #     bot.typewrite(data_entrega)
+        if date.today() > prazo_final:
+            bot.typewrite(date.today().strftime('%d.%m.%Y'))
+        else:
+            bot.typewrite(df.at[line, 'Prazo Final'])
         
         bot.PAUSE = 0.4
 
@@ -182,15 +168,15 @@ def wbs_element_creation():
         press_key('tab', 2)
         bot.typewrite('68540028')
         press_key('down', 1)
-        bot.typewrite(date.today().strftime("%d.%m.%Y"))
+        bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
 
         # --
-        bot.typewrite(date.today().strftime("%d.%m.%Y"))
+        bot.typewrite(date.today().strftime('%d.%m.%Y'))
         # --
 
         # if data_atual > data_entrega:
-        #     bot.typewrite(date.today().strftime("%d.%m.%Y"))
+        #     bot.typewrite(date.today().strftime('%d.%m.%Y'))
         # else:
         #     bot.typewrite(data_entrega)
 
@@ -268,8 +254,16 @@ def diagram_creation():
 
         line += 1
 
+# ===== PROGRAM CONFIGURATION =====
+
+lp_qty = 2
+line = 0
+repeat_qty = lp_qty - line
+
+# ===== MAIN =====
+
 if __name__ == '__main__':
     wbs_element_creation()
-    # diagram_creation()
+    diagram_creation()
 
     bot.alert(title='BotText', text='Programa encerrado!')
