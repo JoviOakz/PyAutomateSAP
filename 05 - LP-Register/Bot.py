@@ -74,12 +74,7 @@ def wbs_element_creation():
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
 
-        prazo_final = datetime.strptime(df.at[line, 'Prazo Final'], '%d.%m.%Y').date()
-
-        if date.today() > prazo_final:
-            bot.typewrite(date.today().strftime('%d.%m.%Y'))
-        else:
-            bot.typewrite(df.at[line, 'Prazo Final'])
+        bot.typewrite(date.today().strftime('%d.%m.%Y'))
 
         press_key('down', 1)
         press_key('ctrla', 1)
@@ -87,10 +82,7 @@ def wbs_element_creation():
         press_key('down', 1)
         press_key('ctrla', 1)
 
-        if date.today() > prazo_final:
-            bot.typewrite(date.today().strftime('%d.%m.%Y'))
-        else:
-            bot.typewrite(df.at[line, 'Prazo Final'])
+        bot.typewrite(date.today().strftime('%d.%m.%Y'))
         
         bot.PAUSE = 0.4
 
@@ -159,17 +151,17 @@ def wbs_element_creation():
         press_key('f3', 1)
         bot.sleep(0.85)
         press_key('sf1', 1)
+
+        bot.PAUSE = 0.85
+
         press_key('down', 1)
-        press_key('tab', 2)
+        press_key('tab', 1)
         bot.typewrite('68540028')
         press_key('down', 1)
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
 
-        if date.today() > prazo_final:
-            bot.typewrite(date.today().strftime('%d.%m.%Y'))
-        else:
-            bot.typewrite(df.at[line, 'Prazo Final'])
+        bot.typewrite(date.today().strftime('%d.%m.%Y'))
 
         bot.click(150, 14)
         bot.click(206, 106)
@@ -237,8 +229,9 @@ def diagram_creation():
         bot.sleep(1.25)
         press_key('tab', 4)
 
-        bot.PAUSE = 0.85
+        bot.PAUSE = 0.95
         
+        press_key('ctrla', 1)
         text = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - ' + df.at[line, 'Denominação'] + '\nResp. ' + df.at[line, 'Responsável']
         bot.typewrite(text)
         press_key('ctrlsf12', 1)
