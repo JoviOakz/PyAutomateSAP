@@ -243,15 +243,15 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 2
-line = 1
+lp_qty = 99
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
     wbs_element_creation()
-    line = 1
+    line = 0
     diagram_creation()
 
     bot.alert(title='BotText', text='Programa encerrado!')
