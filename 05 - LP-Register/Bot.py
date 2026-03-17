@@ -7,7 +7,7 @@ from datetime import datetime, date
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.45
+bot.PAUSE = 1.5
 
 # ===== INITIAL ACTION =====
 
@@ -45,7 +45,7 @@ def wbs_element_creation():
         press_key('enter', 1)
         bot.sleep(1)
 
-        bot.PAUSE = 0.4
+        bot.PAUSE = 0.55
         
         press_key('tab', 3)
         bot.sleep(1.25)
@@ -80,7 +80,7 @@ def wbs_element_creation():
 
         bot.typewrite(iss_dept)
 
-        bot.PAUSE = 0.4
+        bot.PAUSE = 0.55
 
         press_key('up', 3)
         press_key('stab', 1)
@@ -91,7 +91,7 @@ def wbs_element_creation():
         press_key('down', 3)
         bot.sleep(0.65)
 
-        bot.PAUSE = 0.85
+        bot.PAUSE = 1.15
 
         bot.typewrite(df.at[line, 'Entregar para'])
         bot.sleep(0.85)
@@ -107,7 +107,7 @@ def wbs_element_creation():
         press_key('enter', 1)
         bot.sleep(1.25)
 
-        bot.PAUSE = 0.4
+        bot.PAUSE = 0.55
 
         press_key('stab', 4)
         press_key('enter', 1)
@@ -152,7 +152,7 @@ def wbs_element_creation():
 
         press_key('down', 1)
         press_key('tab', 2)
-        bot.typewrite('68540028')
+        bot.typewrite(iss_dept)
         press_key('down', 1)
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
@@ -173,7 +173,7 @@ def wbs_element_creation():
 def diagram_creation():
     global line
 
-    bot.PAUSE = 0.4
+    bot.PAUSE = 0.55
 
     press_key('stab', 1)
     press_key('left', 7)
@@ -181,7 +181,7 @@ def diagram_creation():
     press_key('enter', 1)
     bot.sleep(3)
 
-    bot.PAUSE = 0.4
+    bot.PAUSE = 0.55
 
     press_key('right', 3)
     press_key('tab', 1)
@@ -202,7 +202,7 @@ def diagram_creation():
         press_key('enter', 1)
         bot.sleep(1)
 
-        bot.PAUSE = 0.4
+        bot.PAUSE = 0.55
 
         press_key('tab', 2)
         press_key('right', 1)
@@ -216,7 +216,7 @@ def diagram_creation():
         press_key('enter', 1)
         bot.sleep(1.25)
 
-        bot.PAUSE = 0.4
+        bot.PAUSE = 0.55
 
         press_key('tab', 2)
         press_key('right', 3)
@@ -224,7 +224,7 @@ def diagram_creation():
         bot.sleep(1.25)
         press_key('tab', 4)
 
-        bot.PAUSE = 0.95
+        bot.PAUSE = 1.15
         
         press_key('ctrla', 1)
         text = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - ' + df.at[line, 'Denominação'] + '\nResp. ' + df.at[line, 'Responsável']
@@ -238,7 +238,7 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 99
+lp_qty = 196
 line = 0
 repeat_qty = lp_qty - line
 
