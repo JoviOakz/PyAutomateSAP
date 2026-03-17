@@ -7,7 +7,7 @@ from datetime import datetime, date
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.25
+bot.PAUSE = 1.45
 
 # ===== INITIAL ACTION =====
 
@@ -58,37 +58,33 @@ def wbs_element_creation():
         bot.PAUSE = 1.5
 
         press_key('ctrla', 1)
-        bot.typewrite('68540028')
+
+        keys = {
+            'TEF': '68540012',
+            'QMM': '68540007',
+            'MFW1': '68540001',
+            'MFE2': '68540002',
+            'MFE3': '68540003',
+        }
+
+        department = df.at[line, 'Departamento Emissor']
+
+        iss_dept = None
+
+        for key, value in keys.items():
+            if key in department:
+                iss_dept = value
+                break
+            else:
+                iss_dept = '68540028'
+
+        bot.typewrite(iss_dept)
 
         bot.PAUSE = 0.4
 
         press_key('up', 3)
         press_key('stab', 1)
-        press_key('right', 1)
-        press_key('enter', 1)
-        bot.sleep(1.25)
-
-        bot.PAUSE = 0.85
-
-        press_key('tab', 1)
-        bot.typewrite(date.today().strftime('%d.%m.%Y'))
-        press_key('down', 1)
-
-        bot.typewrite(date.today().strftime('%d.%m.%Y'))
-
-        press_key('down', 1)
-        press_key('ctrla', 1)
-        bot.typewrite(date.today().strftime('%d.%m.%Y'))
-        press_key('down', 1)
-        press_key('ctrla', 1)
-
-        bot.typewrite(date.today().strftime('%d.%m.%Y'))
-        
-        bot.PAUSE = 0.4
-
-        press_key('up', 3)
-        press_key('stab', 1)
-        press_key('right', 3)
+        press_key('right', 4)
         press_key('enter', 1)
         bot.sleep(1.25)
         press_key('tab', 1)
@@ -155,12 +151,11 @@ def wbs_element_creation():
         bot.PAUSE = 0.85
 
         press_key('down', 1)
-        press_key('tab', 1)
+        press_key('tab', 2)
         bot.typewrite('68540028')
         press_key('down', 1)
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
-
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
 
         bot.click(150, 14)
