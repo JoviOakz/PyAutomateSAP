@@ -150,6 +150,7 @@ def wbs_element_creation():
 
         bot.PAUSE = 0.85
 
+        press_key('tab', 1)
         press_key('down', 1)
         press_key('tab', 2)
         bot.typewrite(iss_dept)
@@ -239,7 +240,7 @@ def diagram_creation():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 196
-line = 0
+line = 37
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
