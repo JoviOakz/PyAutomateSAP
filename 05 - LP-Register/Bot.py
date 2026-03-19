@@ -43,12 +43,17 @@ def wbs_element_creation():
     for _ in range(repeat_qty):
         bot.typewrite(df.at[line, 'Elemento PEP'])
         press_key('enter', 1)
-        bot.sleep(1)
-
-        bot.PAUSE = 0.55
-        
-        press_key('tab', 3)
         bot.sleep(1.25)
+
+        bot.PAUSE = 0.75
+        
+        press_key('ctrla', 1)
+        bot.typewrite(df.at[line, 'Part Number'])
+        bot.sleep(1.25)
+        press_key('tab', 3)
+        bot.sleep(0.65)
+        bot.typewrite(df.at[line, 'Part Number'])
+        bot.sleep(1.5)
         press_key('ctrlf9', 1)
         bot.sleep(1.5)
         press_key('down', 2)
@@ -80,7 +85,7 @@ def wbs_element_creation():
 
         bot.typewrite(iss_dept)
 
-        bot.PAUSE = 0.55
+        bot.PAUSE = 0.75
 
         press_key('up', 3)
         press_key('stab', 1)
@@ -107,7 +112,7 @@ def wbs_element_creation():
         press_key('enter', 1)
         bot.sleep(1.25)
 
-        bot.PAUSE = 0.55
+        bot.PAUSE = 0.75
 
         press_key('stab', 4)
         press_key('enter', 1)
@@ -134,9 +139,11 @@ def wbs_element_creation():
         else:
             bot.typewrite('ZPS003')
             alocation = '07'
-        
+
+        bot.sleep(1)
         press_key('tab', 1)
         bot.typewrite(alocation)
+        bot.sleep(1)
 
         press_key('f3', 1)
         bot.sleep(0.85)
@@ -147,6 +154,7 @@ def wbs_element_creation():
         press_key('f3', 1)
         bot.sleep(0.85)
         press_key('sf1', 1)
+        bot.sleep(0.5)
 
         bot.PAUSE = 0.85
 
@@ -158,6 +166,8 @@ def wbs_element_creation():
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
         press_key('down', 1)
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
+
+        bot.PAUSE = 1
 
         bot.click(150, 14)
         bot.click(206, 106)
@@ -174,36 +184,13 @@ def wbs_element_creation():
 def diagram_creation():
     global line
 
-    bot.PAUSE = 0.55
-
-    press_key('stab', 1)
-    press_key('left', 7)
-    bot.typewrite('/ncn21')
-    press_key('enter', 1)
-    bot.sleep(3)
-
-    bot.PAUSE = 0.55
-
-    press_key('right', 3)
-    press_key('tab', 1)
-    bot.typewrite('BP01')
-    press_key('tab', 1)
-    bot.sleep(1.25)
-    bot.typewrite('6854')
-    press_key('tab', 1)
-    bot.sleep(1.25)
-    bot.typewrite('I33')
-    bot.sleep(1.25)
-
-    bot.PAUSE = 1.25
-
     for _ in range(repeat_qty):
         press_key('enter', 1)
         bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
         press_key('enter', 1)
         bot.sleep(1)
 
-        bot.PAUSE = 0.55
+        bot.PAUSE = 0.75
 
         press_key('tab', 2)
         press_key('right', 1)
@@ -217,7 +204,7 @@ def diagram_creation():
         press_key('enter', 1)
         bot.sleep(1.25)
 
-        bot.PAUSE = 0.55
+        bot.PAUSE = 0.75
 
         press_key('tab', 2)
         press_key('right', 3)
@@ -230,8 +217,9 @@ def diagram_creation():
         press_key('ctrla', 1)
         text = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - ' + df.at[line, 'Denominação'] + '\nResp. ' + df.at[line, 'Responsável']
         bot.typewrite(text)
+        bot.sleep(1)
         press_key('ctrlsf12', 1)
-        bot.sleep(1.25)
+        bot.sleep(2)
         press_key('ctrls', 1)
         bot.sleep(2)
 
@@ -239,15 +227,43 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 196
-line = 145
+lp_qty = 194
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
     wbs_element_creation()
+
+    bot.PAUSE = 0.75
+
+    press_key('stab', 1)
+    press_key('left', 7)
+    bot.typewrite('/ncn21')
+    press_key('enter', 1)
+    bot.sleep(3)
+
+    bot.PAUSE = 0.75
+
+    press_key('right', 3)
+    press_key('tab', 1)
+    bot.typewrite('BP01')
+    press_key('tab', 1)
+    bot.sleep(1.25)
+    bot.typewrite('6854')
+    press_key('tab', 1)
+    bot.sleep(1.25)
+    # ======================================= MELHORIA =======================================
+    bot.typewrite('I33')
+    # ========================================================================================
+    bot.sleep(1.25)
+
     line = 0
+    repeat_qty = lp_qty - line
+
+    bot.PAUSE = 1.25
+
     diagram_creation()
 
     bot.alert(title='BotText', text='Programa encerrado!')
