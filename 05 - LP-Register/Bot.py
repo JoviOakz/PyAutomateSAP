@@ -48,11 +48,37 @@ def wbs_element_creation():
         bot.PAUSE = 0.75
         
         press_key('ctrla', 1)
-        bot.typewrite(df.at[line, 'Part Number'])
+
+        part_number = str(df.at[line, 'Part Number']).replace(' ', '')
+
+        if not part_number.isalpha():
+            if len(part_number) >= 10:
+                full_text = str(df.at[line, 'Part Number']) + str(df.at[line, 'Denominação'])
+                if len(full_text) <= 37:
+                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ' + str(df.at[line, 'Denominação']))
+                else:
+                    bot.typewrite(str(df.at[line, 'Part Number']))
+            else:
+                bot.typewrite(str(df.at[line, 'Denominação']))
+        else:
+            bot.typewrite(str(df.at[line, 'Denominação']))
+
         bot.sleep(1.25)
         press_key('tab', 3)
-        bot.sleep(0.65)
-        bot.typewrite(df.at[line, 'Part Number'])
+        bot.sleep(0.85)
+
+        if not part_number.isalpha():
+            if len(part_number) >= 10:
+                full_text = str(df.at[line, 'Part Number']) + str(df.at[line, 'Denominação'])
+                if len(full_text) <= 37:
+                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ' + str(df.at[line, 'Denominação']))
+                else:
+                    bot.typewrite(str(df.at[line, 'Part Number']))
+            else:
+                bot.typewrite(str(df.at[line, 'Denominação']))
+        else:
+            bot.typewrite(str(df.at[line, 'Denominação']))
+
         bot.sleep(1.5)
         press_key('ctrlf9', 1)
         bot.sleep(1.5)
