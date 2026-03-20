@@ -253,7 +253,7 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 194
+lp_qty = 252
 line = 0
 repeat_qty = lp_qty - line
 
@@ -281,7 +281,7 @@ if __name__ == '__main__':
     press_key('tab', 1)
     bot.sleep(1.25)
     # ======================================= MELHORIA =======================================
-    bot.typewrite('I33')
+    bot.typewrite('I49')
     # ========================================================================================
     bot.sleep(1.25)
 
