@@ -260,30 +260,30 @@ repeat_qty = lp_qty - line
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    wbs_element_creation()
+    # wbs_element_creation()
 
-    bot.PAUSE = 0.75
+    # bot.PAUSE = 0.75
 
-    press_key('stab', 1)
-    press_key('left', 7)
-    bot.typewrite('/ncn21')
-    press_key('enter', 1)
-    bot.sleep(3)
+    # press_key('stab', 1)
+    # press_key('left', 7)
+    # bot.typewrite('/ncn21')
+    # press_key('enter', 1)
+    # bot.sleep(3)
 
-    bot.PAUSE = 0.75
+    # bot.PAUSE = 0.75
 
-    press_key('right', 3)
-    press_key('tab', 1)
-    bot.typewrite('BP01')
-    press_key('tab', 1)
-    bot.sleep(1.25)
-    bot.typewrite('6854')
-    press_key('tab', 1)
-    bot.sleep(1.25)
-    # ======================================= MELHORIA =======================================
-    bot.typewrite('I49')
-    # ========================================================================================
-    bot.sleep(1.25)
+    # press_key('right', 3)
+    # press_key('tab', 1)
+    # bot.typewrite('BP01')
+    # press_key('tab', 1)
+    # bot.sleep(1.25)
+    # bot.typewrite('6854')
+    # press_key('tab', 1)
+    # bot.sleep(1.25)
+    # # ======================================= MELHORIA =======================================
+    # bot.typewrite('I49')
+    # # ========================================================================================
+    # bot.sleep(1.25)
 
     line = 162
     repeat_qty = lp_qty - line
