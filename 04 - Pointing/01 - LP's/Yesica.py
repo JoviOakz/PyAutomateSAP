@@ -7,7 +7,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.25
+bot.PAUSE = 2
 
 h_image = (436, 224, 84, 86)
 
@@ -105,7 +105,7 @@ def verify_lp():
 
 def create_apointment():
     press_key('tab', 2)
-    bot.typewrite('APS - Planejadora Yesica - 25.02.2026')
+    bot.typewrite('APS - Planejadora Yesica - 26.03.2026')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
@@ -146,7 +146,7 @@ def save_line():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 85
-line = 0
+line = 68
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
