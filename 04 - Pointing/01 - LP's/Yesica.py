@@ -7,7 +7,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 2
+bot.PAUSE = 1.25
 
 h_image = (436, 224, 84, 86)
 
