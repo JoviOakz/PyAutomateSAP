@@ -2,7 +2,8 @@
 
 import pyautogui as bot
 import pandas as pd
-from datetime import datetime, date
+import pyperclip as pc
+from datetime import date
 
 # ===== GLOBAL SETTINGS =====
 
@@ -22,7 +23,9 @@ df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 def press_key(key, times):
     for _ in range(times):
-        if key == 'ctrlf9':
+        if key == 'ctrlv':
+            bot.hotkey('ctrl', 'v')
+        elif key == 'ctrlf9':
             bot.hotkey('ctrl', 'f9')
         elif key == 'ctrla':
             bot.hotkey('ctrl', 'a')
@@ -51,17 +54,20 @@ def wbs_element_creation():
 
         part_number = str(df.at[line, 'Part Number']).replace(' ', '')
 
+        pc.copy(str(df.at[line, 'Denominação']))
+
         if not part_number.isalpha():
             if len(part_number) >= 10:
                 full_text = str(df.at[line, 'Part Number']) + str(df.at[line, 'Denominação'])
                 if len(full_text) <= 37:
-                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ' + str(df.at[line, 'Denominação']))
+                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ')
+                    press_key('ctrlv', 1)
                 else:
                     bot.typewrite(str(df.at[line, 'Part Number']))
             else:
-                bot.typewrite(str(df.at[line, 'Denominação']))
+                press_key('ctrlv', 1)
         else:
-            bot.typewrite(str(df.at[line, 'Denominação']))
+            press_key('ctrlv', 1)
 
         bot.sleep(1.25)
         press_key('tab', 3)
@@ -71,13 +77,14 @@ def wbs_element_creation():
             if len(part_number) >= 10:
                 full_text = str(df.at[line, 'Part Number']) + str(df.at[line, 'Denominação'])
                 if len(full_text) <= 37:
-                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ' + str(df.at[line, 'Denominação']))
+                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ')
+                    press_key('ctrlv', 1)
                 else:
                     bot.typewrite(str(df.at[line, 'Part Number']))
             else:
-                bot.typewrite(str(df.at[line, 'Denominação']))
+                press_key('ctrlv', 1)
         else:
-            bot.typewrite(str(df.at[line, 'Denominação']))
+            press_key('ctrlv', 1)
 
         bot.sleep(1.5)
         press_key('ctrlf9', 1)
@@ -243,8 +250,11 @@ def diagram_creation():
         bot.PAUSE = 1.15
         
         press_key('ctrla', 1)
-        text = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - ' + df.at[line, 'Denominação'] + '\nResp. ' + df.at[line, 'Responsável']
-        bot.typewrite(text)
+        text_partnumber = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - '
+        text_resp = '\nResp. ' + str(df.at[line, 'Responsável'])
+        bot.typewrite(text_partnumber)
+        press_key('ctrlv', 1)
+        bot.typewrite(text_resp)
         bot.sleep(1)
         press_key('ctrlsf12', 1)
         bot.sleep(2)
@@ -257,8 +267,8 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 35
-line = 2
+lp_qty = 48
+line = 45
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
