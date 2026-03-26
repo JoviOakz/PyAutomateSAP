@@ -253,8 +253,8 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 251
-line = 144
+lp_qty = 35
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -285,7 +285,7 @@ if __name__ == '__main__':
     # ========================================================================================
     bot.sleep(1.25)
 
-    line = 162
+    line = 0
     repeat_qty = lp_qty - line
 
     bot.PAUSE = 1.25
