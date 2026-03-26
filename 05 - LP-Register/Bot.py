@@ -201,7 +201,9 @@ def wbs_element_creation():
         bot.sleep(1.25)
 
         press_key('ctrls', 1)
-        bot.sleep(2)
+        df.at[line, 'Status CJ02'] = 'Cadastrada'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        bot.sleep(2.5)
         
         line += 1
 
@@ -247,14 +249,16 @@ def diagram_creation():
         press_key('ctrlsf12', 1)
         bot.sleep(2)
         press_key('ctrls', 1)
-        bot.sleep(2)
+        df.at[line, 'Status CN21'] = 'Cadastrada'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        bot.sleep(2.5)
 
         line += 1
 
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 35
-line = 0
+line = 2
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -280,9 +284,14 @@ if __name__ == '__main__':
     bot.typewrite('6854')
     press_key('tab', 1)
     bot.sleep(1.25)
-    # ======================================= MELHORIA =======================================
-    bot.typewrite('I49')
-    # ========================================================================================
+
+    if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
+        bot.typewrite('I33')
+    elif str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+        bot.typewrite('I49')
+    else:
+        bot.typewrite('I39')
+    
     bot.sleep(1.25)
 
     line = 0

@@ -32,8 +32,8 @@ bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
-excel_path = "../98 - Excels/Open-LPs.xlsx"
-df = pd.read_excel(excel_path, engine='openpyxl')
+EXCEL_PATH = "../98 - Excels/Open-LPs.xlsx"
+df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== FUNCTIONS =====
 
@@ -66,7 +66,7 @@ def project_status():
         
         if lp_error_exist:
             df.at[line, 'Status'] = 'LP não existe!'
-            df.to_excel(excel_path, index=False, engine='openpyxl')
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
             press_key('tab', 1)
             press_key('enter', 1)
@@ -85,7 +85,7 @@ def project_status():
         
         if have_ence:
             df.at[line, 'Status'] = 'Encerrado!'
-            df.to_excel(excel_path, index=False, engine='openpyxl')
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
             press_key('f3', 1)
 
@@ -217,7 +217,7 @@ def finish_treeLine():
 
                     if error_exist:
                         df.at[line, 'Status'] = 'Compromisso pendente!'
-                        df.to_excel(excel_path, index=False, engine='openpyxl')
+                        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
                         press_key('tab', 1)
                         press_key('enter', 1)
@@ -254,7 +254,7 @@ def finish_treeLine():
 
                         if error_exist:
                             df.at[line, 'Status'] = 'Compromisso pendente!'
-                            df.to_excel(excel_path, index=False, engine='openpyxl')
+                            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
                             press_key('tab', 1)
                             press_key('enter', 1)
@@ -436,7 +436,7 @@ def ence_purchaseLine():
 
 def conclusion():
     df.at[line, 'Status'] = 'Encerrado!'
-    df.to_excel(excel_path, index=False, engine='openpyxl')
+    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
     bot.hotkey('ctrl', 's')
 
