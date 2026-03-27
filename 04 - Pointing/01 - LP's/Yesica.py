@@ -9,8 +9,6 @@ import pandas as pd
 bot.FAILSAFE = True
 bot.PAUSE = 1.25
 
-h_image = (436, 224, 84, 86)
-
 # ===== INITIAL ACTION =====
 
 bot.click(1802, 14)
