@@ -1,7 +1,3 @@
-# ===== README =====
-# TESTS NEED '../' BEFORE THE PATH OF IMAGES
-# TESTS NEED '../../../' BEFORE THE EXCEL PATH
-
 # ===== LIBRARIES =====
 
 import pyautogui as bot
@@ -460,8 +456,8 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 85
-line = 7
+lp_qty = 103
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====

@@ -1,7 +1,3 @@
-# ===== README =====
-# TESTS NEED '../' BEFORE THE PATH OF IMAGES
-# TESTS NEED '../../../' BEFORE THE PATH OF PDF
-
 # ===== LIBRARIES =====
 
 import pyautogui as bot
@@ -101,7 +97,7 @@ def com_complete():
 
 # ===== PROGRAM CONFIGURATION =====
 
-om_qty = 16
+om_qty = 29
 line = 0
 repeat_qty = om_qty - line
 
