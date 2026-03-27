@@ -54,7 +54,7 @@ def open_project():
     bot.hotkey('ctrl', 'v')
     press_key('enter', 1)
 
-    bot.sleep(2)
+    bot.sleep(3)
 
 def project_status():
     try:
@@ -456,8 +456,8 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 417
-line = 0
+lp_qty = 416
+line = 16
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
