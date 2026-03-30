@@ -1,6 +1,7 @@
 # ===== LIBRARIES =====
 
 import pyautogui as bot
+import pyperclip as pc
 import pandas as pd
 
 # ===== GLOBAL SETTINGS =====
@@ -27,72 +28,51 @@ def press_key(key, times):
             bot.hotkey('ctrl', 'shift', 'tab')
         elif key == 'sspace':
             bot.hotkey('shift', 'space')
-
-def open_diagram():
-    lp = df.at[line, 'LPs']
-    bot.typewrite(str(lp))
-    press_key('f7', 1)
-    bot.sleep(3)
+        elif key == 'ctrlr':
+            bot.hotkey('ctrl', 'right')
+        elif key == 'ctrla':
+            bot.hotkey('ctrl', 'a')
+        elif key == 'ctrlc':
+            bot.hotkey('ctrl', 'c')
+        elif key == 'stab':
+            bot.hotkey('shift', 'tab')
 
 def text_verifier():
     text = pc.paste()
     text = text.strip()
 
     if text != 'x':
-        return True
-    else:
-        return False
+        # if len(text) == 7:
+        #     return False, 1
+        # else:
+        #     return False, 0
+        # return True, 0
 
-def verify_lp():
-    try:
-        not_exist_lp = list(bot.locateAllOnScreen('images/LPNOTEXIST.png', grayscale=True, confidence=0.9))
+def line_verifier():
+    empty = False
+    fct_counter = 0
+    line_counter = 0
 
-        if not_exist_lp:
-            df.at[line, 'Status'] = 'LP doesn\'t exist!'
-            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            bot.sleep(2)
-            
-            return True
+    press_key('tab', 6)
 
-    except Exception:
-        try:
-            h_exist = list(bot.locateAllOnScreen('images/H.png', grayscale=True, confidence=0.9))
-            
-            if h_exist:
-                df.at[line, 'Status'] = 'LP already have pointing!'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-                bot.sleep(2)
+    while empty:
+        press_key('ctrlr', 1)
+        press_key('backspace', 1)
+        bot.typewrite('x')
+        press_key('ctrla', 1)
+        press_key('ctrlc', 1)
+        press_key('backspace', 1)
+        press_key('tab', 1)
+        press_key('stab', 1)
+        press_key('down', 1)
 
-                press_key('f3', 2)
+        empty, fct_counter = text_verifier()
+        line_counter += 1
+    
+    press_key('up', line_counter)
 
-                return True
-            
-        except Exception:
-            bot.PAUSE = 0.1
-            press_key('tab', 6)
-            bot.PAUSE = 0.65
-
-            result = True
-
-            while result:
-                press_key('ctrlr', 1)
-                press_key('backspace', 1)
-                bot.typewrite('x')
-                press_key('ctrla', 1)
-                press_key('ctrlc', 1)
-                press_key('backspace', 1)
-                press_key('tab', 1)
-                press_key('stab', 1)
-                press_key('down', 1)
-
-                result = text_verifier()
-
-            press_key('up', 1)
-            bot.PAUSE = 0.1
-            press_key('stab', 6)
-            bot.PAUSE = 1.25
-
-            return False
+    for _ in range(line_counter - 1):
+        if 
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -106,15 +86,14 @@ def main():
     global line
 
     for _ in range(repeat_qty):
-        filled_line = False
-
-        open_diagram()
-        filled_line = verify_lp()
-
-        if not filled_line:
-            # create_apointment()
-            # save_line()
-            print('a')
+        open_project()
+        if lp_verification():
+            if diagram_adjustment():
+                close_lp()
+            else:
+                cancel()
+        else:
+            cancel()
 
         line += 1
 
