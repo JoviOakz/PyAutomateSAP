@@ -103,7 +103,7 @@ def verify_lp():
 
 def create_apointment():
     press_key('tab', 2)
-    bot.typewrite('Planejadora Yesica - 26.03.2026')
+    bot.typewrite('APS - Yesica - 26.03.2026')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
