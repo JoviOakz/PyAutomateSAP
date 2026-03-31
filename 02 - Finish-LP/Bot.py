@@ -456,8 +456,8 @@ def error_conclusion():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 416
-line = 16
+lp_qty = 413
+line = 46
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
