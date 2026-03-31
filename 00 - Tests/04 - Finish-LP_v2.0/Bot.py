@@ -220,13 +220,19 @@ def main():
                 open_diagram()
                 close_line()
                 finish_project()
+                df.at[line, 'Status'] = 'LP finished!'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             elif stats == 'ENTE':
                 open_project()
                 close_line()
                 finish_project()
+                df.at[line, 'Status'] = 'LP finished!'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             elif stats == 'ENCE':
                 press_key('f3')
                 bot.sleep(4)
+                df.at[line, 'Status'] = 'Already finished!'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             else:
                 df.at[line, 'Status'] = 'Error!'
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
