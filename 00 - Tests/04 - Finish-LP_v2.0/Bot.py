@@ -68,7 +68,9 @@ def check_status():
     stats = pc.paste()
     stats = stats.strip()
 
-    if stats and 'ENCE' in stats:
+    if stats and 'ABER' in stats:
+        return 'ABER'
+    elif stats and 'ENCE' in stats:
         return 'ENCE'
     elif stats and 'ENTE' in stats:
         return 'ENTE'
@@ -199,6 +201,22 @@ def finish_project():
     press_key('right', 1)
     press_key('space', 1)
 
+def finish_project_aber():
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 4)
+    press_key('right', 1)
+    press_key('space', 1)
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 6)
+    press_key('right', 1)
+    press_key('space', 1)
+
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 0
@@ -216,7 +234,11 @@ def main():
 
             stats = check_status()
 
-            if stats == 'LIB':
+            if stats == 'ABER':
+                finish_project_aber()
+                df.at[line, 'Status'] = 'LP finished!'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            elif stats == 'LIB':
                 open_diagram()
                 close_line()
                 finish_project()
