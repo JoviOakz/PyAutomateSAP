@@ -36,18 +36,83 @@ def press_key(key, times):
             bot.hotkey('ctrl', 'c')
         elif key == 'stab':
             bot.hotkey('shift', 'tab')
+        elif key == 'ctrlenter':
+            bot.hotkey('ctrl', 'enter')
 
-def open_project():
+def lp_verification():
     press_key('left', 1)
     press_key('alt', 1)
     press_key('down', 2)
     press_key('space', 1)
     bot.typewrite(str(df.at[line, 'LP']))
     press_key('enter', 1)
-    bot.sleep(2.5)
 
-def lp_verification():
-    print('teste')
+    lp_nexist = bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7)
+
+    if any(lp_nexist):
+        press_key('enter', 1)
+        press_key('f12', 1)
+        df.at[line, 'Status'] = 'LP doesn\'t exist!'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+
+        return False
+
+    return True
+
+def check_status():
+    press_key('ctrltab', 4)
+    press_key('ctrla', 1)
+    press_key('ctrlc', 1)
+    press_key('enter', 1)
+
+    stats = pc.paste()
+    stats = stats.strip()
+
+    if stats and 'ENCE' in stats:
+        return 'ENCE'
+    elif stats and 'ENTE' in stats:
+        return 'ENTE'
+    elif stats and 'LIB' in stats:
+        return 'LIB'
+    else:
+        return 'ERROR'
+    
+def open_project():
+    for _ in range(2):
+        press_key('alt', 1)
+        press_key('right', 1)
+        press_key('down', 2)
+        press_key('right', 1)
+        press_key('down', 4)
+        press_key('right', 1)
+        press_key('down', 1)
+        press_key('space', 1)
+        press_key('ctrlstab', 3)
+        press_key('down', 1)
+        press_key('ctrlenter', 1)
+    
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 4)
+    press_key('right', 1)
+    press_key('down', 1)
+    press_key('space', 1)
+    press_key('ctrltab', 2)
+    press_key('space', 1)
+    bot.sleep(2)
+    
+def open_diagram():
+    press_key('ctrlstab', 3)
+    press_key('stab', 2)
+    press_key('space', 1)
+    press_key('ctrlstab', 3)
+    press_key('down', 2)
+    press_key('ctrlenter', 1)
+    press_key('ctrltab', 2)
+    press_key('space', 1)
+    bot.sleep(2)
 
 def text_verifier():
     text = pc.paste()
@@ -115,6 +180,25 @@ def close_line():
     press_key('space', 1)
     bot.sleep(2)
 
+def finish_project():
+    press_key('ctrlstab', 8)
+    press_key('up', 2)
+    press_key('ctrlenter', 1)
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 4)
+    press_key('right', 1)
+    press_key('space', 1)
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 6)
+    press_key('right', 1)
+    press_key('space', 1)
+
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 0
@@ -127,15 +211,25 @@ def main():
     global line
 
     for _ in range(repeat_qty):
-        open_project()
         if lp_verification():
-            print('teste')
-    #         if diagram_adjustment():
-    #             close_lp()
-    #         else:
-    #             cancel()
-    #     else:
-    #         cancel()
+            bot.sleep(2.5)
+
+            stats = check_status()
+
+            if stats == 'LIB':
+                open_diagram()
+                close_line()
+                finish_project()
+            elif stats == 'ENTE':
+                open_project()
+                close_line()
+                finish_project()
+            elif stats == 'ENCE':
+                press_key('f3')
+                bot.sleep(4)
+            else:
+                df.at[line, 'Status'] = 'Error!'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
         line += 1
 
