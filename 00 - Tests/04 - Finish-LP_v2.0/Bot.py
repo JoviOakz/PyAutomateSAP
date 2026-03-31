@@ -7,7 +7,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.25
+bot.PAUSE = 0.75
 
 # ===== INITIAL ACTION =====
 
@@ -38,6 +38,10 @@ def press_key(key, times):
             bot.hotkey('shift', 'tab')
         elif key == 'ctrlenter':
             bot.hotkey('ctrl', 'enter')
+        elif key == 'ctrls':
+            bot.hotkey('ctrl', 's')
+        else:
+            bot.press(key)
 
 def lp_verification():
     press_key('left', 1)
@@ -46,24 +50,33 @@ def lp_verification():
     press_key('space', 1)
     bot.typewrite(str(df.at[line, 'LP']))
     press_key('enter', 1)
+    bot.sleep(1.5)
 
-    lp_nexist = bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.7)
+    lp_nexist = None
+
+    try:
+        lp_nexist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.9))
+    except Exception:
+        lp_nexist = []
 
     if any(lp_nexist):
         press_key('enter', 1)
+        bot.sleep(1)
         press_key('f12', 1)
+        bot.sleep(1)
         df.at[line, 'Status'] = 'LP doesn\'t exist!'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-
         return False
-
-    return True
+    
+    else:
+        return True
 
 def check_status():
     press_key('ctrltab', 4)
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
     press_key('enter', 1)
+    bot.sleep(1.5)
 
     stats = pc.paste()
     stats = stats.strip()
@@ -89,9 +102,11 @@ def open_project():
         press_key('right', 1)
         press_key('down', 1)
         press_key('space', 1)
+        bot.sleep(1.5)
         press_key('ctrlstab', 3)
         press_key('down', 1)
         press_key('ctrlenter', 1)
+        bot.sleep(1.5)
     
     press_key('alt', 1)
     press_key('right', 1)
@@ -101,6 +116,7 @@ def open_project():
     press_key('right', 1)
     press_key('down', 1)
     press_key('space', 1)
+    bot.sleep(1.5)
     press_key('ctrltab', 2)
     press_key('space', 1)
     bot.sleep(2)
@@ -109,6 +125,7 @@ def open_diagram():
     press_key('ctrlstab', 3)
     press_key('stab', 2)
     press_key('space', 1)
+    bot.sleep(1.5)
     press_key('ctrlstab', 3)
     press_key('down', 2)
     press_key('ctrlenter', 1)
@@ -134,6 +151,7 @@ def close_line():
     line_counter = 0
 
     press_key('tab', 6)
+    bot.sleep(1)
 
     while not empty:
         press_key('ctrlr', 1)
@@ -158,9 +176,11 @@ def close_line():
         press_key('sspace', 1)
         press_key('down', 1)
 
+    bot.sleep(1)
     press_key('ctrltab', 1)
     press_key('tab', 5)
     press_key('space', 1)
+    bot.sleep(1.75)
     press_key('down', 1)
     bot.typewrite('92903610')
     press_key('down', 2)
@@ -172,20 +192,25 @@ def close_line():
     press_key('tab', 1)
     press_key('space', 1)
     press_key('enter', 1)
+    bot.sleep(1.5)
     press_key('tab', 1)
     press_key('space', 1)
+    bot.sleep(1.5)
     press_key('ctrlstab', 1)
     press_key('space', 1)
+    bot.sleep(1.5)
     press_key('tab', 1)
     press_key('space', 1)
+    bot.sleep(1.5)
     press_key('ctrlstab', 4)
     press_key('space', 1)
-    bot.sleep(2)
+    bot.sleep(3)
 
 def finish_project():
     press_key('ctrlstab', 8)
     press_key('up', 2)
     press_key('ctrlenter', 1)
+    bot.sleep(1.5)
     press_key('alt', 1)
     press_key('right', 1)
     press_key('down', 2)
@@ -193,6 +218,7 @@ def finish_project():
     press_key('down', 4)
     press_key('right', 1)
     press_key('space', 1)
+    bot.sleep(1.5)
     press_key('alt', 1)
     press_key('right', 1)
     press_key('down', 2)
@@ -200,6 +226,9 @@ def finish_project():
     press_key('down', 6)
     press_key('right', 1)
     press_key('space', 1)
+    bot.sleep(1.5)
+    press_key('ctrls', 1)
+    bot.sleep(4)
 
 def finish_project_aber():
     press_key('alt', 1)
@@ -209,6 +238,7 @@ def finish_project_aber():
     press_key('down', 4)
     press_key('right', 1)
     press_key('space', 1)
+    bot.sleep(1.5)
     press_key('alt', 1)
     press_key('right', 1)
     press_key('down', 2)
@@ -216,10 +246,13 @@ def finish_project_aber():
     press_key('down', 6)
     press_key('right', 1)
     press_key('space', 1)
+    bot.sleep(1.5)
+    press_key('ctrls', 1)
+    bot.sleep(4)
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 0
+lp_qty = 4
 line = 0
 repeat_qty = lp_qty - line
 
