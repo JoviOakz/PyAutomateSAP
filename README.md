@@ -1,4 +1,4 @@
-# 📦 Instalação de Bibliotecas Python - Projeto de Automação e Interface
+# 📦 Instalação de Bibliotecas Python - Projetos de Automatização de Processos e Interface
 
 Este projeto utiliza diversas bibliotecas Python voltadas para automação de tarefas, manipulação de arquivos, visão computacional e criação de interfaces gráficas.
 
