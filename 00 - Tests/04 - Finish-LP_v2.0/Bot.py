@@ -254,7 +254,7 @@ def finish_project_aber():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 4
-line = 0
+line = 2
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
