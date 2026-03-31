@@ -37,25 +37,38 @@ def press_key(key, times):
         elif key == 'stab':
             bot.hotkey('shift', 'tab')
 
+def open_project():
+    press_key('left', 1)
+    press_key('alt', 1)
+    press_key('down', 2)
+    press_key('space', 1)
+    bot.typewrite(str(df.at[line, 'LP']))
+    press_key('enter', 1)
+    bot.sleep(2.5)
+
+def lp_verification():
+    print('teste')
+
 def text_verifier():
     text = pc.paste()
     text = text.strip()
 
     if text != 'x':
-        # if len(text) == 7:
-        #     return False, 1
-        # else:
-        #     return False, 0
-        # return True, 0
+        if len(text) == 7:
+            return False, 1
+        else:
+            return False, 0
+    else:
+        return True, 0
 
-def line_verifier():
+def close_line():
     empty = False
     fct_counter = 0
     line_counter = 0
 
     press_key('tab', 6)
 
-    while empty:
+    while not empty:
         press_key('ctrlr', 1)
         press_key('backspace', 1)
         bot.typewrite('x')
@@ -71,8 +84,36 @@ def line_verifier():
     
     press_key('up', line_counter)
 
-    for _ in range(line_counter - 1):
-        if 
+    if fct_counter >= 1:
+        press_key('down', 1)
+
+    for _ in range(line_counter - fct_counter - 1):
+        press_key('sspace', 1)
+        press_key('down', 1)
+
+    press_key('ctrltab', 1)
+    press_key('tab', 5)
+    press_key('space', 1)
+    press_key('down', 1)
+    bot.typewrite('92903610')
+    press_key('down', 2)
+    press_key('tab', 1)
+    press_key('down', 1)
+    press_key('space', 1)
+    press_key('down', 1)
+    press_key('space', 1)
+    press_key('tab', 1)
+    press_key('space', 1)
+    press_key('enter', 1)
+    press_key('tab', 1)
+    press_key('space', 1)
+    press_key('ctrlstab', 1)
+    press_key('space', 1)
+    press_key('tab', 1)
+    press_key('space', 1)
+    press_key('ctrlstab', 4)
+    press_key('space', 1)
+    bot.sleep(2)
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -88,12 +129,13 @@ def main():
     for _ in range(repeat_qty):
         open_project()
         if lp_verification():
-            if diagram_adjustment():
-                close_lp()
-            else:
-                cancel()
-        else:
-            cancel()
+            print('teste')
+    #         if diagram_adjustment():
+    #             close_lp()
+    #         else:
+    #             cancel()
+    #     else:
+    #         cancel()
 
         line += 1
 
