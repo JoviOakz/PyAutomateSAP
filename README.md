@@ -36,17 +36,12 @@ Seguir o caminho | 99 - Others -> 99 - Files | para adquirir o arquivo SDK do SA
 Instale todas as bibliotecas abaixo com o seguinte comando:
 
 ```bash
-pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython
+pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython pyperclip
 ```
 
 ---
 
 ## 🚀 Próximos Passos
 
-🔹 **Atualizar bot para apontamento de horas**  
-  - Verificar linhas em que é possível criar o apontamento  
-  - Realizar o apontamento automaticamente conforme regras de negócio  
-
-🔹 **Criar novo bot para cadastros de LP**  
-  - Utilizar **PyRFC** para resgate de informações diretamente do SAP  
-  - Implementar lógica de validação e tratamento de dados antes do envio
+🔹 **Atualizar bot para apontamento de horas**
+  - Realizar o apontamento automaticamente conforme regras de negócio
