@@ -7,7 +7,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.35
+bot.PAUSE = 0.5
 
 # ===== INITIAL ACTION =====
 
@@ -73,7 +73,12 @@ def lp_verification():
         return True
 
 def check_status():
+    bot.PAUSE = 0.25
+
     press_key('ctrltab', 4)
+    
+    bot.PAUSE = 0.5
+    
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
     press_key('enter', 1)
@@ -126,7 +131,7 @@ def open_diagram():
     press_key('ctrlstab', 3)
     press_key('stab', 2)
     press_key('space', 1)
-    bot.sleep(1.5)
+    bot.sleep(2)
     press_key('ctrlstab', 3)
     press_key('down', 2)
     press_key('ctrlenter', 1)
@@ -152,8 +157,12 @@ def close_line():
     fct_counter = 0
     line_counter = 0
 
+    bot.PAUSE = 0.25
+
     press_key('tab', 6)
     bot.sleep(1)
+
+    bot.PAUSE = 0.5
 
     while not empty:
         press_key('ctrlr', 1)
@@ -180,7 +189,13 @@ def close_line():
 
     bot.sleep(1)
     press_key('ctrltab', 1)
+
+    bot.PAUSE = 0.25
+
     press_key('tab', 5)
+    
+    bot.PAUSE = 0.5
+
     press_key('space', 1)
     bot.sleep(1.75)
     press_key('down', 1)
@@ -206,55 +221,84 @@ def close_line():
     bot.sleep(3)
 
 def finish_project():
+    bot.PAUSE = 0.25
+
     press_key('ctrlstab', 8)
+    
+    bot.PAUSE = 0.5
+
     press_key('up', 2)
     press_key('ctrlenter', 1)
-    bot.sleep(1.5)
+    bot.sleep(2)
     press_key('alt', 1)
     press_key('right', 1)
+
+    bot.PAUSE = 0.25
+
     press_key('down', 2)
     press_key('right', 1)
     press_key('down', 4)
     press_key('right', 1)
     press_key('space', 1)
-    bot.sleep(1.5)
+    
+    bot.PAUSE = 0.5
+    
+    bot.sleep(2)
     press_key('alt', 1)
     press_key('right', 1)
+
+    bot.PAUSE = 0.25
+
     press_key('down', 2)
     press_key('right', 1)
     press_key('down', 6)
     press_key('right', 1)
     press_key('space', 1)
-    bot.sleep(1.5)
+    
+    bot.PAUSE = 0.5
+    
+    bot.sleep(2)
     press_key('space', 1)
-    bot.sleep(1.5)
+    bot.sleep(2)
     press_key('ctrls', 1)
-    bot.sleep(5)
+    bot.sleep(6.5)
 
 def finish_project_aber():
     press_key('alt', 1)
     press_key('right', 1)
+
+    bot.PAUSE = 0.25
+
     press_key('down', 2)
     press_key('right', 1)
     press_key('down', 4)
     press_key('right', 1)
     press_key('space', 1)
-    bot.sleep(1.5)
+    
+    bot.PAUSE = 0.5
+    
+    bot.sleep(2)
     press_key('alt', 1)
     press_key('right', 1)
+
+    bot.PAUSE = 0.25
+
     press_key('down', 2)
     press_key('right', 1)
     press_key('down', 6)
     press_key('right', 1)
     press_key('space', 1)
-    bot.sleep(1.5)
+    
+    bot.PAUSE = 0.5
+    
+    bot.sleep(2)
     press_key('ctrls', 1)
-    bot.sleep(5)
+    bot.sleep(6.5)
 
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 4
-line = 2
+line = 3
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -286,7 +330,7 @@ def main():
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             elif stats == 'ENCE':
                 press_key('f3')
-                bot.sleep(5)
+                bot.sleep(4)
                 df.at[line, 'Status'] = 'Already finished!'
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             else:
