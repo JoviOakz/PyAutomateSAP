@@ -7,7 +7,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 0.65
 
 # ===== INITIAL ACTION =====
 
@@ -73,15 +73,18 @@ def lp_verification():
         return True
 
 def check_status():
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('ctrltab', 4)
     
-    bot.PAUSE = 0.65
+    bot.sleep(0.75)
     
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
     press_key('enter', 1)
+    
+    bot.PAUSE = 0.65
+    
     bot.sleep(1.5)
 
     stats = pc.paste()
@@ -128,17 +131,22 @@ def open_project():
     bot.sleep(2)
     
 def open_diagram():
-    press_key('ctrlstab', 3)
-    press_key('stab', 2)
+    bot.PAUSE = 0.2
+
+    press_key('ctrlstab', 4)
+    press_key('end', 1)
+    press_key('left', 1)
     press_key('space', 1)
-    bot.sleep(2)
+    bot.sleep(2.5)
     press_key('ctrlstab', 3)
     press_key('down', 2)
     press_key('ctrlenter', 1)
-    bot.sleep(1.5)
+    bot.sleep(2)
     press_key('ctrltab', 2)
     press_key('space', 1)
-    bot.sleep(2)
+    bot.sleep(2.5)
+
+    bot.PAUSE = 0.65
 
 def text_verifier(fct_counter):
     text = pc.paste()
@@ -175,12 +183,10 @@ def close_line():
     fct_counter = 0
     line_counter = 0
 
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('tab', 6)
-    bot.sleep(1)
-
-    bot.PAUSE = 0.65
+    bot.sleep(1.5)
 
     while not empty:
         press_key('ctrlr', 1)
@@ -196,11 +202,12 @@ def close_line():
         empty, fct_counter = text_verifier(fct_counter)
         line_counter += 1
 
+    bot.PAUSE = 0.65
+
+    press_key('up', line_counter)
     line_counter = line_counter - fct_counter - 1
 
     if line_counter != 0:
-        press_key('up', line_counter)
-
         if fct_counter > 0:
             press_key('down', 1)
 
@@ -211,7 +218,7 @@ def close_line():
         bot.sleep(1)
         press_key('ctrltab', 1)
 
-        bot.PAUSE = 0.25
+        bot.PAUSE = 0.2
 
         press_key('tab', 5)
         
@@ -227,6 +234,7 @@ def close_line():
             press_key('tab', 1)
             press_key('space', 1)
             bot.sleep(3)
+            return True
         else:
             for _ in range(line_counter):
                 insert_real_data()
@@ -243,11 +251,12 @@ def close_line():
             press_key('tab', 1)
             press_key('space', 1)
             bot.sleep(3)
+            return True
     else:
-        return True
+        return False
     
 def finish_diagram():
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('ctrlstab', 4)
     
@@ -258,7 +267,7 @@ def finish_diagram():
     press_key('alt', 1)
     press_key('right', 1)
 
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('down', 2)
     press_key('right', 1)
@@ -272,7 +281,7 @@ def finish_diagram():
     press_key('alt', 1)
     press_key('right', 1)
 
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('down', 2)
     press_key('right', 1)
@@ -287,7 +296,7 @@ def finish_diagram():
     bot.sleep(2)
 
 def finish_project():
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('ctrlstab', 8)
     
@@ -299,7 +308,7 @@ def finish_project():
     press_key('alt', 1)
     press_key('right', 1)
 
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('down', 2)
     press_key('right', 1)
@@ -313,7 +322,7 @@ def finish_project():
     press_key('alt', 1)
     press_key('right', 1)
 
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('down', 2)
     press_key('right', 1)
@@ -329,7 +338,7 @@ def finish_project_aber():
     press_key('alt', 1)
     press_key('right', 1)
 
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('down', 2)
     press_key('right', 1)
@@ -343,7 +352,7 @@ def finish_project_aber():
     press_key('alt', 1)
     press_key('right', 1)
 
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.2
 
     press_key('down', 2)
     press_key('right', 1)
@@ -360,7 +369,7 @@ def finish_project_aber():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 367
-line = 10
+line = 12
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -373,7 +382,6 @@ def main():
             bot.sleep(2.5)
 
             stats = check_status()
-            has_purchase = False
 
             if stats == 'ABER':
                 finish_project_aber()
