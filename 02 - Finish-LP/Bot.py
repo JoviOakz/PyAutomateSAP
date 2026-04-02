@@ -243,6 +243,48 @@ def close_line():
             press_key('tab', 1)
             press_key('space', 1)
             bot.sleep(3)
+    else:
+        return True
+    
+def finish_diagram():
+    bot.PAUSE = 0.25
+
+    press_key('ctrlstab', 4)
+    
+    bot.PAUSE = 0.65
+
+    press_key('space', 1)
+    bot.sleep(2)
+    press_key('alt', 1)
+    press_key('right', 1)
+
+    bot.PAUSE = 0.25
+
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 4)
+    press_key('right', 1)
+    press_key('space', 1)
+    
+    bot.PAUSE = 0.65
+    
+    bot.sleep(2)
+    press_key('alt', 1)
+    press_key('right', 1)
+
+    bot.PAUSE = 0.25
+
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 6)
+    press_key('right', 1)
+    press_key('space', 1)
+    
+    bot.PAUSE = 0.65
+    
+    bot.sleep(2)
+    press_key('ctrltab', 5)
+    bot.sleep(2)
 
 def finish_project():
     bot.PAUSE = 0.25
@@ -282,10 +324,6 @@ def finish_project():
     bot.PAUSE = 0.65
     
     bot.sleep(2)
-    press_key('space', 1)
-    bot.sleep(2)
-    press_key('ctrls', 1)
-    bot.sleep(6.5)
 
 def finish_project_aber():
     press_key('alt', 1)
@@ -322,7 +360,7 @@ def finish_project_aber():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 367
-line = 9
+line = 10
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -335,6 +373,7 @@ def main():
             bot.sleep(2.5)
 
             stats = check_status()
+            has_purchase = False
 
             if stats == 'ABER':
                 finish_project_aber()
@@ -342,14 +381,34 @@ def main():
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             elif stats == 'LIB':
                 open_diagram()
-                close_line()
-                finish_project()
+                has_purchase = close_line()
+                if has_purchase:
+                    finish_project()
+                    press_key('space', 1)
+                    bot.sleep(2)
+                    press_key('ctrls', 1)
+                    bot.sleep(6.5)
+                else:
+                    finish_diagram()
+                    finish_project()
+                    press_key('ctrls', 1)
+                    bot.sleep(6.5)
                 df.at[line, 'Status'] = 'LP finished!'
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             elif stats == 'ENTE':
                 open_project()
-                close_line()
-                finish_project()
+                has_purchase = close_line()
+                if has_purchase:
+                    finish_project()
+                    press_key('space', 1)
+                    bot.sleep(2)
+                    press_key('ctrls', 1)
+                    bot.sleep(6.5)
+                else:
+                    finish_diagram()
+                    finish_project()
+                    press_key('ctrls', 1)
+                    bot.sleep(6.5)
                 df.at[line, 'Status'] = 'LP finished!'
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             elif stats == 'ENCE':
