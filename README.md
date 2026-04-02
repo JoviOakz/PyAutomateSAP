@@ -27,7 +27,7 @@ Estas ferramentas devem ser instaladas separadamente, pois não estão disponív
 - Releases [PyRFC (SAP) - Versão 3.3.1](https://github.com/SAP-archive/PyRFC/releases) -> compatível com python 3.12
 
 Como complemento do PyRFC:<br>
-Seguir o caminho | 99 - Others -> 99 - Files | para adquirir o arquivo SDK do SAP -> nwrfcsdk.zip
+Seguir o caminho | 02 - Others -> 99 - Files | para adquirir o arquivo SDK do SAP -> nwrfcsdk.zip
 
 ---
 
@@ -43,5 +43,8 @@ pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract 
 
 ## 🚀 Próximos Passos
 
-🔹 **Atualizar bot para apontamento de horas**
+🔹 **Atualizar bot de encerramento de LPs**
+  - Encerramento completo e efetivo de quaisquer tipos de status em LPs
+
+🔹 **Atualizar bot de apontamento de horas**
   - Realizar o apontamento automaticamente conforme regras de negócio
