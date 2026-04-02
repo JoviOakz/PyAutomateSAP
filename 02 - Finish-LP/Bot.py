@@ -7,7 +7,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.25
+bot.PAUSE = 0.75
 
 # ===== INITIAL ACTION =====
 
@@ -77,7 +77,7 @@ def check_status():
 
     press_key('ctrltab', 4)
     
-    bot.PAUSE = 1.25
+    bot.PAUSE = 0.65
     
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
@@ -140,64 +140,19 @@ def open_diagram():
     press_key('space', 1)
     bot.sleep(2)
 
-def text_verifier():
+def text_verifier(fct_counter):
     text = pc.paste()
     text = text.strip()
 
     if text != 'x':
-        if len(text) == 7:
+        if text[:3] == 'FCT':
             return False, 1
         else:
-            return False, 0
+            return False, fct_counter
     else:
-        return True, 0
-
-def close_line():
-    empty = False
-    fct_counter = 0
-    line_counter = 0
-
-    bot.PAUSE = 0.25
-
-    press_key('tab', 6)
-    bot.sleep(1)
-
-    bot.PAUSE = 1.25
-
-    while not empty:
-        press_key('ctrlr', 1)
-        press_key('backspace', 1)
-        bot.typewrite('x')
-        press_key('ctrla', 1)
-        press_key('ctrlc', 1)
-        press_key('backspace', 1)
-        press_key('tab', 1)
-        press_key('stab', 1)
-        press_key('down', 1)
-
-        empty, fct_counter = text_verifier()
-        line_counter += 1
+        return True, fct_counter
     
-    press_key('up', line_counter)
-
-    if fct_counter >= 1:
-        press_key('down', 1)
-
-    for _ in range(line_counter - fct_counter - 1):
-        press_key('sspace', 1)
-        press_key('down', 1)
-
-    bot.sleep(1)
-    press_key('ctrltab', 1)
-
-    bot.PAUSE = 0.25
-
-    press_key('tab', 5)
-    
-    bot.PAUSE = 1.25
-
-    press_key('space', 1)
-    bot.sleep(1.75)
+def insert_real_data():
     press_key('down', 1)
     bot.typewrite('92903610')
     press_key('down', 2)
@@ -214,18 +169,87 @@ def close_line():
     press_key('space', 1)
     bot.sleep(1.5)
     press_key('ctrlstab', 1)
-    press_key('space', 1)
-    bot.sleep(1.5)
-    press_key('tab', 1)
-    press_key('space', 1)
-    bot.sleep(3)
+
+def close_line():
+    empty = False
+    fct_counter = 0
+    line_counter = 0
+
+    bot.PAUSE = 0.25
+
+    press_key('tab', 6)
+    bot.sleep(1)
+
+    bot.PAUSE = 0.65
+
+    while not empty:
+        press_key('ctrlr', 1)
+        press_key('backspace', 1)
+        bot.typewrite('x')
+        press_key('ctrla', 1)
+        press_key('ctrlc', 1)
+        press_key('backspace', 1)
+        press_key('tab', 1)
+        press_key('stab', 1)
+        press_key('down', 1)
+
+        empty, fct_counter = text_verifier(fct_counter)
+        line_counter += 1
+
+    line_counter = line_counter - fct_counter - 1
+
+    if line_counter != 0:
+        press_key('up', line_counter)
+
+        if fct_counter > 0:
+            press_key('down', 1)
+
+        for _ in range(line_counter):
+            press_key('sspace', 1)
+            press_key('down', 1)
+
+        bot.sleep(1)
+        press_key('ctrltab', 1)
+
+        bot.PAUSE = 0.25
+
+        press_key('tab', 5)
+        
+        bot.PAUSE = 0.65
+
+        press_key('space', 1)
+        bot.sleep(1.75)
+
+        if line_counter == 1:
+            insert_real_data()
+            press_key('space', 1)
+            bot.sleep(1.5)
+            press_key('tab', 1)
+            press_key('space', 1)
+            bot.sleep(3)
+        else:
+            for _ in range(line_counter):
+                insert_real_data()
+                press_key('tab', 3)
+                press_key('space', 1)
+                bot.sleep(1.5)
+                press_key('tab', 1)
+                press_key('space', 1)
+                bot.sleep(1.5)
+            
+            press_key('stab', 1)
+            press_key('space', 1)
+            bot.sleep(1.5)
+            press_key('tab', 1)
+            press_key('space', 1)
+            bot.sleep(3)
 
 def finish_project():
     bot.PAUSE = 0.25
 
     press_key('ctrlstab', 8)
     
-    bot.PAUSE = 1.25
+    bot.PAUSE = 0.65
 
     press_key('up', 2)
     press_key('ctrlenter', 1)
@@ -241,7 +265,7 @@ def finish_project():
     press_key('right', 1)
     press_key('space', 1)
     
-    bot.PAUSE = 1.25
+    bot.PAUSE = 0.65
     
     bot.sleep(2)
     press_key('alt', 1)
@@ -255,7 +279,7 @@ def finish_project():
     press_key('right', 1)
     press_key('space', 1)
     
-    bot.PAUSE = 1.25
+    bot.PAUSE = 0.65
     
     bot.sleep(2)
     press_key('space', 1)
@@ -275,7 +299,7 @@ def finish_project_aber():
     press_key('right', 1)
     press_key('space', 1)
     
-    bot.PAUSE = 1.25
+    bot.PAUSE = 0.65
     
     bot.sleep(2)
     press_key('alt', 1)
@@ -289,7 +313,7 @@ def finish_project_aber():
     press_key('right', 1)
     press_key('space', 1)
     
-    bot.PAUSE = 1.25
+    bot.PAUSE = 0.65
     
     bot.sleep(2)
     press_key('ctrls', 1)
@@ -298,7 +322,7 @@ def finish_project_aber():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 367
-line = 1
+line = 9
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
