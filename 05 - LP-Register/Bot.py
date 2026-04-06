@@ -16,7 +16,7 @@ bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
-EXCEL_PATH = '../98 - Excels/Cadastro-LPs.xlsx'
+EXCEL_PATH = '../98 - Excels/LP-Register.xlsx'
 df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== FUNCTIONS =====
@@ -267,8 +267,8 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 48
-line = 45
+lp_qty = 128
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
