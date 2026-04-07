@@ -220,6 +220,7 @@ def diagram_creation():
     global line
 
     for _ in range(repeat_qty):
+        pc.copy(str(df.at[line, 'Denominação']))
         press_key('enter', 1)
         bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
         press_key('enter', 1)
@@ -268,13 +269,16 @@ def diagram_creation():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 128
-line = 73
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
     wbs_element_creation()
+
+    line = 0
+    repeat_qty = lp_qty - line
 
     bot.PAUSE = 0.75
 
@@ -294,9 +298,6 @@ if __name__ == '__main__':
     bot.typewrite('6854')
     press_key('tab', 1)
     bot.sleep(1.25)
-
-    line = 0
-    repeat_qty = lp_qty - line
 
     if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
         bot.typewrite('I33')
