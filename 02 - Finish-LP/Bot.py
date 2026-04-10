@@ -91,11 +91,11 @@ def check_status():
     stats = stats.strip()
 
     try:
-        diagram_exist = list(bot.locateAllOnScreen('images/DIAGRAM.png', grayscale=True, region=(30, 216, 80, 244), confidence=0.9))
+        diagram_exist = list(bot.locateAllOnScreen('images/DIAGRAM.png', grayscale=True, region=(30, 216, 54, 244), confidence=0.9))
     except Exception:
         diagram_exist = []
 
-    if diagram_exist:
+    if any(diagram_exist):
         if stats and 'ABER' in stats:
             return 'ABER'
         elif stats and 'ENCE' in stats:
@@ -379,8 +379,8 @@ def finish_project_aber():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 367
-line = 25
+lp_qty = 366
+line = 70
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -431,7 +431,7 @@ def main():
                 df.at[line, 'Status'] = 'LP finished!'
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             elif stats == 'ENCE':
-                press_key('f3')
+                press_key('f3', 1)
                 bot.sleep(4)
                 df.at[line, 'Status'] = 'Already finished!'
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
