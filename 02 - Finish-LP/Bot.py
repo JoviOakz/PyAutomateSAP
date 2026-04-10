@@ -90,16 +90,27 @@ def check_status():
     stats = pc.paste()
     stats = stats.strip()
 
-    if stats and 'ABER' in stats:
-        return 'ABER'
-    elif stats and 'ENCE' in stats:
-        return 'ENCE'
-    elif stats and 'ENTE' in stats:
-        return 'ENTE'
-    elif stats and 'LIB' in stats:
-        return 'LIB'
+    try:
+        diagram_exist = list(bot.locateAllOnScreen('images/DIAGRAM.png', grayscale=True, region=(30, 216, 80, 244), confidence=0.9))
+    except Exception:
+        diagram_exist = []
+
+    if diagram_exist:
+        if stats and 'ABER' in stats:
+            return 'ABER'
+        elif stats and 'ENCE' in stats:
+            return 'ENCE'
+        elif stats and 'ENTE' in stats:
+            return 'ENTE'
+        elif stats and 'LIB' in stats:
+            return 'LIB'
+        else:
+            return 'ERROR'
     else:
-        return 'ERROR'
+        if stats and 'ENCE' in stats:
+            return 'ENCE'
+        else:
+            return 'ABER'
     
 def open_project():
     for _ in range(2):
