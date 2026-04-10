@@ -277,7 +277,7 @@ repeat_qty = lp_qty - line
 if __name__ == '__main__':
     wbs_element_creation()
 
-    line = 0
+    line = 31
     repeat_qty = lp_qty - line
 
     bot.PAUSE = 0.75
