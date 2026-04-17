@@ -7,7 +7,7 @@ import pandas as pd
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.65
+bot.PAUSE = 1.65
 
 # ===== INITIAL ACTION =====
 
@@ -380,7 +380,7 @@ def finish_project_aber():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 366
-line = 70
+line = 80
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
