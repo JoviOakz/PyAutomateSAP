@@ -268,45 +268,45 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 83
-line = 47
+lp_qty = 164
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    # wbs_element_creation()
+    wbs_element_creation()
 
-    line = 45
+    line = 0
     repeat_qty = lp_qty - line
 
     bot.PAUSE = 0.75
 
-    # press_key('stab', 1)
-    # press_key('left', 7)
-    # bot.typewrite('/ncn21')
-    # press_key('enter', 1)
-    # bot.sleep(3)
+    press_key('stab', 1)
+    press_key('left', 7)
+    bot.typewrite('/ncn21')
+    press_key('enter', 1)
+    bot.sleep(3)
 
-    # bot.PAUSE = 0.75
+    bot.PAUSE = 0.75
 
-    # press_key('right', 3)
-    # press_key('tab', 1)
-    # bot.typewrite('BP01')
-    # press_key('tab', 1)
-    # bot.sleep(1.25)
-    # bot.typewrite('6854')
-    # press_key('tab', 1)
-    # bot.sleep(1.25)
+    press_key('right', 3)
+    press_key('tab', 1)
+    bot.typewrite('BP01')
+    press_key('tab', 1)
+    bot.sleep(1.25)
+    bot.typewrite('6854')
+    press_key('tab', 1)
+    bot.sleep(1.25)
 
-    # if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
-    #     bot.typewrite('I33')
-    # elif str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
-    #     bot.typewrite('I49')
-    # else:
-    #     bot.typewrite('I39')
+    if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
+        bot.typewrite('I33')
+    elif str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+        bot.typewrite('I49')
+    else:
+        bot.typewrite('I39')
     
-    # bot.sleep(1.25)
+    bot.sleep(1.25)
 
     bot.PAUSE = 1.25
 
