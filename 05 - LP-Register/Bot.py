@@ -222,33 +222,34 @@ def diagram_creation():
     for _ in range(repeat_qty):
         pc.copy(str(df.at[line, 'Denominação']))
         press_key('enter', 1)
+        bot.sleep(1.15)
         bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
         press_key('enter', 1)
-        bot.sleep(1)
+        bot.sleep(2)
 
-        bot.PAUSE = 0.75
+        bot.PAUSE = 1.25
 
         press_key('tab', 2)
         press_key('right', 1)
         press_key('enter', 1)
-        bot.sleep(0.85)
+        bot.sleep(1.5)
         press_key('tab', 2)
         bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
         press_key('enter', 1)
-        bot.sleep(1.25)
+        bot.sleep(1.5)
         press_key('tab', 1)
         press_key('enter', 1)
-        bot.sleep(1.25)
+        bot.sleep(2)
 
-        bot.PAUSE = 0.75
+        bot.PAUSE = 1.25
 
         press_key('tab', 2)
         press_key('right', 3)
         press_key('enter', 1)
-        bot.sleep(1.25)
+        bot.sleep(2)
         press_key('tab', 4)
 
-        bot.PAUSE = 1.15
+        bot.PAUSE = 1.35
         
         press_key('ctrla', 1)
         text_partnumber = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - '
@@ -256,13 +257,13 @@ def diagram_creation():
         bot.typewrite(text_partnumber)
         press_key('ctrlv', 1)
         bot.typewrite(text_resp)
-        bot.sleep(1)
+        bot.sleep(1.15)
         press_key('ctrlsf12', 1)
-        bot.sleep(2)
+        bot.sleep(3)
         press_key('ctrls', 1)
         df.at[line, 'Status CN21'] = 'Cadastrada'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        bot.sleep(2.5)
+        bot.sleep(3)
 
         line += 1
 
@@ -277,7 +278,7 @@ repeat_qty = lp_qty - line
 if __name__ == '__main__':
     # wbs_element_creation()
 
-    line = 23
+    line = 151
     repeat_qty = lp_qty - line
 
     # bot.PAUSE = 0.75
@@ -308,7 +309,8 @@ if __name__ == '__main__':
     
     # bot.sleep(1.25)
 
-    bot.PAUSE = 1.25
+    # bot.PAUSE = 1.25
+    bot.PAUSE = 1.5
 
     diagram_creation()
 
