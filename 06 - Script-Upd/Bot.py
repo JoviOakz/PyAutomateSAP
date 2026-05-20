@@ -44,7 +44,7 @@ def enter_pn():
     press_key('down', 4)
     bot.PAUSE = 2
     press_key('ctrla', 1)
-    bot.typewrite('WAG18052026')
+    bot.typewrite('WAG20052026')
     press_key('enter', 3)
 
 def op_upd():
