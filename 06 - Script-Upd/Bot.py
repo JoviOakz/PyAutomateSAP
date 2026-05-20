@@ -46,6 +46,7 @@ def enter_pn():
     press_key('ctrla', 1)
     bot.typewrite('WAG20052026')
     press_key('enter', 3)
+    bot.sleep(1.65)
 
 def op_upd():
     global line
@@ -72,7 +73,7 @@ def op_upd():
 
     for _ in range(op_qty):
         press_key('ctrlsf4', 1)
-        bot.sleep(1)
+        bot.sleep(1.35)
         bot.typewrite(str(df.at[line, 'OP']))
         press_key('tab', 1)
         bot.PAUSE = 0.25
@@ -80,6 +81,7 @@ def op_upd():
         bot.PAUSE = 2
         bot.typewrite(str(df.at[line, 'CODE']))
         press_key('enter', 1)
+        bot.sleep(1.15)
         df.at[line, 'STATUS'] = 'Cadastrado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
     
