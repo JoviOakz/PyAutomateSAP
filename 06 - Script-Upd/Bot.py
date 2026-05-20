@@ -39,6 +39,7 @@ def enter_pn():
 
     press_key('ctrla', 1)
     bot.typewrite(str(df.at[line, 'FERRAMENTA']))
+    bot.sleep(1.35)
     bot.PAUSE = 0.25
     press_key('tab', 1)
     press_key('down', 4)
@@ -92,8 +93,8 @@ def save_pn():
 
 # ===== PROGRAM CONFIGURATION =====
 
-line_qty = 248
-line = 0
+# line_qty = 248
+# line = 0
 repeat_qty = line_qty - line
 
 # ===== MAIN =====
