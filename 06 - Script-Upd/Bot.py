@@ -45,7 +45,7 @@ def enter_pn():
     press_key('down', 4)
     bot.PAUSE = 2
     press_key('ctrla', 1)
-    bot.typewrite('WAG20052026')
+    bot.typewrite('WAG21052026')
     press_key('enter', 3)
     bot.sleep(1.65)
 
@@ -93,8 +93,8 @@ def save_pn():
 
 # ===== PROGRAM CONFIGURATION =====
 
-# line_qty = 248
-# line = 0
+line_qty = 248
+line = 0
 repeat_qty = line_qty - line
 
 # ===== MAIN =====
