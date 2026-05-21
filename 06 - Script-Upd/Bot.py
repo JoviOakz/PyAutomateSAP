@@ -39,13 +39,13 @@ def enter_pn():
 
     press_key('ctrla', 1)
     bot.typewrite(str(df.at[line, 'FERRAMENTA']))
-    bot.sleep(1.35)
+    bot.sleep(0.5)
     bot.PAUSE = 0.25
     press_key('tab', 1)
     press_key('down', 4)
     bot.PAUSE = 2
     press_key('ctrla', 1)
-    bot.typewrite('WAG21052026')
+    bot.typewrite('WAG20052026')
     press_key('enter', 3)
     bot.sleep(1.65)
 
@@ -91,9 +91,21 @@ def op_upd():
 def save_pn():
     press_key('ctrls', 1)
 
+    bot.sleep(1.15)
+
+    try:
+        error = bot.locateOnScreen('images/ERROR.png', grayscale=True, confidence=0.9)
+        
+        if error:
+            press_key('enter', 1)
+            bot.sleep(0.5)
+
+    except Exception:
+        bot.sleep(0.5)
+
 # ===== PROGRAM CONFIGURATION =====
 
-line_qty = 248
+line_qty = 247
 line = 0
 repeat_qty = line_qty - line
 
