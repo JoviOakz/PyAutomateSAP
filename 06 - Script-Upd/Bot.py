@@ -105,7 +105,7 @@ def save_pn():
 
 # ===== PROGRAM CONFIGURATION =====
 
-line_qty = 247
+line_qty = 246
 line = 0
 repeat_qty = line_qty - line
 
