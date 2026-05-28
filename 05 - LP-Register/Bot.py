@@ -59,35 +59,44 @@ def wbs_element_creation():
 
     for _ in range(repeat_qty):
         if wait_event('PROJECT_1.png'):
-            press_key('ctrla', 1)
-            bot.typewrite(df.at[line, 'Elemento PEP'])
+            pass
         else:
-            raise ValueError('|> 1º Project screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º Project screen not found <|\n')
         
+        press_key('ctrla', 1)
+        bot.typewrite(df.at[line, 'Elemento PEP'])
         press_key('enter', 1)
         bot.sleep(1.25)
 
         bot.PAUSE = 0.75
         
         if wait_event('PROJECT_2.png'):
-            press_key('ctrla', 1)
-            part_number = str(df.at[line, 'Part Number']).replace(' ', '')
-            pc.copy(str(df.at[line, 'Denominação']))
+            pass
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 2º Project screen not found <|\n')
 
-            if not part_number.isalpha():
-                if len(part_number) >= 10:
-                    full_text = str(df.at[line, 'Part Number']) + str(df.at[line, 'Denominação'])
-                    if len(full_text) <= 37:
-                        bot.typewrite(str(df.at[line, 'Part Number']) + ' - ')
-                        press_key('ctrlv', 1)
-                    else:
-                        bot.typewrite(str(df.at[line, 'Part Number']))
-                else:
+        press_key('ctrla', 1)
+        part_number = str(df.at[line, 'Part Number']).replace(' ', '')
+        pc.copy(str(df.at[line, 'Denominação']))
+
+        if not part_number.isalpha():
+            if len(part_number) >= 10:
+                full_text = str(df.at[line, 'Part Number']) + str(df.at[line, 'Denominação'])
+                if len(full_text) <= 37:
+                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ')
                     press_key('ctrlv', 1)
+                else:
+                    bot.typewrite(str(df.at[line, 'Part Number']))
             else:
                 press_key('ctrlv', 1)
         else:
-            raise ValueError('|> 2º Project screen not found <|')
+            press_key('ctrlv', 1)
 
         bot.sleep(1.25)
         press_key('tab', 3)
@@ -110,11 +119,16 @@ def wbs_element_creation():
         press_key('ctrlf9', 1)
 
         if wait_event('WBS_1.png'):
-            press_key('down', 2)
-            press_key('tab', 1)
-            press_key('down', 2)
+            pass
         else:
-            raise ValueError('|> 1º WBS screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º WBS screen not found <|\n')
+        
+        press_key('down', 2)
+        press_key('tab', 1)
+        press_key('down', 2)
         
         bot.PAUSE = 1.5
 
@@ -149,12 +163,16 @@ def wbs_element_creation():
         press_key('enter', 1)
 
         if wait_event('WBS_2.png'):
-            press_key('down', 2)
-            press_key('tab', 1)
-            press_key('down', 2)
+            pass
         else:
-            raise ValueError('|> 2º WBS screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 2º WBS screen not found <|\n')
 
+        press_key('down', 2)
+        press_key('tab', 1)
+        press_key('down', 2)
         press_key('tab', 1)
         press_key('down', 3)
         bot.sleep(0.65)
@@ -183,9 +201,14 @@ def wbs_element_creation():
         bot.PAUSE = 1.5
 
         if wait_event('PARAMETERS_1.png'):
-            press_key('tab', 1)
+            pass
         else:
-            raise ValueError('|> 1º Parameters screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º Parameters screen not found <|\n')
+
+        press_key('tab', 1)
 
         liquidation_object = str(df.at[line, 'Objeto de Liquidação']).strip()
         alocation = str(df.at[line, 'Esquema de Alocação']).strip()
@@ -213,10 +236,14 @@ def wbs_element_creation():
         press_key('f3', 1)
 
         if wait_event('PARAMETERS_2.png'):
-            press_key('tab', 1)
+            pass
         else:
-            raise ValueError('|> 2º Parameters screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 2º Parameters screen not found <|\n')
         
+        press_key('tab', 1)
         bot.typewrite(str(df.at[line, 'Objeto de Liquidação']))
         press_key('f3', 1)
         bot.sleep(0.85)
@@ -227,10 +254,14 @@ def wbs_element_creation():
         bot.PAUSE = 0.85
 
         if wait_event('PROJECT_3.png'):
-            press_key('tab', 1)
+            pass
         else:
-            raise ValueError('|> 2º Parameters screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 2º Parameters screen not found <|\n')
 
+        press_key('tab', 1)
         press_key('down', 1)
         press_key('tab', 2)
         bot.typewrite(iss_dept)
@@ -257,25 +288,35 @@ def wbs_element_creation():
 
 def enter_cn21():
     if wait_event('PROJECT_1.png'):
-        press_key('stab', 1)
-        press_key('left', 7)
-        bot.typewrite('/ncn21')
-        press_key('enter', 1)
+        pass
     else:
-        raise ValueError('|> Project screen not found <|')
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status CN21'] = 'Erro'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> Project screen not found <|\n')
+    
+    press_key('stab', 1)
+    press_key('left', 7)
+    bot.typewrite('/ncn21')
+    press_key('enter', 1)
 
 def diagram_config():
     if wait_event('DIAGRAM_1.png'):
-        press_key('right', 3)
-        press_key('tab', 1)
-        bot.typewrite('BP01')
-        press_key('tab', 1)
-        bot.sleep(1.25)
-        bot.typewrite('6854')
-        press_key('tab', 1)
-        bot.sleep(1.25)
+        pass
     else:
-        raise ValueError('|> 1º Diagram screen not found <|')
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status CN21'] = 'Erro'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Diagram screen not found <|\n')
+    
+    press_key('right', 3)
+    press_key('tab', 1)
+    bot.typewrite('BP01')
+    press_key('tab', 1)
+    bot.sleep(1.25)
+    bot.typewrite('6854')
+    press_key('tab', 1)
+    bot.sleep(1.25)
 
     if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
         bot.typewrite('I33')
@@ -296,25 +337,36 @@ def diagram_creation():
         press_key('enter', 1)
 
         if wait_event('VALUE.png'):
-            bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
-            press_key('enter', 1)
+            pass
         else:
-            raise ValueError('|> Value box not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CN21'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> Value box not found <|\n')
 
+        bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
+        press_key('enter', 1)
         bot.PAUSE = 1.25
 
         if wait_event('DIAGRAM_2.png'):
-            press_key('tab', 2)
+            pass
         else:
-            raise ValueError('|> 2º Diagram screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CN21'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 2º Diagram screen not found <|\n')
 
+        press_key('tab', 2)
         press_key('right', 1)
         press_key('enter', 1)
 
         if wait_event('ATTRIBUITION_1.png'):
-            press_key('tab', 2)
+            pass
         else:
-            raise ValueError('|> 1º Attribuition screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CN21'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º Attribuition screen not found <|\n')
 
         press_key('tab', 2)
         bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
@@ -331,9 +383,14 @@ def diagram_creation():
         press_key('enter', 1)
 
         if wait_event('ATTRIBUITION_2.png'):
-            press_key('tab', 5)
+            pass
         else:
-            raise ValueError('|> 2º Attribuition screen not found <|')
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CN21'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 2º Attribuition screen not found <|\n')
+
+        press_key('tab', 5)
 
         bot.PAUSE = 1.35
         
@@ -347,7 +404,7 @@ def diagram_creation():
         press_key('ctrlsf12', 1)
         bot.sleep(3)
         press_key('ctrls', 1)
-        df.at[line, 'Status CN21'] = 'Cadastrada'
+        df.at[line, 'Status CN21'] = 'Cadastrado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         bot.sleep(3)
 
@@ -373,4 +430,4 @@ if __name__ == '__main__':
     diagram_config()
     diagram_creation()
 
-    bot.alert(title='BotText', text='Programa encerrado!')
+    bot.alert(title='BotText', text='Program successfully completed')
