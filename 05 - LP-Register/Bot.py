@@ -46,7 +46,7 @@ def wait_event(img, timeout=10):
 
     while time.time() - inicio < timeout:
         try:
-            local = bot.locateOnScreen(img, confidence=0.9)
+            local = bot.locateAllOnScreen(img, confidence=0.9)
             if local is not None:
                 return local
         except:
