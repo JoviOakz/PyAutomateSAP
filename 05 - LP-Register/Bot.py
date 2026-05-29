@@ -9,7 +9,7 @@ import time
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.5
+bot.PAUSE = 0.25
 
 # ===== INITIAL ACTION =====
 
@@ -41,24 +41,30 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-def wait_event(img, timeout=10):
+def wait_event(x, img, region=None, timeout=10):
     inicio = time.time()
 
     while time.time() - inicio < timeout:
         try:
-            local = bot.locateAllOnScreen(img, confidence=0.9)
-            if local is not None:
+            local = bot.locateOnScreen(img, region=region, grayscale=True, confidence=0.9)
+
+            if local:
+                print(f'{x}')
                 return local
+            
         except:
+            print('=====')
             pass
+
         time.sleep(0.5)
+
     return None
 
 def wbs_element_creation():
     global line
 
     for _ in range(repeat_qty):
-        if wait_event('PROJECT_1.png'):
+        if wait_event(1, 'images/PROJECT_1.png',):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -71,9 +77,9 @@ def wbs_element_creation():
         press_key('enter', 1)
         bot.sleep(1.25)
 
-        bot.PAUSE = 0.75
+        bot.PAUSE = 0.5
         
-        if wait_event('PROJECT_2.png'):
+        if wait_event(2, 'images/PROJECT_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -118,7 +124,7 @@ def wbs_element_creation():
         bot.sleep(1.5)
         press_key('ctrlf9', 1)
 
-        if wait_event('WBS_1.png'):
+        if wait_event(3, 'images/WBS_1.png', region=(470, 470, 180, 50)):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -129,9 +135,7 @@ def wbs_element_creation():
         press_key('down', 2)
         press_key('tab', 1)
         press_key('down', 2)
-        
-        bot.PAUSE = 1.5
-
+        bot.sleep(0.75)
         press_key('ctrla', 1)
 
         keys = {
@@ -154,6 +158,7 @@ def wbs_element_creation():
                 iss_dept = '68540028'
 
         bot.typewrite(iss_dept)
+        bot.sleep(1)
 
         bot.PAUSE = 0.75
 
@@ -162,7 +167,7 @@ def wbs_element_creation():
         press_key('right', 4)
         press_key('enter', 1)
 
-        if wait_event('WBS_2.png'):
+        if wait_event(4, 'images/WBS_2.png', region=(320, 500, 220, 50)):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -170,9 +175,6 @@ def wbs_element_creation():
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 2º WBS screen not found <|\n')
 
-        press_key('down', 2)
-        press_key('tab', 1)
-        press_key('down', 2)
         press_key('tab', 1)
         press_key('down', 3)
         bot.sleep(0.65)
@@ -200,7 +202,7 @@ def wbs_element_creation():
 
         bot.PAUSE = 1.5
 
-        if wait_event('PARAMETERS_1.png'):
+        if wait_event(5, 'images/PARAMETERS_1.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -235,7 +237,7 @@ def wbs_element_creation():
 
         press_key('f3', 1)
 
-        if wait_event('PARAMETERS_2.png'):
+        if wait_event(6, 'images/PARAMETERS_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -246,48 +248,65 @@ def wbs_element_creation():
         press_key('tab', 1)
         bot.typewrite(str(df.at[line, 'Objeto de Liquidação']))
         press_key('f3', 1)
-        bot.sleep(0.85)
-        press_key('f3', 1)
-        bot.sleep(0.85)
-        press_key('sf1', 1)
 
-        bot.PAUSE = 0.85
-
-        if wait_event('PROJECT_3.png'):
+        if wait_event(6, 'images/WBS_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
             df.at[line, 'Status CJ02'] = 'Erro'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            raise ValueError('\n\n------------- Error: -------------\n|> 2º Parameters screen not found <|\n')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º Return error <|\n')
+        
+        press_key('f3', 1)
+
+        if wait_event(6, 'images/RETURN.png', region=(180, 190, 130, 50)):
+            pass
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 2º Return error <|\n')
+        
+        press_key('sf1', 1)
+
+        if wait_event(7, 'images/PROJECT_3.png'):
+            pass
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status CJ02'] = 'Erro'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 3º WBS screen not found <|\n')
+
+        bot.PAUSE = 0.5
 
         press_key('tab', 1)
         press_key('down', 1)
         press_key('tab', 2)
         bot.typewrite(iss_dept)
+        bot.sleep(1)
         press_key('down', 1)
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
+        bot.sleep(1)
         press_key('down', 1)
         bot.typewrite(date.today().strftime('%d.%m.%Y'))
-
-        bot.PAUSE = 1
-
+        bot.sleep(1)
         press_key('alt', 1)
         press_key('right', 1)
         press_key('down', 3)
         press_key('right', 1)
         press_key('enter', 1)
+        bot.sleep(1)
         press_key('ctrls', 1)
         df.at[line, 'Status CJ02'] = 'Cadastrada'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        bot.sleep(2.5)
+        bot.sleep(3)
         
         line += 1
 
     bot.sleep(2)
 
 def enter_cn21():
-    if wait_event('PROJECT_1.png'):
+    if wait_event(8, 'images/PROJECT_1.png'):
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
@@ -301,7 +320,7 @@ def enter_cn21():
     press_key('enter', 1)
 
 def diagram_config():
-    if wait_event('DIAGRAM_1.png'):
+    if wait_event(9, 'images/DIAGRAM_1.png'):
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
@@ -336,7 +355,7 @@ def diagram_creation():
         pc.copy(str(df.at[line, 'Denominação']))
         press_key('enter', 1)
 
-        if wait_event('VALUE.png'):
+        if wait_event(10, 'images/VALUE.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -348,7 +367,7 @@ def diagram_creation():
         press_key('enter', 1)
         bot.PAUSE = 1.25
 
-        if wait_event('DIAGRAM_2.png'):
+        if wait_event(11, 'images/DIAGRAM_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -360,7 +379,7 @@ def diagram_creation():
         press_key('right', 1)
         press_key('enter', 1)
 
-        if wait_event('ATTRIBUITION_1.png'):
+        if wait_event(12, 'images/ATTRIBUITION_1.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -382,7 +401,7 @@ def diagram_creation():
         press_key('right', 3)
         press_key('enter', 1)
 
-        if wait_event('ATTRIBUITION_2.png'):
+        if wait_event(13, 'images/ATTRIBUITION_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
