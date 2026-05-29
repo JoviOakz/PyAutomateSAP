@@ -64,7 +64,7 @@ def wbs_element_creation():
     global line
 
     for _ in range(repeat_qty):
-        if wait_event(1, 'images/PROJECT_1.png',):
+        if wait_event('images/PROJECT_1.png',):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -79,7 +79,7 @@ def wbs_element_creation():
 
         bot.PAUSE = 0.5
         
-        if wait_event(2, 'images/PROJECT_2.png'):
+        if wait_event('images/PROJECT_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -124,7 +124,7 @@ def wbs_element_creation():
         bot.sleep(1.5)
         press_key('ctrlf9', 1)
 
-        if wait_event(3, 'images/WBS_1.png', region=(470, 470, 180, 50)):
+        if wait_event('images/WBS_1.png', region=(470, 470, 180, 50)):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -167,7 +167,7 @@ def wbs_element_creation():
         press_key('right', 4)
         press_key('enter', 1)
 
-        if wait_event(4, 'images/WBS_2.png', region=(320, 500, 220, 50)):
+        if wait_event('images/WBS_2.png', region=(320, 500, 220, 50)):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -202,7 +202,7 @@ def wbs_element_creation():
 
         bot.PAUSE = 1.5
 
-        if wait_event(5, 'images/PARAMETERS_1.png'):
+        if wait_event('images/PARAMETERS_1.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -237,7 +237,7 @@ def wbs_element_creation():
 
         press_key('f3', 1)
 
-        if wait_event(6, 'images/PARAMETERS_2.png'):
+        if wait_event('images/PARAMETERS_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -249,7 +249,7 @@ def wbs_element_creation():
         bot.typewrite(str(df.at[line, 'Objeto de Liquidação']))
         press_key('f3', 1)
 
-        if wait_event(6, 'images/WBS_2.png'):
+        if wait_event('images/WBS_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -259,7 +259,7 @@ def wbs_element_creation():
         
         press_key('f3', 1)
 
-        if wait_event(6, 'images/RETURN.png', region=(180, 190, 130, 50)):
+        if wait_event('images/RETURN.png', region=(180, 190, 130, 50)):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -269,7 +269,7 @@ def wbs_element_creation():
         
         press_key('sf1', 1)
 
-        if wait_event(7, 'images/PROJECT_3.png'):
+        if wait_event('images/PROJECT_3.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -306,7 +306,7 @@ def wbs_element_creation():
     bot.sleep(2)
 
 def enter_cn21():
-    if wait_event(8, 'images/PROJECT_1.png'):
+    if wait_event('images/PROJECT_1.png'):
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
@@ -320,7 +320,7 @@ def enter_cn21():
     press_key('enter', 1)
 
 def diagram_config():
-    if wait_event(9, 'images/DIAGRAM_1.png'):
+    if wait_event('images/DIAGRAM_1.png'):
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
@@ -355,7 +355,7 @@ def diagram_creation():
         pc.copy(str(df.at[line, 'Denominação']))
         press_key('enter', 1)
 
-        if wait_event(10, 'images/VALUE.png'):
+        if wait_event('images/VALUE.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -367,7 +367,7 @@ def diagram_creation():
         press_key('enter', 1)
         bot.PAUSE = 1.25
 
-        if wait_event(11, 'images/DIAGRAM_2.png'):
+        if wait_event('images/DIAGRAM_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -379,7 +379,7 @@ def diagram_creation():
         press_key('right', 1)
         press_key('enter', 1)
 
-        if wait_event(12, 'images/ATTRIBUITION_1.png'):
+        if wait_event('images/ATTRIBUITION_1.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -401,7 +401,7 @@ def diagram_creation():
         press_key('right', 3)
         press_key('enter', 1)
 
-        if wait_event(13, 'images/ATTRIBUITION_2.png'):
+        if wait_event('images/ATTRIBUITION_2.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
