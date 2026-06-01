@@ -293,11 +293,10 @@ def wbs_element_creation():
         press_key('down', 3)
         press_key('right', 1)
         press_key('enter', 1)
-        bot.sleep(1)
+        bot.sleep(1.75)
         press_key('ctrls', 1)
         df.at[line, 'Status CJ02'] = 'Cadastrada'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        bot.sleep(3)
         
         line += 1
 
@@ -430,7 +429,7 @@ def diagram_creation():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 74
-line = 0
+line = 44
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -438,7 +437,7 @@ repeat_qty = lp_qty - line
 if __name__ == '__main__':
     wbs_element_creation()
 
-    line = 0
+    line = 53
     repeat_qty = lp_qty - line
 
     bot.PAUSE = 0.75
