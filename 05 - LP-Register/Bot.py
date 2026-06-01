@@ -41,7 +41,7 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-def wait_event(x, img, region=None, timeout=10):
+def wait_event(img, region=None, timeout=10):
     inicio = time.time()
 
     while time.time() - inicio < timeout:
@@ -49,11 +49,9 @@ def wait_event(x, img, region=None, timeout=10):
             local = bot.locateOnScreen(img, region=region, grayscale=True, confidence=0.9)
 
             if local:
-                print(f'{x}')
                 return local
             
         except:
-            print('=====')
             pass
 
         time.sleep(0.5)
