@@ -428,8 +428,8 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 74
-line = 44
+lp_qty = 53
+line = 36
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -437,7 +437,7 @@ repeat_qty = lp_qty - line
 if __name__ == '__main__':
     wbs_element_creation()
 
-    line = 53
+    line = 0
     repeat_qty = lp_qty - line
 
     bot.PAUSE = 0.75
