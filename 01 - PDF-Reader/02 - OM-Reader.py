@@ -4,11 +4,11 @@ import pandas as pd
 from pdf2image import convert_from_path
 import pytesseract
 import re
-from PIL import Image, ImageEnhance, ImageFilter
+from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = '04'
+KW = '05'
 ROTATION_ANGLE = 0
 
 PDF_PATH = f'01 - PDF-Reader/OMs - KW{KW}.pdf'
