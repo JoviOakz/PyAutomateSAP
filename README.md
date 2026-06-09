@@ -50,3 +50,4 @@ pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract 
 14286534	LP-057911
 14287663	LP-057917
 14287702	LP-057916
+https://inside-docupedia.bosch.com/confluence/spaces/Keyuser/pages/6348971696/CJ02+-+Modif.+Projeto+-+Cadastro+de+RS
