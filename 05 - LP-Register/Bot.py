@@ -428,8 +428,8 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 53
-line = 36
+lp_qty = 64
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
