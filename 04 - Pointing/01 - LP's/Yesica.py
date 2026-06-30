@@ -143,8 +143,8 @@ def save_line():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 168
-line = 68
+lp_qty = 1
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====

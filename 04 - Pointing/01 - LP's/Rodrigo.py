@@ -138,12 +138,12 @@ def save_line():
         print(f'Error: {e}')
 
     df.at[line, 'Status'] = 'Apointing created!'
-    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')         
     bot.sleep(3)
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 45
+lp_qty = 18
 line = 0
 repeat_qty = lp_qty - line
 

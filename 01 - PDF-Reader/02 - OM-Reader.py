@@ -8,7 +8,7 @@ from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = '05'
+KW = '2'
 ROTATION_ANGLE = 0
 
 PDF_PATH = f'01 - PDF-Reader/OMs - KW{KW}.pdf'
