@@ -428,22 +428,22 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 117
-line = 91
+lp_qty = 136
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    # wbs_element_creation()
+    wbs_element_creation()
 
-    line = 59
+    line = 0
     repeat_qty = lp_qty - line
 
     bot.PAUSE = 0.75
 
-    # enter_cn21()
-    # diagram_config()
+    enter_cn21()
+    diagram_config()
     diagram_creation()
 
     bot.alert(title='BotText', text='Program successfully completed')
