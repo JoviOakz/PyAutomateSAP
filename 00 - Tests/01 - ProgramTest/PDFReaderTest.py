@@ -1,46 +1,68 @@
+from pdf2image import convert_from_path
+from PIL import ImageEnhance, ImageFilter
+import pytesseract
 import pdfplumber
 import re
 
-with pdfplumber.open(r'GDS - Orç.06572-26.pdf') as pdf:
-    table = pdf.pages[0].extract_table()
-    
-    item_1 = table[1][0]
-    item_2 = table[2][0]
-    text_1 = table[1][1]
-    text_2 = table[2][1]
-    qty_1 = table[1][2]
-    qty_2 = table[2][2]
-    usi_time_1 = re.sub(r'[^0-9,]', '', table[1][3])
-    usi_time_2 = table[2][3]
-    total_value_1 = table[1][5]
-    total_value_2 = table[2][5]
-    om = re.sub(r'[^0-9]', '', table[5][1])
+PDF_PATH = r'GDS - Orç.06572-26.pdf'
 
-    print('\n')
+def preprocess_image(image):
+    image = image.convert('L')
+    image = image.filter(ImageFilter.MedianFilter())
+    enhancer = ImageEnhance.Contrast(image)
+    image = enhancer.enhance(2.0)
+    return image
 
-    for linha in table:
-        print(linha)
+def supplier_finder():
+    image = convert_from_path(PDF_PATH)
 
-print('\n==========================================================\n')
+    for i, image in enumerate(image):
+        try:
+            image = preprocess_image(image)
+            text = pytesseract.image_to_string(image)
+            supplier = re.search(r'\bGDS\b', text)
 
-print(f'''Fornecedor: GDS 
-Orç: 06572-26 - ITEM 0{item_1}
-LP/OM: {om} 
-Descrição: {text_1} 
-Qtd.: {qty_1} peças 
-Prazo: 07/08/2026
-Thais Fischer
-            
-Tempo de usinagem: {usi_time_1} horas p/pç''')
+            if supplier:
+                text = supplier.group(0)
+                return text
+            else:
+                print('Erro ao encontrar o fornecedor')
 
-print('\n==========================================================\n')
+        except Exception:
+            print('Erro ao processar PDF')
 
-print(f'''Fornecedor: GDS 
-Orç: 06572-26 - ITEM 0{item_2}
-LP/OM: {om} 
-Descrição: {text_2} 
-Qtd.: {qty_2} peças 
-Prazo: 07/08/2026
-Thais Fischer
-            
-Tempo de usinagem: {usi_time_2} horas p/pç\n''')
+def values_finder():
+    with pdfplumber.open(PDF_PATH) as pdf:
+        table = pdf.pages[0].extract_table()
+
+        number = table[1][0]
+        text = table[1][1]
+        qty = table[1][2]
+        usi_time = re.sub(r'[^0-9,]', '', table[1][3])
+        om = re.sub(r'[^0-9]', '', table[5][1])
+
+    return number, text, qty, usi_time, om
+
+def main():
+    supplier = ''
+    item = []
+
+    supplier = supplier_finder()
+    item = values_finder()
+
+    print('\n==========================================================\n')
+
+    print(f'''Fornecedor: {supplier}
+    Orç: 06572-26 - ITEM 0{item[0]}
+    LP/OM: {item[4]}
+    Descrição: {item[1]}
+    Qtd.: {item[2]} peças
+    Prazo: 07/08/2026
+    Thais Fischer
+
+    Tempo de usinagem: {item[3]} horas p/pç''')
+
+    print('\n==========================================================\n')
+
+if __name__ == '__main__':
+    main()
