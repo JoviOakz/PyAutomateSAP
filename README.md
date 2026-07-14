@@ -36,7 +36,7 @@ Seguir o caminho | 02 - Others -> 99 - Files | para adquirir o arquivo SDK do SA
 Instale todas as bibliotecas abaixo com o seguinte comando:
 
 ```bash
-pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython pyperclip oracledb
+pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython pyperclip oracledb pdfplumber
 ```
 
 ---
