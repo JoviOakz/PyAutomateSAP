@@ -316,7 +316,6 @@ def enter_cn21():
     bot.typewrite('/ncn21')
     press_key('enter', 1)
 
-def diagram_config():
     if wait_event('images/DIAGRAM_1.png'):
         pass
     else:
@@ -331,20 +330,45 @@ def diagram_config():
     press_key('tab', 1)
     bot.sleep(1.25)
     bot.typewrite('6854')
-    press_key('tab', 1)
+    press_key('stab', 2)
     bot.sleep(1.25)
 
-    if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
-        bot.typewrite('I33')
-    elif str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
-        bot.typewrite('I49')
+def diagram_config(line):
+    if line == 0:
+        press_key('tab', 3)
+        bot.sleep(1.25)
+
+        if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
+            bot.typewrite('I33')
+        elif str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+            bot.typewrite('I49')
+        else:
+            bot.typewrite('I39')
+
+        bot.sleep(1.25)
     else:
-        bot.typewrite('I39')
+        mrp = df.at[line, 'Responsável']
+        previous_mrp = df.at[line - 1, 'Responsável']
 
-    bot.sleep(1.25)
+        if mrp == previous_mrp:
+            pass
+        else:
+            press_key('tab', 3)
+            bot.sleep(1.25)
+
+            if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
+                bot.typewrite('I33')
+            elif str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+                bot.typewrite('I49')
+            else:
+                bot.typewrite('I39')
+
+            bot.sleep(1.25)
 
 def diagram_creation():
     global line
+
+    diagram_config(line)
 
     bot.PAUSE = 1.5
 
@@ -411,9 +435,17 @@ def diagram_creation():
         bot.PAUSE = 1.35
         
         press_key('ctrla', 1)
-        text_partnumber = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - '
+
+        if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez' or str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+            text_partnumber = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - '
+        else:
+            text_partnumber = str(df.at[line, 'Part Number']) + ' - '
+
         text_resp = '\nResp. ' + str(df.at[line, 'Responsável'])
-        bot.typewrite(text_partnumber)
+        
+        if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez' or str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+            bot.typewrite(text_partnumber)
+
         press_key('ctrlv', 1)
         bot.typewrite(text_resp)
         bot.sleep(1.15)
@@ -443,7 +475,6 @@ if __name__ == '__main__':
     bot.PAUSE = 0.75
 
     enter_cn21()
-    diagram_config()
     diagram_creation()
 
     bot.alert(title='BotText', text='Program successfully completed')
