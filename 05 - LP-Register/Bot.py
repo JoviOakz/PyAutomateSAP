@@ -333,9 +333,9 @@ def enter_cn21():
     press_key('stab', 2)
     bot.sleep(1.25)
 
-def diagram_config(line):
+def mrp_config(line):
     if line == 0:
-        press_key('tab', 3)
+        press_key('tab', 1)
         bot.sleep(1.25)
 
         if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
@@ -368,7 +368,7 @@ def diagram_config(line):
 def diagram_creation():
     global line
 
-    diagram_config(line)
+    mrp_config(line)
 
     bot.PAUSE = 1.5
 
@@ -460,7 +460,7 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 25
+lp_qty = 24
 line = 0
 repeat_qty = lp_qty - line
 
