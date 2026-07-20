@@ -87,7 +87,7 @@ def wbs_element_creation():
             raise ValueError('\n\n------------- Error: -------------\n|> 2º Project screen not found <|\n')
 
         press_key('ctrla', 1)
-        part_number = re.sub(r'[./-POSpos& ]', '', str(df.at[line, 'Part Number'])).strip()
+        part_number = re.sub(r'[-./POSpos& ]', '', str(df.at[line, 'Part Number'])).strip()
         pc.copy(str(df.at[line, 'Denominação']))
 
         if part_number.isdigit():
@@ -167,12 +167,12 @@ def wbs_element_creation():
         bot.typewrite(df.at[line, 'Entregar para'])
         bot.sleep(0.85)
         press_key('tab', 2)
-        bot.typewrite(str(df.at[line, 'Quantidade']))
+        bot.typewrite(str(df.at[line, 'Quantidade']).split('.')[0])
         press_key('tab', 1)
         bot.typewrite('PC')
         press_key('tab', 1)
         press_key('down', 1)
-        bot.typewrite(str(df.at[line, 'Custo estimado']))
+        bot.typewrite(str(df.at[line, 'Custo estimado']).split('.')[0])
         press_key('tab', 1)
         bot.typewrite('BRL')
         press_key('enter', 1)
@@ -195,7 +195,7 @@ def wbs_element_creation():
 
         press_key('tab', 1)
 
-        liquidation_object = str(df.at[line, 'Objeto de Liquidação']).strip()
+        liquidation_object = str(df.at[line, 'Objeto de Liquidação']).strip().split('.')[0]
         alocation = str(df.at[line, 'Esquema de Alocação']).strip()
 
         if len(alocation) == 1:
@@ -229,7 +229,7 @@ def wbs_element_creation():
             raise ValueError('\n\n------------- Error: -------------\n|> 2º Parameters screen not found <|\n')
         
         press_key('tab', 1)
-        bot.typewrite(str(df.at[line, 'Objeto de Liquidação']))
+        bot.typewrite(str(df.at[line, 'Objeto de Liquidação']).split('.')[0])
         press_key('f3', 1)
 
         if wait_event('images/WBS_2.png'):
@@ -298,6 +298,9 @@ def enter_cn21():
     
     press_key('stab', 1)
     press_key('left', 7)
+
+    bot.PAUSE = 0.75
+
     bot.typewrite('/ncn21')
     press_key('enter', 1)
 
@@ -309,7 +312,15 @@ def enter_cn21():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º Diagram screen not found <|\n')
     
-    press_key('right', 3)
+    press_key('right', 1)
+
+    bot.PAUSE = 0.15
+
+    press_key('left', 3)
+    press_key('right', 2)
+    
+    bot.PAUSE = 0.75
+
     press_key('tab', 1)
     bot.typewrite('BP01')
     press_key('tab', 1)
@@ -318,45 +329,38 @@ def enter_cn21():
     press_key('stab', 2)
 
 def mrp_config(line):
-    if line == 0:
-        press_key('tab', 1)
+    mrp = str(df.at[line, 'Responsável']).strip()
+    resp_change = False
+
+    if line > 0:
+        previous_mrp = str(df.at[line - 1, 'Responsável']).strip()
+
+        if mrp != previous_mrp:
+            resp_change = True
+
+    if line == 0 or resp_change:
+        press_key('tab', 3)
         bot.sleep(1.25)
 
-        if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
+        if mrp == 'Yesica Gonzalez':
             bot.typewrite('I33')
-        elif str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+        elif mrp == 'Rodrigo Melo':
             bot.typewrite('I49')
         else:
             bot.typewrite('I39')
 
         bot.sleep(1.25)
-    else:
-        mrp = df.at[line, 'Responsável']
-        previous_mrp = df.at[line - 1, 'Responsável']
-
-        if mrp == previous_mrp:
-            pass
-        else:
-            press_key('tab', 3)
-            bot.sleep(1.25)
-
-            if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez':
-                bot.typewrite('I33')
-            elif str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
-                bot.typewrite('I49')
-            else:
-                bot.typewrite('I39')
-
-            bot.sleep(1.25)
 
 def diagram_creation():
     global line
 
-    mrp_config(line)
-
-    bot.PAUSE = 1.5
-
     for _ in range(repeat_qty):
+        bot.PAUSE = 0.35
+
+        mrp_config(line)
+        
+        bot.PAUSE = 1.5
+        
         press_key('enter', 1)
 
         if wait_event('images/VALUE.png'):
@@ -423,7 +427,7 @@ def diagram_creation():
         description = ''
         responsible = ''
 
-        part_number = re.sub(r'[./-POSpos& ]', '', str(df.at[line, 'Part Number'])).strip()
+        part_number = re.sub(r'[-./POSpos& ]', '', str(df.at[line, 'Part Number'])).strip()
 
         if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez' or str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
             heijunka = 'HEIJUNKA\n'
@@ -432,7 +436,7 @@ def diagram_creation():
             description = str(df.at[line, 'Part Number']) + ' - '
 
         description += str(df.at[line, 'Denominação'])
-        responsible = '\nResponsável: ' + str(df.at[line, 'Responsável'])
+        responsible = '\nResp. ' + str(df.at[line, 'Responsável'])
         full_text = heijunka + description + responsible
 
         bot.typewrite(full_text)
@@ -460,7 +464,7 @@ if __name__ == '__main__':
     line = 0
     repeat_qty = lp_qty - line
 
-    bot.PAUSE = 0.75
+    bot.PAUSE = 0.35
 
     enter_cn21()
     diagram_creation()
