@@ -5,6 +5,7 @@ import pandas as pd
 import pyperclip as pc
 from datetime import date
 import time
+import re
 
 # ===== GLOBAL SETTINGS =====
 
@@ -86,38 +87,22 @@ def wbs_element_creation():
             raise ValueError('\n\n------------- Error: -------------\n|> 2º Project screen not found <|\n')
 
         press_key('ctrla', 1)
-        part_number = str(df.at[line, 'Part Number']).replace(' ', '')
+        part_number = re.sub(r'[./-POSpos& ]', '', str(df.at[line, 'Part Number'])).strip()
         pc.copy(str(df.at[line, 'Denominação']))
 
-        if not part_number.isalpha():
-            if len(part_number) >= 10:
-                full_text = str(df.at[line, 'Part Number']) + str(df.at[line, 'Denominação'])
-                if len(full_text) <= 37:
-                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ')
-                    press_key('ctrlv', 1)
-                else:
-                    bot.typewrite(str(df.at[line, 'Part Number']))
-            else:
-                press_key('ctrlv', 1)
-        else:
-            press_key('ctrlv', 1)
+        if part_number.isdigit():
+            bot.typewrite(str(df.at[line, 'Part Number']) + ' - ')
+
+        press_key('ctrlv', 1)
 
         bot.sleep(1.25)
         press_key('tab', 3)
         bot.sleep(0.85)
 
-        if not part_number.isalpha():
-            if len(part_number) >= 10:
-                full_text = str(df.at[line, 'Part Number']) + str(df.at[line, 'Denominação'])
-                if len(full_text) <= 37:
-                    bot.typewrite(str(df.at[line, 'Part Number']) + ' - ')
-                    press_key('ctrlv', 1)
-                else:
-                    bot.typewrite(str(df.at[line, 'Part Number']))
-            else:
-                press_key('ctrlv', 1)
-        else:
-            press_key('ctrlv', 1)
+        if part_number.isdigit():
+            bot.typewrite(str(df.at[line, 'Part Number']) + ' - ')
+
+        press_key('ctrlv', 1)
 
         bot.sleep(1.5)
         press_key('ctrlf9', 1)
@@ -328,10 +313,9 @@ def enter_cn21():
     press_key('tab', 1)
     bot.typewrite('BP01')
     press_key('tab', 1)
-    bot.sleep(1.25)
     bot.typewrite('6854')
+    bot.sleep(1.15)
     press_key('stab', 2)
-    bot.sleep(1.25)
 
 def mrp_config(line):
     if line == 0:
@@ -373,7 +357,6 @@ def diagram_creation():
     bot.PAUSE = 1.5
 
     for _ in range(repeat_qty):
-        pc.copy(str(df.at[line, 'Denominação']))
         press_key('enter', 1)
 
         if wait_event('images/VALUE.png'):
@@ -414,7 +397,7 @@ def diagram_creation():
         bot.sleep(1.5)
         press_key('tab', 1)
         press_key('enter', 1)
-        bot.sleep(2)
+        bot.sleep(1.5)
 
         bot.PAUSE = 1.25
 
@@ -436,18 +419,23 @@ def diagram_creation():
         
         press_key('ctrla', 1)
 
-        if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez' or str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
-            text_partnumber = 'HEIJUNKA\n' + str(df.at[line, 'Part Number']) + ' - '
-        else:
-            text_partnumber = str(df.at[line, 'Part Number']) + ' - '
+        heijunka = ''
+        description = ''
+        responsible = ''
 
-        text_resp = '\nResp. ' + str(df.at[line, 'Responsável'])
-        
-        if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez' or str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
-            bot.typewrite(text_partnumber)
+        part_number = re.sub(r'[./-POSpos& ]', '', str(df.at[line, 'Part Number'])).strip()
 
-        press_key('ctrlv', 1)
-        bot.typewrite(text_resp)
+        if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez' or str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+            heijunka = 'HEIJUNKA\n'
+
+        if part_number.isdigit():
+            description = str(df.at[line, 'Part Number']) + ' - '
+
+        description += str(df.at[line, 'Denominação'])
+        responsible = '\nResponsável: ' + str(df.at[line, 'Responsável'])
+        full_text = heijunka + description + responsible
+
+        bot.typewrite(full_text)
         bot.sleep(1.15)
         press_key('ctrlsf12', 1)
         bot.sleep(3)
@@ -460,7 +448,7 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 88
+lp_qty = 2
 line = 0
 repeat_qty = lp_qty - line
 
