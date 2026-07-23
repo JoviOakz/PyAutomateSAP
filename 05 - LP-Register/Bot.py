@@ -51,12 +51,10 @@ def wait_event(img, region=None, timeout=10):
 
             if local:
                 return local
-            
         except:
             pass
 
         time.sleep(0.5)
-
     return None
 
 def wbs_element_creation():
@@ -67,7 +65,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 1º Project screen not found <|\n')
         
@@ -82,7 +80,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 2º Project screen not found <|\n')
 
@@ -111,7 +109,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 1º WBS screen not found <|\n')
         
@@ -154,7 +152,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 2º WBS screen not found <|\n')
 
@@ -189,7 +187,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 1º Parameters screen not found <|\n')
 
@@ -224,7 +222,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 2º Parameters screen not found <|\n')
         
@@ -236,7 +234,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 1º Return error <|\n')
         
@@ -246,7 +244,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 2º Return error <|\n')
         
@@ -256,7 +254,7 @@ def wbs_element_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CJ02'] = 'Erro'
+            df.at[line, 'Status CJ02'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 3º WBS screen not found <|\n')
 
@@ -292,7 +290,7 @@ def enter_cn21():
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
-        df.at[line, 'Status CN21'] = 'Erro'
+        df.at[line, 'Status CN21'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> Project screen not found <|\n')
     
@@ -308,7 +306,7 @@ def enter_cn21():
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
-        df.at[line, 'Status CN21'] = 'Erro'
+        df.at[line, 'Status CN21'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º Diagram screen not found <|\n')
     
@@ -367,7 +365,7 @@ def diagram_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CN21'] = 'Erro'
+            df.at[line, 'Status CN21'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> Value box not found <|\n')
 
@@ -379,7 +377,7 @@ def diagram_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CN21'] = 'Erro'
+            df.at[line, 'Status CN21'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 2º Diagram screen not found <|\n')
 
@@ -391,7 +389,7 @@ def diagram_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CN21'] = 'Erro'
+            df.at[line, 'Status CN21'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 1º Attribuition screen not found <|\n')
 
@@ -413,7 +411,7 @@ def diagram_creation():
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status CN21'] = 'Erro'
+            df.at[line, 'Status CN21'] = 'Error'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> 2º Attribuition screen not found <|\n')
 
