@@ -31,6 +31,8 @@ def press_key(key, times):
             bot.hotkey('ctrl', 'c')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
+        elif key == 'ctrle':
+            bot.hotkey('ctrl', 'enter')
         elif key == 'ctrltab':
             bot.hotkey('ctrl', 'tab')
         elif key == 'ctrlstab':
@@ -78,6 +80,51 @@ def open_lp():
 
     press_key('enter', 1)
 
+def close_project():
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 4)
+    press_key('right', 1)
+    press_key('enter', 1)
+    bot.sleep(0.75)
+
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 6)
+    press_key('right', 1)
+    press_key('enter', 1)
+    bot.sleep(0.75)
+
+    press_key('ctrls', 1)
+
+def close_diagram():
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 4)
+    press_key('right', 1)
+    press_key('enter', 1)
+    bot.sleep(0.75)
+
+    press_key('alt', 1)
+    press_key('right', 1)
+    press_key('down', 2)
+    press_key('right', 1)
+    press_key('down', 6)
+    press_key('right', 1)
+    press_key('enter', 1)
+    bot.sleep(0.75)
+
+    press_key('ctrlstab', 3)
+    press_key('up', 2)
+    press_key('ctrle', 1)
+    bot.sleep(0.75)
+
 def check_status():
     if wait_event('images/PROJECT_BUILDER_3.png'):
         pass
@@ -103,15 +150,38 @@ def check_status():
     else:
         return 'ENCE'
 
-def process_status(status):
+def verify_diagram():
+    press_key('ctrlstab', 3)
+    press_key('down', 1)
+    press_key('right', 1)
+    press_key('ctrlstab', 3)
+    press_key('up', 1)
+    press_key('down', 2)
+    press_key('ctrle', 1)
+    bot.sleep(0.75)
+
+    press_key('ctrltab', 1)
+    press_key('ctrlstab', 1)
+    press_key('ctrla', 1)
+    press_key('ctrlc', 1)
+
+    lp = pc.paste()
+
+    if '-' in lp:
+        print('a')
+
+def process_lp(status):
     match status:
         case 'ABER':
-            print('1')
-        case 'ABER':
-            print('2')
-        case 'ABER':
+            close_project()
+
+        case 'LIB':
+            verify_diagram()
+
+        case 'ENTE':
             print('3')
-        case 'ABER':
+
+        case 'ENCE':
             print('4')
 
 # ===== PROGRAM CONFIGURATION =====
@@ -126,13 +196,6 @@ if __name__ == '__main__':
     for _ in range(repeat_qty):
         open_lp()
         status = check_status()
-        process_status(status)
-        exist = diagram_verifier()
-
-        if exist:
-            close_diagram()
-
-        close_lp()
-        save()
+        process_lp(status)
 
     bot.alert(title='BotText', text='Program successfully completed')
