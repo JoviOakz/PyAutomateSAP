@@ -103,7 +103,7 @@ def verify_lp():
 
 def create_apointment():
     press_key('tab', 2)
-    bot.typewrite('APS - Yesica - 23.07.2026')
+    bot.typewrite('APS - Yesica - 24.07.2026')
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
@@ -143,8 +143,8 @@ def save_line():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 121
-line = 109
+lp_qty = 64
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
