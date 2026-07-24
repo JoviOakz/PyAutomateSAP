@@ -4,6 +4,8 @@ import pyautogui as bot
 import pyperclip as pc
 import pandas as pd
 import time
+import re
+from datetime import date
 
 # ===== GLOBAL SETTINGS =====
 
@@ -54,8 +56,7 @@ def apointment_verifier():
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
 
-    text = pc.paste()
-    text = text.strip()
+    text = pc.paste().strip()
 
     if text != 'H':
         return False
@@ -71,11 +72,10 @@ def wcenter_verifier():
         press_key('ctrla', 1)
         press_key('ctrlc', 1)
 
-        wcenter = pc.paste()
-        wcenter = wcenter.strip()
+        wcenter = pc.paste().strip()
 
         if wcenter != 'FF78012':
-            wcenter = False
+            not_empty = False
         else:
             press_key('tab', 1)
             press_key('ctrla', 1)
@@ -86,6 +86,8 @@ def wcenter_verifier():
     press_key('stab', 4)
 
 def open_diagram():
+    global line
+
     if wait_event('images/DIAGRAM_1.png'):
         pass
     else:
@@ -94,7 +96,8 @@ def open_diagram():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º Diagram screen not found <|\n')
     
-    lp = df.at[line, 'LPs']
+    lp = re.sub('-', '', df.at[line, 'LPs'])
+    press_key('ctrla', 1)
     bot.typewrite(str(lp))
     press_key('f7', 1)
 
@@ -111,11 +114,13 @@ def verify_lp():
 
     if not have_apointment:
         wcenter_verifier()
+        return False
     else:
-        press_key('f3', 1)
+        press_key('f3', 2)
+        return True
 
 def create_apointment():
-    bot.typewrite('APS - Rodrigo - 23.07.2026')
+    bot.typewrite('APS - Rodrigo - ' + date.today().strftime('%d.%m.%Y'))
     press_key('tab', 2)
     bot.typewrite('H')
     press_key('tab', 2)
@@ -128,36 +133,45 @@ def create_apointment():
 
 def save_line():
     press_key('ctrls', 1)
-    bot.sleep(2.55)
-    press_key('tab', 1)
-    press_key('enter', 1)
-    bot.sleep(1.55)
-    bot.typewrite('92866849')
-    press_key('enter', 1)
-    bot.sleep(1.75)
-    press_key('tab', 1)
-    bot.sleep(0.75)
-    press_key('enter', 1)
-    bot.sleep(1.75)
 
-    if wait_event('images/WARNING.png'):
+    if wait_event('images/WARNING_1.png'):
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
         df.at[line, 'Status'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        raise ValueError('\n\n------------- Error: -------------\n|> Diagram screen not found <|\n')
-
-    press_key('enter', 1)
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Advertence window not found <|\n')
     
+    press_key('tab', 1)
+    press_key('enter', 1)
+    bot.sleep(1.5)
+    bot.typewrite('92866849')
+    press_key('enter', 1)
+
+    if wait_event('images/WARNING_2.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 2º Advertence window not found <|\n')
+
+    press_key('tab', 1)
+    bot.sleep(0.75)
+    press_key('enter', 1)
+
+    if wait_event('images/WARNING_3.png', timeout=2.5):
+        press_key('enter', 1)
+    else:
+        pass
+
     df.at[line, 'Status'] = 'Apointing created!'
     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')         
-    bot.sleep(3)
 
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 37
-line = 0
+line = 3
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -165,9 +179,11 @@ repeat_qty = lp_qty - line
 if __name__ == '__main__':
     for _ in range(repeat_qty):
         open_diagram()
-        verify_lp()
-        create_apointment()
-        save_line()
+        alr_ap = verify_lp()
+
+        if not alr_ap:
+            create_apointment()
+            save_line()
 
         line += 1
 
