@@ -33,6 +33,8 @@ def press_key(key, times):
             bot.hotkey('shift', 'tab')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
+        elif key == 'senter':
+            bot.hotkey('shift', 'enter')
         else:
             bot.press(key)
 
@@ -86,8 +88,6 @@ def wcenter_verifier():
     press_key('stab', 4)
 
 def open_diagram():
-    global line
-
     if wait_event('images/DIAGRAM_1.png'):
         pass
     else:
@@ -165,8 +165,44 @@ def save_line():
     else:
         pass
 
+def apoint_process():
+    if wait_event('images/DIAGRAM_2.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 2º Diagram screen not found <|\n')
+
+    press_key('senter', 1)
+    press_key('ctrltab', 1)
+    press_key('tab', 5)
+    press_key('enter', 1)
+    press_key('down', 1)
+    bot.typewrite('92866849')
+    press_key('ctrltab', 1)
+    press_key('stab', 1)
+    bot.typewrite('APS - Rodrigo - ' + date.today().strftime('%d.%m.%Y'))
+    press_key('down', 1)
+    press_key('stab', 1)
+    press_key('space', 1)
+    press_key('down', 1)
+    press_key('space', 1)
+    press_key('ctrlstab', 2)
+    press_key('stab', 2)
+    press_key('up', 1)
+    bot.typewrite(str(df.at[line, 'Hour']))
+    press_key('enter', 1)
+    bot.sleep(0.75)
+    press_key('ctrlstab', 1)
+    press_key('enter', 1)
+    press_key('tab', 3)
+    bot.typewrite(str(df.at[line, 'Hour']))
+
+def save_apointment():
+    press_key('ctrls', 1)
     df.at[line, 'Status'] = 'Apointing created!'
-    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')         
+    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -184,6 +220,10 @@ if __name__ == '__main__':
         if not alr_ap:
             create_apointment()
             save_line()
+
+            open_diagram()
+            apoint_process()
+            save_apointment()
 
         line += 1
 
