@@ -33,8 +33,12 @@ def press_key(key, times):
             bot.hotkey('shift', 'tab')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
-        elif key == 'senter':
-            bot.hotkey('shift', 'enter')
+        elif key == 'ctrltab':
+            bot.hotkey('ctrl', 'tab')
+        elif key == 'ctrlstab':
+            bot.hotkey('ctrl', 'shift', 'tab')
+        elif key == 'sspace':
+            bot.hotkey('shift', 'space')
         else:
             bot.press(key)
 
@@ -174,10 +178,13 @@ def apoint_process():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 2º Diagram screen not found <|\n')
 
-    press_key('senter', 1)
+    press_key('sspace', 1)
+    bot.PAUSE = 0.25
     press_key('ctrltab', 1)
     press_key('tab', 5)
+    bot.PAUSE = 0.75
     press_key('enter', 1)
+    bot.sleep(1)
     press_key('down', 1)
     bot.typewrite('92866849')
     press_key('ctrltab', 1)
@@ -191,13 +198,13 @@ def apoint_process():
     press_key('ctrlstab', 2)
     press_key('stab', 2)
     press_key('up', 1)
-    bot.typewrite(str(df.at[line, 'Hour']))
+    bot.typewrite(str(df.at[line, 'Hour']).replace('.', ','))
     press_key('enter', 1)
     bot.sleep(0.75)
     press_key('ctrlstab', 1)
     press_key('enter', 1)
     press_key('tab', 3)
-    bot.typewrite(str(df.at[line, 'Hour']))
+    bot.typewrite(str(df.at[line, 'Hour']).replace('.', ','))
 
 def save_apointment():
     press_key('ctrls', 1)
@@ -207,7 +214,7 @@ def save_apointment():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 37
-line = 3
+line = 4
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
