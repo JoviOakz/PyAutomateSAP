@@ -207,6 +207,7 @@ def apoint_process():
     bot.sleep(0.75)
     press_key('ctrlstab', 1)
     press_key('enter', 1)
+    bot.sleep(0.5)
     press_key('tab', 3)
     bot.typewrite(str(df.at[line, 'Hour']).replace('.', ','))
 
@@ -217,8 +218,8 @@ def save_apointment():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 37
-line = 8
+lp_qty = 36
+line = 24
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
