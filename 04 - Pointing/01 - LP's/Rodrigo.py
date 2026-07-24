@@ -58,9 +58,11 @@ def wait_event(img, region=None, timeout=10):
     return None
 
 def apointment_verifier():
+    bot.PAUSE = 0.25
     press_key('tab', 4)
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
+    bot.PAUSE = 0.75
 
     text = pc.paste().strip()
 
@@ -70,6 +72,7 @@ def apointment_verifier():
         return True
 
 def wcenter_verifier():
+    bot.PAUSE = 0.25
     press_key('tab', 2)
 
     not_empty = True
@@ -90,6 +93,7 @@ def wcenter_verifier():
             press_key('down', 1)
 
     press_key('stab', 4)
+    bot.PAUSE = 0.75
 
 def open_diagram():
     if wait_event('images/DIAGRAM_1.png'):
@@ -214,7 +218,7 @@ def save_apointment():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 37
-line = 4
+line = 8
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
