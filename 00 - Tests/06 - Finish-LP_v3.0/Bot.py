@@ -76,8 +76,7 @@ def open_lp():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> Open project window not found <|\n')
 
-    bot.typewrite(re.sub('-', '', str(df.at[line, 'LP'])))
-
+    bot.typewrite(str(df.at[line, 'LP']))
     press_key('enter', 1)
 
 def close_project():
@@ -140,6 +139,8 @@ def check_status():
     press_key('enter', 1)
 
     project_status = pc.paste()
+
+    # Inserir o Status -> LBPA
 
     if 'ABER' in project_status:
         return 'ABER'
