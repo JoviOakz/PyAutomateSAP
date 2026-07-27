@@ -5,7 +5,6 @@ import pandas as pd
 import pyperclip as pc
 from datetime import date
 import time
-import re
 
 # ===== GLOBAL SETTINGS =====
 
