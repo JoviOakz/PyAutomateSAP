@@ -218,24 +218,24 @@ def save_apointment():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 36
-line = 24
+lp_qty = 185
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
     for _ in range(repeat_qty):
+        # open_diagram()
+        # alr_ap = verify_lp()
+
+        # if not alr_ap:
+        #     create_apointment()
+        #     save_line()
+
         open_diagram()
-        alr_ap = verify_lp()
-
-        if not alr_ap:
-            create_apointment()
-            save_line()
-
-            open_diagram()
-            apoint_process()
-            save_apointment()
+        apoint_process()
+        save_apointment()
 
         line += 1
 
