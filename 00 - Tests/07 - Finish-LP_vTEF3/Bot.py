@@ -10,7 +10,7 @@ import re
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 0.75
+bot.PAUSE = 0.85
 
 # ===== INITIAL ACTION =====
 
@@ -18,7 +18,7 @@ bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
-EXCEL_PATH = '../01 - Excels/TEF3.xlsx'
+EXCEL_PATH = '../../01 - Excels/TEF3.xlsx'
 df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== FUNCTIONS =====
@@ -65,10 +65,10 @@ def open_lp():
         df.at[line, 'Status'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º Project Builder screen not found <|\n')
-    
-    press_key('alt', 1)
-    press_key('down', 2)
-    press_key('enter', 1)
+
+    bot.click(1200, 300)
+    press_key('alt', 2)
+    press_key('b', 1)
 
     if wait_event('images/PROJECT_BUILDER_2.png'):
         pass
@@ -90,10 +90,13 @@ def check_status():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 2º Project Builder screen not found <|\n')
 
+    bot.PAUSE = 0.25
     press_key('ctrltab', 4)
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
     press_key('enter', 1)
+    bot.PAUSE = 0.85
+    bot.sleep(0.85)
 
     project_status = pc.paste()
 
@@ -113,15 +116,15 @@ def close_project():
     press_key('s', 1)
     press_key('t', 1)
     press_key('d', 1)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
 
     press_key('alte', 1)
     press_key('s', 1)
     press_key('a', 1)
     press_key('d', 1)
-    bot.sleep(0.75)
+    bot.sleep(0.85)
 
-    if wait_event('images/WARNING_1.png'):
+    if wait_event('images/WARNING_1.png', timeout=2.25):
         press_key('tab', 1)
         press_key('enter', 1)
         df.at[line, 'Status'] = 'Apropriar na CJ88'
@@ -232,14 +235,14 @@ def ence_project():
     press_key('s', 1)
     press_key('a', 1)
     press_key('d', 1)
-    bot.sleep(0.75)
-    
+    bot.sleep(0.85)
+
     press_key('ctrls', 1)
 
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 166
-line = 0
+line = 115
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
