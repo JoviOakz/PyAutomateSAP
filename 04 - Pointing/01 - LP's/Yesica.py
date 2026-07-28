@@ -216,14 +216,14 @@ def save_apointment():
 
     if wait_event('images/WARNING_3.png', timeout=2.5):
         press_key('enter', 1)
-    else:
-        df.at[line, 'Status'] = 'Apointing created!'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    
+    df.at[line, 'Status'] = 'Apointing created!'
+    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 185
-line = 42
+line = 64
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
