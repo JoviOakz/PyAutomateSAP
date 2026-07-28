@@ -223,7 +223,7 @@ def save_apointment():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 185
-line = 64
+line = 79
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
