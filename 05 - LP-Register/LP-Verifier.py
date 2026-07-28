@@ -23,7 +23,7 @@ def press_key(key, times):
         elif key == 'ctrlv':
             bot.hotkey('ctrl', 'v')
         elif key == 'ctrlup':
-            bot.hotkey('shift', 'up')
+            bot.hotkey('ctrl', 'up')
         else:
             bot.press(key)
 
@@ -51,7 +51,7 @@ def verifier(repeat_qty):
 
 # ===== PROGRAM CONFIGURATION =====
 
-repeat_qty = 20
+repeat_qty = 27
 
 # ===== MAIN =====
 
