@@ -26,10 +26,12 @@ def press_key(key, times):
     for _ in range(times):
         if key == 'ctrla':
             bot.hotkey('ctrl', 'a')
-        if key == 'ctrlc':
+        elif key == 'ctrlc':
             bot.hotkey('ctrl', 'c')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
+        elif key == 'stab':
+            bot.hotkey('shift', 'tab')
         elif key == 'ctrle':
             bot.hotkey('ctrl', 'enter')
         elif key == 'ctrltab':
@@ -65,8 +67,8 @@ def open_lp():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º Project Builder screen not found <|\n')
 
-    bot.click(1200, 300)
-    press_key('alt', 2)
+    press_key('stab', 1)
+    press_key('alt', 1)
     press_key('b', 1)
 
     if wait_event('images/PROJECT_BUILDER_2.png'):
@@ -167,6 +169,17 @@ def cj88_config():
     bot.typewrite('/NCJ88')
     press_key('enter', 1)
 
+    if wait_event('images/ACC.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Project Builder screen not found <|\n')
+
+    bot.typewrite('0010')
+    press_key('enter', 1)
+
     if wait_event('images/APPROPRIATION_1.png'):
         pass
     else:
@@ -174,7 +187,8 @@ def cj88_config():
         df.at[line, 'Status'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
-    
+
+    bot.typewrite(str(df.at[line, 'LP']))
     press_key('tab', 2)
     press_key('down', 1)
     press_key('space', 1)
@@ -188,6 +202,7 @@ def cj88_config():
     bot.typewrite('2026')
     press_key('tab', 1)
     bot.typewrite(date.today().strftime('%d.%m.%Y'))
+    press_key('enter', 1)
 
 def appropriate_lp():
     if wait_event('images/APPROPRIATION_1.png'):
@@ -202,18 +217,20 @@ def appropriate_lp():
     press_key('ctrltab', 2)
     press_key('space', 1)
     press_key('f8', 1)
-    df.at[line, 'Status'] = 'Apropriado'
-    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
-    if wait_event('images/APPROPRIATION_2.png'):
-        pass
-    else:
-        bot.alert(title='Warning', text='Script error found!')
-        df.at[line, 'Status'] = 'Error'
+    if wait_event('images/WARNING_2.png', timeout=2.25):
+        df.at[line, 'Status'] = 'Apropriado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
-
-    press_key('f3')
+    else:
+        if wait_event('images/APPROPRIATION_2.png'):
+            df.at[line, 'Status'] = 'Apropriado'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            press_key('f3')
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
 
 def cj20n_config():
     if wait_event('images/APPROPRIATION_1.png'):
@@ -230,18 +247,28 @@ def cj20n_config():
     press_key('enter', 1)
 
 def ence_project():
+    press_key('ctrltab', 1)
     press_key('alte', 1)
     press_key('s', 1)
     press_key('a', 1)
     press_key('d', 1)
     bot.sleep(0.85)
 
+    if wait_event('images/WARNING_1.png', timeout=2.25):
+        press_key('tab', 1)
+        press_key('enter', 1)
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    else:
+        df.at[line, 'Status'] = 'Encerrado'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+
     press_key('ctrls', 1)
 
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 166
-line = 115
+line = 117
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -253,7 +280,9 @@ if __name__ == '__main__':
         process_lp(status)
         line += 1
 
+    lp_qty = 166
     line = 0
+    repeat_qty = lp_qty - line
     cj88_config()
 
     for _ in range(repeat_qty):
@@ -264,7 +293,9 @@ if __name__ == '__main__':
 
         line += 1
 
+    lp_qty = 166
     line = 0
+    repeat_qty = lp_qty - line
     cj20n_config()
 
     for _ in range(repeat_qty):

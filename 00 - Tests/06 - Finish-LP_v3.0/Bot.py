@@ -5,7 +5,6 @@ import pandas as pd
 import pyperclip as pc
 from datetime import date
 import time
-import re
 
 # ===== GLOBAL SETTINGS =====
 
@@ -27,7 +26,7 @@ def press_key(key, times):
     for _ in range(times):
         if key == 'ctrla':
             bot.hotkey('ctrl', 'a')
-        if key == 'ctrlc':
+        elif key == 'ctrlc':
             bot.hotkey('ctrl', 'c')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
