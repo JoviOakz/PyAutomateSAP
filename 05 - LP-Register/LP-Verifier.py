@@ -51,7 +51,7 @@ def verifier(repeat_qty):
 
 # ===== PROGRAM CONFIGURATION =====
 
-repeat_qty = 27
+repeat_qty = 32
 
 # ===== MAIN =====
 
