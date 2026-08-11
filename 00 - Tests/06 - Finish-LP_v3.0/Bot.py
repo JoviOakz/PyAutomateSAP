@@ -214,28 +214,20 @@ def close_diagram():
 
             press_key('stab', 1)
             press_key('enter', 1)
+
+            if wait_event('images/WARNING_4.png'):
+                pass
+            else:
+                bot.alert(title='Warning', text='Script error found!')
+                df.at[line, 'Status'] = 'Error'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+
             press_key('tab', 1)
             press_key('enter', 1)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        press_key('ctrlstab', 4)
+        press_key('enter', 1)
 
     press_key('alte', 1)
     press_key('s', 1)
@@ -249,17 +241,22 @@ def close_diagram():
     press_key('d', 1)
     bot.sleep(0.85)
 
-    if wait_event('images/WARNING_1.png', timeout=2.25):
-        press_key('tab', 1)
-        press_key('enter', 1)
-        df.at[line, 'Status'] = 'Apropriar na CJ88'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-    else:
-        df.at[line, 'Status'] = 'Encerrado'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    # VERIFICAÇÃO SE CONCLUIU CORRETAMENTE OU POSSUI VALOR PENDENTE
 
-    bot.sleep(0.85)
-    press_key('ctrls', 1)
+    if wait_event('images/WARNING_5.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+
+    press_key('enter', 1)
+    press_key('ctrlstab', 3)
+    press_key('up', 2)
+    press_key('ctrle', 1)
+
+    close_project()
 
 def close_project():
     press_key('alte', 1)
@@ -291,16 +288,21 @@ def process_lp(status):
         case 'ABER':
             close_project()
 
-        # case 'LBPA':
-        #     close_project()
+        case 'LBPA':
+            diagram_exist = verify_diagram()
+
+            if diagram_exist:
+                close_diagram()
+            else:
+                press_key('f3', 1)
+                df.at[line, 'Status'] = 'Diagrama não encontrado'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
         case 'LIB':
             diagram_exist = verify_diagram()
 
             if diagram_exist:
                 close_diagram()
-                close_project()
-
             else:
                 press_key('f3', 1)
                 df.at[line, 'Status'] = 'Diagrama não encontrado'
