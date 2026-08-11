@@ -98,8 +98,8 @@ def check_status():
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
     press_key('enter', 1)
-    bot.PAUSE = 0.85
     bot.sleep(0.85)
+    bot.PAUSE = 0.85
 
     project_status = pc.paste()
 
@@ -118,7 +118,10 @@ def verify_diagram():
     press_key('ctrlstab', 3)
     press_key('down', 1)
     press_key('right', 1)
+    bot.sleep(0.85)
+    press_key('ctrle', 1)
     bot.sleep(1.25)
+    press_key('ctrlstab', 3)
     press_key('down', 1)
     press_key('ctrle', 1)
     bot.sleep(1.25)
@@ -143,7 +146,6 @@ def close_diagram():
     content = True
     total_lines = 0
     diagram_line = 0
-    repeat_process = total_lines - diagram_line
 
     while content:
         press_key('ctrla', 1)
@@ -164,15 +166,56 @@ def close_diagram():
         press_key('down', 1)
         total_lines += 1
 
-    press_key('up', repeat_process)
+    repeat_process = total_lines - diagram_line
 
-    for _ in range(repeat_process):
-        press_key('sspace', 1)
-        press_key('down', 1)
+    if repeat_process > 0:
+        press_key('up', repeat_process)
 
-    press_key('ctrltab', 1)
-    press_key('tab', 5)
-    press_key('enter', 1)
+        for _ in range(repeat_process):
+            press_key('sspace', 1)
+            press_key('down', 1)
+
+        press_key('ctrltab', 1)
+        press_key('tab', 5)
+        press_key('enter', 1)
+
+        for _ in range(repeat_process):
+            press_key('down', 1)
+            bot.typewrite('92903610')
+            press_key('ctrltab', 1)
+            press_key('tab', 1)
+            press_key('space', 1)
+            press_key('down', 1)
+            press_key('space', 1)
+            press_key('tab', 1)
+            press_key('space', 1)
+            press_key('ctrlstab', 2)
+            press_key('tab', 3)
+            press_key('space', 1)
+
+            if wait_event('images/WARNING_2.png'):
+                pass
+            else:
+                bot.alert(title='Warning', text='Script error found!')
+                df.at[line, 'Status'] = 'Error'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+
+            press_key('tab', 1)
+            press_key('enter', 1)
+
+            if wait_event('images/WARNING_3.png'):
+                pass
+            else:
+                bot.alert(title='Warning', text='Script error found!')
+                df.at[line, 'Status'] = 'Error'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+
+            press_key('stab', 1)
+            press_key('enter', 1)
+            press_key('tab', 1)
+            press_key('enter', 1)
 
 
 
@@ -193,8 +236,6 @@ def close_diagram():
 
 
 
-    
-    
 
     press_key('alte', 1)
     press_key('s', 1)
@@ -259,6 +300,11 @@ def process_lp(status):
             if diagram_exist:
                 close_diagram()
                 close_project()
+
+            else:
+                press_key('f3', 1)
+                df.at[line, 'Status'] = 'Diagrama não encontrado'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
         case 'ENTE':
             press_key('f3', 1)
@@ -331,7 +377,7 @@ def appropriate_lp():
     press_key('space', 1)
     press_key('f8', 1)
 
-    if wait_event('images/WARNING_2.png', timeout=2.25):
+    if wait_event('images/APPROPRIATE.png', timeout=2.25):
         df.at[line, 'Status'] = 'Apropriado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
     else:
