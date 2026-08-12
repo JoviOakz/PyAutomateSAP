@@ -226,8 +226,8 @@ def close_diagram():
             press_key('tab', 1)
             press_key('enter', 1)
 
-        press_key('ctrlstab', 4)
-        press_key('enter', 1)
+    press_key('ctrlstab', 4)
+    press_key('enter', 1)
 
     press_key('alte', 1)
     press_key('s', 1)
@@ -241,17 +241,24 @@ def close_diagram():
     press_key('d', 1)
     bot.sleep(0.85)
 
-    # VERIFICAÇÃO SE CONCLUIU CORRETAMENTE OU POSSUI VALOR PENDENTE
-
-    if wait_event('images/WARNING_5.png'):
-        pass
-    else:
-        bot.alert(title='Warning', text='Script error found!')
-        df.at[line, 'Status'] = 'Error'
+    if wait_event('images/WARNING_1.png', timeout=2.25):
+        press_key('tab', 1)
+        press_key('enter', 1)
+        bot.sleep(0.85)
+        press_key('ctrls', 1)
+        df.at[line, 'Status'] = 'Apropriar na CJ88'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+        return
 
-    press_key('enter', 1)
+    if repeat_process > 0:
+        if wait_event('images/WARNING_5.png'):
+            press_key('enter', 1)
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+
     press_key('ctrlstab', 3)
     press_key('up', 2)
     press_key('ctrle', 1)
