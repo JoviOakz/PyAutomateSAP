@@ -14,26 +14,33 @@ bot.PAUSE = 0.25
 
 # ===== INITIAL ACTION =====
 
-bot.click(1802, 14)
-# bot.hotkey('win', 'r')
-# bot.typewrite('saplogon')
-# bot.press('enter')
-# bot.sleep(15)
-# bot.hotkey('shift', 'tab')
-# bot.typewrite('ps0')
-# bot.press('enter')
-# bot.sleep(20)
-# bot.press('tab')
-# bot.hotkey('shift', 'tab')
-# bot.typewrite('CJ02')
-# bot.press('enter')
-# bot.sleep(15)
+# bot.click(1802, 14)
+bot.hotkey('win', 'r')
+bot.typewrite('saplogon')
+bot.press('enter')
+bot.sleep(10)
+bot.hotkey('shift', 'tab')
+bot.typewrite('ps0')
+bot.press('enter')
+bot.sleep(15)
+bot.press('tab')
+bot.hotkey('shift', 'tab')
+bot.typewrite('CJ02')
+bot.press('enter')
+bot.sleep(10)
 
 # ===== EXCEL CONFIGURATION =====
 
-EXCEL_PATH = '../98 - Excels/LP-Register.xlsx'
-# EXCEL_PATH = 'Teste.xlsx'
-df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
+# EXCEL_PATH = '../98 - Excels/LP-Register.xlsx'
+EXCEL_PATH = 'Teste.xlsx'
+df = pd.read_excel(
+    EXCEL_PATH,
+    engine='openpyxl',
+    dtype={
+        'Status CJ02': str,
+        'Status CN21': str
+    }
+)
 
 # ===== FUNCTIONS =====
 
