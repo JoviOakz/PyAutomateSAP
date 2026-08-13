@@ -278,7 +278,7 @@ def wbs_element_creation():
         press_key('enter', 1)
         bot.sleep(1.75)
         press_key('ctrls', 1)
-        df.at[line, 'Status CJ02'] = 'Cadastrada'
+        df.at[line, 'Status CJ02'] = 'Cadastrado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         
         line += 1
@@ -450,8 +450,8 @@ def diagram_creation():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 110
-line = 69
+lp_qty = len(df['Responsável'])
+line = (df['Status CJ02'] == 'Cadastrado').sum()
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -459,7 +459,7 @@ repeat_qty = lp_qty - line
 if __name__ == '__main__':
     wbs_element_creation()
 
-    line = 0
+    line = (df['Status CN21'] == 'Cadastrado').sum()
     repeat_qty = lp_qty - line
 
     bot.PAUSE = 0.35
