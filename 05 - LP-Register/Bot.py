@@ -350,6 +350,14 @@ def mrp_config(line):
             bot.typewrite('I33')
         elif mrp == 'Rodrigo Melo':
             bot.typewrite('I49')
+        elif mrp == 'Marcelo Simoes':
+            bot.typewrite('I55')
+        elif mrp == 'Edson Bento':
+            bot.typewrite('I38')
+        elif mrp == 'Thais Fischer':
+            bot.typewrite('I55')
+        elif mrp == 'Joao Franca':
+            bot.typewrite('I31')
         else:
             bot.typewrite('I39')
 
