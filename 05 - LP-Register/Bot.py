@@ -12,27 +12,10 @@ import re
 bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
-# ===== INITIAL ACTION =====
-
-# bot.click(1802, 14)
-bot.hotkey('win', 'r')
-bot.typewrite('saplogon')
-bot.press('enter')
-bot.sleep(10)
-bot.hotkey('shift', 'tab')
-bot.typewrite('ps0')
-bot.press('enter')
-bot.sleep(15)
-bot.press('tab')
-bot.hotkey('shift', 'tab')
-bot.typewrite('CJ02')
-bot.press('enter')
-bot.sleep(10)
-
 # ===== EXCEL CONFIGURATION =====
 
-# EXCEL_PATH = '../98 - Excels/LP-Register.xlsx'
-EXCEL_PATH = 'Teste.xlsx'
+EXCEL_PATH = '../98 - Excels/LP-Register.xlsx'
+# EXCEL_PATH = 'Teste.xlsx'
 df = pd.read_excel(
     EXCEL_PATH,
     engine='openpyxl',
@@ -58,6 +41,8 @@ def press_key(key, times):
             bot.hotkey('shift', 'f1')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
+        elif key == 'winr':
+            bot.hotkey('win', 'r')
         elif key == 'ctrlsf12':
             bot.hotkey('ctrl', 'shift', 'f12')
         else:
@@ -82,7 +67,7 @@ def wbs_element_creation():
     global line
 
     for _ in range(repeat_qty):
-        if wait_event('images/PROJECT_1.png',):
+        if wait_event('images/PROJECT_1.png'):
             pass
         else:
             bot.alert(title='Warning', text='Script error found!')
@@ -474,6 +459,39 @@ def diagram_creation():
 lp_qty = len(df['Responsável'])
 line = (df['Status CJ02'] == 'Cadastrado').sum()
 repeat_qty = lp_qty - line
+
+# ===== INITIAL ACTION =====
+
+bot.click(1802, 14)
+
+# press_key('winr', 1)
+# bot.typewrite('saplogon')
+# press_key('enter', 1)
+
+# # verificação saplogon
+# if wait_event('images/ATTRIBUITION_2.png'):
+#     pass
+# else:
+#     bot.alert(title='Warning', text='Script error found!')
+#     df.at[line, 'Status CN21'] = 'Error'
+#     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+#     raise ValueError('\n\n------------- Error: -------------\n|> 2º Attribuition screen not found <|\n')
+
+# press_key('stab', 1)
+# bot.typewrite('ps0')
+# press_key('enter', 1)
+
+# # verificação sap
+# if wait_event('images/ATTRIBUITION_2.png'):
+#     pass
+# else:
+#     bot.alert(title='Warning', text='Script error found!')
+#     df.at[line, 'Status CN21'] = 'Error'
+#     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+
+# bot.typewrite('CJ02')
+# press_key('enter', 1)
+# bot.sleep(3)
 
 # ===== MAIN =====
 
