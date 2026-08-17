@@ -465,7 +465,7 @@ def diagram_creation():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = len(df['Responsável'])
-line = (df['Status CJ02'] == 'Cadastrado').sum()
+line = (df['Status CJ02'].notna()).sum()
 repeat_qty = lp_qty - line
 
 # ===== INITIAL ACTION =====
