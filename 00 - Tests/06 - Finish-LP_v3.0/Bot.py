@@ -3,7 +3,7 @@
 import pyautogui as bot
 import pandas as pd
 import pyperclip as pc
-from datetime import date
+from datetime import datetime
 import time
 
 # ===== GLOBAL SETTINGS =====
@@ -18,7 +18,13 @@ bot.click(1802, 14)
 # ===== EXCEL CONFIGURATION =====
 
 EXCEL_PATH = '../../01 - Excels/TEF3.xlsx'
-df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
+df = pd.read_excel(
+    EXCEL_PATH,
+    engine='openpyxl',
+    dtype={
+        'Status': str
+    }
+)
 
 # ===== FUNCTIONS =====
 
@@ -93,7 +99,7 @@ def check_status():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 2º Project Builder screen not found <|\n')
 
-    bot.PAUSE = 0.25
+    bot.PAUSE = 0.15
     press_key('ctrltab', 4)
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
@@ -115,20 +121,22 @@ def check_status():
         return 'ENCE'
 
 def verify_diagram():
+    bot.PAUSE = 0.15
     press_key('ctrlstab', 3)
     press_key('down', 1)
     press_key('right', 1)
-    bot.sleep(0.85)
+    bot.sleep(1.75)
     press_key('ctrle', 1)
-    bot.sleep(1.25)
+    bot.sleep(2)
     press_key('ctrlstab', 3)
     press_key('down', 1)
     press_key('ctrle', 1)
-    bot.sleep(1.25)
+    bot.sleep(2)
     press_key('ctrltab', 1)
     press_key('ctrlstab', 1)
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
+    bot.PAUSE = 0.85
 
     diagram = pc.paste().strip()
 
@@ -141,11 +149,13 @@ def close_diagram():
     press_key('ctrltab', 2)
     press_key('enter', 1)
     bot.sleep(1.25)
+    bot.PAUSE = 0.15
     press_key('tab', 6)
 
     content = True
     total_lines = 0
     diagram_line = 0
+    repeat_process = 0
 
     while content:
         press_key('ctrla', 1)
@@ -158,7 +168,7 @@ def close_diagram():
         elif 'FCT' in wcenter:
             diagram_line += 1
         else:
-            content = False
+            break
 
         press_key('tab', 1)
         press_key('ctrlc', 1)
@@ -166,9 +176,11 @@ def close_diagram():
         press_key('down', 1)
         total_lines += 1
 
+    bot.PAUSE = 0.85
     repeat_process = total_lines - diagram_line
 
     if repeat_process > 0:
+        bot.PAUSE = 0.15
         press_key('up', repeat_process)
 
         for _ in range(repeat_process):
@@ -178,10 +190,13 @@ def close_diagram():
         press_key('ctrltab', 1)
         press_key('tab', 5)
         press_key('enter', 1)
+        bot.sleep(1.25)
+        bot.PAUSE = 0.85
 
         for _ in range(repeat_process):
             press_key('down', 1)
             bot.typewrite('92903610')
+            bot.PAUSE = 0.35
             press_key('ctrltab', 1)
             press_key('tab', 1)
             press_key('space', 1)
@@ -189,9 +204,11 @@ def close_diagram():
             press_key('space', 1)
             press_key('tab', 1)
             press_key('space', 1)
+            bot.PAUSE = 0.15
             press_key('ctrlstab', 2)
             press_key('tab', 3)
             press_key('space', 1)
+            bot.PAUSE = 0.85
 
             if wait_event('images/WARNING_2.png'):
                 pass
@@ -225,21 +242,26 @@ def close_diagram():
 
             press_key('tab', 1)
             press_key('enter', 1)
+            bot.sleep(1.25)
 
+    bot.PAUSE = 0.15
     press_key('ctrlstab', 4)
     press_key('enter', 1)
+    bot.sleep(1.25)
 
     press_key('alte', 1)
     press_key('s', 1)
     press_key('t', 1)
     press_key('d', 1)
-    bot.sleep(0.85)
+    bot.sleep(1.25)
 
     press_key('alte', 1)
     press_key('s', 1)
     press_key('a', 1)
     press_key('d', 1)
-    bot.sleep(0.85)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.85
+
 
     if wait_event('images/WARNING_1.png', timeout=2.25):
         press_key('tab', 1)
@@ -262,21 +284,24 @@ def close_diagram():
     press_key('ctrlstab', 3)
     press_key('up', 2)
     press_key('ctrle', 1)
+    bot.sleep(1.25)
 
     close_project()
 
 def close_project():
+    bot.PAUSE = 0.15
     press_key('alte', 1)
     press_key('s', 1)
     press_key('t', 1)
     press_key('d', 1)
-    bot.sleep(0.85)
+    bot.sleep(1.25)
 
     press_key('alte', 1)
     press_key('s', 1)
     press_key('a', 1)
     press_key('d', 1)
-    bot.sleep(0.85)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.85
 
     if wait_event('images/WARNING_1.png', timeout=2.25):
         press_key('tab', 1)
@@ -363,13 +388,13 @@ def cj88_config():
     press_key('down', 1)
     press_key('space', 1)
     press_key('tab', 1)
-    bot.typewrite('7')
+    bot.typewrite(str(int(datetime.now().strftime('%m'))))
     press_key('tab', 1)
-    bot.typewrite('7')
+    bot.typewrite(str(int(datetime.now().strftime('%m'))))
     press_key('tab', 1)
-    bot.typewrite('2026')
+    bot.typewrite(str(int(datetime.now().strftime('%Y'))))
     press_key('tab', 1)
-    bot.typewrite(date.today().strftime('%d.%m.%Y'))
+    bot.typewrite(datetime.today().strftime('%d.%m.%Y'))
     press_key('enter', 1)
 
 def appropriate_lp():
@@ -409,18 +434,18 @@ def cj20n_config():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
 
-    press_key('ctrlstab', 1)
-    press_key('tab', 1)
     bot.typewrite('/NCJ20N')
     press_key('enter', 1)
 
 def ence_project():
     press_key('ctrltab', 1)
+    bot.PAUSE = 0.15
     press_key('alte', 1)
     press_key('s', 1)
     press_key('a', 1)
     press_key('d', 1)
-    bot.sleep(0.85)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.85
 
     if wait_event('images/WARNING_1.png', timeout=2.25):
         press_key('tab', 1)
@@ -435,40 +460,43 @@ def ence_project():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 1
-line = 0
+lp_qty = len(df['LP'])
+line = (df['Status'].notna()).sum()
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    for _ in range(repeat_qty):
-        open_lp()
-        status = check_status()
-        process_lp(status)
-        line += 1
-
-    line = 0
-    cj88_config()
-
-    for _ in range(lp_qty):
-        lp_status = str(df.at[line, 'Status'])
-
-        if lp_status == 'Apropriar na CJ88':
-            appropriate_lp()
-
-        line += 1
-
-    line = 0
-    cj20n_config()
-
-    for _ in range(lp_qty):
-        lp_status = str(df.at[line, 'Status'])
-
-        if lp_status == 'Apropriado':
+    if (df['Status'].notna()).any():
+        for _ in range(repeat_qty):
             open_lp()
-            ence_project()
+            status = check_status()
+            process_lp(status)
+            line += 1
 
-        line += 1
+    if (df['Status'] == 'Apropriar na CJ88').any():
+        line = (df['Status'] != 'Apropriar na CJ88').sum()
+        cj88_config()
+
+        for _ in range(lp_qty):
+            lp_status = str(df.at[line, 'Status'])
+
+            if lp_status == 'Apropriar na CJ88':
+                appropriate_lp()
+
+            line += 1
+
+    if (df['Status'] == 'Apropriado').any():
+        line = (df['Status'] != 'Apropriado').sum()
+        cj20n_config()
+
+        for _ in range(lp_qty):
+            lp_status = str(df.at[line, 'Status'])
+
+            if lp_status == 'Apropriado':
+                open_lp()
+                ence_project()
+
+            line += 1
 
     bot.alert(title='BotText', text='Program successfully completed')
