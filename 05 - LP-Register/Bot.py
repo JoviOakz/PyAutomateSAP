@@ -511,7 +511,7 @@ if __name__ == '__main__':
 
     bot.PAUSE = 0.35
 
-    enter_cn21()
+    # enter_cn21()
     diagram_creation()
 
     bot.alert(title='BotText', text='Program successfully completed')
