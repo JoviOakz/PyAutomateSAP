@@ -51,7 +51,7 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-def wait_event(img, region=None, timeout=10):
+def wait_event(img, region=None, timeout=7.5):
     inicio = time.time()
 
     while time.time() - inicio < timeout:
@@ -426,20 +426,70 @@ def appropriate_lp():
             raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
 
 def cj20n_config():
-    if wait_event('images/APPROPRIATION_1.png'):
+    if wait_event('images/PROJECT_BUILDER_1.png', timeout=2.25):
+        pass
+    else:
+        if wait_event('images/APPROPRIATION_1.png'):
+            pass
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
+
+        press_key('ctrlstab', 1)
+        press_key('tab', 1)
+        bot.typewrite('/NCJ20N')
+        press_key('enter', 1)
+
+def ence_project():
+    if wait_event('images/PROJECT_BUILDER_3.png'):
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
         df.at[line, 'Status'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
+        raise ValueError('\n\n------------- Error: -------------\n|> 2º Project Builder screen not found <|\n')
 
-    bot.typewrite('/NCJ20N')
-    press_key('enter', 1)
-
-def ence_project():
-    press_key('ctrltab', 1)
     bot.PAUSE = 0.15
+    press_key('ctrlstab', 3)
+    press_key('down', 1)
+    press_key('right', 1)
+    bot.sleep(1.75)
+    press_key('ctrle', 1)
+    bot.sleep(2)
+    press_key('ctrlstab', 3)
+    press_key('down', 1)
+    press_key('ctrle', 1)
+    bot.sleep(2)
+    bot.PAUSE = 0.15
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('a', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.85
+
+    if wait_event('images/WARNING_1.png', timeout=2.25):
+        press_key('tab', 1)
+        press_key('enter', 1)
+        bot.sleep(1.25)
+        press_key('f3', 1)
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        return
+
+    bot.sleep(0.85)
+    bot.PAUSE = 0.15
+    press_key('ctrlstab', 3)
+    press_key('up', 2)
+    press_key('ctrle', 1)
+    bot.sleep(2)
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('t', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
     press_key('alte', 1)
     press_key('s', 1)
     press_key('a', 1)
@@ -456,6 +506,7 @@ def ence_project():
         df.at[line, 'Status'] = 'Encerrado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
+    bot.sleep(0.85)
     press_key('ctrls', 1)
 
 # ===== PROGRAM CONFIGURATION =====
@@ -476,9 +527,10 @@ if __name__ == '__main__':
 
     if (df['Status'] == 'Apropriar na CJ88').any():
         line = (df['Status'] != 'Apropriar na CJ88').sum()
+        repeat_qty = lp_qty - line
         cj88_config()
 
-        for _ in range(lp_qty):
+        for _ in range(repeat_qty):
             lp_status = str(df.at[line, 'Status'])
 
             if lp_status == 'Apropriar na CJ88':
@@ -488,9 +540,10 @@ if __name__ == '__main__':
 
     if (df['Status'] == 'Apropriado').any():
         line = (df['Status'] != 'Apropriado').sum()
+        repeat_qty = lp_qty - line
         cj20n_config()
 
-        for _ in range(lp_qty):
+        for _ in range(repeat_qty):
             lp_status = str(df.at[line, 'Status'])
 
             if lp_status == 'Apropriado':
