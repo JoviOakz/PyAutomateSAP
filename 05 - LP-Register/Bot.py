@@ -12,10 +12,13 @@ import re
 bot.FAILSAFE = True
 bot.PAUSE = 0.25
 
+# ===== INITIAL ACTION =====
+
+bot.click(1802, 14)
+
 # ===== EXCEL CONFIGURATION =====
 
 EXCEL_PATH = '../98 - Excels/LP-Register.xlsx'
-# EXCEL_PATH = 'Teste.xlsx'
 df = pd.read_excel(
     EXCEL_PATH,
     engine='openpyxl',
@@ -468,39 +471,6 @@ lp_qty = len(df['Responsável'])
 line = (df['Status CJ02'].notna()).sum()
 repeat_qty = lp_qty - line
 
-# ===== INITIAL ACTION =====
-
-bot.click(1802, 14)
-
-# press_key('winr', 1)
-# bot.typewrite('saplogon')
-# press_key('enter', 1)
-
-# # verificação saplogon
-# if wait_event('images/ATTRIBUITION_2.png'):
-#     pass
-# else:
-#     bot.alert(title='Warning', text='Script error found!')
-#     df.at[line, 'Status CN21'] = 'Error'
-#     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-#     raise ValueError('\n\n------------- Error: -------------\n|> 2º Attribuition screen not found <|\n')
-
-# press_key('stab', 1)
-# bot.typewrite('ps0')
-# press_key('enter', 1)
-
-# # verificação sap
-# if wait_event('images/ATTRIBUITION_2.png'):
-#     pass
-# else:
-#     bot.alert(title='Warning', text='Script error found!')
-#     df.at[line, 'Status CN21'] = 'Error'
-#     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-
-# bot.typewrite('CJ02')
-# press_key('enter', 1)
-# bot.sleep(3)
-
 # ===== MAIN =====
 
 if __name__ == '__main__':
@@ -511,7 +481,7 @@ if __name__ == '__main__':
 
     bot.PAUSE = 0.35
 
-    # enter_cn21()
+    enter_cn21()
     diagram_creation()
 
     bot.alert(title='BotText', text='Program successfully completed')
