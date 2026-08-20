@@ -474,14 +474,14 @@ repeat_qty = lp_qty - line
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    wbs_element_creation()
+    # wbs_element_creation()
 
     line = (df['Status CN21'] == 'Cadastrado').sum()
     repeat_qty = lp_qty - line
 
     bot.PAUSE = 0.35
 
-    enter_cn21()
+    # enter_cn21()
     diagram_creation()
 
     bot.alert(title='BotText', text='Program successfully completed')
