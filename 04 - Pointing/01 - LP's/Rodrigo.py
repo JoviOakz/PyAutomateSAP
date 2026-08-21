@@ -18,7 +18,7 @@ bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
-EXCEL_PATH = 'ApontamentoYesica.xlsx'
+EXCEL_PATH = 'ApontamentoRodrigo.xlsx'
 df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== FUNCTIONS =====
@@ -223,7 +223,7 @@ def save_apointment():
 # ===== PROGRAM CONFIGURATION =====
 
 lp_qty = 28
-line = 0
+line = 22
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
