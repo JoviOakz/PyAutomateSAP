@@ -518,7 +518,7 @@ repeat_qty = lp_qty - line
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    if (df['Status'].notna()).any():
+    if (df['Status'].isna()).any():
         for _ in range(repeat_qty):
             open_lp()
             status = check_status()
