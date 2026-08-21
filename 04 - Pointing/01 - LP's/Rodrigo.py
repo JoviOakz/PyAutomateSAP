@@ -18,7 +18,7 @@ bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
-EXCEL_PATH = 'ApontamentoRodrigo.xlsx'
+EXCEL_PATH = 'ApontamentoYesica.xlsx'
 df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== FUNCTIONS =====
@@ -213,17 +213,17 @@ def apoint_process():
 
 def save_apointment():
     press_key('ctrls', 1)
-    
+
     if wait_event('images/WARNING_3.png', timeout=2.5):
         press_key('enter', 1)
-    else:
-        df.at[line, 'Status'] = 'Apointing created!'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    
+    df.at[line, 'Status'] = 'Apointing created!'
+    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 35
-line = 24
+lp_qty = 28
+line = 0
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
@@ -237,9 +237,9 @@ if __name__ == '__main__':
             create_apointment()
             save_line()
 
-            open_diagram()
-            apoint_process()
-            save_apointment()
+        open_diagram()
+        apoint_process()
+        save_apointment()
 
         line += 1
 
