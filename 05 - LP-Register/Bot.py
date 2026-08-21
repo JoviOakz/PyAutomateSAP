@@ -330,7 +330,9 @@ def cn21_config():
     press_key('tab', 1)
     bot.typewrite('6854')
     bot.sleep(1.15)
-    press_key('stab', 2)
+    press_key('tab', 1)
+    bot.typewrite(str(df.at[line, 'Responsável']))
+    press_key('stab', 3)
 
 def mrp_config(line):
     mrp = str(df.at[line, 'Responsável']).strip()
