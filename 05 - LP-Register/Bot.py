@@ -35,8 +35,16 @@ def press_key(key, times):
             bot.hotkey('ctrl', 'a')
         elif key == 'ctrlc':
             bot.hotkey('ctrl', 'c')
+        elif key == 'ctrlv':
+            bot.hotkey('ctrl', 'v')
+        elif key == 'ctrlf9':
+            bot.hotkey('ctrl', 'f9')
         elif key == 'ctrltab':
             bot.hotkey('ctrl', 'tab')
+        elif key == 'ctrlstab':
+            bot.hotkey('ctrl', 'shift', 'tab')
+        elif key == 'ctrlsf12':
+            bot.hotkey('ctrl', 'shift', 'f12')
         elif key == 'stab':
             bot.hotkey('shift', 'tab')
         elif key == 'sf1':
@@ -127,6 +135,8 @@ def wbs_element_creation():
         df.at[line, 'Status'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º WBS screen not found <|\n')
+
+    bot.PAUSE = 0.35
     
     press_key('ctrltab', 4)
     press_key('tab', 1)
@@ -152,9 +162,6 @@ def wbs_element_creation():
             iss_dept = '68540028'
 
     bot.typewrite(iss_dept)
-
-    bot.PAUSE = 0.35
-
     press_key('ctrlstab', 3)
     press_key('right', 4)
     press_key('enter', 1)
@@ -286,7 +293,7 @@ def wbs_element_creation():
     bot.sleep(1)
     press_key('alte', 1)
     press_key('s', 1)
-    press_key('i', 3)
+    press_key('i', 1)
     bot.sleep(1.5)
 
     bot.PAUSE = 0.85
@@ -330,9 +337,30 @@ def cn21_config():
     press_key('tab', 1)
     bot.typewrite('6854')
     bot.sleep(1.15)
+
+    bot.PAUSE = 0.35
+
     press_key('tab', 1)
-    bot.typewrite(str(df.at[line, 'Responsável']))
+
+    mrp = str(df.at[line, 'Responsável']).strip()
+
+    if mrp == 'Yesica Gonzalez':
+        bot.typewrite('I33')
+    elif mrp == 'Rodrigo Melo':
+        bot.typewrite('I49')
+    elif mrp == 'Marcelo Simoes':
+        bot.typewrite('I55')
+    elif mrp == 'Edson Bento':
+        bot.typewrite('I38')
+    elif mrp == 'Thais Fischer':
+        bot.typewrite('I55')
+    elif mrp == 'Joao Franca':
+        bot.typewrite('I31')
+    else:
+        bot.typewrite('I39')
+
     press_key('stab', 3)
+    bot.PAUSE = 0.85
 
 def mrp_config(line):
     mrp = str(df.at[line, 'Responsável']).strip()
@@ -344,7 +372,7 @@ def mrp_config(line):
         if mrp != previous_mrp:
             resp_change = True
 
-    if line == 0 or resp_change:
+    if resp_change:
         press_key('tab', 3)
         bot.sleep(1.25)
 
@@ -363,7 +391,7 @@ def mrp_config(line):
         else:
             bot.typewrite('I39')
 
-        bot.sleep(1.25)
+        bot.sleep(0.5)
 
 def diagram_creation():
     for _ in range(repeat_qty):
@@ -408,6 +436,10 @@ def diagram_creation():
 
         press_key('tab', 2)
         bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
+        bot.sleep(1.15)
+
+        bot.PAUSE = 0.35
+
         press_key('stab', 2)
         press_key('right', 3)
         press_key('enter', 1)
@@ -468,10 +500,13 @@ def diagram_creation():
                 df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
                 return
 
+        bot.PAUSE = 0.85
+
         bot.sleep(0.5)
         df.at[line, 'Status'] = 'Cadastrado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         press_key('ctrls', 1)
+        bot.sleep(1.5)
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -482,13 +517,13 @@ repeat_qty = lp_qty - line
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    if (df['Status'].notna()).any():
+    if (df['Status'].isna()).any():
         for _ in range(repeat_qty):
             wbs_element_creation()
             line += 1
 
     if (df['Status'] == 'Cadastrado parcial').any():
-        line = (df['Status'] == 'Cadastrado parcial').sum()
+        line = (df['Status'] == 'Cadastrado parcial').idxmax()
         repeat_qty = lp_qty - line
         cn21_config()
 
