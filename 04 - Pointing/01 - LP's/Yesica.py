@@ -230,12 +230,12 @@ repeat_qty = lp_qty - line
 
 if __name__ == '__main__':
     for _ in range(repeat_qty):
-        # open_diagram()
-        # alr_ap = verify_lp()
+        open_diagram()
+        alr_ap = verify_lp()
 
-        # if not alr_ap:
-        #     create_apointment()
-        #     save_line()
+        if not alr_ap:
+            create_apointment()
+            save_line()
 
         open_diagram()
         apoint_process()
