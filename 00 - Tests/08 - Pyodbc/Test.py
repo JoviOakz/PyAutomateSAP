@@ -1,38 +1,41 @@
-import pyodbc
+import oracledb
 
-# Configuração da conexão com o banco do SAP (Exemplo com SAP HANA)
-dados_conexao = (
-    "DRIVER={HDBODBC};"  # Driver do SAP HANA (ou ODBC Driver para SQL Server)
-    "SERVERNODE=seu_servidor_sap:30015;"  # IP/Host e Porta do banco
-    "SERVERDB=NOME_DO_BANCO;"
-    "UID=seu_usuario_banco;"
-    "PWD=sua_senha_banco;"
-)
+CAMINHO_INSTANT_CLIENT = r"C:\oracle\instantclient_23_0"
 
 try:
-    with pyodbc.connect(dados_conexao) as conexao:
+    oracledb.init_oracle_client(lib_dir=CAMINHO_INSTANT_CLIENT)
+    
+except Exception as e:
+    print(f"Aviso/Erro ao inicializar o cliente Oracle: {e}")
+
+USUARIO = "MAO8CT"
+SENHA = "49l1)f=f3q6A"
+dsn = "REDLake_ZeusP_Consumer_Common.world"
+
+try:
+    with oracledb.connect(user=USUARIO, password=SENHA, dsn=dsn) as conexao:
         with conexao.cursor() as cursor:
-            # Query buscando dados de uma transação contábil específica (Ex: FB03)
-            # BKPF é a tabela SAP de Cabeçalho de Documento de Contabilidade
             query = """
-                SELECT TOP 100 COMPANY_CODE, DOC_NUMBER, FISCAL_YEAR, DOC_DATE, USER_NAME
-                FROM BKPF
-                WHERE FISCAL_YEAR = ? AN\D COMPANY_CODE = ?
+                SELECT
+                    PROJ.RB04_YT3_QMNUM AS NOTA_PM,
+                    PROJ.PSPID_EDIT AS PROJETO,
+                    EBAN.BANFN AS NUM_REQUISICAO,
+                    EBAN.EBELN AS NUM_PEDIDO
+                FROM MARD_MDNA.V_CUSN_PROJ_B2 PROJ
+                LEFT JOIN MARD_MDNA.V_CUSN_EBAN_B2 EBAN
+                    ON  EBAN.MANDT = PROJ.MANDT
+                    AND EBAN.DISUB_PSPNR = PROJ.PSPNR
+                WHERE PROJ.VBUKR = '9084'
+                AND PROJ.WERKS = '6854'
+                AND PROJ.RB04_YT3_QMNUM LIKE '%14227041%'
             """
 
-            # Executa passando o Ano Fiscal (2026) e Empresa (1000) como filtros
-            cursor.execute(query, ("2026", "6854"))
+            cursor.execute(query)
 
-            # Coleta e exibe os dados
-            transacoes = cursor.fetchall()
-            print(
-                f"{"Empresa":<8} | {"Nº Documento":<12} | {"Ano":<6} | {"Data":<10} | {"Usuário":<10}"
-            )
-            print("-" * 55)
-            for linha in transacoes:
-                print(
-                    f"{linha[0]:<8} | {linha[1]:<12} | {linha[2]:<6} | {linha[3]} | {linha[4]:<10}"
-                )
+            dados = cursor.fetchall()
 
-except pyodbc.Error as e:
-    print(f"Erro ao conectar ou consultar o banco SAP: {e}")
+            for linha in dados[:20]:
+                print(linha)
+
+except oracledb.Error as e:
+    print(f"Erro ao conectar ou consultar a view do SAP: {e}")
