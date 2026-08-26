@@ -395,7 +395,13 @@ def mrp_config(line):
 
 def diagram_creation():
     bot.PAUSE = 0.35
+    bot.PAUSE = 0.35
 
+    mrp_config(line)
+    
+    bot.PAUSE = 0.85
+    
+    press_key('enter', 1)
     mrp_config(line)
     
     bot.PAUSE = 0.85
@@ -409,10 +415,26 @@ def diagram_creation():
         df.at[line, 'Status'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> Value box not found <|\n')
+    if wait_event('images/VALUE.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> Value box not found <|\n')
 
     bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
     press_key('enter', 1)
+    bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
+    press_key('enter', 1)
 
+    if wait_event('images/DIAGRAM_2.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 2º Diagram screen not found <|\n')
     if wait_event('images/DIAGRAM_2.png'):
         pass
     else:
@@ -424,7 +446,17 @@ def diagram_creation():
     press_key('ctrltab', 1)
     press_key('right', 1)
     press_key('enter', 1)
+    press_key('ctrltab', 1)
+    press_key('right', 1)
+    press_key('enter', 1)
 
+    if wait_event('images/ATTRIBUITION_1.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Attribuition screen not found <|\n')
     if wait_event('images/ATTRIBUITION_1.png'):
         pass
     else:
@@ -436,9 +468,16 @@ def diagram_creation():
     press_key('tab', 2)
     bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
     bot.sleep(1.15)
+    press_key('tab', 2)
+    bot.typewrite(df.at[line, 'Elemento PEP'].replace('-', ''))
+    bot.sleep(1.15)
 
     bot.PAUSE = 0.35
+    bot.PAUSE = 0.35
 
+    press_key('stab', 2)
+    press_key('right', 3)
+    press_key('enter', 1)
     press_key('stab', 2)
     press_key('right', 3)
     press_key('enter', 1)
@@ -450,7 +489,16 @@ def diagram_creation():
         df.at[line, 'Status'] = 'Error'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 2º Attribuition screen not found <|\n')
+    if wait_event('images/ATTRIBUITION_2.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 2º Attribuition screen not found <|\n')
 
+    press_key('tab', 1)
+    press_key('enter', 1)
     press_key('tab', 1)
     press_key('enter', 1)
 
@@ -464,23 +512,39 @@ def diagram_creation():
 
     press_key('ctrltab', 2)
     press_key('ctrla', 1)
+    press_key('ctrltab', 2)
+    press_key('ctrla', 1)
 
+    heijunka = ''
+    description = ''
+    responsible = ''
     heijunka = ''
     description = ''
     responsible = ''
 
     part_number = re.sub(r'[-./POSpos& ]', '', str(df.at[line, 'Part Number'])).strip()
+    part_number = re.sub(r'[-./POSpos& ]', '', str(df.at[line, 'Part Number'])).strip()
 
     if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez' or str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
         heijunka = 'HEIJUNKA\n'
+    if str(df.at[line, 'Responsável']) == 'Yesica Gonzalez' or str(df.at[line, 'Responsável']) == 'Rodrigo Melo':
+        heijunka = 'HEIJUNKA\n'
 
+    if part_number.isdigit():
+        description = str(df.at[line, 'Part Number']) + ' - '
     if part_number.isdigit():
         description = str(df.at[line, 'Part Number']) + ' - '
 
     description += str(df.at[line, 'Denominação'])
     responsible = '\nResp. ' + str(df.at[line, 'Responsável'])
     full_text = heijunka + description + responsible
+    description += str(df.at[line, 'Denominação'])
+    responsible = '\nResp. ' + str(df.at[line, 'Responsável'])
+    full_text = heijunka + description + responsible
 
+    bot.typewrite(full_text)
+    bot.sleep(1.15)
+    press_key('ctrlsf12', 1)
     bot.typewrite(full_text)
     bot.sleep(1.15)
     press_key('ctrlsf12', 1)
@@ -498,9 +562,28 @@ def diagram_creation():
             df.at[line, 'Status'] = 'Erro no cadastro do diagrama'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             return
+    if wait_event('images/ATTRIBUITION_4.png'):
+        pass
+    else:
+        if wait_event('images/ATTRIBUITION_5.png'):
+            press_key('f12', 1)
+            bot.sleep(1.15)
+            press_key('f12', 1)
+            bot.sleep(1.15)
+            press_key('tab', 1)
+            press_key('enter', 1)
+            df.at[line, 'Status'] = 'Erro no cadastro do diagrama'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            return
 
     bot.PAUSE = 0.85
+    bot.PAUSE = 0.85
 
+    bot.sleep(0.5)
+    df.at[line, 'Status'] = 'Cadastrado'
+    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    press_key('ctrls', 1)
+    bot.sleep(1.5)
     bot.sleep(0.5)
     df.at[line, 'Status'] = 'Cadastrado'
     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
@@ -522,6 +605,7 @@ if __name__ == '__main__':
             line += 1
 
     if (df['Status'] == 'Cadastrado parcial').any():
+        line = (df['Status'] == 'Cadastrado').sum()
         line = (df['Status'] == 'Cadastrado').sum()
         repeat_qty = lp_qty - line
         cn21_config()
