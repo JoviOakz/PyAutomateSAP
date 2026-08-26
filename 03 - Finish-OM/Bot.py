@@ -72,6 +72,7 @@ def verify_status():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 2º Order screen not found <|\n')
 
+    bot.click(125, 160)
     press_key('ctrld', 1)
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
@@ -84,33 +85,57 @@ def verify_status():
     elif 'ENCE' in status:
         return 'ENCE'
     else:
-        return 'ERROR'
+        return 'ABER'
 
 def tclose_om():
     press_key('ctrlf12', 1)
 
-    if wait_event('images/ORDER_3.png'):
-        pass
-    else:
-        bot.alert(title='Warning', text='Script error found!')
-        df.at[line, 'Status'] = 'Error'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        raise ValueError('\n\n------------- Error: -------------\n|> 1º Close screen not found <|\n')
+    if wait_event('images/ORDER_3.png', timeout=2.5):
+        press_key('enter', 1)
 
-    press_key('enter', 1)
+        if wait_event('images/WARNING_1.png', timeout=2.5):
+            press_key('enter', 1)
+
+        if wait_event('images/ERROR_4.png', timeout=1.5):
+            press_key('f3', 1)
+
+            if wait_event('images/ERROR_3.png', timeout=1.5):
+                press_key('enter', 1)
+
+            df.at[line, 'Status'] = 'Caso a parte'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            return False
+
+        return True
+        
+    else:
+        if wait_event('images/ERROR_1.png', timeout=1):
+            press_key('f3', 1)
+            df.at[line, 'Status'] = 'Compromisso pendente'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            return False
+        
+        else:
+            if wait_event('images/ERROR_2.png', timeout=1):
+                press_key('f3', 1)
+                df.at[line, 'Status'] = 'Encerrar na Z22I150'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                return False
+            
+            else:
+                bot.alert(title='Warning', text='Script error found!')
+                df.at[line, 'Status'] = 'Error'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                raise ValueError('\n\n------------- Error: -------------\n|> 1º Close screen not found <|\n')
 
 def close_om():
     press_key('ctrlsf12', 1)
 
-    if wait_event('images/ORDER_4.png'):
-        pass
-    else:
-        bot.alert(title='Warning', text='Script error found!')
-        df.at[line, 'Status'] = 'Error'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        raise ValueError('\n\n------------- Error: -------------\n|> 2º Close screen not found <|\n')
+    if wait_event('images/ORDER_4.png', timeout=2):
+        press_key('enter', 1)
 
-    press_key('enter', 1)
+    if wait_event('images/ORDER_5.png', timeout=2):
+        press_key('enter', 1)
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -127,24 +152,41 @@ if __name__ == '__main__':
             status = verify_status()
 
             match status:
-                case 'ERROR':
-                    df.at[line, 'Status'] = 'Error'
+                case 'ABER':
+                    press_key('f3', 1)
+
+                    if wait_event('images/ERROR_3.png'):
+                        press_key('enter', 1)
+
+                    df.at[line, 'Status'] = 'Ordem aberta'
                     df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
                 case 'LIB':
-                    tclose_om()
+                    can_close = tclose_om()
 
-                    if wait_event('images/ORDER_1.png'):
-                        pass
-                    else:
-                        bot.alert(title='Warning', text='Script error found!')
-                        df.at[line, 'Status'] = 'Error'
+                    if can_close:
+                        if wait_event('images/ORDER_1.png'):
+                            pass
+                        else:
+                            bot.alert(title='Warning', text='Script error found!')
+                            df.at[line, 'Status'] = 'Error'
+                            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                            raise ValueError('\n\n------------- Error: -------------\n|> 1º Order screen not found <|\n')
+
+                        bot.sleep(0.85)
+                        press_key('enter', 1)
+
+                        if wait_event('images/ORDER_2.png'):
+                            pass
+                        else:
+                            bot.alert(title='Warning', text='Script error found!')
+                            df.at[line, 'Status'] = 'Error'
+                            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                            raise ValueError('\n\n------------- Error: -------------\n|> 2º Order screen not found <|\n')
+
+                        close_om()
+                        df.at[line, 'Status'] = 'Encerrado'
                         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-                        raise ValueError('\n\n------------- Error: -------------\n|> 1º Order screen not found <|\n')
-
-                    bot.sleep(1)
-                    press_key('enter', 1)
-                    close_om()
 
                 case 'ENTE':
                     close_om()
