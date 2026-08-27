@@ -18,7 +18,7 @@ bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
-EXCEL_PATH = 'ApontamentoRodrigo.xlsx'
+EXCEL_PATH = '../../99 - Excels/PointingHours.xlsx'
 df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== FUNCTIONS =====
