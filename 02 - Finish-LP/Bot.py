@@ -15,7 +15,7 @@ bot.click(1802, 14)
 
 # ===== EXCEL CONFIGURATION =====
 
-EXCEL_PATH = '../98 - Excels/Open-LPs.xlsx'
+EXCEL_PATH = '../99 - Excels/Open-LPs.xlsx'
 df = pd.read_excel(EXCEL_PATH, engine='openpyxl')
 
 # ===== FUNCTIONS =====
