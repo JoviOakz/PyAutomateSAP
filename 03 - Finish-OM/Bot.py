@@ -96,10 +96,13 @@ def tclose_om():
         if wait_event('images/WARNING_1.png', timeout=2.5):
             press_key('enter', 1)
 
-        if wait_event('images/ERROR_4.png', timeout=1.5):
+        if wait_event('images/WARNING_2.png', timeout=0.85):
+            press_key('enter', 1)
+
+        if wait_event('images/ERROR_4.png', timeout=0.85):
             press_key('f3', 1)
 
-            if wait_event('images/ERROR_3.png', timeout=1.5):
+            if wait_event('images/ERROR_3.png', timeout=0.85):
                 press_key('enter', 1)
 
             df.at[line, 'Status'] = 'Caso a parte'
