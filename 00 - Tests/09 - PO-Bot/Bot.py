@@ -1,0 +1,154 @@
+# ===== LIBRARIES =====
+
+import pyautogui as bot
+import pandas as pd
+import pyperclip as pc
+import time
+from pdf2image import convert_from_path
+from PIL import ImageEnhance, ImageFilter
+import pytesseract
+import pdfplumber
+import re
+
+# ===== GLOBAL SETTINGS =====
+
+bot.FAILSAFE = True
+bot.PAUSE = 0.85
+
+# ===== INITIAL ACTION =====
+
+bot.click(1802, 14)
+
+# ===== EXCEL CONFIGURATION =====
+
+EXCEL_PATH = '../../01 - Excels/PO-Bot.xlsx'
+df = pd.read_excel(
+    EXCEL_PATH,
+    engine='openpyxl',
+    dtype={
+        'Status': str
+    }
+)
+
+# ===== FUNCTIONS =====
+
+def press_key(key, times):
+    for _ in range(times):
+        if key == 'ctrla':
+            bot.hotkey('ctrl', 'a')
+        else:
+            bot.press(key)
+
+def wait_event(img, region=None, timeout=7.5):
+    inicio = time.time()
+
+    while time.time() - inicio < timeout:
+        try:
+            local = bot.locateOnScreen(img, region=region, grayscale=True, confidence=0.9)
+
+            if local:
+                return local
+        except:
+            pass
+
+        time.sleep(0.5)
+    return None
+
+def preprocess_image(image):
+    image = image.convert('L')
+    image = image.filter(ImageFilter.MedianFilter())
+    enhancer = ImageEnhance.Contrast(image)
+    image = enhancer.enhance(2.0)
+    return image
+
+def supplier_finder():
+    image = convert_from_path(pdf_path)
+
+    for i, image in enumerate(image):
+        try:
+            image = preprocess_image(image)
+            pdf_text = pytesseract.image_to_string(image)
+
+            if 'Costa Paula LTDA' in pdf_text:
+                supplier = 'Retpress'
+                return supplier
+            else:
+                text = re.search(r'\bGDS\b', pdf_text)
+
+                if text:
+                    supplier = text.group(0)
+                    return supplier
+                else:
+                    return 'Erro'
+
+        except Exception:
+            print('Erro ao processar PDF')
+
+def values_finder():
+    with pdfplumber.open(pdf_path) as pdf:
+        table = pdf.pages[0].extract_table()
+
+        qty = table[1][0].split(',')[0]
+        description = table[1][2].split()[0]
+        unit_value = table[1][4]
+        item = table[1][6]
+
+    return qty, description, unit_value, item
+
+def open_transaction():
+    local = wait_event('images/SEARCH.png')
+    
+    if local:
+        bot.click(local)
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> Search not found <|\n')
+    
+    if 'LP' in debit_obj:
+        bot.typewrite('CN22')
+    else:
+        bot.typewrite('IW32')
+
+    press_key('enter', 1)
+
+# ===== PROGRAM CONFIGURATION =====
+
+lp_qty = len(df['DebitObj'])
+line = (df['Status'].notna()).sum()
+repeat_qty = lp_qty - line
+
+# ===== MAIN =====
+
+if __name__ == '__main__':
+    pdf_path = ''
+    supplier = ''
+    item = []
+
+    if (df['Status'].isna()).any():
+        for _ in range(repeat_qty):
+            debit_obj = str(df.at[line, 'DebitObj'])
+            pdf_path = f'assets/{str(df.at[line, 'Orç'])}.pdf'
+            supplier = supplier_finder()
+            item = values_finder()
+
+            print(supplier)
+            print(item[0])
+            print(item[1])
+            print(item[2])
+            print(item[3])
+
+            if wait_event('images/MENU.png'):
+                pass
+            else:
+                bot.alert(title='Warning', text='Script error found!')
+                df.at[line, 'Status'] = 'Error'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                raise ValueError('\n\n------------- Error: -------------\n|> Menu screen not found <|\n')
+
+            open_transaction()
+            
+            line += 1
+
+    bot.alert(title='BotText', text='Program successfully completed')
