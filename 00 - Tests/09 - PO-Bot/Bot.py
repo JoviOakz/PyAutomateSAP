@@ -36,6 +36,16 @@ def press_key(key, times):
     for _ in range(times):
         if key == 'ctrla':
             bot.hotkey('ctrl', 'a')
+        elif key == 'ctrlc':
+            bot.hotkey('ctrl', 'c')
+        elif key == 'ctrlv':
+            bot.hotkey('ctrl', 'v')
+        elif key == 'sf6':
+            bot.hotkey('shift', 'f6')
+        elif key == 'ctrltab':
+            bot.hotkey('ctrl', 'tab')
+        elif key == 'stab':
+            bot.hotkey('shift', 'tab')
         else:
             bot.press(key)
 
@@ -88,12 +98,17 @@ def values_finder():
     with pdfplumber.open(pdf_path) as pdf:
         table = pdf.pages[0].extract_table()
 
+        for _ in table:
+            print(_)
+        print('\n')
+
         qty = table[1][0].split(',')[0]
         description = table[1][2].split()[0]
+        hr_piece = table[1][2].split('HR P/PÇ:')[1].split()[0]
         unit_value = table[1][4]
-        item = table[1][6]
+        item = table[1][6] 
 
-    return qty, description, unit_value, item
+    return qty, description, hr_piece, unit_value, item
 
 def open_transaction():
     local = wait_event('images/SEARCH.png')
@@ -112,6 +127,47 @@ def open_transaction():
         bot.typewrite('IW32')
 
     press_key('enter', 1)
+
+def open_debit_object():
+    if 'LP' in debit_obj:
+        # CAMINHO CN22
+        pass
+    else:
+        if wait_event('images/IW32_1.png'):
+            pass
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º IW32 screen not found <|\n')
+
+        bot.typewrite(debit_obj)
+        press_key('sf6', 1)
+
+        if wait_event('images/IW32_2.png'):
+            pass
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 2º IW32 screen not found <|\n')
+
+        press_key('ctrltab', 2)
+        press_key('stab', 1)
+        press_key('enter', 1)
+
+        local = wait_event('images/MYIBUY.png', timeout=15)
+
+        if local:
+            bot.click(local)
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> MyIbuy screen not found <|\n')
+
+        bot.typewrite(f'{item[2]}h {supplier} sem mp')
+        press_key('enter', 1)
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -133,11 +189,12 @@ if __name__ == '__main__':
             supplier = supplier_finder()
             item = values_finder()
 
-            print(supplier)
-            print(item[0])
-            print(item[1])
-            print(item[2])
-            print(item[3])
+            print('Fornecedor: ' + supplier)
+            print('Quantidade: ' + item[0])
+            print('Norma: ' + item[1])
+            print('HR P/PÇ: ' + item[2])
+            print('Valor unitário: ' + item[3])
+            print('Item: ' + item[4])
 
             if wait_event('images/MENU.png'):
                 pass
@@ -148,6 +205,7 @@ if __name__ == '__main__':
                 raise ValueError('\n\n------------- Error: -------------\n|> Menu screen not found <|\n')
 
             open_transaction()
+            open_debit_object()
             
             line += 1
 
