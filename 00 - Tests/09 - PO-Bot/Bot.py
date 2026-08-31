@@ -40,6 +40,8 @@ def press_key(key, times):
             bot.hotkey('ctrl', 'c')
         elif key == 'ctrlv':
             bot.hotkey('ctrl', 'v')
+        elif key == 'ctrlf':
+            bot.hotkey('ctrl', 'f')
         elif key == 'sf6':
             bot.hotkey('shift', 'f6')
         elif key == 'ctrltab':
@@ -156,6 +158,7 @@ def open_debit_object():
         press_key('stab', 1)
         press_key('enter', 1)
 
+def search_usi():
         local = wait_event('images/MYIBUY.png', timeout=15)
 
         if local:
@@ -166,7 +169,13 @@ def open_debit_object():
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
             raise ValueError('\n\n------------- Error: -------------\n|> MyIbuy screen not found <|\n')
 
-        bot.typewrite(f'{item[2]}h {supplier} sem mp')
+        pc.copy(f'Usin.{item[2]}h({supplier}) - (Geral) - Sem mp')
+        press_key('ctrlv', 1)
+        press_key('enter', 1)
+        bot.sleep(1)
+        press_key('ctrlf', 1)
+        press_key('ctrlv', 1)
+        press_key('tab', 2)
         press_key('enter', 1)
 
 # ===== PROGRAM CONFIGURATION =====
@@ -206,6 +215,8 @@ if __name__ == '__main__':
 
             open_transaction()
             open_debit_object()
+            search_usi()
+            # confirm_po()
             
             line += 1
 
