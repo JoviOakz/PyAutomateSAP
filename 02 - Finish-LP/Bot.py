@@ -1,13 +1,15 @@
 # ===== LIBRARIES =====
 
 import pyautogui as bot
-import pyperclip as pc
 import pandas as pd
+import pyperclip as pc
+from datetime import datetime
+import time
 
 # ===== GLOBAL SETTINGS =====
 
 bot.FAILSAFE = True
-bot.PAUSE = 1.65
+bot.PAUSE = 0.85
 
 # ===== INITIAL ACTION =====
 
@@ -28,427 +30,526 @@ df = pd.read_excel(
 
 def press_key(key, times):
     for _ in range(times):
-        if key == 'ctrltab':
-            bot.hotkey('ctrl', 'tab')
-        elif key == 'ctrlstab':
-            bot.hotkey('ctrl', 'shift', 'tab')
-        elif key == 'sspace':
-            bot.hotkey('shift', 'space')
-        elif key == 'ctrlr':
-            bot.hotkey('ctrl', 'right')
-        elif key == 'ctrla':
+        if key == 'ctrla':
             bot.hotkey('ctrl', 'a')
         elif key == 'ctrlc':
             bot.hotkey('ctrl', 'c')
-        elif key == 'stab':
-            bot.hotkey('shift', 'tab')
-        elif key == 'ctrlenter':
-            bot.hotkey('ctrl', 'enter')
         elif key == 'ctrls':
             bot.hotkey('ctrl', 's')
+        elif key == 'stab':
+            bot.hotkey('shift', 'tab')
+        elif key == 'sspace':
+            bot.hotkey('shift', 'space')
+        elif key == 'ctrle':
+            bot.hotkey('ctrl', 'enter')
+        elif key == 'ctrltab':
+            bot.hotkey('ctrl', 'tab')
+        elif key == 'ctrlstab':
+            bot.hotkey('ctrl', 'shift', 'tab')
+        elif key == 'alte':
+            bot.hotkey('alt', 'e')
         else:
             bot.press(key)
 
-def lp_verification():
-    press_key('left', 1)
+def wait_event(img, region=None, timeout=7.5):
+    inicio = time.time()
+
+    while time.time() - inicio < timeout:
+        try:
+            local = bot.locateOnScreen(img, region=region, grayscale=True, confidence=0.9)
+
+            if local:
+                return local
+        except:
+            pass
+
+        time.sleep(0.5)
+    return None
+
+def open_lp():
+    if wait_event('images/PROJECT_BUILDER_1.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Project Builder screen not found <|\n')
+
+    press_key('stab', 1)
     press_key('alt', 1)
-    press_key('down', 2)
-    press_key('space', 1)
-    bot.sleep(1)
+    press_key('b', 1)
+
+    if wait_event('images/PROJECT_BUILDER_2.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> Open project window not found <|\n')
+
     bot.typewrite(str(df.at[line, 'LP']))
     press_key('enter', 1)
-    bot.sleep(1.5)
-
-    lp_nexist = None
-
-    try:
-        lp_nexist = list(bot.locateAllOnScreen('images/ERROR.png', grayscale=True, confidence=0.9))
-    except Exception:
-        lp_nexist = []
-
-    if any(lp_nexist):
-        press_key('enter', 1)
-        bot.sleep(1)
-        press_key('f12', 1)
-        bot.sleep(1)
-        df.at[line, 'Status'] = 'LP doesn\'t exist!'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        return False
-    
-    else:
-        return True
 
 def check_status():
-    bot.PAUSE = 0.2
+    if wait_event('images/PROJECT_BUILDER_3.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 2º Project Builder screen not found <|\n')
 
+    bot.PAUSE = 0.15
     press_key('ctrltab', 4)
-    
-    bot.sleep(0.75)
-    
     press_key('ctrla', 1)
     press_key('ctrlc', 1)
     press_key('enter', 1)
-    
-    bot.PAUSE = 0.65
-    
-    bot.sleep(1.5)
+    bot.sleep(0.85)
+    bot.PAUSE = 0.85
 
-    stats = pc.paste()
-    stats = stats.strip()
+    project_status = pc.paste()
 
-    try:
-        diagram_exist = list(bot.locateAllOnScreen('images/DIAGRAM.png', grayscale=True, region=(30, 216, 54, 244), confidence=0.9))
-    except Exception:
-        diagram_exist = []
-
-    if any(diagram_exist):
-        if stats and 'ABER' in stats:
-            return 'ABER'
-        elif stats and 'ENCE' in stats:
-            return 'ENCE'
-        elif stats and 'ENTE' in stats:
-            return 'ENTE'
-        elif stats and 'LIB' in stats:
-            return 'LIB'
-        else:
-            return 'ERROR'
+    if 'ABER' in project_status:
+        return 'ABER'
+    elif 'LBPA' in project_status:
+        return 'LBPA'
+    elif 'LIB' in project_status:
+        return 'LIB'
+    elif 'ENTE' in project_status:
+        return 'ENTE'
     else:
-        if stats and 'ENCE' in stats:
-            return 'ENCE'
-        else:
-            return 'ABER'
-    
-def open_project():
-    for _ in range(2):
-        press_key('alt', 1)
-        press_key('right', 1)
-        press_key('down', 2)
-        press_key('right', 1)
-        press_key('down', 4)
-        press_key('right', 1)
-        press_key('down', 1)
-        press_key('space', 1)
-        bot.sleep(1.5)
-        press_key('ctrlstab', 3)
-        press_key('down', 1)
-        press_key('ctrlenter', 1)
-        bot.sleep(1.5)
-    
-    press_key('alt', 1)
-    press_key('right', 1)
-    press_key('down', 2)
-    press_key('right', 1)
-    press_key('down', 4)
-    press_key('right', 1)
-    press_key('down', 1)
-    press_key('space', 1)
-    bot.sleep(1.5)
-    press_key('ctrltab', 2)
-    press_key('space', 1)
-    bot.sleep(2)
-    
-def open_diagram():
-    bot.PAUSE = 0.2
+        return 'ENCE'
 
-    press_key('ctrlstab', 4)
-    press_key('end', 1)
-    press_key('left', 1)
-    press_key('space', 1)
-    bot.sleep(2.5)
+def verify_diagram():
+    bot.PAUSE = 0.15
     press_key('ctrlstab', 3)
-    press_key('down', 2)
-    press_key('ctrlenter', 1)
+    press_key('down', 1)
+    press_key('right', 1)
+    bot.sleep(1.75)
+    press_key('ctrle', 1)
     bot.sleep(2)
-    press_key('ctrltab', 2)
-    press_key('space', 1)
-    bot.sleep(2.5)
-
-    bot.PAUSE = 0.65
-
-def text_verifier(fct_counter):
-    text = pc.paste()
-    text = text.strip()
-
-    if text != 'x':
-        if text[:3] == 'FCT':
-            return False, 1
-        else:
-            return False, fct_counter
-    else:
-        return True, fct_counter
-    
-def insert_real_data():
+    press_key('ctrlstab', 3)
     press_key('down', 1)
-    bot.typewrite('92903610')
-    press_key('down', 2)
-    press_key('tab', 1)
-    press_key('down', 1)
-    press_key('space', 1)
-    press_key('down', 1)
-    press_key('space', 1)
-    press_key('tab', 1)
-    press_key('space', 1)
-    press_key('enter', 1)
-    bot.sleep(1.5)
-    press_key('tab', 1)
-    press_key('space', 1)
-    bot.sleep(1.5)
+    press_key('ctrle', 1)
+    bot.sleep(2)
+    press_key('ctrltab', 1)
     press_key('ctrlstab', 1)
+    press_key('ctrla', 1)
+    press_key('ctrlc', 1)
+    bot.PAUSE = 0.85
 
-def close_line():
-    empty = False
-    fct_counter = 0
-    line_counter = 0
+    diagram = pc.paste().strip()
 
-    bot.PAUSE = 0.2
+    if '-' not in diagram:
+        return True
+    else:
+        return False
 
+def close_diagram():
+    press_key('ctrltab', 2)
+    press_key('enter', 1)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.15
     press_key('tab', 6)
-    bot.sleep(1.5)
 
-    while not empty:
-        press_key('ctrlr', 1)
-        press_key('backspace', 1)
-        bot.typewrite('x')
+    content = True
+    total_lines = 0
+    diagram_line = 0
+    repeat_process = 0
+
+    while content:
         press_key('ctrla', 1)
         press_key('ctrlc', 1)
-        press_key('backspace', 1)
+
+        wcenter = pc.paste().strip()
+
+        if wcenter == 'FF78012':
+            pass
+        elif 'FCT' in wcenter:
+            diagram_line += 1
+        else:
+            break
+
         press_key('tab', 1)
+        press_key('ctrlc', 1)
         press_key('stab', 1)
         press_key('down', 1)
+        total_lines += 1
 
-        empty, fct_counter = text_verifier(fct_counter)
-        line_counter += 1
+    bot.PAUSE = 0.85
+    repeat_process = total_lines - diagram_line
 
-    bot.PAUSE = 0.65
+    if repeat_process > 0:
+        bot.PAUSE = 0.15
+        press_key('up', repeat_process)
 
-    press_key('up', line_counter)
-    line_counter = line_counter - fct_counter - 1
-
-    if line_counter != 0:
-        if fct_counter > 0:
-            press_key('down', 1)
-
-        for _ in range(line_counter):
+        for _ in range(repeat_process):
             press_key('sspace', 1)
             press_key('down', 1)
 
-        bot.sleep(1)
         press_key('ctrltab', 1)
-
-        bot.PAUSE = 0.2
-
         press_key('tab', 5)
-        
-        bot.PAUSE = 0.65
+        press_key('enter', 1)
+        bot.sleep(1.25)
+        bot.PAUSE = 0.85
 
-        press_key('space', 1)
-        bot.sleep(1.75)
-
-        if line_counter == 1:
-            insert_real_data()
-            press_key('space', 1)
-            bot.sleep(1.5)
+        for _ in range(repeat_process):
+            press_key('down', 1)
+            bot.typewrite('92903610')
+            bot.PAUSE = 0.35
+            press_key('ctrltab', 1)
             press_key('tab', 1)
             press_key('space', 1)
-            bot.sleep(3)
-            return True
-        else:
-            for _ in range(line_counter):
-                insert_real_data()
-                press_key('tab', 3)
-                press_key('space', 1)
-                bot.sleep(1.5)
-                press_key('tab', 1)
-                press_key('space', 1)
-                bot.sleep(1.5)
-            
+            press_key('down', 1)
+            press_key('space', 1)
+            press_key('tab', 1)
+            press_key('space', 1)
+            bot.PAUSE = 0.15
+            press_key('ctrlstab', 2)
+            press_key('tab', 3)
+            press_key('space', 1)
+            bot.PAUSE = 0.85
+
+            if wait_event('images/WARNING_2.png'):
+                pass
+            else:
+                bot.alert(title='Warning', text='Script error found!')
+                df.at[line, 'Status'] = 'Error'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+
+            press_key('tab', 1)
+            press_key('enter', 1)
+
+            if wait_event('images/WARNING_3.png'):
+                pass
+            else:
+                bot.alert(title='Warning', text='Script error found!')
+                df.at[line, 'Status'] = 'Error'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+
             press_key('stab', 1)
-            press_key('space', 1)
-            bot.sleep(1.5)
+            press_key('enter', 1)
+
+            if wait_event('images/WARNING_4.png'):
+                pass
+            else:
+                bot.alert(title='Warning', text='Script error found!')
+                df.at[line, 'Status'] = 'Error'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+
             press_key('tab', 1)
-            press_key('space', 1)
-            bot.sleep(3)
-            return True
-    else:
-        return False
-    
-def finish_diagram():
-    bot.PAUSE = 0.2
+            press_key('enter', 1)
+            bot.sleep(1.25)
 
+    bot.PAUSE = 0.15
     press_key('ctrlstab', 4)
-    
-    bot.PAUSE = 0.65
+    press_key('enter', 1)
+    bot.sleep(1.25)
 
-    press_key('space', 1)
-    bot.sleep(2)
-    press_key('alt', 1)
-    press_key('right', 1)
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('t', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
 
-    bot.PAUSE = 0.2
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('a', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.85
 
-    press_key('down', 2)
-    press_key('right', 1)
-    press_key('down', 4)
-    press_key('right', 1)
-    press_key('space', 1)
-    
-    bot.PAUSE = 0.65
-    
-    bot.sleep(2)
-    press_key('alt', 1)
-    press_key('right', 1)
 
-    bot.PAUSE = 0.2
+    if wait_event('images/WARNING_1.png', timeout=2.25):
+        press_key('tab', 1)
+        press_key('enter', 1)
+        bot.sleep(0.85)
+        press_key('ctrls', 1)
+        df.at[line, 'Status'] = 'Apropriar na CJ88'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        return
 
-    press_key('down', 2)
-    press_key('right', 1)
-    press_key('down', 6)
-    press_key('right', 1)
-    press_key('space', 1)
-    
-    bot.PAUSE = 0.65
-    
-    bot.sleep(2)
-    press_key('ctrltab', 5)
-    bot.sleep(2)
+    if repeat_process > 0:
+        if wait_event('images/WARNING_5.png'):
+            press_key('enter', 1)
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
 
-def finish_project():
-    bot.PAUSE = 0.2
-
-    press_key('ctrlstab', 8)
-    
-    bot.PAUSE = 0.65
-
+    press_key('ctrlstab', 3)
     press_key('up', 2)
-    press_key('ctrlenter', 1)
-    bot.sleep(2)
-    press_key('alt', 1)
-    press_key('right', 1)
+    press_key('ctrle', 1)
+    bot.sleep(1.25)
 
-    bot.PAUSE = 0.2
+    close_project()
 
-    press_key('down', 2)
-    press_key('right', 1)
-    press_key('down', 4)
-    press_key('right', 1)
-    press_key('space', 1)
-    
-    bot.PAUSE = 0.65
-    
-    bot.sleep(2)
-    press_key('alt', 1)
-    press_key('right', 1)
+def close_project():
+    bot.PAUSE = 0.15
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('t', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
 
-    bot.PAUSE = 0.2
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('a', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.85
 
-    press_key('down', 2)
-    press_key('right', 1)
-    press_key('down', 6)
-    press_key('right', 1)
-    press_key('space', 1)
-    
-    bot.PAUSE = 0.65
-    
-    bot.sleep(2)
+    if wait_event('images/WARNING_1.png', timeout=2.25):
+        press_key('tab', 1)
+        press_key('enter', 1)
+        df.at[line, 'Status'] = 'Apropriar na CJ88'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    else:
+        df.at[line, 'Status'] = 'Encerrado'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
 
-def finish_project_aber():
-    press_key('alt', 1)
-    press_key('right', 1)
-
-    bot.PAUSE = 0.2
-
-    press_key('down', 2)
-    press_key('right', 1)
-    press_key('down', 4)
-    press_key('right', 1)
-    press_key('space', 1)
-    
-    bot.PAUSE = 0.65
-    
-    bot.sleep(2)
-    press_key('alt', 1)
-    press_key('right', 1)
-
-    bot.PAUSE = 0.2
-
-    press_key('down', 2)
-    press_key('right', 1)
-    press_key('down', 6)
-    press_key('right', 1)
-    press_key('space', 1)
-    
-    bot.PAUSE = 0.65
-    
-    bot.sleep(2)
+    bot.sleep(0.85)
     press_key('ctrls', 1)
-    bot.sleep(6.5)
+
+def process_lp(status):
+    match status:
+        case 'ABER':
+            close_project()
+
+        case 'LBPA':
+            diagram_exist = verify_diagram()
+
+            if diagram_exist:
+                close_diagram()
+            else:
+                press_key('f3', 1)
+                df.at[line, 'Status'] = 'Diagrama não encontrado'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+
+        case 'LIB':
+            diagram_exist = verify_diagram()
+
+            if diagram_exist:
+                close_diagram()
+            else:
+                press_key('f3', 1)
+                df.at[line, 'Status'] = 'Diagrama não encontrado'
+                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+
+        case 'ENTE':
+            press_key('f3', 1)
+            df.at[line, 'Status'] = 'Apropriar na CJ88'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+
+        case 'ENCE':
+            press_key('f3', 1)
+            df.at[line, 'Status'] = 'Encerrado'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+
+def cj88_config():
+    if wait_event('images/PROJECT_BUILDER_1.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Project Builder screen not found <|\n')
+    
+    bot.typewrite('/NCJ88')
+    press_key('enter', 1)
+
+    if wait_event('images/ACC.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Project Builder screen not found <|\n')
+
+    bot.typewrite('0010')
+    press_key('enter', 1)
+
+    if wait_event('images/APPROPRIATION_1.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
+
+    bot.typewrite(str(df.at[line, 'LP']))
+    press_key('tab', 2)
+    press_key('down', 1)
+    press_key('space', 1)
+    press_key('down', 1)
+    press_key('space', 1)
+    press_key('tab', 1)
+    bot.typewrite(str(int(datetime.now().strftime('%m'))))
+    press_key('tab', 1)
+    bot.typewrite(str(int(datetime.now().strftime('%m'))))
+    press_key('tab', 1)
+    bot.typewrite(str(int(datetime.now().strftime('%Y'))))
+    press_key('tab', 1)
+    bot.typewrite(datetime.today().strftime('%d.%m.%Y'))
+    press_key('enter', 1)
+
+def appropriate_lp():
+    if wait_event('images/APPROPRIATION_1.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
+    
+    bot.typewrite(str(df.at[line, 'LP']))
+    press_key('ctrltab', 2)
+    press_key('space', 1)
+    press_key('f8', 1)
+
+    if wait_event('images/APPROPRIATE.png', timeout=2.25):
+        df.at[line, 'Status'] = 'Apropriado'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    else:
+        if wait_event('images/APPROPRIATION_2.png'):
+            df.at[line, 'Status'] = 'Apropriado'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            press_key('f3')
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
+
+def cj20n_config():
+    if wait_event('images/PROJECT_BUILDER_1.png', timeout=2.25):
+        pass
+    else:
+        if wait_event('images/APPROPRIATION_1.png'):
+            pass
+        else:
+            bot.alert(title='Warning', text='Script error found!')
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
+
+        press_key('ctrlstab', 1)
+        press_key('tab', 1)
+        bot.typewrite('/NCJ20N')
+        press_key('enter', 1)
+
+def ence_project():
+    if wait_event('images/PROJECT_BUILDER_3.png'):
+        pass
+    else:
+        bot.alert(title='Warning', text='Script error found!')
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        raise ValueError('\n\n------------- Error: -------------\n|> 2º Project Builder screen not found <|\n')
+
+    bot.PAUSE = 0.15
+    press_key('ctrlstab', 3)
+    press_key('down', 1)
+    press_key('right', 1)
+    bot.sleep(1.75)
+    press_key('ctrle', 1)
+    bot.sleep(2)
+    press_key('ctrlstab', 3)
+    press_key('down', 1)
+    press_key('ctrle', 1)
+    bot.sleep(2)
+    bot.PAUSE = 0.15
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('a', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.85
+
+    if wait_event('images/WARNING_1.png', timeout=2.25):
+        press_key('tab', 1)
+        press_key('enter', 1)
+        bot.sleep(1.25)
+        press_key('f3', 1)
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        return
+
+    bot.sleep(0.85)
+    bot.PAUSE = 0.15
+    press_key('ctrlstab', 3)
+    press_key('up', 2)
+    press_key('ctrle', 1)
+    bot.sleep(2)
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('t', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
+    press_key('alte', 1)
+    press_key('s', 1)
+    press_key('a', 1)
+    press_key('d', 1)
+    bot.sleep(1.25)
+    bot.PAUSE = 0.85
+
+    if wait_event('images/WARNING_1.png', timeout=2.25):
+        press_key('tab', 1)
+        press_key('enter', 1)
+        df.at[line, 'Status'] = 'Error'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+    else:
+        df.at[line, 'Status'] = 'Encerrado'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+
+    bot.sleep(0.85)
+    press_key('ctrls', 1)
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 366
-line = 85
+lp_qty = len(df['LP'])
+line = (df['Status'].notna()).sum()
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
-def main():
-    global line
-
-    for _ in range(repeat_qty):
-        if lp_verification():
-            bot.sleep(2.5)
-
-            stats = check_status()
-
-            if stats == 'ABER':
-                finish_project_aber()
-                df.at[line, 'Status'] = 'LP finished!'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            elif stats == 'LIB':
-                open_diagram()
-                has_purchase = close_line()
-                if has_purchase:
-                    finish_project()
-                    press_key('space', 1)
-                    bot.sleep(2)
-                    press_key('ctrls', 1)
-                    bot.sleep(6.5)
-                else:
-                    finish_diagram()
-                    finish_project()
-                    press_key('ctrls', 1)
-                    bot.sleep(6.5)
-                df.at[line, 'Status'] = 'LP finished!'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            elif stats == 'ENTE':
-                open_project()
-                has_purchase = close_line()
-                if has_purchase:
-                    finish_project()
-                    press_key('space', 1)
-                    bot.sleep(2)
-                    press_key('ctrls', 1)
-                    bot.sleep(6.5)
-                else:
-                    finish_diagram()
-                    finish_project()
-                    press_key('ctrls', 1)
-                    bot.sleep(6.5)
-                df.at[line, 'Status'] = 'LP finished!'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            elif stats == 'ENCE':
-                press_key('f3', 1)
-                bot.sleep(4)
-                df.at[line, 'Status'] = 'Already finished!'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            else:
-                df.at[line, 'Status'] = 'Error!'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-
-        line += 1
-
-    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-    bot.alert(title='BotText', text='Programa encerrado!')
-
 if __name__ == '__main__':
-    main()
+    if (df['Status'].isna()).any():
+        for _ in range(repeat_qty):
+            open_lp()
+            status = check_status()
+            process_lp(status)
+            line += 1
+
+    if (df['Status'] == 'Apropriar na CJ88').any():
+        line = (df['Status'] != 'Apropriar na CJ88').sum()
+        repeat_qty = lp_qty - line
+        cj88_config()
+
+        for _ in range(repeat_qty):
+            lp_status = str(df.at[line, 'Status'])
+
+            if lp_status == 'Apropriar na CJ88':
+                appropriate_lp()
+
+            line += 1
+
+    if (df['Status'] == 'Apropriado').any():
+        line = (df['Status'] != 'Apropriado').sum()
+        repeat_qty = lp_qty - line
+        cj20n_config()
+
+        for _ in range(repeat_qty):
+            lp_status = str(df.at[line, 'Status'])
+
+            if lp_status == 'Apropriado':
+                open_lp()
+                ence_project()
+
+            line += 1
+
+    bot.alert(title='BotText', text='Program successfully completed')
