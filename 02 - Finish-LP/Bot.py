@@ -129,7 +129,8 @@ def verify_diagram():
     press_key('ctrle', 1)
     bot.sleep(2)
     press_key('ctrlstab', 3)
-    press_key('down', 1)
+    press_key('up', 1)
+    press_key('down', 2)
     press_key('ctrle', 1)
     bot.sleep(2)
     press_key('ctrltab', 1)
@@ -326,9 +327,11 @@ def process_lp(status):
             if diagram_exist:
                 close_diagram()
             else:
-                press_key('f3', 1)
-                df.at[line, 'Status'] = 'Diagrama não encontrado'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                press_key('ctrlstab', 3)
+                press_key('up', 1)
+                press_key('ctrle', 1)
+                bot.sleep(2)
+                close_project()
 
         case 'LIB':
             diagram_exist = verify_diagram()
@@ -336,9 +339,11 @@ def process_lp(status):
             if diagram_exist:
                 close_diagram()
             else:
-                press_key('f3', 1)
-                df.at[line, 'Status'] = 'Diagrama não encontrado'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+                press_key('ctrlstab', 3)
+                press_key('up', 1)
+                press_key('ctrle', 1)
+                bot.sleep(2)
+                close_project()
 
         case 'ENTE':
             press_key('f3', 1)
@@ -526,7 +531,7 @@ if __name__ == '__main__':
             line += 1
 
     if (df['Status'] == 'Apropriar na CJ88').any():
-        line = (df['Status'] != 'Apropriar na CJ88').sum()
+        line = 0
         repeat_qty = lp_qty - line
         cj88_config()
 
@@ -539,7 +544,7 @@ if __name__ == '__main__':
             line += 1
 
     if (df['Status'] == 'Apropriado').any():
-        line = (df['Status'] != 'Apropriado').sum()
+        line = 0
         repeat_qty = lp_qty - line
         cj20n_config()
 
