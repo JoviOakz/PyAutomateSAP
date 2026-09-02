@@ -67,7 +67,7 @@ def wait_event(img, region=None, timeout=7.5):
     return None
 
 def open_lp():
-    if wait_event('images/PROJECT_BUILDER_1.png'):
+    if wait_event('images/PROJECT_BUILDER_1.png', timeout=10):
         pass
     else:
         bot.alert(title='Warning', text='Script error found!')
@@ -191,6 +191,15 @@ def close_diagram():
         press_key('ctrltab', 1)
         press_key('tab', 5)
         press_key('enter', 1)
+
+        if wait_event('images/WARNING_4.png', timeout=2):
+            press_key('enter', 1)
+            bot.sleep(1)
+            press_key('f3', 1)
+            df.at[line, 'Status'] = 'Error'
+            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+            return
+
         bot.sleep(1.25)
         bot.PAUSE = 0.85
 
@@ -211,38 +220,18 @@ def close_diagram():
             press_key('space', 1)
             bot.PAUSE = 0.85
 
-            if wait_event('images/WARNING_2.png'):
-                pass
-            else:
-                bot.alert(title='Warning', text='Script error found!')
-                df.at[line, 'Status'] = 'Error'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+            if wait_event('images/WARNING_2.png', timeout=1.75):
+                press_key('tab', 1)
+                press_key('enter', 1)
 
-            press_key('tab', 1)
-            press_key('enter', 1)
+            if wait_event('images/WARNING_3.png', timeout=1.75):
+                press_key('stab', 1)
+                press_key('enter', 1)
 
-            if wait_event('images/WARNING_3.png'):
-                pass
-            else:
-                bot.alert(title='Warning', text='Script error found!')
-                df.at[line, 'Status'] = 'Error'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
+            if wait_event('images/WARNING_4.png', timeout=1.75):
+                press_key('tab', 1)
+                press_key('enter', 1)
 
-            press_key('stab', 1)
-            press_key('enter', 1)
-
-            if wait_event('images/WARNING_4.png'):
-                pass
-            else:
-                bot.alert(title='Warning', text='Script error found!')
-                df.at[line, 'Status'] = 'Error'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-                raise ValueError('\n\n------------- Error: -------------\n|> Warning window not found <|\n')
-
-            press_key('tab', 1)
-            press_key('enter', 1)
             bot.sleep(1.25)
 
     bot.PAUSE = 0.15
@@ -368,15 +357,8 @@ def cj88_config():
     press_key('enter', 1)
 
     if wait_event('images/ACC.png'):
-        pass
-    else:
-        bot.alert(title='Warning', text='Script error found!')
-        df.at[line, 'Status'] = 'Error'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        raise ValueError('\n\n------------- Error: -------------\n|> 1º Project Builder screen not found <|\n')
-
-    bot.typewrite('0010')
-    press_key('enter', 1)
+        bot.typewrite('0010')
+        press_key('enter', 1)
 
     if wait_event('images/APPROPRIATION_1.png'):
         pass
@@ -386,7 +368,6 @@ def cj88_config():
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
 
-    bot.typewrite(str(df.at[line, 'LP']))
     press_key('tab', 2)
     press_key('down', 1)
     press_key('space', 1)
@@ -423,7 +404,7 @@ def appropriate_lp():
         if wait_event('images/APPROPRIATION_2.png'):
             df.at[line, 'Status'] = 'Apropriado'
             df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            press_key('f3')
+            press_key('f3', 1)
         else:
             bot.alert(title='Warning', text='Script error found!')
             df.at[line, 'Status'] = 'Error'
@@ -431,7 +412,7 @@ def appropriate_lp():
             raise ValueError('\n\n------------- Error: -------------\n|> 1º Appropriation screen not found <|\n')
 
 def cj20n_config():
-    if wait_event('images/PROJECT_BUILDER_1.png', timeout=2.25):
+    if wait_event('images/PROJECT_BUILDER_1.png'):
         pass
     else:
         if wait_event('images/APPROPRIATION_1.png'):
@@ -480,7 +461,7 @@ def ence_project():
         press_key('enter', 1)
         bot.sleep(1.25)
         press_key('f3', 1)
-        df.at[line, 'Status'] = 'Error'
+        df.at[line, 'Status'] = 'Não pode ser encerrado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         return
 
@@ -505,7 +486,7 @@ def ence_project():
     if wait_event('images/WARNING_1.png', timeout=2.25):
         press_key('tab', 1)
         press_key('enter', 1)
-        df.at[line, 'Status'] = 'Error'
+        df.at[line, 'Status'] = 'Não pode ser encerrado'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
     else:
         df.at[line, 'Status'] = 'Encerrado'
