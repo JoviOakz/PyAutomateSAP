@@ -461,7 +461,7 @@ def ence_project():
         press_key('enter', 1)
         bot.sleep(1.25)
         press_key('f3', 1)
-        df.at[line, 'Status'] = 'Não pode ser encerrado'
+        df.at[line, 'Status'] = 'Pendente para encerramento'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
         return
 
@@ -486,7 +486,7 @@ def ence_project():
     if wait_event('images/WARNING_1.png', timeout=2.25):
         press_key('tab', 1)
         press_key('enter', 1)
-        df.at[line, 'Status'] = 'Não pode ser encerrado'
+        df.at[line, 'Status'] = 'Pendente para encerramento'
         df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
     else:
         df.at[line, 'Status'] = 'Encerrado'
