@@ -228,26 +228,26 @@ def save_apointment():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = 28
-line = 22
+lp_qty = len(df['LPs'])
+line = (df['Status'].notna()).sum()
 repeat_qty = lp_qty - line
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    for _ in range(repeat_qty):
-        open_diagram()
-        alr_ap = verify_lp()
+    if (df['Status'].isna()).any():
+        for _ in range(repeat_qty):
+            open_diagram()
+            alr_ap = verify_lp()
 
-        if not alr_ap:
-            create_apointment()
-            save_line()
+            if not alr_ap:
+                create_apointment()
+                save_line()
 
-        open_diagram()
-        apoint_process()
-        save_apointment()
+            open_diagram()
+            apoint_process()
+            save_apointment()
 
-        line += 1
+            line += 1
 
-    df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
     bot.alert(title='BotText', text='Program successfully completed')
