@@ -27,6 +27,34 @@ df = pd.read_excel(
     }
 )
 
+# ====================================================================================================================================
+# CONSULTA PARA O BOT SABER QUAIS LPS CADASTRAR SOZINHO:
+
+# SELECT DISTINCT
+#     Z54.TIPO_DEMANDA,
+#     Z54.NAME_LIST_PLANEJADOR AS RESPONSAVEL,
+#     Z54.NUM_RS AS OBJ_LIQUIDACAO,
+#     Z54.ABSCH AS ESQ_ALOCACAO,
+#     Z55.MENGE AS QUANTIDADE,
+#     Z55.NR_TIPO_PARTNR AS PARTNUMBER,
+#     Z55.POST1 AS DENOMINACAO_ITEM,
+#     Z55.ENTREGAR_A AS ENTREGAR_A,
+#     Z54.DEPARTMENT_EMIT AS DEPT_EMIT,
+#     Z55.ESTIMATED_COSTS AS CUSTO_ESTIMADO,
+#     PROJ.PSPID_EDIT AS LP
+# FROM MARD_MDNA.V_CUSN_Z22I0055_MD_B2 Z55
+# LEFT JOIN MARD_MDNA.V_CUSN_Z22I0054_MD_B2 Z54
+#     ON Z54.QMNUM = Z55.QMNUM
+# LEFT JOIN MARD_MDNA.V_CUSN_PROJ_B2 PROJ
+#     ON PROJ.PSPNR = Z55.PSPNR
+# WHERE Z54.PARNR_PLANEJADOR IN ('IOS3CT','ENB9CT','MEO9CT','LIY1CT','FIH9CT','FRJ1CT','NUR3CT','LRI2CT','MER7CT','COH1CT','ADB2CT')
+#     AND Z54.TECH_TIMESTAMP >= TIMESTAMP '2026-01-01 00:00:00'
+#     AND Z54.TECH_TIMESTAMP <  TIMESTAMP '2027-01-01 00:00:00'
+#     AND PROJ.PSPID_EDIT IS NOT NULL
+#     AND PROJ.AEDAT = '00000000'
+# ORDER BY PROJ.PSPID_EDIT ASC;
+# ====================================================================================================================================
+
 # ===== FUNCTIONS =====
 
 def press_key(key, times):
