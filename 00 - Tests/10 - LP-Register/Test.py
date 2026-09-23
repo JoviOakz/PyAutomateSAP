@@ -1,13 +1,16 @@
 # ===== LIBRARIES =====
 
 import pyautogui as bot
+import oracledb
 import pandas as pd
 import pyperclip as pc
-from datetime import date
+from datetime import date, datetime
 import time
 import re
 
 # ===== GLOBAL SETTINGS =====
+
+INSTANT_CLIENT_PATH = r'C:\oracle\instantclient_23_0'
 
 bot.FAILSAFE = True
 bot.PAUSE = 0.85
@@ -16,46 +19,7 @@ bot.PAUSE = 0.85
 
 bot.click(1802, 14)
 
-# ===== EXCEL CONFIGURATION =====
-
-EXCEL_PATH = '../99 - Excels/LP-Register.xlsx'
-df = pd.read_excel(
-    EXCEL_PATH,
-    engine='openpyxl',
-    dtype={
-        'Status': str
-    }
-)
-
-# ====================================================================================================================================
-# CONSULTA PARA O BOT SABER QUAIS LPS CADASTRAR SOZINHO:
-
-# SELECT DISTINCT
-#     Z54.TIPO_DEMANDA,
-#     Z54.NAME_LIST_PLANEJADOR AS RESPONSAVEL,
-#     Z54.NUM_RS               AS OBJ_LIQUIDACAO,
-#     Z54.ABSCH                AS ESQ_ALOCACAO,
-#     Z55.MENGE                AS QUANTIDADE,
-#     Z55.NR_TIPO_PARTNR       AS PARTNUMBER,
-#     Z55.POST1                AS DENOMINACAO_ITEM,
-#     Z55.ENTREGAR_A           AS ENTREGAR_A,
-#     Z54.DEPARTMENT_EMIT      AS DEPT_EMIT,
-#     Z55.ESTIMATED_COSTS      AS CUSTO_ESTIMADO,
-#     PROJ.PSPID_EDIT          AS LP
-# FROM MARD_MDNA.V_CUSN_Z22I0055_MD_B2 Z55
-# LEFT JOIN MARD_MDNA.V_CUSN_Z22I0054_MD_B2 Z54
-#     ON Z54.QMNUM = Z55.QMNUM
-# LEFT JOIN MARD_MDNA.V_CUSN_PROJ_B2 PROJ
-#     ON PROJ.PSPNR = Z55.PSPNR
-# WHERE Z54.PARNR_PLANEJADOR IN ('IOS3CT','ENB9CT','MEO9CT','LIY1CT','FIH9CT','FRJ1CT','NUR3CT','LRI2CT','MER7CT','COH1CT','ADB2CT')
-#     AND Z54.TECH_TIMESTAMP >= TIMESTAMP '2026-01-01 00:00:00'
-#     AND Z54.TECH_TIMESTAMP <  TIMESTAMP '2027-01-01 00:00:00'
-#     AND PROJ.PSPID_EDIT IS NOT NULL
-#     AND PROJ.AEDAT = '00000000'
-# ORDER BY PROJ.PSPID_EDIT ASC;
-# ====================================================================================================================================
-
-# ===== FUNCTIONS =====
+# ===== STATIC FUNCTIONS =====
 
 def press_key(key, times):
     for _ in range(times):
@@ -98,6 +62,11 @@ def wait_event(img, region=None, timeout=10):
 
         time.sleep(0.5)
     return None
+
+# ===== FUNCTIONS =====
+
+def sap_start():
+    
 
 def wbs_element_creation():
     if wait_event('images/PROJECT_1.png'):
@@ -535,31 +504,93 @@ def diagram_creation():
     press_key('ctrls', 1)
     bot.sleep(1.5)
 
+def save_excel():
+    time_error = datetime.now().strftime('%d-%m_%H-%M')
+
+    dados = {
+        'Nome': ['Ana', 'Carlos', 'Beatriz'],
+        'Idade': [28, 35, 22],
+        'Status': ['Ativo', 'Inativo', 'Ativo']
+    }
+
+    df = pd.DataFrame(dados)
+
+    EXCEL_PATH = f'./Record_{time_error}.xlsx'
+    df.to_excel(
+        EXCEL_PATH,
+        engine='openpyxl',
+        index=False
+    )
+
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = len(df['Responsável'])
-line = (df['Status'].notna()).sum()
-repeat_qty = lp_qty - line
+try:
+    oracledb.init_oracle_client(lib_dir=INSTANT_CLIENT_PATH)
+    
+except Exception as e:
+    print(f'Failed to initialize Oracle client: {e}')
+
+USER = 'MAO8CT'
+PASS = '49l1)f=f3q6A'
+dsn = 'REDLake_ZeusP_Consumer_Common.world'
+
+try:
+    with oracledb.connect(user=USER, password=PASS, dsn=dsn) as connection:
+        with connection.cursor() as conn:
+            query = f'''
+                SELECT DISTINCT
+                    Z54.TIPO_DEMANDA,
+                    Z54.NAME_LIST_PLANEJADOR AS RESPONSAVEL,
+                    Z54.NUM_RS               AS OBJ_LIQUIDACAO,
+                    Z54.ABSCH                AS ESQ_ALOCACAO,
+                    Z55.MENGE                AS QUANTIDADE,
+                    Z55.NR_TIPO_PARTNR       AS PARTNUMBER,
+                    Z55.POST1                AS DENOMINACAO_ITEM,
+                    Z55.ENTREGAR_A           AS ENTREGAR_A,
+                    Z54.DEPARTMENT_EMIT      AS DEPT_EMIT,
+                    Z55.ESTIMATED_COSTS      AS CUSTO_ESTIMADO,
+                    PROJ.PSPID_EDIT          AS LP
+                FROM MARD_MDNA.V_CUSN_Z22I0055_MD_B2 Z55
+                LEFT JOIN MARD_MDNA.V_CUSN_Z22I0054_MD_B2 Z54
+                    ON Z54.QMNUM = Z55.QMNUM
+                LEFT JOIN MARD_MDNA.V_CUSN_PROJ_B2 PROJ
+                    ON PROJ.PSPNR = Z55.PSPNR
+                WHERE Z54.PARNR_PLANEJADOR IN ('IOS3CT','ENB9CT','MEO9CT','LIY1CT','FIH9CT','FRJ1CT','NUR3CT','LRI2CT','MER7CT','COH1CT','ADB2CT')
+                    AND Z54.TECH_TIMESTAMP >= TIMESTAMP '2026-01-01 00:00:00'
+                    AND Z54.TECH_TIMESTAMP <  TIMESTAMP '2027-01-01 00:00:00'
+                    AND PROJ.PSPID_EDIT IS NOT NULL
+                    AND PROJ.AEDAT = '00000000'
+                ORDER BY PROJ.PSPID_EDIT ASC
+            '''
+
+            conn.execute(query)
+
+            data = conn.fetchall()
+
+            for line in data:
+                print(line)
+
+except oracledb.Error as e:
+    print(f'Connection/query failed: {e}')
 
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    if (df['Status'].isna()).any():
-        for _ in range(repeat_qty):
-            wbs_element_creation()
-            line += 1
+    sap_start()
 
-    if (df['Status'] == 'Cadastrado parcial').any():
-        line = (df['Status'] == 'Cadastrado').sum()
-        repeat_qty = lp_qty - line
-        cn21_config()
+    for line in data:
+        wbs_element_creation()
 
-        for _ in range(repeat_qty):
-            lp_status = str(df.at[line, 'Status'])
+    # line = (df['Status'] == 'Cadastrado').sum()
+    # repeat_qty = lp_qty - line
+    # cn21_config()
 
-            if lp_status == 'Cadastrado parcial':
-                diagram_creation()
+    # for _ in range(repeat_qty):
+    #     lp_status = str(df.at[line, 'Status'])
 
-            line += 1
+    #     if lp_status == 'Cadastrado parcial':
+    #         diagram_creation()
 
-    bot.alert(title='BotText', text='Program successfully completed')
+    #     line += 1
+
+    save_excel()
