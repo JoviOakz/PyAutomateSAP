@@ -194,7 +194,15 @@ def apoint_process():
     press_key('tab', 5)
     bot.PAUSE = 0.75
     press_key('enter', 1)
-    bot.sleep(1)
+
+    if wait_event('images/WARNING_4.png', timeout=1.5):
+        press_key('tab', 1)
+        press_key('enter', 1)
+        press_key('f12', 3)
+        df.at[line, 'Status'] = 'LP liberada parcialmente'
+        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
+        return
+
     press_key('down', 1)
     bot.typewrite('92886895')
     press_key('ctrltab', 1)
