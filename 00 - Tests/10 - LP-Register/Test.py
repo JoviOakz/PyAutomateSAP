@@ -23,7 +23,9 @@ bot.click(1802, 14)
 
 def press_key(key, times):
     for _ in range(times):
-        if key == 'ctrla':
+        if key == 'winr':
+            bot.hotkey('win', 'r')
+        elif key == 'ctrla':
             bot.hotkey('ctrl', 'a')
         elif key == 'ctrlc':
             bot.hotkey('ctrl', 'c')
@@ -66,7 +68,9 @@ def wait_event(img, region=None, timeout=10):
 # ===== FUNCTIONS =====
 
 def sap_start():
-    
+    press_key('winr', 1)
+    bot.typewrite('saplogon')
+    press_key('enter', 1)
 
 def wbs_element_creation():
     if wait_event('images/PROJECT_1.png'):
