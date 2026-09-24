@@ -370,7 +370,7 @@ def mrp_config():
 
         bot.sleep(0.5)
 
-def diagram_creation():
+def diagram_creation(index, item):
     bot.PAUSE = 0.35
 
     mrp_config()
@@ -545,6 +545,6 @@ if __name__ == '__main__':
 
     for index, item in enumerate(data):
         if item[11] == 'Cadastrado parcial':
-            diagram_creation()
+            diagram_creation(index, item)
 
     save_excel()
