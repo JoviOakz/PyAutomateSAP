@@ -17,7 +17,7 @@ bot.PAUSE = 0.85
 
 # ===== INITIAL ACTION =====
 
-# bot.click(1802, 14)
+bot.click(1802, 14)
 
 # ===== STATIC FUNCTIONS =====
 
@@ -531,7 +531,7 @@ try:
             data = [list(item) for item in data]
 
 except oracledb.Error as e:
-    print(f'Connection failed: {e}')
+    raise ValueError('Connection failed: {e}')
 
 # ===== MAIN =====
 
