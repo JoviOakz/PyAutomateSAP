@@ -90,6 +90,18 @@ def sap_start():
     bot.typewrite('CJ02')
     press_key('enter', 1)
 
+def close_sap():
+    if wait_event('images/DIAGRAM_1.png'):
+        pass
+    else:
+        data[index].append('Error')
+        save_excel(data)
+        raise ValueError('|> 1º Diagram screen not found <|')
+    
+    press_key('winr', 1)
+    bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
+    press_key('enter', 1)
+
 def wbs_element_creation(index, item):
     if wait_event('images/PROJECT_1.png'):
         pass
@@ -527,18 +539,6 @@ def save_excel(data, active_lps):
             engine='openpyxl',
             index=False
         )
-
-def close_sap():
-    if wait_event('images/DIAGRAM_1.png'):
-        pass
-    else:
-        data[index].append('Error')
-        save_excel(data)
-        raise ValueError('|> 1º Diagram screen not found <|')
-    
-    press_key('winr', 1)
-    bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
-    press_key('enter', 1)
 
 # ===== PROGRAM CONFIGURATION =====
 
