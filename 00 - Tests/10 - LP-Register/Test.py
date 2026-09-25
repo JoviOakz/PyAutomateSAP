@@ -395,6 +395,13 @@ def mrp_config():
 def diagram_creation(index, item):
     bot.PAUSE = 0.35
 
+    if wait_event('images/DIAGRAM_1.png'):
+        pass
+    else:
+        data[index].append('Error')
+        save_excel(data)
+        raise ValueError('|> 1º Diagram screen not found <|')
+
     mrp_config()
     
     bot.PAUSE = 0.85
@@ -499,17 +506,39 @@ def diagram_creation(index, item):
     press_key('ctrls', 1)
     bot.sleep(1.5)
 
-def save_excel(data):
-    time_error = datetime.now().strftime('%d-%m_%H-%M')
+def save_excel(data, active_lps):
+    record_time = datetime.now().strftime('%d-%m_%H-%M')
 
     df = pd.DataFrame(data)
 
-    EXCEL_PATH = f'./Record_{time_error}.xlsx'
+    EXCEL_PATH = f'./Record_{record_time}.xlsx'
     df.to_excel(
         EXCEL_PATH,
         engine='openpyxl',
         index=False
     )
+
+    if active_lps:
+        df = pd.DataFrame(active_lps)
+
+        EXCEL_PATH = f'./Active_LPs_{record_time}.xlsx'
+        df.to_excel(
+            EXCEL_PATH,
+            engine='openpyxl',
+            index=False
+        )
+
+def close_sap():
+    if wait_event('images/DIAGRAM_1.png'):
+        pass
+    else:
+        data[index].append('Error')
+        save_excel(data)
+        raise ValueError('|> 1º Diagram screen not found <|')
+    
+    press_key('winr', 1)
+    bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
+    press_key('enter', 1)
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -555,6 +584,8 @@ try:
             conn.execute(query)
             data = conn.fetchall()
             data = [list(item) for item in data]
+            active_lps = [linha for linha in data if linha[0] == 'A']
+            data = [linha for linha in data if linha[0] != 'A']
 
 except oracledb.Error as e:
     raise ValueError('Connection failed: {e}')
@@ -573,4 +604,5 @@ if __name__ == '__main__':
         if item[11] == 'Cadastrado parcial':
             diagram_creation(index, item)
 
-    save_excel(data)
+    save_excel(data, active_lps)
+    close_sap()
