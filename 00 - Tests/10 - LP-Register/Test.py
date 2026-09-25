@@ -94,6 +94,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PROJECT_1.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 1º Project screen not found <|')
     
     press_key('ctrla', 1)
@@ -105,6 +107,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PROJECT_2.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 2º Project screen not found <|')
 
     press_key('ctrltab', 2)
@@ -140,6 +144,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/WBS_1.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 1º WBS screen not found <|')
 
     bot.PAUSE = 0.35
@@ -173,18 +179,20 @@ def wbs_element_creation(index, item):
     if wait_event('images/WBS_2.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 2º WBS screen not found <|')
 
     press_key('tab', 4)
     bot.typewrite(item[7])
     bot.sleep(0.5)
     press_key('tab', 2)
-    bot.typewrite(item[4].split('.')[0])
+    bot.typewrite(str(int(float(item[4]))))
     press_key('tab', 1)
     bot.typewrite('PC')
     press_key('tab', 1)
     press_key('down', 1)
-    bot.typewrite(item[9].split('.')[0])
+    bot.typewrite(str(int(float(item[9]))))
     press_key('tab', 1)
     bot.typewrite('BRL')
     press_key('enter', 1)
@@ -200,6 +208,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PARAMETERS_1.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 1º Parameters screen not found <|')
 
     press_key('tab', 1)
@@ -230,6 +240,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PARAMETERS_2.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 2º Parameters screen not found <|')
     
     press_key('tab', 1)
@@ -239,6 +251,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/WBS_2.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 1º Return error <|')
     
     press_key('f3', 1)
@@ -246,6 +260,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/RETURN.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 2º Return error <|')
     
     press_key('sf1', 1)
@@ -253,6 +269,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PROJECT_3.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 3º WBS screen not found <|')
     
     part_number = re.sub(r'[-./POSpos& ]', '', item[5]).strip()
@@ -289,6 +307,8 @@ def cn21_config():
     if wait_event('images/PROJECT_1.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> Project screen not found <|')
     
     press_key('ctrlstab', 1)
@@ -299,6 +319,8 @@ def cn21_config():
     if wait_event('images/DIAGRAM_1.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 1º Diagram screen not found <|')
     
     bot.PAUSE = 0.15
@@ -382,6 +404,8 @@ def diagram_creation(index, item):
     if wait_event('images/VALUE.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> Value box not found <|')
 
     bot.typewrite(item[10].replace('-', ''))
@@ -390,6 +414,8 @@ def diagram_creation(index, item):
     if wait_event('images/DIAGRAM_2.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 2º Diagram screen not found <|')
 
     press_key('ctrltab', 1)
@@ -399,6 +425,8 @@ def diagram_creation(index, item):
     if wait_event('images/ATTRIBUITION_1.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 1º Attribuition screen not found <|')
 
     press_key('tab', 2)
@@ -414,6 +442,8 @@ def diagram_creation(index, item):
     if wait_event('images/ATTRIBUITION_2.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 2º Attribuition screen not found <|')
 
     press_key('tab', 1)
@@ -422,6 +452,8 @@ def diagram_creation(index, item):
     if wait_event('images/ATTRIBUITION_3.png'):
         pass
     else:
+        data[index].append('Error')
+        save_excel(data)
         raise ValueError('|> 2º Attribuition screen not found <|')
 
     press_key('ctrltab', 2)
@@ -467,16 +499,10 @@ def diagram_creation(index, item):
     press_key('ctrls', 1)
     bot.sleep(1.5)
 
-def save_excel():
+def save_excel(data):
     time_error = datetime.now().strftime('%d-%m_%H-%M')
 
-    dados = {
-        'Nome': ['Ana', 'Carlos', 'Beatriz'],
-        'Idade': [28, 35, 22],
-        'Status': ['Ativo', 'Inativo', 'Ativo']
-    }
-
-    df = pd.DataFrame(dados)
+    df = pd.DataFrame(data)
 
     EXCEL_PATH = f'./Record_{time_error}.xlsx'
     df.to_excel(
@@ -547,4 +573,4 @@ if __name__ == '__main__':
         if item[11] == 'Cadastrado parcial':
             diagram_creation(index, item)
 
-    save_excel()
+    save_excel(data)
