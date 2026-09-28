@@ -10,8 +10,8 @@ import re
 
 # ===== GLOBAL SETTINGS =====
 
-INSTANT_CLIENT_PATH = r'C:\Oracle\Client64\bin'
-# INSTANT_CLIENT_PATH = r'C:\oracle\instantclient_23_0'
+# INSTANT_CLIENT_PATH = r'C:\Oracle\Client64\bin'
+INSTANT_CLIENT_PATH = r'C:\oracle\instantclient_23_0'
 
 bot.FAILSAFE = True
 bot.PAUSE = 0.85
@@ -612,4 +612,4 @@ if __name__ == '__main__':
             data[index].append('Error')
 
         save_excel(data, active_lps)
-        close_sap()
+        close_sap(data, active_lps)
