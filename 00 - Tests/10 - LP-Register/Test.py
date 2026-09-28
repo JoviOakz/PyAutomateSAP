@@ -75,7 +75,7 @@ def sap_start():
     if wait_event('images/SAP_1.png'):
         pass
     else:
-        raise ValueError('|> SAP logon screen not found <|')
+        close_sap()
 
     press_key('stab', 1)
     bot.typewrite('ps0')
@@ -84,20 +84,13 @@ def sap_start():
     if wait_event('images/SAP_2.png'):
         pass
     else:
-        raise ValueError('|> SAP screen not found <|')
+        close_sap()
 
     bot.sleep(1)
     bot.typewrite('CJ02')
     press_key('enter', 1)
 
-def close_sap():
-    if wait_event('images/DIAGRAM_1.png'):
-        pass
-    else:
-        data[index].append('Error')
-        save_excel(data)
-        raise ValueError('|> 1º Diagram screen not found <|')
-    
+def close_sap():    
     press_key('winr', 1)
     bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
     press_key('enter', 1)
@@ -108,7 +101,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 1º Project screen not found <|')
+        close_sap()
     
     press_key('ctrla', 1)
     bot.typewrite(item[10])
@@ -121,7 +114,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 2º Project screen not found <|')
+        close_sap()
 
     press_key('ctrltab', 2)
     press_key('down', 1)
@@ -158,7 +151,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 1º WBS screen not found <|')
+        close_sap()
 
     bot.PAUSE = 0.35
     
@@ -193,7 +186,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 2º WBS screen not found <|')
+        close_sap()
 
     press_key('tab', 4)
     bot.typewrite(item[7])
@@ -222,7 +215,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 1º Parameters screen not found <|')
+        close_sap()
 
     press_key('tab', 1)
 
@@ -254,7 +247,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 2º Parameters screen not found <|')
+        close_sap()
     
     press_key('tab', 1)
     bot.typewrite(item[2].split('.')[0])
@@ -265,7 +258,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 1º Return error <|')
+        close_sap()
     
     press_key('f3', 1)
 
@@ -274,7 +267,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 2º Return error <|')
+        close_sap()
     
     press_key('sf1', 1)
 
@@ -283,7 +276,7 @@ def wbs_element_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 3º WBS screen not found <|')
+        close_sap()
     
     part_number = re.sub(r'[-./POSpos& ]', '', item[5]).strip()
     pc.copy(item[6])
@@ -321,7 +314,7 @@ def cn21_config():
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> Project screen not found <|')
+        close_sap()
     
     press_key('ctrlstab', 1)
     press_key('tab', 1)
@@ -333,7 +326,7 @@ def cn21_config():
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 1º Diagram screen not found <|')
+        close_sap()
     
     bot.PAUSE = 0.15
 
@@ -412,7 +405,7 @@ def diagram_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 1º Diagram screen not found <|')
+        close_sap()
 
     mrp_config()
     
@@ -425,7 +418,7 @@ def diagram_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> Value box not found <|')
+        close_sap()
 
     bot.typewrite(item[10].replace('-', ''))
     press_key('enter', 1)
@@ -435,7 +428,7 @@ def diagram_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 2º Diagram screen not found <|')
+        close_sap()
 
     press_key('ctrltab', 1)
     press_key('right', 1)
@@ -446,7 +439,7 @@ def diagram_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 1º Attribuition screen not found <|')
+        close_sap()
 
     press_key('tab', 2)
     bot.typewrite(item[10].replace('-', ''))
@@ -463,7 +456,7 @@ def diagram_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 2º Attribuition screen not found <|')
+        close_sap()
 
     press_key('tab', 1)
     press_key('enter', 1)
@@ -473,7 +466,7 @@ def diagram_creation(index, item):
     else:
         data[index].append('Error')
         save_excel(data)
-        raise ValueError('|> 2º Attribuition screen not found <|')
+        close_sap()
 
     press_key('ctrltab', 2)
     press_key('ctrla', 1)
@@ -603,6 +596,11 @@ if __name__ == '__main__':
     for index, item in enumerate(data):
         if item[11] == 'Cadastrado parcial':
             diagram_creation(index, item)
+
+    if wait_event('images/DIAGRAM_1.png'):
+        pass
+    else:
+        data[index].append('Error')
 
     save_excel(data, active_lps)
     close_sap()
