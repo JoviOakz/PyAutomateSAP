@@ -592,21 +592,22 @@ except oracledb.Error as e:
 # ===== MAIN =====
 
 if __name__ == '__main__':
-    sap_start()
+    if data:
+        sap_start()
 
-    for index, item in enumerate(data):
-        wbs_element_creation(index, item)
+        for index, item in enumerate(data):
+            wbs_element_creation(index, item)
 
-    cn21_config()
+        cn21_config()
 
-    for index, item in enumerate(data):
-        if item[11] == 'Cadastrado parcial':
-            diagram_creation(index, item)
+        for index, item in enumerate(data):
+            if item[11] == 'Cadastrado parcial':
+                diagram_creation(index, item)
 
-    if wait_event('images/DIAGRAM_1.png'):
-        pass
-    else:
-        data[index].append('Error')
+        if wait_event('images/DIAGRAM_1.png'):
+            pass
+        else:
+            data[index].append('Error')
 
-    save_excel(data, active_lps)
-    close_sap()
+        save_excel(data, active_lps)
+        close_sap()
