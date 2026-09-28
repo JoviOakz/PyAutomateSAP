@@ -10,14 +10,15 @@ import re
 
 # ===== GLOBAL SETTINGS =====
 
-INSTANT_CLIENT_PATH = r'C:\oracle\instantclient_23_0'
+INSTANT_CLIENT_PATH = r'C:\Oracle\Client64\bin'
+# INSTANT_CLIENT_PATH = r'C:\oracle\instantclient_23_0'
 
 bot.FAILSAFE = True
 bot.PAUSE = 0.85
 
 # ===== INITIAL ACTION =====
 
-bot.click(1802, 14)
+# bot.click(1802, 14)
 
 # ===== STATIC FUNCTIONS =====
 
@@ -67,6 +68,12 @@ def wait_event(img, region=None, timeout=10):
 
 # ===== FUNCTIONS =====
 
+def close_sap(data, active_lps):
+    save_excel(data, active_lps)
+    press_key('winr', 1)
+    bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
+    press_key('enter', 1)
+
 def sap_start():
     press_key('winr', 1)
     bot.typewrite('saplogon')
@@ -75,7 +82,9 @@ def sap_start():
     if wait_event('images/SAP_1.png'):
         pass
     else:
-        close_sap()
+        data[index].append('Error')
+        close_sap(data)
+        raise Exception('Error')
 
     press_key('stab', 1)
     bot.typewrite('ps0')
@@ -84,15 +93,12 @@ def sap_start():
     if wait_event('images/SAP_2.png'):
         pass
     else:
-        close_sap()
+        data[index].append('Error')
+        close_sap(data)
+        raise Exception('Error')
 
     bot.sleep(1)
     bot.typewrite('CJ02')
-    press_key('enter', 1)
-
-def close_sap():    
-    press_key('winr', 1)
-    bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
     press_key('enter', 1)
 
 def wbs_element_creation(index, item):
@@ -100,8 +106,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
     
     press_key('ctrla', 1)
     bot.typewrite(item[10])
@@ -113,8 +119,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     press_key('ctrltab', 2)
     press_key('down', 1)
@@ -150,8 +156,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     bot.PAUSE = 0.35
     
@@ -185,8 +191,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     press_key('tab', 4)
     bot.typewrite(item[7])
@@ -214,8 +220,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     press_key('tab', 1)
 
@@ -246,8 +252,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
     
     press_key('tab', 1)
     bot.typewrite(item[2].split('.')[0])
@@ -257,8 +263,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
     
     press_key('f3', 1)
 
@@ -266,8 +272,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
     
     press_key('sf1', 1)
 
@@ -275,8 +281,8 @@ def wbs_element_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
     
     part_number = re.sub(r'[-./POSpos& ]', '', item[5]).strip()
     pc.copy(item[6])
@@ -313,8 +319,8 @@ def cn21_config():
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
     
     press_key('ctrlstab', 1)
     press_key('tab', 1)
@@ -325,8 +331,8 @@ def cn21_config():
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
     
     bot.PAUSE = 0.15
 
@@ -404,8 +410,8 @@ def diagram_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     mrp_config()
     
@@ -417,8 +423,8 @@ def diagram_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     bot.typewrite(item[10].replace('-', ''))
     press_key('enter', 1)
@@ -427,8 +433,8 @@ def diagram_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     press_key('ctrltab', 1)
     press_key('right', 1)
@@ -438,8 +444,8 @@ def diagram_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     press_key('tab', 2)
     bot.typewrite(item[10].replace('-', ''))
@@ -455,8 +461,8 @@ def diagram_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     press_key('tab', 1)
     press_key('enter', 1)
@@ -465,8 +471,8 @@ def diagram_creation(index, item):
         pass
     else:
         data[index].append('Error')
-        save_excel(data)
-        close_sap()
+        close_sap(data)
+        raise Exception('Error')
 
     press_key('ctrltab', 2)
     press_key('ctrla', 1)
