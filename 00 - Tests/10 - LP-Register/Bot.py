@@ -16,10 +16,6 @@ INSTANT_CLIENT_PATH = r'C:\oracle\instantclient_23_0'
 bot.FAILSAFE = True
 bot.PAUSE = 0.85
 
-# ===== INITIAL ACTION =====
-
-# bot.click(1802, 14)
-
 # ===== STATIC FUNCTIONS =====
 
 def press_key(key, times):
@@ -68,12 +64,6 @@ def wait_event(img, region=None, timeout=10):
 
 # ===== FUNCTIONS =====
 
-def close_sap(data, active_lps):
-    save_excel(data, active_lps)
-    press_key('winr', 1)
-    bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
-    press_key('enter', 1)
-
 def sap_start():
     press_key('winr', 1)
     bot.typewrite('saplogon')
@@ -82,8 +72,7 @@ def sap_start():
     if wait_event('images/SAP_1.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        close_sap()
         raise Exception('Error')
 
     press_key('stab', 1)
@@ -93,20 +82,43 @@ def sap_start():
     if wait_event('images/SAP_2.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        close_sap()
         raise Exception('Error')
 
     bot.sleep(1)
     bot.typewrite('CJ02')
     press_key('enter', 1)
 
+def close_sap():
+    press_key('winr', 1)
+    bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
+    press_key('enter', 1)
+
+def save_excel(record, active_lps):
+    new_values = pd.DataFrame(record)
+    historic = pd.read_excel(EXCEL_PATH, engine='openpyxl')
+    record = pd.concat([historic, new_values], ignore_index=True)
+    record_time = datetime.now().strftime('%d-%m_%H-%M')
+
+    df = pd.DataFrame(record)
+    df.to_excel(EXCEL_PATH, engine='openpyxl', index=False)
+
+    if active_lps:
+        df = pd.DataFrame(active_lps)
+
+        EXCEL_PATH = f'./Active_LPs_{record_time}.xlsx'
+        df.to_excel(
+            EXCEL_PATH,
+            engine='openpyxl',
+            index=False
+        )
+
 def wbs_element_creation(index, item):
     if wait_event('images/PROJECT_1.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
     
     press_key('ctrla', 1)
@@ -118,8 +130,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PROJECT_2.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     press_key('ctrltab', 2)
@@ -155,8 +167,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/WBS_1.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     bot.PAUSE = 0.35
@@ -190,8 +202,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/WBS_2.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     press_key('tab', 4)
@@ -219,8 +231,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PARAMETERS_1.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     press_key('tab', 1)
@@ -251,8 +263,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PARAMETERS_2.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
     
     press_key('tab', 1)
@@ -262,8 +274,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/WBS_2.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
     
     press_key('f3', 1)
@@ -271,8 +283,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/RETURN.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
     
     press_key('sf1', 1)
@@ -280,8 +292,8 @@ def wbs_element_creation(index, item):
     if wait_event('images/PROJECT_3.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
     
     part_number = re.sub(r'[-./POSpos& ]', '', item[5]).strip()
@@ -318,8 +330,8 @@ def cn21_config():
     if wait_event('images/PROJECT_1.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
     
     press_key('ctrlstab', 1)
@@ -330,8 +342,8 @@ def cn21_config():
     if wait_event('images/DIAGRAM_1.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
     
     bot.PAUSE = 0.15
@@ -409,8 +421,8 @@ def diagram_creation(index, item):
     if wait_event('images/DIAGRAM_1.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     mrp_config()
@@ -422,8 +434,8 @@ def diagram_creation(index, item):
     if wait_event('images/VALUE.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     bot.typewrite(item[10].replace('-', ''))
@@ -432,8 +444,8 @@ def diagram_creation(index, item):
     if wait_event('images/DIAGRAM_2.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     press_key('ctrltab', 1)
@@ -443,8 +455,8 @@ def diagram_creation(index, item):
     if wait_event('images/ATTRIBUITION_1.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     press_key('tab', 2)
@@ -460,8 +472,8 @@ def diagram_creation(index, item):
     if wait_event('images/ATTRIBUITION_2.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     press_key('tab', 1)
@@ -470,8 +482,8 @@ def diagram_creation(index, item):
     if wait_event('images/ATTRIBUITION_3.png'):
         pass
     else:
-        data[index].append('Error')
-        close_sap(data)
+        save_excel(data[index], active_lps)
+        close_sap()
         raise Exception('Error')
 
     press_key('ctrltab', 2)
@@ -517,29 +529,16 @@ def diagram_creation(index, item):
     press_key('ctrls', 1)
     bot.sleep(1.5)
 
-def save_excel(data, active_lps):
-    record_time = datetime.now().strftime('%d-%m_%H-%M')
-
-    df = pd.DataFrame(data)
-
-    EXCEL_PATH = f'./Record_{record_time}.xlsx'
-    df.to_excel(
-        EXCEL_PATH,
-        engine='openpyxl',
-        index=False
-    )
-
-    if active_lps:
-        df = pd.DataFrame(active_lps)
-
-        EXCEL_PATH = f'./Active_LPs_{record_time}.xlsx'
-        df.to_excel(
-            EXCEL_PATH,
-            engine='openpyxl',
-            index=False
-        )
-
 # ===== PROGRAM CONFIGURATION =====
+
+EXCEL_PATH = './Error.xlsx'
+df = pd.read_excel(
+    EXCEL_PATH,
+    engine='openpyxl',
+    dtype={
+        'LP': str
+    }
+)
 
 try:
     oracledb.init_oracle_client(lib_dir=INSTANT_CLIENT_PATH)
@@ -588,6 +587,9 @@ try:
             active_lps = [linha for linha in data if linha[0] == 'A']
             data = [linha for linha in data if linha[0] != 'A']
 
+            lps_excel = set(df['LP'])
+            data = [linha for linha in data if linha[10] not in lps_excel]
+
 except oracledb.Error as e:
     raise ValueError('Connection failed: {e}')
 
@@ -609,7 +611,6 @@ if __name__ == '__main__':
         if wait_event('images/DIAGRAM_1.png'):
             pass
         else:
-            data[index].append('Error')
+            save_excel(data[index], active_lps)
 
-        save_excel(data, active_lps)
-        close_sap(data, active_lps)
+        close_sap()
