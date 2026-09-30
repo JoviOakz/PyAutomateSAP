@@ -75,6 +75,7 @@ def sap_start():
         close_sap()
         raise Exception('Error')
 
+    bot.sleep(1)
     press_key('stab', 1)
     bot.typewrite('ps0')
     press_key('enter', 1)
