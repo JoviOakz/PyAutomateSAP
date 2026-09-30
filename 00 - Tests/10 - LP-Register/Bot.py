@@ -69,7 +69,7 @@ def sap_start():
     bot.typewrite('saplogon')
     press_key('enter', 1)
 
-    if wait_event('images/SAP_1.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\SAP_1.png'):
         pass
     else:
         close_sap()
@@ -80,7 +80,7 @@ def sap_start():
     bot.typewrite('ps0')
     press_key('enter', 1)
 
-    if wait_event('images/SAP_2.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\SAP_2.png'):
         pass
     else:
         close_sap()
@@ -115,7 +115,7 @@ def save_excel(record, active_lps):
         )
 
 def wbs_element_creation(index, item):
-    if wait_event('images/PROJECT_1.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_1.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -128,7 +128,7 @@ def wbs_element_creation(index, item):
 
     bot.PAUSE = 0.35
     
-    if wait_event('images/PROJECT_2.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_2.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -165,7 +165,7 @@ def wbs_element_creation(index, item):
     press_key('ctrlv', 1)
     press_key('ctrlf9', 1)
 
-    if wait_event('images/WBS_1.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\WBS_1.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -200,7 +200,7 @@ def wbs_element_creation(index, item):
     press_key('right', 4)
     press_key('enter', 1)
 
-    if wait_event('images/WBS_2.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\WBS_2.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -229,7 +229,7 @@ def wbs_element_creation(index, item):
 
     bot.PAUSE = 0.85
 
-    if wait_event('images/PARAMETERS_1.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PARAMETERS_1.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -261,7 +261,7 @@ def wbs_element_creation(index, item):
 
     press_key('f3', 1)
 
-    if wait_event('images/PARAMETERS_2.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PARAMETERS_2.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -272,7 +272,7 @@ def wbs_element_creation(index, item):
     bot.typewrite(item[2].split('.')[0])
     press_key('f3', 1)
 
-    if wait_event('images/WBS_2.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\WBS_2.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -281,7 +281,7 @@ def wbs_element_creation(index, item):
     
     press_key('f3', 1)
 
-    if wait_event('images/RETURN.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\RETURN.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -290,7 +290,7 @@ def wbs_element_creation(index, item):
     
     press_key('sf1', 1)
 
-    if wait_event('images/PROJECT_3.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_3.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -328,7 +328,7 @@ def wbs_element_creation(index, item):
     press_key('ctrls', 1)
     
 def cn21_config():
-    if wait_event('images/PROJECT_1.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_1.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -340,7 +340,7 @@ def cn21_config():
     bot.typewrite('/ncn21')
     press_key('enter', 1)
 
-    if wait_event('images/DIAGRAM_1.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_1.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -419,7 +419,7 @@ def mrp_config():
 def diagram_creation(index, item):
     bot.PAUSE = 0.35
 
-    if wait_event('images/DIAGRAM_1.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_1.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -432,7 +432,7 @@ def diagram_creation(index, item):
     
     press_key('enter', 1)
 
-    if wait_event('images/VALUE.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\VALUE.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -442,7 +442,7 @@ def diagram_creation(index, item):
     bot.typewrite(item[10].replace('-', ''))
     press_key('enter', 1)
 
-    if wait_event('images/DIAGRAM_2.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_2.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -453,7 +453,7 @@ def diagram_creation(index, item):
     press_key('right', 1)
     press_key('enter', 1)
 
-    if wait_event('images/ATTRIBUITION_1.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\ATTRIBUITION_1.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -470,7 +470,7 @@ def diagram_creation(index, item):
     press_key('right', 3)
     press_key('enter', 1)
 
-    if wait_event('images/ATTRIBUITION_2.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\ATTRIBUITION_2.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -480,7 +480,7 @@ def diagram_creation(index, item):
     press_key('tab', 1)
     press_key('enter', 1)
 
-    if wait_event('images/ATTRIBUITION_3.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\ATTRIBUITION_3.png'):
         pass
     else:
         save_excel(data[index], active_lps)
@@ -510,10 +510,10 @@ def diagram_creation(index, item):
     bot.sleep(1.15)
     press_key('ctrlsf12', 1)
 
-    if wait_event('images/ATTRIBUITION_4.png'):
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\ATTRIBUITION_4.png'):
         pass
     else:
-        if wait_event('images/ATTRIBUITION_5.png'):
+        if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\ATTRIBUITION_5.png'):
             press_key('f12', 1)
             bot.sleep(1.15)
             press_key('f12', 1)
@@ -532,7 +532,7 @@ def diagram_creation(index, item):
 
 # ===== PROGRAM CONFIGURATION =====
 
-EXCEL_PATH = './Record.xlsx'
+EXCEL_PATH = r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\Record.xlsx'
 df = pd.read_excel(
     EXCEL_PATH,
     engine='openpyxl',
@@ -609,7 +609,7 @@ if __name__ == '__main__':
             if item[11] == 'Cadastrado parcial':
                 diagram_creation(index, item)
 
-        if wait_event('images/DIAGRAM_1.png'):
+        if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_1.png'):
             pass
         else:
             save_excel(data[index], active_lps)
