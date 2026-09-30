@@ -531,7 +531,7 @@ def diagram_creation(index, item):
 
 # ===== PROGRAM CONFIGURATION =====
 
-EXCEL_PATH = './Error.xlsx'
+EXCEL_PATH = './Record.xlsx'
 df = pd.read_excel(
     EXCEL_PATH,
     engine='openpyxl',
