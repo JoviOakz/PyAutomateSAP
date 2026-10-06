@@ -8,7 +8,7 @@ from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = '08'
+KW = '15'
 ORIENTATION = 'pé'  # [deitado] | [pé]
 ROTATION_ANGLE = 0  # [deitado -> 270] | [pé -> 0]
 
