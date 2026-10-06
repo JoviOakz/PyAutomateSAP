@@ -8,8 +8,8 @@ from PIL import ImageEnhance, ImageFilter
 
 # ===== CONSTANTS =====
 
-KW = '28'
-ROTATION_ANGLE = 0
+KW = '33'
+ROTATION_ANGLE = 180
 
 PDF_PATH = f'01 - PDF-Reader/OMs - KW{KW}.pdf'
 OUTPUT_FILE = '99 - Excels/Open-OMs.xlsx'
