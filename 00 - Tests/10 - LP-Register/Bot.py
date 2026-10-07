@@ -10,7 +10,6 @@ import re
 
 # ===== GLOBAL SETTINGS =====
 
-# INSTANT_CLIENT_PATH = r'C:\Oracle\Client64\bin'
 INSTANT_CLIENT_PATH = r'C:\oracle\instantclient_23_0'
 
 bot.FAILSAFE = True
@@ -95,21 +94,52 @@ def close_sap():
     bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
     press_key('enter', 1)
 
-def save_excel(record, active_lps):
+def save_excel(record, active_lps, excel_path):
+    record = [{
+        'Tipo Demanda': record[0],
+        'Responsável': record[1],
+        'Obj. Liquidação': record[2],
+        'Esq. Alocação': record[3],
+        'Quantidade': record[4],
+        'PartNumber': record[5],
+        'Descrição': record[6],
+        'Entregar a': record[7],
+        'Dept. Emitente': record[8],
+        'Custo': record[9],
+        'LP': record[10]
+    }]
+
     new_values = pd.DataFrame(record)
-    historic = pd.read_excel(EXCEL_PATH, engine='openpyxl')
+    historic = pd.read_excel(excel_path, engine='openpyxl')
     record = pd.concat([historic, new_values], ignore_index=True)
     record_time = datetime.now().strftime('%d-%m_%H-%M')
 
     df = pd.DataFrame(record)
-    df.to_excel(EXCEL_PATH, engine='openpyxl', index=False)
+    df.to_excel(
+        excel_path,
+        engine='openpyxl',
+        index=False
+    )
 
     if active_lps:
-        df = pd.DataFrame(active_lps)
+        record = [{
+            'Tipo Demanda': active_lps[0],
+            'Responsável': active_lps[1],
+            'Obj. Liquidação': active_lps[2],
+            'Esq. Alocação': active_lps[3],
+            'Quantidade': active_lps[4],
+            'PartNumber': active_lps[5],
+            'Descrição': active_lps[6],
+            'Entregar a': active_lps[7],
+            'Dept. Emitente': active_lps[8],
+            'Custo': active_lps[9],
+            'LP': active_lps[10]
+        }]
 
-        EXCEL_PATH = f'./Active_LPs_{record_time}.xlsx'
+        excel_path = f'./Active_LPs_{record_time}.xlsx'
+        df = pd.DataFrame(active_lps)
         df.to_excel(
-            EXCEL_PATH,
+            excel_path,
             engine='openpyxl',
             index=False
         )
@@ -118,7 +148,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_1.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
     
@@ -131,7 +161,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_2.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -168,7 +198,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\WBS_1.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -203,7 +233,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\WBS_2.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -232,7 +262,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PARAMETERS_1.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -264,7 +294,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PARAMETERS_2.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
     
@@ -275,7 +305,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\WBS_2.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
     
@@ -284,7 +314,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\RETURN.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
     
@@ -293,7 +323,7 @@ def wbs_element_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_3.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
     
@@ -331,7 +361,7 @@ def cn21_config():
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_1.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
     
@@ -343,7 +373,7 @@ def cn21_config():
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_1.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
     
@@ -422,7 +452,7 @@ def diagram_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_1.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -435,7 +465,7 @@ def diagram_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\VALUE.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -445,7 +475,7 @@ def diagram_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_2.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -456,7 +486,7 @@ def diagram_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\ATTRIBUITION_1.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -473,7 +503,7 @@ def diagram_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\ATTRIBUITION_2.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -483,7 +513,7 @@ def diagram_creation(index, item):
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\ATTRIBUITION_3.png'):
         pass
     else:
-        save_excel(data[index], active_lps)
+        save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
 
@@ -549,8 +579,6 @@ except Exception as e:
 
 USER = 'MAO8CT'
 PASS = '49l1)f=f3q6A'
-# USER = 'FEB3CT'
-# PASS = '1enAS,28q&(4'
 dsn = 'REDLake_ZeusP_Consumer_Common.world'
 
 try:
@@ -612,6 +640,6 @@ if __name__ == '__main__':
         if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_1.png'):
             pass
         else:
-            save_excel(data[index], active_lps)
+            save_excel(data[index], active_lps, EXCEL_PATH)
 
         close_sap()
