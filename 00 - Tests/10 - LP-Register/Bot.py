@@ -376,13 +376,34 @@ def cn21_config():
         save_excel(data[index], active_lps, EXCEL_PATH)
         close_sap()
         raise Exception('Error')
-    
-    bot.PAUSE = 0.15
 
+def cj02_config():
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_1.png'):
+        pass
+    else:
+        save_excel(data[index], active_lps, EXCEL_PATH)
+        close_sap()
+        raise Exception('Error')
+
+    press_key('ctrlstab', 1)
+    press_key('tab', 1)
+    bot.typewrite('/ncn21')
+    press_key('enter', 1)
+
+    if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_1.png'):
+        pass
+    else:
+        save_excel(data[index], active_lps, EXCEL_PATH)
+        close_sap()
+        raise Exception('Error')
+
+def mrp_config():
+    bot.PAUSE = 0.25
+    
     press_key('right', 1)
     press_key('left', 3)
     press_key('right', 2)
-    
+        
     bot.PAUSE = 0.85
 
     press_key('tab', 1)
@@ -412,39 +433,7 @@ def cn21_config():
     else:
         bot.typewrite('I39')
 
-    press_key('stab', 3)
-    bot.PAUSE = 0.85
-
-def mrp_config():
-    mrp = item[1].strip()
-    resp_change = False
-
-    if index > 0:
-        previous_mrp = data[index - 1][1].strip()
-
-        if mrp != previous_mrp:
-            resp_change = True
-
-    if resp_change:
-        press_key('tab', 3)
-        bot.sleep(1.25)
-
-        if mrp == 'Yesica Gonzalez':
-            bot.typewrite('I33')
-        elif mrp == 'Rodrigo Melo':
-            bot.typewrite('I49')
-        elif mrp == 'Marcelo Simoes':
-            bot.typewrite('I55')
-        elif mrp == 'Edson Bento':
-            bot.typewrite('I38')
-        elif mrp == 'Thais Fischer':
-            bot.typewrite('I55')
-        elif mrp == 'Joao Franca':
-            bot.typewrite('I31')
-        else:
-            bot.typewrite('I39')
-
-        bot.sleep(0.5)
+    bot.sleep(0.5)
 
 def diagram_creation(index, item):
     bot.PAUSE = 0.35
@@ -630,12 +619,12 @@ if __name__ == '__main__':
 
         for index, item in enumerate(data):
             wbs_element_creation(index, item)
+            cn21_config()
 
-        cn21_config()
-
-        for index, item in enumerate(data):
             if item[11] == 'Cadastrado parcial':
                 diagram_creation(index, item)
+            
+            cj02_config()
 
         if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\DIAGRAM_1.png'):
             pass
