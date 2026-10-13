@@ -387,7 +387,7 @@ def cj02_config():
 
     press_key('ctrlstab', 1)
     press_key('tab', 1)
-    bot.typewrite('/ncn21')
+    bot.typewrite('/ncj02')
     press_key('enter', 1)
 
     if wait_event(r'C:\Users\Mao8ct\Desktop\LP Register Data\dist\images\PROJECT_1.png'):
