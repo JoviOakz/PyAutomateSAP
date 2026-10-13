@@ -112,22 +112,37 @@ def values_finder():
 
     return qty, description, hr_piece, unit_value, item
 
-def open_transaction():
-    local = wait_event('images/SEARCH.png')
-    
-    if local:
-        bot.click(local)
-    else:
-        bot.alert(title='Warning', text='Script error found!')
-        df.at[line, 'Status'] = 'Error'
-        df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-        raise ValueError('\n\n------------- Error: -------------\n|> Search not found <|\n')
-    
-    if 'LP' in debit_obj:
-        bot.typewrite('CN22')
-    else:
-        bot.typewrite('IW32')
+def sap_start():
+    press_key('winr', 1)
+    bot.typewrite('saplogon')
+    press_key('enter', 1)
 
+    if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\SAP_1.png'):
+        pass
+    else:
+        close_sap()
+        raise Exception('Error')
+
+    bot.sleep(1)
+    press_key('stab', 1)
+    bot.typewrite('ps0')
+    press_key('enter', 1)
+
+    if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\SAP_2.png'):
+        pass
+    else:
+        close_sap()
+        raise Exception('Error')
+
+    bot.sleep(1)
+
+    bot.typewrite('IW32')
+
+    press_key('enter', 1)
+
+def close_sap():
+    press_key('winr', 1)
+    bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
     press_key('enter', 1)
 
 def open_debit_object():
@@ -135,39 +150,33 @@ def open_debit_object():
         # CAMINHO CN22
         pass
     else:
-        if wait_event('images/IW32_1.png'):
+        if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\IW32_1.png'):
             pass
         else:
-            bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status'] = 'Error'
-            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            raise ValueError('\n\n------------- Error: -------------\n|> 1º IW32 screen not found <|\n')
+            close_sap()
+            raise Exception('Error')
 
         bot.typewrite(debit_obj)
         press_key('sf6', 1)
 
-        if wait_event('images/IW32_2.png'):
+        if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\IW32_2.png'):
             pass
         else:
-            bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status'] = 'Error'
-            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            raise ValueError('\n\n------------- Error: -------------\n|> 2º IW32 screen not found <|\n')
+            close_sap()
+            raise Exception('Error')
 
         press_key('ctrltab', 2)
         press_key('stab', 1)
         press_key('enter', 1)
 
 def search_usi():
-        local = wait_event('images/MYIBUY.png', timeout=15)
+        local = wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\MYIBUY.png')
 
         if local:
             bot.click(local)
         else:
-            bot.alert(title='Warning', text='Script error found!')
-            df.at[line, 'Status'] = 'Error'
-            df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-            raise ValueError('\n\n------------- Error: -------------\n|> MyIbuy screen not found <|\n')
+            close_sap()
+            raise Exception('Error')
 
         pc.copy(f'Usin.{item[2]}h({supplier}) - (Geral) - Sem mp')
         press_key('ctrlv', 1)
@@ -180,9 +189,11 @@ def search_usi():
 
 # ===== PROGRAM CONFIGURATION =====
 
-lp_qty = len(df['DebitObj'])
-line = (df['Status'].notna()).sum()
-repeat_qty = lp_qty - line
+# lp_qty = len(df['DebitObj'])
+# line = (df['Status'].notna()).sum()
+# repeat_qty = lp_qty - line
+lp_qty = 1
+line = 0
 
 # ===== MAIN =====
 
@@ -191,33 +202,23 @@ if __name__ == '__main__':
     supplier = ''
     item = []
 
+    sap_start()
+
     if (df['Status'].isna()).any():
-        for _ in range(repeat_qty):
-            debit_obj = str(df.at[line, 'DebitObj'])
-            pdf_path = f'assets/{str(df.at[line, 'Orç'])}.pdf'
-            supplier = supplier_finder()
-            item = values_finder()
+        debit_obj = str(df.at[line, 'DebitObj'])
+        pdf_path = f'assets/{str(df.at[line, 'Orç'])}.pdf'
+        supplier = supplier_finder()
+        item = values_finder()
 
-            print('Fornecedor: ' + supplier)
-            print('Quantidade: ' + item[0])
-            print('Norma: ' + item[1])
-            print('HR P/PÇ: ' + item[2])
-            print('Valor unitário: ' + item[3])
-            print('Item: ' + item[4])
+        print('Fornecedor: ' + supplier)
+        print('Quantidade: ' + item[0])
+        print('Norma: ' + item[1])
+        print('HR P/PÇ: ' + item[2])
+        print('Valor unitário: ' + item[3])
+        print('Item: ' + item[4])
 
-            if wait_event('images/MENU.png'):
-                pass
-            else:
-                bot.alert(title='Warning', text='Script error found!')
-                df.at[line, 'Status'] = 'Error'
-                df.to_excel(EXCEL_PATH, index=False, engine='openpyxl')
-                raise ValueError('\n\n------------- Error: -------------\n|> Menu screen not found <|\n')
-
-            open_transaction()
-            open_debit_object()
-            search_usi()
-            # confirm_po()
-            
-            line += 1
+        open_debit_object()
+        search_usi()
+        # confirm_po()
 
     bot.alert(title='BotText', text='Program successfully completed')
