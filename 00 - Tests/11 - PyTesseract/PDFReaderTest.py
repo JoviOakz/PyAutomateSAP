@@ -4,7 +4,7 @@ import pytesseract
 import pdfplumber
 import re
 
-PDF_PATH = r'GDS - Orç.06572-26.pdf'
+PDF_PATH = r'3105-1026.pdf'
 
 def preprocess_image(image):
     image = image.convert('L')
@@ -20,7 +20,8 @@ def supplier_finder():
         try:
             image = preprocess_image(image)
             text = pytesseract.image_to_string(image)
-            supplier = re.search(r'\bGDS\b', text)
+            # print(text)
+            supplier = re.search(r'\b(GDS|Eletrospark)\b', text, re.IGNORECASE)
 
             if supplier:
                 text = supplier.group(0)
@@ -34,14 +35,19 @@ def supplier_finder():
 def values_finder():
     with pdfplumber.open(PDF_PATH) as pdf:
         table = pdf.pages[0].extract_table()
+        # print(table)
 
         number = table[1][0]
         text = table[1][1]
         qty = table[1][2]
+        h_value = re.sub(r'[^\d,\.]', '', table[1][4])
+        h_value = h_value.replace(',', '.')
+        t_value = re.sub(r'[^\d,\.]', '', table[1][5])
         usi_time = re.sub(r'[^0-9,]', '', table[1][3])
+        usi_time = usi_time.replace(',', '.')
         om = re.sub(r'[^0-9]', '', table[5][1])
 
-    return number, text, qty, usi_time, om
+    return number, text, qty, h_value, t_value, usi_time, om
 
 def main():
     supplier = ''
@@ -50,17 +56,25 @@ def main():
     supplier = supplier_finder()
     item = values_finder()
 
+    u_value = str(round(float(item[3]) * float(item[5]), 2))
+    u_value = u_value.replace('.', ',')
+    t_value = str(round(float(item[2]) * float(item[3]) * float(item[5]), 2))
+    t_value = t_value.replace('.', ',')
+
     print('\n==========================================================\n')
 
     print(f'''Fornecedor: {supplier}
-    Orç: 06572-26 - ITEM 0{item[0]}
-    LP/OM: {item[4]}
+    Orç: XYZ - ITEM 0{item[0]}
+    LP/OM: {item[6]}
     Descrição: {item[1]}
     Qtd.: {item[2]} peças
-    Prazo: 07/08/2026
-    Thais Fischer
+    Prazo: DD/MM/YYYY
+    Responsável
 
-    Tempo de usinagem: {item[3]} horas p/pç''')
+    Valor unitário (cálculo): {f'R${u_value}'}
+    Valor total (pytesseract): {'R$' + item[4]}
+    Valor total (cálculo): {f'R${t_value}'}
+    Tempo de usinagem: {item[5]} horas p/pç''')
 
     print('\n==========================================================\n')
 
