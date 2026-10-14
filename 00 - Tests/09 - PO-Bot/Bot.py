@@ -16,7 +16,19 @@ bot.FAILSAFE = True
 bot.PAUSE = 0.85
 
 search_color = (255, 150, 50)
-width, height = bot.size()
+
+# ===== DICTIONARY =====
+
+CART_1 = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\CART_1.png'
+CART_2 = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\CART_2.png'
+CART_3 = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\CART_3.png'
+IW32_1 = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\IW32_1.png'
+IW32_2 = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\IW32_2.png'
+MENU = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\MENU.png'
+MYIBUY = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\MYIBUY.png'
+SAP_1 = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\SAP_1.png'
+SAP_2 = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\SAP_2.png'
+SEARCH = r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\SEARCH.png'
 
 # ===== FUNCTIONS =====
 
@@ -39,7 +51,7 @@ def press_key(key, times):
         else:
             bot.press(key)
 
-def wait_event(img, region=None, timeout=7.5):
+def wait_event(img, region=None, timeout=5):
     inicio = time.time()
 
     while time.time() - inicio < timeout:
@@ -105,7 +117,7 @@ def sap_start():
     bot.typewrite('saplogon')
     press_key('enter', 1)
 
-    if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\SAP_1.png'):
+    if wait_event(SAP_1):
         pass
     else:
         close_sap()
@@ -116,7 +128,7 @@ def sap_start():
     bot.typewrite('ps0')
     press_key('enter', 1)
 
-    if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\SAP_2.png'):
+    if wait_event(SAP_2):
         pass
     else:
         close_sap()
@@ -134,23 +146,23 @@ def close_sap():
     press_key('enter', 1)
 
 def search_click():
-    for x in range(0, width, 5):
-        for y in range(0, height, 5):
-            actual_color = bot.pixel(x, y)
-            
-            if actual_color == search_color:
-                bot.click(x, y)
-                
-                return True
-                
-    return False
+    for _ in range(20):
+        screenshot = bot.screenshot()
+        width, height = screenshot.size
 
+        for y in range(0, height, 1):
+            for x in range(0, width, 1):
+                if screenshot.getpixel((x, y)) == search_color:
+                    bot.click(x, y)
+                    return True
+    return False
+ 
 def open_debit_object():
     if 'LP' in debit_obj:
         # CAMINHO CN22
         pass
     else:
-        if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\IW32_1.png'):
+        if wait_event(IW32_1):
             pass
         else:
             close_sap()
@@ -159,7 +171,7 @@ def open_debit_object():
         bot.typewrite(debit_obj)
         press_key('sf6', 1)
 
-        if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\IW32_2.png'):
+        if wait_event(IW32_2):
             pass
         else:
             close_sap()
@@ -170,7 +182,7 @@ def open_debit_object():
         press_key('enter', 1)
 
 def search_usi():
-        if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\MYIBUY.png', timeout=15):
+        if wait_event(MYIBUY, timeout=15):
             pass
         else:
             close_sap()
@@ -188,11 +200,27 @@ def search_usi():
         press_key('enter', 1)
         search_click()
 
-        # if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\CART.png'):
-        #     pass
-        # else:
-        #     close_sap()
-        #     raise Exception('Error')
+        if wait_event(CART_1):
+            pass
+        else:
+            close_sap()
+            raise Exception('Error')
+            
+        cart_image = bot.locateOnScreen(CART_1)
+        bot.click(bot.center(cart_image))
+        bot.typewrite('3')
+        bot.sleep(1)
+        cart_image = bot.locateOnScreen(CART_2)
+        bot.click(bot.center(cart_image))
+        
+        if wait_event(CART_3):
+            pass
+        else:
+            close_sap()
+            raise Exception('Error')
+        
+        cart_image = bot.locateOnScreen(CART_3)
+        bot.click(bot.center(cart_image))
 
 # ===== PROGRAM CONFIGURATION =====
 
@@ -213,28 +241,53 @@ line = 0
 
 # ===== MAIN =====
 
-if __name__ == '__main__':
-    pdf_path = ''
+def main():
     supplier = ''
     item = []
 
+    supplier = supplier_finder()
+    item = values_finder()
+
+    u_value = str(round(float(item[3]) * float(item[5]), 2))
+    u_value = u_value.replace('.', ',')
+    t_value = str(round(float(item[2]) * float(item[3]) * float(item[5]), 2))
+    t_value = t_value.replace('.', ',')
+
+    print('\n==========================================================\n')
+
+    print(f'''Fornecedor: {supplier}
+    Orç: XYZ - ITEM 0{item[0]}
+    LP/OM: XYZ
+    Descrição: {item[1]}
+    Qtd.: {item[2]} peças
+    Prazo: DD/MM/YYYY
+    Responsável
+
+    Valor unitário (cálculo): {f'R${u_value}'}
+    Valor total (pytesseract): {'R$' + item[4]}
+    Valor total (cálculo): {f'R${t_value}'}
+    Tempo de usinagem: {item[5]} horas p/pç''')
+
+    print('\n==========================================================\n')
+
     # sap_start()
 
-    if (df['Status'].isna()).any():
-        debit_obj = str(df.at[line, 'DebitObj'])
-        pdf_path = f'assets/{str(df.at[line, 'Orç'])}.pdf'
-        supplier = supplier_finder()
-        item = values_finder()
+    debit_obj = str(df.at[line, 'DebitObj'])
+    pdf_path = f'assets/gds.pdf'
+    # pdf_path = f'assets/{str(df.at[line, 'Orç'])}.pdf'
 
-        print('Fornecedor: ' + supplier)
-        print('Quantidade: ' + item[0])
-        print('Norma: ' + item[1])
-        print('HR P/PÇ: ' + item[2])
-        print('Valor unitário: ' + item[3])
-        print('Item: ' + item[4])
+    print('Fornecedor: ' + supplier)
+    print('Quantidade: ' + item[0])
+    print('Norma: ' + item[1])
+    print('HR P/PÇ: ' + item[2])
+    print('Valor unitário: ' + item[3])
+    print('Item: ' + item[4])
 
-        # open_debit_object()
-        search_usi()
-        # confirm_po()
-
+    # open_debit_object()
+    search_usi()
+    # confirm_po()
+    
     bot.alert(title='BotText', text='Program successfully completed')
+
+if __name__ == '__main__':
+    main()

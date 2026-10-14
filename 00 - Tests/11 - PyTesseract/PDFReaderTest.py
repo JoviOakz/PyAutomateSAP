@@ -20,7 +20,6 @@ def supplier_finder():
         try:
             image = preprocess_image(image)
             text = pytesseract.image_to_string(image)
-            # print(text)
             supplier = re.search(r'\b(GDS|Eletrospark)\b', text, re.IGNORECASE)
 
             if supplier:
@@ -35,7 +34,6 @@ def supplier_finder():
 def values_finder():
     with pdfplumber.open(PDF_PATH) as pdf:
         table = pdf.pages[0].extract_table()
-        # print(table)
 
         number = table[1][0]
         text = table[1][1]
