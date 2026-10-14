@@ -4,7 +4,7 @@ import pytesseract
 import pdfplumber
 import re
 
-PDF_PATH = r'3105-1026.pdf'
+PDF_PATH = r'eletrospark.pdf'
 
 def preprocess_image(image):
     image = image.convert('L')
@@ -45,9 +45,8 @@ def values_finder():
         t_value = re.sub(r'[^\d,\.]', '', table[1][5])
         usi_time = re.sub(r'[^0-9,]', '', table[1][3])
         usi_time = usi_time.replace(',', '.')
-        om = re.sub(r'[^0-9]', '', table[5][1])
 
-    return number, text, qty, h_value, t_value, usi_time, om
+    return number, text, qty, h_value, t_value, usi_time
 
 def main():
     supplier = ''
@@ -65,7 +64,7 @@ def main():
 
     print(f'''Fornecedor: {supplier}
     Orç: XYZ - ITEM 0{item[0]}
-    LP/OM: {item[6]}
+    LP/OM: XYZ
     Descrição: {item[1]}
     Qtd.: {item[2]} peças
     Prazo: DD/MM/YYYY
