@@ -15,20 +15,8 @@ import re
 bot.FAILSAFE = True
 bot.PAUSE = 0.85
 
-# ===== INITIAL ACTION =====
-
-bot.click(1802, 14)
-
-# ===== EXCEL CONFIGURATION =====
-
-EXCEL_PATH = '../../01 - Excels/PO-Bot.xlsx'
-df = pd.read_excel(
-    EXCEL_PATH,
-    engine='openpyxl',
-    dtype={
-        'Status': str
-    }
-)
+search_color = (255, 150, 50)
+width, height = bot.size()
 
 # ===== FUNCTIONS =====
 
@@ -145,6 +133,18 @@ def close_sap():
     bot.typewrite('cmd /c taskkill /f /im saplogon.exe')
     press_key('enter', 1)
 
+def search_click():
+    for x in range(0, width, 5):
+        for y in range(0, height, 5):
+            actual_color = bot.pixel(x, y)
+            
+            if actual_color == search_color:
+                bot.click(x, y)
+                
+                return True
+                
+    return False
+
 def open_debit_object():
     if 'LP' in debit_obj:
         # CAMINHO CN22
@@ -170,14 +170,14 @@ def open_debit_object():
         press_key('enter', 1)
 
 def search_usi():
-        local = wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\MYIBUY.png')
-
-        if local:
-            bot.click(local)
+        if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\MYIBUY.png', timeout=15):
+            pass
         else:
             close_sap()
             raise Exception('Error')
 
+        press_key('ctrltab', 1)
+        press_key('tab', 2)
         pc.copy(f'Usin.{item[2]}h({supplier}) - (Geral) - Sem mp')
         press_key('ctrlv', 1)
         press_key('enter', 1)
@@ -186,8 +186,24 @@ def search_usi():
         press_key('ctrlv', 1)
         press_key('tab', 2)
         press_key('enter', 1)
+        search_click()
+
+        # if wait_event(r'C:\Users\Mao8ct\Desktop\PyAutomateSAP\00 - Tests\09 - PO-Bot\images\CART.png'):
+        #     pass
+        # else:
+        #     close_sap()
+        #     raise Exception('Error')
 
 # ===== PROGRAM CONFIGURATION =====
+
+EXCEL_PATH = '../../01 - Excels/PO-Bot.xlsx'
+df = pd.read_excel(
+    EXCEL_PATH,
+    engine='openpyxl',
+    dtype={
+        'Status': str
+    }
+)
 
 # lp_qty = len(df['DebitObj'])
 # line = (df['Status'].notna()).sum()
@@ -202,7 +218,7 @@ if __name__ == '__main__':
     supplier = ''
     item = []
 
-    sap_start()
+    # sap_start()
 
     if (df['Status'].isna()).any():
         debit_obj = str(df.at[line, 'DebitObj'])
@@ -217,7 +233,7 @@ if __name__ == '__main__':
         print('Valor unitário: ' + item[3])
         print('Item: ' + item[4])
 
-        open_debit_object()
+        # open_debit_object()
         search_usi()
         # confirm_po()
 
