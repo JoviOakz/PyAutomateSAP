@@ -10,7 +10,7 @@ import re
 
 # ===== GLOBAL SETTINGS =====
 
-INSTANT_CLIENT_PATH = r'C:\oracle\instantclient_23_0'
+INSTANT_CLIENT_PATH = r'C:\Oracle\Client64\bin'
 
 bot.FAILSAFE = True
 bot.PAUSE = 0.85
