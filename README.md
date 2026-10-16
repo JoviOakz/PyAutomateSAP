@@ -20,5 +20,5 @@ Seguir o caminho | 99 - Others -> 99 - Files | para adquirir o arquivo SDK do SA
 Instale todas as bibliotecas abaixo com o seguinte comando:
 
 ```bash
-pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython
+pip install opencv-python openpyxl pandas pyautogui PyQt6 pdf2image pytesseract cython pyinstaller
 ```
